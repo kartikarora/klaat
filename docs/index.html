@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaat - Kodelabs As A Thing</title>
+    <meta name="description" content="Klaat (Kodelabs As A Thing) - Convert Google Docs and Markdown files into beautiful, interactive codelabs. Built with Kotlin and GraalVM.">
+    <meta name="author" content="Kartik Arora">
+    <meta name="theme-color" content="#303F9F">
+    <link rel="canonical" href="https://klaat.kartikarora.me">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Klaat</div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#download">Download</a>
+                    <a href="#quickstart">Quick Start</a>
+                    <a href="#docs">Documentation</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Klaat</h1>
+            <p class="subtitle">Kodelabs As A Thing</p>
+            <p class="hero-description">Convert Google Docs and Markdown into interactive codelabs. A fast, native command-line tool built with Kotlin and GraalVM for creating beautiful, step-by-step tutorials.</p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn btn-primary">Download</a>
+                <a href="#quickstart" class="btn btn-secondary">Quick Start</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="features" class="section">
+            <h2>Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📝</div>
+                    <h3>Multiple Input Sources</h3>
+                    <p>Convert from Google Docs or Markdown files with full formatting support</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Multiple Output Formats</h3>
+                    <p>Export to HTML, Markdown, or self-contained offline bundles</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Native Performance</h3>
+                    <p>GraalVM native image for instant startup and low memory usage</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Live Preview Server</h3>
+                    <p>Built-in web server for real-time preview during development</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Cross-Platform</h3>
+                    <p>Available for Linux (x64, ARM64) and macOS (Intel, Apple Silicon)</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Zero Configuration</h3>
+                    <p>Works out of the box with sensible defaults</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="section">
+            <h2>Download</h2>
+
+            <div class="download-options">
+                <div class="download-option">
+                    <h3>🍺 Homebrew (macOS)</h3>
+                    <p>The easiest way to install on macOS:</p>
+                    <div class="code-block">
+                        <code>brew tap kartikarora/klaat
+brew install klaat</code>
+                    </div>
+                    <p class="download-note">Get snapshot builds (latest from develop):</p>
+                    <div class="code-block">
+                        <code>brew tap kartikarora/klaat-snapshots
+brew install klaat-snapshot</code>
+                    </div>
+                </div>
+
+                <div class="download-option">
+                    <h3>📦 Direct Download</h3>
+                    <p>Download binaries from the CDN:</p>
+                    <div class="download-info">
+                        <p><strong>Stable releases:</strong></p>
+                        <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/release/VERSION/klaat-PLATFORM</code>
+
+                        <p style="margin-top: 16px;"><strong>Snapshot builds:</strong></p>
+                        <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-PLATFORM</code>
+
+                        <p style="margin-top: 16px;"><strong>Available platforms:</strong></p>
+                        <ul style="margin-left: 24px;">
+                            <li><code>linux-x64</code></li>
+                            <li><code>linux-arm64</code></li>
+                            <li><code>macos-x64</code></li>
+                            <li><code>macos-arm64</code></li>
+                        </ul>
+                    </div>
+                    <p class="download-note">After downloading, make the binary executable:</p>
+                    <div class="code-block">
+                        <code>chmod +x klaat-*
+sudo mv klaat-* /usr/local/bin/klaat</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quickstart" class="section">
+            <h2>Quick Start</h2>
+
+            <div class="quickstart-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Export from Markdown</h3>
+                        <p>Create a codelab from a Markdown file:</p>
+                        <div class="code-block">
+                            <code>klaat export my-tutorial.md -o output -f html</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Export from Google Docs</h3>
+                        <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
+                        <div class="code-block">
+                            <code>klaat export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Preview Locally</h3>
+                        <p>Start a local server to preview your codelabs:</p>
+                        <div class="code-block">
+                            <code>klaat serve -dir output -addr localhost:9090</code>
+                        </div>
+                        <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="docs" class="section">
+            <h2>Documentation</h2>
+
+            <div class="docs-grid">
+                <div class="doc-section">
+                    <h3>Commands</h3>
+
+                    <h4><code>klaat export</code></h4>
+                    <p>Convert a source document to codelab format</p>
+                    <div class="code-block">
+                        <code>klaat export [SOURCE] [OPTIONS]</code>
+                    </div>
+                    <p><strong>Options:</strong></p>
+                    <ul>
+                        <li><code>-o, --output DIR</code> - Output directory</li>
+                        <li><code>-f, --format FORMAT</code> - Output format: html, md, offline</li>
+                        <li><code>-ga ID</code> - Google Analytics ID</li>
+                        <li><code>-prefix URL</code> - Asset URL prefix</li>
+                        <li><code>-e, --environment ENV</code> - Environment: web, kiosk</li>
+                    </ul>
+
+                    <h4><code>klaat serve</code></h4>
+                    <p>Start a local preview server</p>
+                    <div class="code-block">
+                        <code>klaat serve [OPTIONS]</code>
+                    </div>
+                    <p><strong>Options:</strong></p>
+                    <ul>
+                        <li><code>-dir PATH</code> - Directory to serve</li>
+                        <li><code>-addr HOST:PORT</code> - Server address (default: localhost:9090)</li>
+                    </ul>
+
+                    <h4><code>klaat version</code></h4>
+                    <p>Display version information</p>
+                    <div class="code-block">
+                        <code>klaat version</code>
+                    </div>
+                </div>
+
+                <div class="doc-section">
+                    <h3>Markdown Format</h3>
+                    <p>Klaat uses Markdown with YAML frontmatter:</p>
+                    <div class="code-block">
+                        <code>---
+id: my-codelab
+summary: Brief description
+categories: Android, Kotlin
+status: Published
+authors: Your Name
+tags: tutorial, beginner
+---
+
+# Codelab Title
+
+## Step 1: Introduction
+Duration: 5
+
+Content for step 1...
+
+## Step 2: Next Step
+Duration: 10
+
+Content for step 2...</code>
+                    </div>
+
+                    <h3>Google Docs Format</h3>
+                    <p>Structure your Google Doc with:</p>
+                    <ul>
+                        <li><strong>Metadata Table</strong> - Optional two-column table at the start</li>
+                        <li><strong>Heading 1</strong> - Each represents a step</li>
+                        <li><strong>Content</strong> - Paragraphs, lists, code blocks, images</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="examples">
+                <h3>Examples</h3>
+
+                <div class="example">
+                    <h4>Basic HTML Export</h4>
+                    <div class="code-block">
+                        <code>klaat export tutorial.md -o codelabs -f html</code>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <h4>Export with Google Analytics</h4>
+                    <div class="code-block">
+                        <code>klaat export tutorial.md -o codelabs -f html -ga UA-123456-7</code>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <h4>Create Offline Bundle</h4>
+                    <div class="code-block">
+                        <code>klaat export tutorial.md -o codelabs -f offline</code>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <h4>Export Multiple Codelabs</h4>
+                    <div class="code-block">
+                        <code>klaat export tutorial1.md tutorial2.md tutorial3.md -o codelabs</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <h2>About</h2>
+            <p>Klaat is a Kotlin reimagining of Google's <a href="https://github.com/googlecodelabs/tools" target="_blank">claat</a> tool. It provides the same functionality with improved performance through GraalVM native compilation, making it faster to start and more memory-efficient.</p>
+
+            <h3>Why Klaat?</h3>
+            <ul>
+                <li><strong>Fast</strong> - Native binary with instant startup</li>
+                <li><strong>Lightweight</strong> - No JVM required, minimal dependencies</li>
+                <li><strong>Modern</strong> - Built with Kotlin, leveraging modern JVM features</li>
+                <li><strong>Compatible</strong> - Works with existing claat content and formats</li>
+            </ul>
+
+            <h3>Built With</h3>
+            <ul>
+                <li><strong>Kotlin</strong> - Modern JVM language</li>
+                <li><strong>GraalVM Native Image</strong> - Ahead-of-time compilation to native code</li>
+                <li><strong>Google Docs API</strong> - For importing from Google Docs</li>
+                <li><strong>Flexmark</strong> - Markdown parsing and rendering</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Support & Feedback</h2>
+            <p>For questions, bug reports, or feature requests, please contact:</p>
+            <div class="contact-info">
+                <p><strong>Kartik Arora</strong></p>
+                <p>Email: <a href="#" data-email="dev@kartikarora.me" onclick="this.href='mailto:'+this.dataset.email; return true;">dev[at]kartikarora[dot]me</a></p>
+                <p>Website: <a href="https://kartikarora.me" target="_blank">kartikarora.me</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Kartik Arora. Built with ❤️ using Kotlin and GraalVM.</p>
+            <p>Klaat is inspired by Google's <a href="https://github.com/googlecodelabs/tools" target="_blank">claat</a> tool.</p>
+        </div>
+    </footer>
+</body>
+</html>

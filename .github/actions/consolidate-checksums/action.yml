@@ -1,0 +1,26 @@
+name: 'Consolidate Checksums'
+description: 'Consolidates checksums from multiple artifacts'
+
+inputs:
+  artifacts-path:
+    description: 'Path to downloaded artifacts'
+    required: true
+    default: 'artifacts'
+  output-file:
+    description: 'Output checksum file name'
+    required: true
+
+outputs:
+  checksum-file:
+    description: 'Path to consolidated checksum file'
+    value: ${{ inputs.output-file }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Consolidate checksums
+      shell: bash
+      run: |
+        cat ${{ inputs.artifacts-path }}/*/checksums-*.txt > ${{ inputs.output-file }}
+        echo "📝 Consolidated checksums:"
+        cat ${{ inputs.output-file }}

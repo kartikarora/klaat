@@ -1,0 +1,16 @@
+name: 'Setup GraalVM'
+description: 'Sets up GraalVM and Gradle for native image builds'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup GraalVM
+      uses: graalvm/setup-graalvm@v1.4.5
+      with:
+        distribution: 'graalvm-community'
+        java-version: '25'
+        version: '25.0.2'
+        github-token: ${{ github.token }}
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v5

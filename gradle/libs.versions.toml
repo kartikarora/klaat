@@ -1,0 +1,40 @@
+[versions]
+klaat = "1.0.0"
+kotlin = "2.3.0"
+clikt = "5.1.0"
+google-api-client = "2.8.1"
+google-oauth-client = "1.39.0"
+google-api-services-docs = "v1-rev20260114-2.0.0"
+ktor = "3.4.0"
+logback = "1.5.32"
+flexmark = "0.64.8"
+freemarker = "2.3.34"
+gson = "2.13.2"
+kaml = "0.104.0"
+kotlinx-serialization = "1.10.0"
+mockk = "1.13.8"
+graalvm-native = "0.11.4"
+
+[libraries]
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+google-api-client = { module = "com.google.api-client:google-api-client", version.ref = "google-api-client" }
+google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client" }
+google-api-services-docs = { module = "com.google.apis:google-api-services-docs", version.ref = "google-api-services-docs" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version.ref = "flexmark" }
+freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarker" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm-native" }
+
+[bundles]
+ktor = ["ktor-server-core", "ktor-server-netty"]
+google-apis = ["google-api-client", "google-oauth-client-jetty", "google-api-services-docs"]

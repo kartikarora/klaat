@@ -1,0 +1,91 @@
+name: 'Create GitHub Release'
+description: 'Creates a GitHub release with tag and binaries'
+
+inputs:
+  version:
+    description: 'Version for the release (e.g., 1.0.0)'
+    required: true
+  cdn-url:
+    description: 'CDN base URL where binaries are hosted'
+    required: true
+  github-token:
+    description: 'GitHub token for creating releases'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create git tag
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        VERSION=${{ inputs.version }}
+
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        # Create and push tag
+        git tag -a "${VERSION}" -m "Release ${VERSION}"
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git "${VERSION}"
+
+    - name: Generate release notes
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        CDN_URL: ${{ inputs.cdn-url }}
+      run: |
+        cat > release-notes.md << EOF
+        # Klaat v${VERSION}
+
+        ## Installation
+
+        ### Homebrew
+        \`\`\`bash
+        brew install kartikarora/tap/klaat
+        \`\`\`
+
+        ### Manual Download
+        Download the native binary for your platform (no Java required):
+
+        - [macOS ARM64](${CDN_URL}/releases/v${VERSION}/klaat-macos-arm64-v${VERSION})
+        - [macOS x64](${CDN_URL}/releases/v${VERSION}/klaat-macos-x64-v${VERSION})
+        - [Linux ARM64](${CDN_URL}/releases/v${VERSION}/klaat-linux-arm64-v${VERSION})
+        - [Linux x64](${CDN_URL}/releases/v${VERSION}/klaat-linux-x64-v${VERSION})
+
+        ### Checksums
+        [checksums-v${VERSION}.txt](${CDN_URL}/releases/v${VERSION}/checksums-v${VERSION}.txt)
+
+        ---
+
+        **Note**: All binaries are native executables built with GraalVM. No JRE installation required!
+        EOF
+
+    - name: Create GitHub Release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        VERSION: ${{ inputs.version }}
+      run: |
+        gh release create "${VERSION}" \
+          --title "Release ${VERSION}" \
+          --notes-file release-notes.md
+
+    - name: Output release info
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        CDN_URL: ${{ inputs.cdn-url }}
+      run: |
+        echo "✅ GitHub Release created: v${VERSION}"
+        echo ""
+        echo "📦 Download URLs:"
+        echo "  - macOS ARM64: ${CDN_URL}/releases/v${VERSION}/klaat-macos-arm64-v${VERSION}"
+        echo "  - macOS x64: ${CDN_URL}/releases/v${VERSION}/klaat-macos-x64-v${VERSION}"
+        echo "  - Linux ARM64: ${CDN_URL}/releases/v${VERSION}/klaat-linux-arm64-v${VERSION}"
+        echo "  - Linux x64: ${CDN_URL}/releases/v${VERSION}/klaat-linux-x64-v${VERSION}"
+        echo ""
+        echo "📝 Next steps:"
+        echo "  1. Update Homebrew formula at kartikarora/homebrew-tap"
+        echo "  2. Submit PR to homebrew-core (optional)"
