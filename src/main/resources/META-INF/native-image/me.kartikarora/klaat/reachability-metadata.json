@@ -1,0 +1,3000 @@
+{
+  "reflection": [
+    {
+      "type": "apple.security.AppleProvider",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "byte[]",
+      "serializable": true
+    },
+    {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.ffm.TerminalInterfaceProviderFfm"
+    },
+    {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.jna.TerminalInterfaceProviderJna"
+    },
+    {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.nativeimage.TerminalInterfaceProviderNativeImage"
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl",
+      "fields": [
+        {
+          "name": "codeChallenge"
+        },
+        {
+          "name": "codeChallengeMethod"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest",
+      "fields": [
+        {
+          "name": "code"
+        },
+        {
+          "name": "redirectUri"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.AuthorizationRequestUrl",
+      "fields": [
+        {
+          "name": "clientId"
+        },
+        {
+          "name": "redirectUri"
+        },
+        {
+          "name": "responseTypes"
+        },
+        {
+          "name": "scopes"
+        },
+        {
+          "name": "state"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.StoredCredential",
+      "serializable": true
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.TokenRequest",
+      "fields": [
+        {
+          "name": "grantType"
+        },
+        {
+          "name": "scopes"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.TokenResponse",
+      "methods": [
+        {
+          "name": "setAccessToken",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setExpiresInSeconds",
+          "parameterTypes": [
+            "java.lang.Long"
+          ]
+        },
+        {
+          "name": "setRefreshToken",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setScope",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setTokenType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl",
+      "fields": [
+        {
+          "name": "accessType"
+        },
+        {
+          "name": "approvalPrompt"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest"
+    },
+    {
+      "type": "com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setInstalled",
+          "parameterTypes": [
+            "com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets$Details"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets$Details",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setAuthUri",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setClientId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setClientSecret",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setRedirectUris",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setTokenUri",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.services.AbstractGoogleClientRequest"
+    },
+    {
+      "type": "com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest"
+    },
+    {
+      "type": "com.google.api.client.http.GenericUrl"
+    },
+    {
+      "type": "com.google.api.client.http.HttpHeaders",
+      "fields": [
+        {
+          "name": "accept"
+        },
+        {
+          "name": "acceptEncoding"
+        },
+        {
+          "name": "age"
+        },
+        {
+          "name": "authenticate"
+        },
+        {
+          "name": "authorization"
+        },
+        {
+          "name": "cacheControl"
+        },
+        {
+          "name": "contentEncoding"
+        },
+        {
+          "name": "contentLength"
+        },
+        {
+          "name": "contentMD5"
+        },
+        {
+          "name": "contentRange"
+        },
+        {
+          "name": "contentType"
+        },
+        {
+          "name": "cookie"
+        },
+        {
+          "name": "date"
+        },
+        {
+          "name": "etag"
+        },
+        {
+          "name": "expires"
+        },
+        {
+          "name": "ifMatch"
+        },
+        {
+          "name": "ifModifiedSince"
+        },
+        {
+          "name": "ifNoneMatch"
+        },
+        {
+          "name": "ifRange"
+        },
+        {
+          "name": "ifUnmodifiedSince"
+        },
+        {
+          "name": "lastModified"
+        },
+        {
+          "name": "location"
+        },
+        {
+          "name": "mimeVersion"
+        },
+        {
+          "name": "range"
+        },
+        {
+          "name": "retryAfter"
+        },
+        {
+          "name": "userAgent"
+        },
+        {
+          "name": "warning"
+        }
+      ],
+      "methods": [
+        {
+          "name": "setAccept",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setAcceptEncoding",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setAge",
+          "parameterTypes": [
+            "java.lang.Long"
+          ]
+        },
+        {
+          "name": "setAuthenticate",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setAuthorization",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setCacheControl",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setContentEncoding",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setContentLength",
+          "parameterTypes": [
+            "java.lang.Long"
+          ]
+        },
+        {
+          "name": "setContentMD5",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setContentRange",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setContentType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setCookie",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setDate",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setETag",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setExpires",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIfMatch",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIfModifiedSince",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIfNoneMatch",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIfRange",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIfUnmodifiedSince",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setLastModified",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setLocation",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setMimeVersion",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setRange",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setRetryAfter",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setUserAgent",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.json.GenericJson"
+    },
+    {
+      "type": "com.google.api.client.util.GenericData"
+    },
+    {
+      "type": "com.google.api.services.docs.v1.Docs$Documents$Get",
+      "fields": [
+        {
+          "name": "documentId"
+        },
+        {
+          "name": "includeTabsContent"
+        },
+        {
+          "name": "suggestionsViewMode"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.DocsRequest",
+      "fields": [
+        {
+          "name": "$Xgafv"
+        },
+        {
+          "name": "accessToken"
+        },
+        {
+          "name": "alt"
+        },
+        {
+          "name": "callback"
+        },
+        {
+          "name": "fields"
+        },
+        {
+          "name": "key"
+        },
+        {
+          "name": "oauthToken"
+        },
+        {
+          "name": "prettyPrint"
+        },
+        {
+          "name": "quotaUser"
+        },
+        {
+          "name": "uploadProtocol"
+        },
+        {
+          "name": "uploadType"
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Background",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Body",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContent",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Bullet",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setListId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Color",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setRgbColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.RgbColor"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Dimension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setMagnitude",
+          "parameterTypes": [
+            "java.lang.Double"
+          ]
+        },
+        {
+          "name": "setUnit",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Document",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBody",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Body"
+          ]
+        },
+        {
+          "name": "setDocumentId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setDocumentStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.DocumentStyle"
+          ]
+        },
+        {
+          "name": "setLists",
+          "parameterTypes": [
+            "java.util.Map"
+          ]
+        },
+        {
+          "name": "setNamedStyles",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.NamedStyles"
+          ]
+        },
+        {
+          "name": "setRevisionId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setSuggestionsViewMode",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setTitle",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.DocumentFormat",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setDocumentMode",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.DocumentStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBackground",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Background"
+          ]
+        },
+        {
+          "name": "setDocumentFormat",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.DocumentFormat"
+          ]
+        },
+        {
+          "name": "setMarginBottom",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginFooter",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginHeader",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginLeft",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginRight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginTop",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setPageNumberStart",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setPageSize",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Size"
+          ]
+        },
+        {
+          "name": "setUseCustomHeaderFooterMargins",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.List",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setListProperties",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ListProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ListProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setNestingLevels",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.NamedStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setNamedStyleType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setParagraphStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphStyle"
+          ]
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.NamedStyles",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setStyles",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.NestingLevel",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBulletAlignment",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setGlyphFormat",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setGlyphSymbol",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setGlyphType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIndentFirstLine",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setIndentStart",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setStartNumber",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ObjectReferences",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.OptionalColor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Color"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Paragraph",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBullet",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Bullet"
+          ]
+        },
+        {
+          "name": "setElements",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setParagraphStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ParagraphBorder",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        },
+        {
+          "name": "setDashStyle",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setPadding",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setWidth",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ParagraphElement",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEndIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setStartIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTextRun",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextRun"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ParagraphStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setAlignment",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setAvoidWidowAndOrphan",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setBorderBetween",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphBorder"
+          ]
+        },
+        {
+          "name": "setBorderBottom",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphBorder"
+          ]
+        },
+        {
+          "name": "setBorderLeft",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphBorder"
+          ]
+        },
+        {
+          "name": "setBorderRight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphBorder"
+          ]
+        },
+        {
+          "name": "setBorderTop",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ParagraphBorder"
+          ]
+        },
+        {
+          "name": "setDirection",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setHeadingId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setIndentEnd",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setIndentFirstLine",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setIndentStart",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setKeepLinesTogether",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setKeepWithNext",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setLineSpacing",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
+        },
+        {
+          "name": "setNamedStyleType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setPageBreakBefore",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setShading",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Shading"
+          ]
+        },
+        {
+          "name": "setSpaceAbove",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setSpaceBelow",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setSpacingMode",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.RgbColor",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBlue",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
+        },
+        {
+          "name": "setGreen",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
+        },
+        {
+          "name": "setRed",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SectionBreak",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setSectionStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.SectionStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SectionColumnProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SectionStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColumnSeparatorStyle",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setContentDirection",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setSectionType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Shading",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBackgroundColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Size",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setHeight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setWidth",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.StructuralElement",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEndIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setParagraph",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Paragraph"
+          ]
+        },
+        {
+          "name": "setSectionBreak",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.SectionBreak"
+          ]
+        },
+        {
+          "name": "setStartIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTable",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Table"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SuggestedTableCellStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SuggestedTableRowStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.SuggestedTextStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Table",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColumns",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setRows",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTableRows",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setTableStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TableStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableCell",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContent",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setEndIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setStartIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTableCellStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TableCellStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableCellStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBackgroundColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        },
+        {
+          "name": "setColumnSpan",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setContentAlignment",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setPaddingBottom",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setPaddingLeft",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setPaddingRight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setPaddingTop",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setRowSpan",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableColumnProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableRow",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEndIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setStartIndex",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setTableCells",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setTableRowStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TableRowStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableRowStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setMinRowHeight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TextRun",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContent",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TextStyle",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setBackgroundColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        },
+        {
+          "name": "setBaselineOffset",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setBold",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setFontSize",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setForegroundColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        },
+        {
+          "name": "setItalic",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setSmallCaps",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setStrikethrough",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setUnderline",
+          "parameterTypes": [
+            "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setWeightedFontFamily",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.WeightedFontFamily"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.WeightedFontFamily",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setFontFamily",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setWeight",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.AESCipher$General",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.ARCFOURCipher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.ChaCha20Cipher$ChaCha20Poly1305",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.DESCipher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.DESedeCipher",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.DHParameters",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.GaloisCounterMode$AESGCM",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.HKDFKeyDerivation$HKDFSHA384",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "javax.crypto.KDFParameters"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.HmacCore$HmacSHA384",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.HmacPKCS12PBECore$HmacPKCS12PBE_SHA1",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.PBEKeyFactory$PBEWithMD5AndDES",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.PBEParameters",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.PKCS12PBECipherCore$PBEWithSHA1AndRC2_40",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.TlsMasterSecretGenerator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.Callback",
+      "jniAccessible": true
+    },
+    {
+      "type": "com.sun.jna.CallbackProxy"
+    },
+    {
+      "type": "com.sun.jna.CallbackReference",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getCallback",
+          "parameterTypes": [
+            "java.lang.Class",
+            "com.sun.jna.Pointer",
+            "boolean"
+          ]
+        },
+        {
+          "name": "getFunctionPointer",
+          "parameterTypes": [
+            "com.sun.jna.Callback",
+            "boolean"
+          ]
+        },
+        {
+          "name": "getNativeString",
+          "parameterTypes": [
+            "java.lang.Object",
+            "boolean"
+          ]
+        },
+        {
+          "name": "initializeThread",
+          "parameterTypes": [
+            "com.sun.jna.Callback",
+            "com.sun.jna.CallbackReference$AttachOptions"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.CallbackReference$AttachOptions",
+      "jniAccessible": true
+    },
+    {
+      "type": "com.sun.jna.FromNativeConverter",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "nativeType",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.IntegerType",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "value"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.JNIEnv",
+      "jniAccessible": true
+    },
+    {
+      "type": "com.sun.jna.Native",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "dispose",
+          "parameterTypes": []
+        },
+        {
+          "name": "fromNative",
+          "parameterTypes": [
+            "com.sun.jna.FromNativeConverter",
+            "java.lang.Object",
+            "java.lang.reflect.Method"
+          ]
+        },
+        {
+          "name": "fromNative",
+          "parameterTypes": [
+            "java.lang.Class",
+            "java.lang.Object"
+          ]
+        },
+        {
+          "name": "fromNative",
+          "parameterTypes": [
+            "java.lang.reflect.Method",
+            "java.lang.Object"
+          ]
+        },
+        {
+          "name": "nativeType",
+          "parameterTypes": [
+            "java.lang.Class"
+          ]
+        },
+        {
+          "name": "toNative",
+          "parameterTypes": [
+            "com.sun.jna.ToNativeConverter",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.Native$ffi_callback",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "invoke",
+          "parameterTypes": [
+            "long",
+            "long",
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.NativeMapped",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "toNative",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.Pointer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "peer"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.PointerType",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "pointer"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.Structure",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "memory"
+        },
+        {
+          "name": "typeInfo"
+        }
+      ],
+      "methods": [
+        {
+          "name": "autoRead",
+          "parameterTypes": []
+        },
+        {
+          "name": "autoWrite",
+          "parameterTypes": []
+        },
+        {
+          "name": "getTypeInfo",
+          "parameterTypes": []
+        },
+        {
+          "name": "newInstance",
+          "parameterTypes": [
+            "java.lang.Class",
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.Structure$ByValue",
+      "jniAccessible": true
+    },
+    {
+      "type": "com.sun.jna.Structure$FFIType$FFITypes",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "ffi_type_double"
+        },
+        {
+          "name": "ffi_type_float"
+        },
+        {
+          "name": "ffi_type_longdouble"
+        },
+        {
+          "name": "ffi_type_pointer"
+        },
+        {
+          "name": "ffi_type_sint16"
+        },
+        {
+          "name": "ffi_type_sint32"
+        },
+        {
+          "name": "ffi_type_sint64"
+        },
+        {
+          "name": "ffi_type_sint8"
+        },
+        {
+          "name": "ffi_type_uint16"
+        },
+        {
+          "name": "ffi_type_uint32"
+        },
+        {
+          "name": "ffi_type_uint64"
+        },
+        {
+          "name": "ffi_type_uint8"
+        },
+        {
+          "name": "ffi_type_void"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.jna.WString",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.vladsch.flexmark.util.sequence.LineAppendable$Options"
+    },
+    {
+      "type": "freemarker.core._2_4_OrLaterMarker"
+    },
+    {
+      "type": "freemarker.ext.jython.JythonModel"
+    },
+    {
+      "type": "io.grpc.override.ContextStorageOverride"
+    },
+    {
+      "type": "io.opencensus.impl.trace.TraceComponentImpl"
+    },
+    {
+      "type": "io.opencensus.impllite.trace.TraceComponentImplLite"
+    },
+    {
+      "type": "io.opentelemetry.opencensusshim.OpenTelemetryContextManager"
+    },
+    {
+      "type": "io.opentelemetry.opencensusshim.OpenTelemetryTraceComponentImpl"
+    },
+    {
+      "type": "java.io.File",
+      "methods": [
+        {
+          "name": "toPath",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Boolean",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "getBoolean",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Byte",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "byte"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Character",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "char"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Class",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getComponentType",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.ClassLoader"
+    },
+    {
+      "type": "java.lang.ClassValue"
+    },
+    {
+      "type": "java.lang.Class[]"
+    },
+    {
+      "type": "java.lang.Double",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "double"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Float",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Integer",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Long",
+      "serializable": true,
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Number",
+      "serializable": true
+    },
+    {
+      "type": "java.lang.Object",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "toString",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Package"
+    },
+    {
+      "type": "java.lang.Runtime"
+    },
+    {
+      "type": "java.lang.Short",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        },
+        {
+          "name": "value"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "short"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.String",
+      "serializable": true,
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "byte[]"
+          ]
+        },
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "byte[]",
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "getBytes",
+          "parameterTypes": []
+        },
+        {
+          "name": "getBytes",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "toCharArray",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.System",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getProperty",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Thread"
+    },
+    {
+      "type": "java.lang.ThreadGroup"
+    },
+    {
+      "type": "java.lang.Throwable"
+    },
+    {
+      "type": "java.lang.Void",
+      "jniAccessible": true,
+      "fields": [
+        {
+          "name": "TYPE"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.annotation.Annotation"
+    },
+    {
+      "type": "java.lang.constant.ClassDesc"
+    },
+    {
+      "type": "java.lang.invoke.MethodHandle"
+    },
+    {
+      "type": "java.lang.invoke.MethodHandles"
+    },
+    {
+      "type": "java.lang.invoke.MethodHandles$Lookup"
+    },
+    {
+      "type": "java.lang.invoke.MethodType"
+    },
+    {
+      "type": "java.lang.reflect.AccessibleObject"
+    },
+    {
+      "type": "java.lang.reflect.AnnotatedType"
+    },
+    {
+      "type": "java.lang.reflect.Constructor"
+    },
+    {
+      "type": "java.lang.reflect.Executable"
+    },
+    {
+      "type": "java.lang.reflect.Field"
+    },
+    {
+      "type": "java.lang.reflect.GenericDeclaration"
+    },
+    {
+      "type": "java.lang.reflect.Member"
+    },
+    {
+      "type": "java.lang.reflect.Method",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "getParameterTypes",
+          "parameterTypes": []
+        },
+        {
+          "name": "getReturnType",
+          "parameterTypes": []
+        },
+        {
+          "name": "isDefault",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.reflect.Parameter"
+    },
+    {
+      "type": "java.lang.reflect.Type"
+    },
+    {
+      "type": "java.lang.reflect.TypeVariable"
+    },
+    {
+      "type": "java.net.URI"
+    },
+    {
+      "type": "java.net.URL"
+    },
+    {
+      "type": "java.nio.Buffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "position",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.ByteBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.CharBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.DoubleBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.FloatBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.IntBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.LongBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.ShortBuffer",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "array",
+          "parameterTypes": []
+        },
+        {
+          "name": "arrayOffset",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.nio.file.Files",
+      "methods": [
+        {
+          "name": "isSymbolicLink",
+          "parameterTypes": [
+            "java.nio.file.Path"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.nio.file.Path"
+    },
+    {
+      "type": "java.security.AlgorithmParametersSpi"
+    },
+    {
+      "type": "java.security.KeyStoreSpi"
+    },
+    {
+      "type": "java.security.ProtectionDomain"
+    },
+    {
+      "type": "java.security.interfaces.ECPrivateKey"
+    },
+    {
+      "type": "java.security.interfaces.ECPublicKey"
+    },
+    {
+      "type": "java.security.interfaces.RSAPrivateKey"
+    },
+    {
+      "type": "java.security.interfaces.RSAPublicKey"
+    },
+    {
+      "type": "java.util.AbstractMap"
+    },
+    {
+      "type": "java.util.HashMap",
+      "serializable": true
+    },
+    {
+      "type": "java.util.Map"
+    },
+    {
+      "type": "java.util.concurrent.ConcurrentMap"
+    },
+    {
+      "type": "java.util.concurrent.locks.AbstractOwnableSynchronizer",
+      "serializable": true
+    },
+    {
+      "type": "java.util.concurrent.locks.AbstractQueuedSynchronizer",
+      "serializable": true
+    },
+    {
+      "type": "java.util.concurrent.locks.ReentrantLock",
+      "serializable": true
+    },
+    {
+      "type": "java.util.concurrent.locks.ReentrantLock$NonfairSync",
+      "serializable": true
+    },
+    {
+      "type": "java.util.concurrent.locks.ReentrantLock$Sync",
+      "serializable": true
+    },
+    {
+      "type": "kotlin.SafePublicationLazyImpl"
+    },
+    {
+      "type": "kotlin.jvm.internal.DefaultConstructorMarker"
+    },
+    {
+      "type": "kotlin.reflect.jvm.internal.ReflectionFactoryImpl",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "org.apache.log.Logger"
+    },
+    {
+      "type": "org.apache.log4j.Logger"
+    },
+    {
+      "type": "org.python.core.PyObject"
+    },
+    {
+      "type": "org.zeroturnaround.javarebel.ClassEventListener"
+    },
+    {
+      "type": "sun.security.pkcs12.PKCS12KeyStore",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.DSA$SHA224withDSA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.DSA$SHA256withDSA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.JavaKeyStore$DualFormatJKS",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.JavaKeyStore$JKS",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.NativePRNG",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.security.SecureRandomParameters"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA2$SHA224",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA2$SHA256",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA5$SHA384",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.SHA5$SHA512",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.X509Factory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.provider.certpath.PKIXCertPathValidator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.rsa.PSSParameters",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.rsa.RSAKeyFactory$Legacy",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.rsa.RSAPSSSignature",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.rsa.RSASignature$SHA224withRSA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.rsa.RSASignature$SHA256withRSA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.ssl.KeyManagerFactoryImpl$SunX509",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.ssl.SSLContextImpl$DefaultSSLContext",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.ssl.SSLContextImpl$TLSContext",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.AuthorityInfoAccessExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.AuthorityKeyIdentifierExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.BasicConstraintsExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.CRLDistributionPointsExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.CertificatePoliciesExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.ExtendedKeyUsageExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.KeyUsageExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.NetscapeCertTypeExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.PrivateKeyUsageExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.SubjectAlternativeNameExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.security.x509.SubjectKeyIdentifierExtension",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.Boolean",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.text.resources.FormatData"
+    },
+    {
+      "type": "sun.text.resources.FormatData_en"
+    },
+    {
+      "type": "sun.text.resources.FormatData_en_US"
+    },
+    {
+      "type": "sun.text.resources.JavaTimeSupplementary"
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData"
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData_en"
+    },
+    {
+      "type": "sun.text.resources.cldr.FormatData_en_US"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames_en"
+    },
+    {
+      "type": "sun.util.resources.cldr.TimeZoneNames_en_US"
+    },
+    {
+      "type": {
+        "proxy": [
+          "com.github.ajalt.mordant.terminal.terminalinterface.jna.MacosLibC"
+        ]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "glob": "META-INF/services/com.github.ajalt.mordant.terminal.TerminalInterfaceProvider"
+    },
+    {
+      "glob": "META-INF/services/com.sun.net.httpserver.spi.HttpServerProvider"
+    },
+    {
+      "glob": "META-INF/services/java.net.spi.InetAddressResolverProvider"
+    },
+    {
+      "glob": "META-INF/services/java.net.spi.URLStreamHandlerProvider"
+    },
+    {
+      "glob": "META-INF/services/java.nio.channels.spi.SelectorProvider"
+    },
+    {
+      "glob": "META-INF/services/java.time.zone.ZoneRulesProvider"
+    },
+    {
+      "glob": "com/google/api/client/googleapis/google-api-client.properties"
+    },
+    {
+      "glob": "com/google/api/client/googleapis/google.p12"
+    },
+    {
+      "glob": "com/google/api/client/http/google-http-client.properties"
+    },
+    {
+      "glob": "com/sun/jna/darwin-aarch64/libjnidispatch.jnilib"
+    },
+    {
+      "glob": "freemarker/ext/beans/DefaultMemberAccessPolicy-rules"
+    },
+    {
+      "glob": "freemarker/version.properties"
+    },
+    {
+      "glob": "templates/codelab.html"
+    },
+    {
+      "glob": "templates/codelab_en.html"
+    },
+    {
+      "glob": "templates/codelab_en_US.html"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt76b/nfc.nrm"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt76b/nfkc.nrm"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt76b/uprops.icu"
+    },
+    {
+      "module": "java.base",
+      "glob": "sun/net/idn/uidna.spp"
+    }
+  ]
+}

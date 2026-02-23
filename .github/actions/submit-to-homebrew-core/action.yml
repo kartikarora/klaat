@@ -1,0 +1,175 @@
+name: 'Submit to Homebrew Core'
+description: 'Creates a PR to homebrew/homebrew-core following all guidelines'
+
+inputs:
+  version:
+    description: 'Version number (e.g., 1.0.0)'
+    required: true
+  cdn-url:
+    description: 'CDN base URL'
+    required: true
+  checksums-file:
+    description: 'Path to checksums file'
+    required: true
+  github-token:
+    description: 'GitHub token with repo access'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup environment
+      shell: bash
+      run: |
+        # Install Homebrew if not present (for CI)
+        if ! command -v brew &> /dev/null; then
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+
+    - name: Fork and clone homebrew-core
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        # Fork homebrew-core if not already forked
+        gh repo fork Homebrew/homebrew-core --clone=false --remote=false || true
+
+        # Clone homebrew-core
+        git clone https://github.com/$(gh api user -q .login)/homebrew-core.git
+        cd homebrew-core
+
+        # Add upstream
+        git remote add upstream https://github.com/Homebrew/homebrew-core.git
+        git fetch upstream
+
+        # Checkout from latest master
+        git checkout -b klaat-${{ inputs.version }} upstream/master
+
+    - name: Generate formula
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        CDN_URL: ${{ inputs.cdn-url }}
+        CHECKSUMS_FILE: ${{ inputs.checksums-file }}
+      run: |
+        cd homebrew-core
+
+        # Get checksums for each platform
+        MACOS_ARM64_SHA=$(grep "klaat-macos-arm64-${VERSION}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        MACOS_X64_SHA=$(grep "klaat-macos-x64-${VERSION}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_ARM64_SHA=$(grep "klaat-linux-arm64-${VERSION}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_X64_SHA=$(grep "klaat-linux-x64-${VERSION}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+
+        # Create formula following homebrew-core guidelines
+        cat > Formula/k/klaat.rb << 'EOF'
+        class Klaat < Formula
+          desc "Command-line tool for exporting Google Docs to Markdown codelabs"
+          homepage "https://klaat.kartikarora.me"
+          version "VERSION_PLACEHOLDER"
+          license "Apache-2.0"
+
+          on_macos do
+            on_arm do
+              url "CDN_URL_PLACEHOLDER/releases/vVERSION_PLACEHOLDER/klaat-macos-arm64-VERSION_PLACEHOLDER"
+              sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
+            end
+
+            on_intel do
+              url "CDN_URL_PLACEHOLDER/releases/vVERSION_PLACEHOLDER/klaat-macos-x64-VERSION_PLACEHOLDER"
+              sha256 "MACOS_X64_SHA_PLACEHOLDER"
+            end
+          end
+
+          on_linux do
+            on_arm do
+              url "CDN_URL_PLACEHOLDER/releases/vVERSION_PLACEHOLDER/klaat-linux-arm64-VERSION_PLACEHOLDER"
+              sha256 "LINUX_ARM64_SHA_PLACEHOLDER"
+            end
+
+            on_intel do
+              url "CDN_URL_PLACEHOLDER/releases/vVERSION_PLACEHOLDER/klaat-linux-x64-VERSION_PLACEHOLDER"
+              sha256 "LINUX_X64_SHA_PLACEHOLDER"
+            end
+          end
+
+          def install
+            bin.install Dir["klaat-*"].first => "klaat"
+          end
+
+          test do
+            assert_match "klaat", shell_output("#{bin}/klaat --help")
+          end
+        end
+        EOF
+
+        # Replace placeholders
+        sed -i "s|VERSION_PLACEHOLDER|${VERSION}|g" Formula/k/klaat.rb
+        sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/k/klaat.rb
+        sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/k/klaat.rb
+        sed -i "s|MACOS_X64_SHA_PLACEHOLDER|${MACOS_X64_SHA}|g" Formula/k/klaat.rb
+        sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/k/klaat.rb
+        sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/k/klaat.rb
+
+    - name: Test formula locally
+      shell: bash
+      run: |
+        cd homebrew-core
+        brew audit --strict --online Formula/k/klaat.rb
+        brew install --build-from-source Formula/k/klaat.rb
+        brew test klaat
+
+    - name: Commit and push
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        cd homebrew-core
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add Formula/k/klaat.rb
+        git commit -m "klaat ${VERSION} (new formula)"
+        git push origin klaat-${VERSION}
+
+    - name: Create PR to homebrew-core
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        VERSION: ${{ inputs.version }}
+      run: |
+        cd homebrew-core
+
+        # Create PR with proper description
+        cat > pr-body.md << 'PRBODY'
+        - [x] Have you followed the [guidelines](https://docs.brew.sh/How-To-Open-a-Homebrew-Pull-Request)?
+        - [x] Have you ensured that your commits follow the [commit style guide](https://docs.brew.sh/Formula-Cookbook#commit)?
+        - [x] Have you checked that there aren't other open [pull requests](https://github.com/Homebrew/homebrew-core/pulls) for the same formula update/change?
+        - [x] Have you built your formula locally with `brew install --build-from-source <formula>`?
+        - [x] Is your test running fine `brew test <formula>`?
+        - [x] Does your build pass `brew audit --strict --online <formula>`?
+
+        ---
+
+        Klaat is a command-line tool for exporting Google Docs to Markdown codelabs. This is the initial submission for version ${VERSION}.
+
+        **Binary type:** Native executable (GraalVM compiled, no JRE required)
+        **License:** Apache-2.0
+        **Homepage:** https://klaat.kartikarora.me
+        PRBODY
+
+        gh pr create \
+          --repo Homebrew/homebrew-core \
+          --title "klaat ${VERSION} (new formula)" \
+          --body-file pr-body.md \
+          --head $(gh api user -q .login):klaat-${VERSION}
+
+    - name: Output PR info
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        echo "✅ Created PR to Homebrew/homebrew-core for klaat ${VERSION}"
+        echo ""
+        echo "📝 Next steps:"
+        echo "  1. Monitor the PR for CI results and maintainer feedback"
+        echo "  2. Address any requested changes"
+        echo "  3. Once approved and merged, users can install with: brew install klaat"

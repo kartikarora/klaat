@@ -1,0 +1,3 @@
+[submodule "claat-original"]
+	path = claat-original
+	url = https://github.com/googlecodelabs/tools.git

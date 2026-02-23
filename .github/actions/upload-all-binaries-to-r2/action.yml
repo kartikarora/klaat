@@ -1,0 +1,80 @@
+name: 'Upload All Binaries to R2'
+description: 'Uploads all binaries and checksums to Cloudflare R2'
+
+inputs:
+  r2-account-id:
+    description: 'Cloudflare R2 Account ID'
+    required: true
+  r2-access-key-id:
+    description: 'R2 Access Key ID'
+    required: true
+  r2-secret-access-key:
+    description: 'R2 Secret Access Key'
+    required: true
+  r2-bucket-name:
+    description: 'R2 Bucket Name'
+    required: true
+  artifacts-path:
+    description: 'Path to downloaded artifacts directory'
+    required: true
+    default: 'artifacts'
+  destination-path:
+    description: 'Destination path in R2 bucket (e.g., bin/klaat/snapshot/abc123/ or bin/klaat/release/v1.0.0/)'
+    required: true
+  checksum-file:
+    description: 'Consolidated checksum file to upload'
+    required: true
+  version-pattern:
+    description: 'Pattern to match binary files (e.g., *-snapshot-* or *-1.0.0)'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install rclone
+      shell: bash
+      run: curl https://rclone.org/install.sh | sudo bash
+
+    - name: Configure rclone for R2
+      shell: bash
+      env:
+        R2_ACCOUNT_ID: ${{ inputs.r2-account-id }}
+        R2_ACCESS_KEY_ID: ${{ inputs.r2-access-key-id }}
+        R2_SECRET_ACCESS_KEY: ${{ inputs.r2-secret-access-key }}
+      run: |
+        cat << EOF > rclone.conf
+        [r2]
+        type = s3
+        provider = Cloudflare
+        access_key_id = $R2_ACCESS_KEY_ID
+        secret_access_key = $R2_SECRET_ACCESS_KEY
+        endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
+        acl = private
+        EOF
+
+    - name: Upload all binaries to R2
+      shell: bash
+      env:
+        R2_BUCKET_NAME: ${{ inputs.r2-bucket-name }}
+        DESTINATION_PATH: ${{ inputs.destination-path }}
+        ARTIFACTS_PATH: ${{ inputs.artifacts-path }}
+        CHECKSUM_FILE: ${{ inputs.checksum-file }}
+        VERSION_PATTERN: ${{ inputs.version-pattern }}
+      run: |
+        echo "🚀 Uploading binaries to R2: ${DESTINATION_PATH}"
+
+        # Upload all binaries
+        for artifact_dir in ${ARTIFACTS_PATH}/klaat-*; do
+          for binary in ${artifact_dir}/klaat-${VERSION_PATTERN}; do
+            if [ -f "$binary" ]; then
+              echo "📦 Uploading $(basename $binary)..."
+              rclone --config=rclone.conf copy $binary r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+            fi
+          done
+        done
+
+        # Upload consolidated checksums
+        echo "📝 Uploading checksums..."
+        rclone --config=rclone.conf copy ${CHECKSUM_FILE} r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+
+        echo "✅ All files uploaded successfully to ${DESTINATION_PATH}"
