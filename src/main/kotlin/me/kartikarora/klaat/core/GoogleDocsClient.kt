@@ -1,0 +1,106 @@
+package me.kartikarora.klaat.core
+
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl
+import com.google.api.client.auth.oauth2.Credential
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
+import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiver
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
+import com.google.api.client.http.HttpTransport
+import com.google.api.client.json.gson.GsonFactory
+import com.google.api.client.util.store.FileDataStoreFactory
+import com.google.api.services.docs.v1.Docs
+import com.google.api.services.docs.v1.DocsScopes
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
+
+class GoogleDocsClient {
+    private val jsonFactory = GsonFactory.getDefaultInstance()
+    private val tokensDirectoryPath = System.getProperty("user.home") + "/.klaat/tokens"
+    private val scopes = listOf(DocsScopes.DOCUMENTS_READONLY)
+
+    private fun getCredentials(httpTransport: HttpTransport): Credential {
+        // Try to load credentials from bundled resource first, then fall back to file
+        val clientSecrets = try {
+            // Try to load from bundled resource in classpath
+            val resourceStream = javaClass.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
+            if (resourceStream != null) {
+                resourceStream.reader().use { reader ->
+                    GoogleClientSecrets.load(jsonFactory, reader)
+                }
+            } else {
+                // Fall back to file in project root (for development)
+                val projectRoot = System.getProperty("user.dir")
+                val credentialsFile = File(projectRoot, "gcp_credentials.json")
+
+                if (!credentialsFile.exists() || !credentialsFile.isFile) {
+                    throw Exception("Unable to start authentication service. Please try again later.")
+                }
+
+                FileReader(credentialsFile).use { reader ->
+                    GoogleClientSecrets.load(jsonFactory, reader)
+                }
+            }
+        } catch (e: Exception) {
+            throw Exception("Unable to start authentication service. Please try again later.", e)
+        }
+
+        val flow = GoogleAuthorizationCodeFlow.Builder(
+            httpTransport, jsonFactory, clientSecrets, scopes
+        )
+            .setDataStoreFactory(FileDataStoreFactory(File(tokensDirectoryPath)))
+            .setAccessType("offline")
+            .build()
+
+        val receiver = LocalServerReceiver.Builder().setPort(8888).build()
+
+        println("\n🔑 Opening browser for Google authentication...")
+        println("   If browser doesn't open, visit the URL shown below\n")
+
+        // Custom browser opener that doesn't use AWT
+        val app = object : AuthorizationCodeInstalledApp(flow, receiver) {
+            override fun onAuthorization(authorizationUrl: AuthorizationCodeRequestUrl) {
+                // Use built-in build() method
+                val urlString = authorizationUrl.build()
+
+                println("Please open the following address in your browser:")
+                println("  $urlString")
+                println()
+
+                // Try to open browser automatically - fallback to ProcessBuilder if AWT fails
+                try {
+                    // First try using ProcessBuilder (works in native image)
+                    ProcessBuilder("open", urlString).start()
+                    println("Opening browser...")
+                } catch (e1: Exception) {
+                    try {
+                        // Fallback to Desktop.browse() if open command fails
+                        if (java.awt.Desktop.isDesktopSupported()) {
+                            val desktop = java.awt.Desktop.getDesktop()
+                            if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                                desktop.browse(java.net.URI(urlString))
+                                println("Opening browser...")
+                            }
+                        }
+                    } catch (e2: Exception) {
+                        // Both methods failed, user will use the printed URL
+                    }
+                }
+
+                println("Waiting for authorization code...")
+            }
+        }
+
+        return app.authorize("user")
+    }
+
+    fun getDocsService(): Docs {
+        val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
+        return Docs.Builder(httpTransport, jsonFactory, getCredentials(httpTransport))
+            .setApplicationName("Klaat")
+            .build()
+    }
+}

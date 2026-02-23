@@ -1,0 +1,20 @@
+name: 'Normalize CDN URL'
+description: 'Strips trailing slashes from CDN URL'
+
+inputs:
+  cdn-url:
+    description: 'CDN URL to normalize'
+    required: true
+
+outputs:
+  url:
+    description: 'Normalized CDN URL without trailing slash'
+    value: ${{ steps.normalize.outputs.url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Strip trailing slashes
+      id: normalize
+      shell: bash
+      run: echo "url=$(echo '${{ inputs.cdn-url }}' | sed 's:/*$::')" >> $GITHUB_OUTPUT
