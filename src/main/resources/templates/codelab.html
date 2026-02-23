@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>${title?html}</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="${cssPrefix}/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="${globalGA}"></google-codelab-analytics>
+  <google-codelab codelab-gaid="${codelabGA}"
+                  id="${id?html}"
+                  title="${title?html}"
+                  environment="${environment}"
+                  feedback-link="${feedbackLink}">
+<#list steps as step>
+    <google-codelab-step label="${step.title?html}" duration="${step.duration}">
+      ${step.content}
+    </google-codelab-step>
+</#list>
+  </google-codelab>
+
+  <script src="${jsPrefix}/native-shim.js"></script>
+  <script src="${jsPrefix}/custom-elements.min.js"></script>
+  <script src="${jsPrefix}/prettify.js"></script>
+  <script src="${jsPrefix}/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

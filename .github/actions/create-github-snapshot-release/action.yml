@@ -1,0 +1,91 @@
+name: 'Create GitHub Snapshot Release'
+description: 'Creates a GitHub pre-release for snapshot builds'
+
+inputs:
+  version:
+    description: 'Version for the release (e.g., 1.0.0-abcd1234)'
+    required: true
+  cdn-url:
+    description: 'CDN base URL where binaries are hosted'
+    required: true
+  github-token:
+    description: 'GitHub token for creating releases'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create git tag
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        VERSION=${{ inputs.version }}
+
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        # Create and push tag
+        git tag -a "${VERSION}" -m "Snapshot ${VERSION}"
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git "${VERSION}"
+
+    - name: Generate release notes
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        CDN_URL: ${{ inputs.cdn-url }}
+      run: |
+        cat > release-notes.md << EOF
+        # Klaat Snapshot ${VERSION}
+
+        **⚠️ This is a pre-release snapshot build from the develop branch.**
+
+        ## Installation
+
+        ### Homebrew
+        \`\`\`bash
+        brew tap kartikarora/klaat-snapshots
+        brew install klaat-snapshot
+        \`\`\`
+
+        ### Manual Download
+        Download the native binary for your platform (no Java required):
+
+        - [macOS ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-arm64-${VERSION})
+        - [macOS x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-x64-${VERSION})
+        - [Linux ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-arm64-${VERSION})
+        - [Linux x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-x64-${VERSION})
+
+        ### Checksums
+        [checksums-${VERSION}.txt](${CDN_URL}/bin/klaat/snapshot/${VERSION}/checksums-${VERSION}.txt)
+
+        ---
+
+        **Note**: All binaries are native executables built with GraalVM. No JRE installation required!
+        EOF
+
+    - name: Create GitHub Release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        VERSION: ${{ inputs.version }}
+      run: |
+        gh release create "${VERSION}" \
+          --title "Snapshot ${VERSION}" \
+          --notes-file release-notes.md \
+          --prerelease
+
+    - name: Output release info
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        CDN_URL: ${{ inputs.cdn-url }}
+      run: |
+        echo "✅ GitHub Snapshot Release created: ${VERSION}"
+        echo ""
+        echo "📦 Download URLs:"
+        echo "  - macOS ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-arm64-${VERSION}"
+        echo "  - macOS x64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-x64-${VERSION}"
+        echo "  - Linux ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-arm64-${VERSION}"
+        echo "  - Linux x64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-x64-${VERSION}"

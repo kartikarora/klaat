@@ -1,0 +1,76 @@
+name: 'Update Snapshot Tap'
+description: 'Updates the homebrew-klaat-snapshots tap with the latest snapshot'
+
+inputs:
+  commit-hash:
+    description: '8-character commit hash'
+    required: true
+  cdn-url:
+    description: 'CDN base URL'
+    required: true
+  checksums-file:
+    description: 'Path to checksums file'
+    required: true
+  github-token:
+    description: 'GitHub token for pushing to tap repo'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone tap repository
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git tap
+
+    - name: Update formula
+      shell: bash
+      env:
+        COMMIT_HASH: ${{ inputs.commit-hash }}
+        CDN_URL: ${{ inputs.cdn-url }}
+        CHECKSUMS_FILE: ${{ inputs.checksums-file }}
+      run: |
+        cd tap
+
+        # Get checksums for each platform
+        MACOS_ARM64_SHA=$(grep "klaat-macos-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        MACOS_X64_SHA=$(grep "klaat-macos-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_ARM64_SHA=$(grep "klaat-linux-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_X64_SHA=$(grep "klaat-linux-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+
+        # Create Formula directory if it doesn't exist
+        mkdir -p Formula
+
+        # Copy template and replace placeholders
+        cp ../.github/formulas/klaat-snapshot.rb.template Formula/klaat-snapshot.rb
+        sed -i "s|COMMIT_HASH_PLACEHOLDER|${COMMIT_HASH}|g" Formula/klaat-snapshot.rb
+        sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/klaat-snapshot.rb
+        sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/klaat-snapshot.rb
+        sed -i "s|MACOS_X64_SHA_PLACEHOLDER|${MACOS_X64_SHA}|g" Formula/klaat-snapshot.rb
+        sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/klaat-snapshot.rb
+        sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/klaat-snapshot.rb
+
+    - name: Commit and push
+      shell: bash
+      env:
+        COMMIT_HASH: ${{ inputs.commit-hash }}
+      run: |
+        cd tap
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add Formula/klaat-snapshot.rb
+        git commit -m "Update snapshot to ${COMMIT_HASH}"
+        git push
+
+    - name: Output tap info
+      shell: bash
+      env:
+        COMMIT_HASH: ${{ inputs.commit-hash }}
+      run: |
+        echo "✅ Updated homebrew-klaat-snapshots tap to ${COMMIT_HASH}"
+        echo ""
+        echo "Users can install with:"
+        echo "  brew tap kartikarora/klaat-snapshots"
+        echo "  brew install klaat-snapshot"

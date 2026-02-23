@@ -1,0 +1,27 @@
+class KlaatSnapshot < Formula
+  desc "Klaat snapshot build - COMMIT_HASH_PLACEHOLDER"
+  homepage "https://klaat.kartikarora.me"
+  version "COMMIT_HASH_PLACEHOLDER"
+
+  if OS.mac? && Hardware::CPU.arm?
+    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-macos-arm64-COMMIT_HASH_PLACEHOLDER"
+    sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-macos-x64-COMMIT_HASH_PLACEHOLDER"
+    sha256 "MACOS_X64_SHA_PLACEHOLDER"
+  elsif OS.linux? && Hardware::CPU.arm?
+    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-linux-arm64-COMMIT_HASH_PLACEHOLDER"
+    sha256 "LINUX_ARM64_SHA_PLACEHOLDER"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-linux-x64-COMMIT_HASH_PLACEHOLDER"
+    sha256 "LINUX_X64_SHA_PLACEHOLDER"
+  end
+
+  def install
+    bin.install Dir["klaat-*"].first => "klaat"
+  end
+
+  test do
+    assert_match "klaat", shell_output("#{bin}/klaat --help")
+  end
+end
