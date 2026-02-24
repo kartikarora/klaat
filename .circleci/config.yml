@@ -1,0 +1,305 @@
+version: 2.1
+
+# Define parameters for manual triggering
+parameters:
+  run_snapshot:
+    type: boolean
+    default: false
+
+# Reusable commands for GraalVM and build logic
+commands:
+  setup_graalvm:
+    parameters:
+      arch:
+        type: string
+        default: ""
+    steps:
+      - run:
+          name: Install GraalVM
+          command: |
+            # Install SDKMAN
+            if ! command -v sdk >/dev/null 2>&1; then
+              curl -s "https://get.sdkman.io" | bash
+            fi
+            
+            # Source SDKMAN
+            source "$HOME/.sdkman/bin/sdkman-init.sh"
+            
+            # Install GraalVM
+            JAVA_VERSION="25.0.2-graalce"
+            
+            # On macOS, if we need x86_64 but we are on ARM64, we need to tell SDKMAN
+            # to show us all versions so we can pick the x86_64 one.
+            # However, simpler is to just use arch -x86_64 for the install command too if needed.
+            if [ -n "<< parameters.arch >>" ] && [ "$(uname)" = "Darwin" ]; then
+                if [ "<< parameters.arch >>" = "x86_64" ] && [ "$(uname -m)" = "arm64" ]; then
+                    echo "Force installing x86_64 JDK on ARM64 Mac..."
+                    arch -x86_64 bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java $JAVA_VERSION || true && sdk use java $JAVA_VERSION"
+                else
+                    sdk install java $JAVA_VERSION || true
+                    sdk use java $JAVA_VERSION
+                fi
+            else
+                sdk install java $JAVA_VERSION || true
+                sdk use java $JAVA_VERSION
+            fi
+            
+            # Export to BASH_ENV for subsequent steps
+            {
+              echo "export JAVA_HOME=$JAVA_HOME"
+              echo "export PATH=$JAVA_HOME/bin:$PATH"
+            } >> $BASH_ENV
+
+  get_version:
+    steps:
+      - run:
+          name: Get Version
+          command: |
+            BASE_VERSION=$(grep "^klaat = " gradle/libs.versions.toml | sed 's/klaat = "\(.*\)"/\1/')
+            SHORT_HASH=$(git rev-parse --short=8 HEAD)
+            VERSION="${BASE_VERSION}-${SHORT_HASH}"
+            echo "export VERSION=${VERSION}" >> $BASH_ENV
+            echo "Version is ${VERSION}"
+
+  prepare_credentials:
+    steps:
+      - run:
+          name: Prepare Google API Credentials
+          command: |
+            mkdir -p src/main/resources/credentials
+            echo "${GOOGLE_CREDENTIALS_JSON}" > src/main/resources/credentials/gcp_credentials.json
+
+  build_native:
+    parameters:
+      platform:
+        type: string
+    steps:
+      - prepare_credentials
+      - run:
+          name: Build Native Binary for << parameters.platform >>
+          command: |
+            export IS_SNAPSHOT="true"
+            ./gradlew nativeCompile
+            
+            BINARY_BASE="klaat-snapshot"
+            BINARY_NAME="${BINARY_BASE}-<< parameters.platform >>-${VERSION}"
+            cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
+            
+            # Calculate checksum (sha256sum on Linux, shasum -a 256 on macOS)
+            if command -v sha256sum >/dev/null 2>&1; then
+              sha256sum ${BINARY_NAME} > checksums-<< parameters.platform >>-${VERSION}.txt
+            else
+              shasum -a 256 ${BINARY_NAME} > checksums-<< parameters.platform >>-${VERSION}.txt
+            fi
+            cat checksums-<< parameters.platform >>-${VERSION}.txt
+
+  upload_to_r2:
+    steps:
+      - run:
+          name: Install and configure rclone
+          command: |
+            if ! command -v rclone >/dev/null 2>&1; then
+              curl https://rclone.org/install.sh | sudo bash
+            fi
+            mkdir -p ~/.config/rclone
+            cat \<< EOF > ~/.config/rclone/rclone.conf
+            [r2]
+            type = s3
+            provider = Cloudflare
+            access_key_id = ${R2_ACCESS_KEY_ID}
+            secret_access_key = ${R2_SECRET_ACCESS_KEY}
+            endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
+            acl = private
+            EOF
+      - run:
+          name: Upload binaries and checksums
+          command: |
+            DESTINATION_PATH="bin/klaat/snapshot/${VERSION}/"
+            echo "🚀 Uploading binaries to R2: ${DESTINATION_PATH}"
+            
+            # Upload each binary and checksum file found in the workspace
+            for file in klaat-snapshot-*; do
+              if [ -f "$file" ]; then
+                echo "📦 Uploading $file..."
+                rclone copy "$file" r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+              fi
+            done
+            
+            # Consolidate and upload checksums
+            cat checksums-*.txt > consolidated-checksums-${VERSION}.txt
+            rclone copy consolidated-checksums-${VERSION}.txt r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+
+jobs:
+  build_linux_x64:
+    docker:
+      - image: cimg/base:current
+    resource_class: large
+    steps:
+      - checkout
+      - setup_graalvm
+      - get_version
+      - build_native:
+          platform: linux-x64
+      - persist_to_workspace:
+          root: .
+          paths:
+            - klaat-snapshot-linux-x64-*
+            - checksums-*.txt
+
+  build_linux_arm64:
+    docker:
+      - image: cimg/base:current
+    resource_class: arm.large
+    steps:
+      - checkout
+      - setup_graalvm
+      - get_version
+      - build_native:
+          platform: linux-arm64
+      - persist_to_workspace:
+          root: .
+          paths:
+            - klaat-snapshot-linux-arm64-*
+            - checksums-*.txt
+
+  build_macos_arm64:
+    macos:
+      xcode: "15.4.0"
+    resource_class: m4pro.medium
+    steps:
+      - checkout
+      - setup_graalvm:
+          arch: "arm64"
+      - get_version
+      - build_native:
+          platform: macos-arm64
+      - persist_to_workspace:
+          root: .
+          paths:
+            - klaat-snapshot-macos-arm64-*
+            - checksums-*.txt
+
+  build_macos_x64:
+    macos:
+      xcode: "15.4.0"
+    resource_class: m4pro.medium
+    steps:
+      - checkout
+      - run:
+          name: Install Rosetta 2
+          command: |
+            if [ "$(uname -m)" = "arm64" ]; then
+              sudo /usr/sbin/softwareupdate --install-rosetta --agree-to-license
+            fi
+      - setup_graalvm:
+          arch: "x86_64"
+      - get_version
+      - run:
+          name: Build Native Binary for macos-x64 (via Rosetta)
+          command: |
+            export IS_SNAPSHOT="true"
+            # Ensure we are using the x86_64 JDK
+            arch -x86_64 ./gradlew nativeCompile
+            
+            BINARY_BASE="klaat-snapshot"
+            BINARY_NAME="${BINARY_BASE}-macos-x64-${VERSION}"
+            cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
+            
+            # Calculate checksum
+            shasum -a 256 ${BINARY_NAME} > checksums-macos-x64-${VERSION}.txt
+            cat checksums-macos-x64-${VERSION}.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - klaat-snapshot-macos-x64-*
+            - checksums-*.txt
+
+  publish_snapshot:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - get_version
+      - upload_to_r2
+
+  update_snapshot_tap:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - get_version
+      - run:
+          name: Update Homebrew Snapshot Tap
+          command: |
+            # Check for required environment variables
+            if [ -z "${TAP_GITHUB_TOKEN}" ]; then
+              echo "❌ Error: TAP_GITHUB_TOKEN is not set."
+              exit 1
+            fi
+
+            # Configure git
+            git config --global user.name "circleci-bot"
+            git config --global user.email "circleci-bot@users.noreply.github.com"
+            
+            # Extract checksums
+            MACOS_ARM64_SHA=$(grep "klaat-snapshot-macos-arm64-${VERSION}" checksums-macos-arm64-${VERSION}.txt | awk '{print $1}' | head -n 1)
+            MACOS_X64_SHA=$(grep "klaat-snapshot-macos-x64-${VERSION}" checksums-macos-x64-${VERSION}.txt | awk '{print $1}' | head -n 1)
+            LINUX_ARM64_SHA=$(grep "klaat-snapshot-linux-arm64-${VERSION}" checksums-linux-arm64-${VERSION}.txt | awk '{print $1}' | head -n 1)
+            LINUX_X64_SHA=$(grep "klaat-snapshot-linux-x64-${VERSION}" checksums-linux-x64-${VERSION}.txt | awk '{print $1}' | head -n 1)
+            
+            # Verify we got all checksums
+            if [ -z "$MACOS_ARM64_SHA" ] || [ -z "$MACOS_X64_SHA" ] || [ -z "$LINUX_ARM64_SHA" ] || [ -z "$LINUX_X64_SHA" ]; then
+              echo "❌ Error: Could not find all platform checksums."
+              echo "MACOS_ARM64_SHA: $MACOS_ARM64_SHA"
+              echo "MACOS_X64_SHA: $MACOS_X64_SHA"
+              echo "LINUX_ARM64_SHA: $LINUX_ARM64_SHA"
+              echo "LINUX_X64_SHA: $LINUX_X64_SHA"
+              exit 1
+            fi
+            
+            # Clone tap repository
+            git clone "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" tap
+            cd tap
+            
+            # Create Formula directory if it doesn't exist
+            mkdir -p Formula
+            
+            # Normalize CDN URL (remove trailing slash)
+            CDN_URL=$(echo "${CDN_URL}" | sed 's:/*$::')
+            
+            # Copy template and replace placeholders
+            cp ../.github/formulas/klaat-snapshot.rb.template Formula/klaat-snapshot.rb
+            sed -i "s|COMMIT_HASH_PLACEHOLDER|${VERSION}|g" Formula/klaat-snapshot.rb
+            sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/klaat-snapshot.rb
+            sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/klaat-snapshot.rb
+            sed -i "s|MACOS_X64_SHA_PLACEHOLDER|${MACOS_X64_SHA}|g" Formula/klaat-snapshot.rb
+            sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/klaat-snapshot.rb
+            sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/klaat-snapshot.rb
+            
+            # Commit and push using the token-authenticated URL
+            git add Formula/klaat-snapshot.rb
+            git commit -m "Update snapshot to ${VERSION} (via CircleCI)"
+            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" main
+
+workflows:
+  version: 2
+  snapshot_release:
+    when: << pipeline.parameters.run_snapshot >>
+    jobs:
+      - build_linux_x64
+      - build_linux_arm64
+      - build_macos_arm64
+      - build_macos_x64
+      - publish_snapshot:
+          requires:
+            - build_linux_x64
+            - build_linux_arm64
+            - build_macos_arm64
+            - build_macos_x64
+      - update_snapshot_tap:
+          requires:
+            - publish_snapshot
