@@ -11,10 +11,17 @@
 
   Or download from: https://www.graalvm.org/downloads/
 
-- **Google OAuth Credentials** in `local.properties`:
-  ```properties
-  google.oauth.clientId=your-client-id
-  google.oauth.clientSecret=your-client-secret
+- **Google OAuth Credentials** in `gcp_credentials.json` (root) or `src/main/resources/credentials/gcp_credentials.json`:
+  ```json
+  {
+    "installed": {
+      "client_id": "your-client-id",
+      "client_secret": "your-client-secret",
+      "redirect_uris": ["http://localhost"],
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token"
+    }
+  }
   ```
 
 ## Build Commands
@@ -120,7 +127,15 @@ export GRADLE_OPTS="-Xmx8g"
 1. **Daily development**: Use JVM builds (`./gradlew run`)
 2. **Testing native features**: Use `./gradlew nativeCompile` periodically
 3. **Before commits**: Test native build works
-4. **CI/CD**: Handles production native builds for all platforms
+4. **CI/CD**: Handles production native builds for all platforms (`IS_SNAPSHOT=true` for develop branch)
+
+### Google Docs API Credentials
+
+For local development, you can place `gcp_credentials.json` in:
+- The project root directory
+- `src/main/resources/credentials/gcp_credentials.json`
+
+The project root is recommended for local development as it's easier to manage and already in `.gitignore`.
 
 ## IDE Setup
 

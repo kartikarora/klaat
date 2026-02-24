@@ -27,6 +27,10 @@
                     <a href="#download">Download</a>
                     <a href="#quickstart">Quick Start</a>
                     <a href="#docs">Documentation</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -312,5 +316,30 @@ Content for step 2...</code>
             <p>Klaat is inspired by Google's <a href="https://github.com/googlecodelabs/tools" target="_blank">claat</a> tool.</p>
         </div>
     </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            }
+        });
+    </script>
 </body>
 </html>
