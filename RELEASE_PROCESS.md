@@ -11,10 +11,10 @@
 Snapshot releases happen automatically on every push to `develop`:
 
 1. GitHub Actions builds **native binaries** for all platforms using GraalVM:
-   - `klaat-macos-arm64-snapshot-{hash}`
-   - `klaat-macos-x64-snapshot-{hash}`
-   - `klaat-linux-arm64-snapshot-{hash}`
-   - `klaat-linux-x64-snapshot-{hash}`
+   - `klaat-snapshot-macos-arm64-{hash}`
+   - `klaat-snapshot-macos-x64-{hash}`
+   - `klaat-snapshot-linux-arm64-{hash}`
+   - `klaat-snapshot-linux-x64-{hash}`
 
 2. Binaries are standalone executables (no JRE required)
 3. Uploaded to Cloudflare R2 CDN at: `snapshots/{hash}/`
@@ -123,17 +123,16 @@ For automated releases, configure these secrets in your repository:
 - `HOMEBREW_GITHUB_TOKEN`: Personal Access Token with `repo` and `workflow` scope for creating PRs to `homebrew-core`
 
 ### Build Configuration
-- `GOOGLE_OAUTH_CLIENTID`: Google OAuth Client ID (embedded in native binaries at build time)
-- `GOOGLE_OAUTH_CLIENTSECRET`: Google OAuth Client Secret (embedded in native binaries at build time)
+- `GOOGLE_CREDENTIALS_JSON`: Complete Google OAuth 2.0 credentials JSON (embedded in native binaries at build time)
 
 ## CDN Structure
 
 ```
 /snapshots/{commit-hash}/
-  - klaat-macos-arm64-snapshot-{hash}
-  - klaat-macos-x64-snapshot-{hash}
-  - klaat-linux-arm64-snapshot-{hash}
-  - klaat-linux-x64-snapshot-{hash}
+  - klaat-snapshot-macos-arm64-{hash}
+  - klaat-snapshot-macos-x64-{hash}
+  - klaat-snapshot-linux-arm64-{hash}
+  - klaat-snapshot-linux-x64-{hash}
   - checksums-snapshot-{hash}.txt
 
 /releases/{version}/

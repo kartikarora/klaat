@@ -14,7 +14,7 @@
 ✅ **Local preview server** with auto-browser opening  
 ✅ **Update existing codelabs** from their sources  
 ✅ **Google Analytics integration**  
-✅ **Asset prefix support** for CDN hosting  
+✅ **Asset prefix support** for CDN hosting (Default: `https://distribute.kartikarora.me`)  
 ✅ **Rich formatting** - code blocks, info boxes, images, videos, surveys, and more
 
 ## Installation
@@ -22,17 +22,30 @@
 ### Homebrew (Recommended)
 
 ```bash
-brew tap kartikarora/tap
+brew tap kartikarora/klaat
 brew install klaat
+```
+
+Get snapshot builds (latest from develop):
+
+```bash
+brew tap kartikarora/klaat-snapshots
+brew install klaat-snapshot
 ```
 
 ### Download Binary
 
-Download the latest release from [GitHub Releases](https://github.com/kartikarora/klaat/releases):
+Download the latest release from the [CDN](https://distribute.kartikarora.me/):
 
 ```bash
-# Download and extract
-curl -L https://github.com/kartikarora/klaat/releases/latest/download/klaat-linux.tar.gz | tar xz
+# macOS ARM64 (Apple Silicon)
+curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-arm64 -o klaat
+
+# Linux x64
+curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-linux-x64 -o klaat
+
+# Make it executable
+chmod +x klaat
 
 # Move to PATH
 sudo mv klaat /usr/local/bin/
@@ -269,11 +282,15 @@ Key elements:
 
 ### 1. Configure OAuth Credentials
 
-Create a `gcp_credentials.json` file in the project root:
+Create a `gcp_credentials.json` file in the project root or in `src/main/resources/credentials/`:
 
 ```bash
-# Copy the template
+# Copy the template to the root
 cp gcp_credentials.json.template gcp_credentials.json
+
+# OR copy to resources
+mkdir -p src/main/resources/credentials
+cp gcp_credentials.json.template src/main/resources/credentials/gcp_credentials.json
 ```
 
 Then add your Google OAuth credentials:
@@ -286,7 +303,7 @@ Then add your Google OAuth credentials:
    - APIs & Services → Credentials → Create Credentials → OAuth client ID
    - Application type: **Desktop app**
    - Name it "Klaat"
-5. Download the credentials JSON or copy the **Client ID** and **Client Secret** to `gcp_credentials.json`:
+5. Download the credentials JSON or copy the **Client ID** and **Client Secret** to `gcp_credentials.json` (root) or `src/main/resources/credentials/gcp_credentials.json`:
 
 ```json
 {
@@ -300,7 +317,7 @@ Then add your Google OAuth credentials:
 }
 ```
 
-**Note:** The `gcp_credentials.json` file is git-ignored for security and must be placed in the project root.
+**Note:** The `gcp_credentials.json` file is git-ignored for security and should be placed in the project root or `src/main/resources/credentials/`.
 
 ### 2. Build the Project
 
@@ -433,9 +450,9 @@ The project uses GitHub Actions for CI/CD:
 
 #### Credentials Configuration
 
-**Local development**: Create `gcp_credentials.json` in project root
+**Local development**: Create `gcp_credentials.json` in the project root or `src/main/resources/credentials/`
 
-**CI/CD**: Set `GOOGLE_CREDENTIALS_JSON` GitHub secret - workflow creates `gcp_credentials.json` in project root
+**CI/CD**: Set `GOOGLE_CREDENTIALS_JSON` GitHub secret - workflow creates `src/main/resources/credentials/gcp_credentials.json`
 
 ## Differences from Original claat
 
@@ -462,8 +479,8 @@ All claat commands and flags work identically in klaat:
 **Implementation:**
 - Written in Kotlin instead of Go
 - Modern Kotlin/JVM stack with Gradle build system
-- Uses Ktor for web serving (instead of Go's net/http)
-- OAuth 2.0 integration for Google Docs API (configured via `local.properties`)
+- Uses Ktor for web serving
+- OAuth 2.0 integration for Google Docs API
 
 **Enhanced Features:**
 - Auto-browser opening for serve command (can be disabled with `--no-browser`)
@@ -474,7 +491,7 @@ All claat commands and flags work identically in klaat:
 **Configuration Differences:**
 - **Asset CDN**: Default prefix is `https://distribute.kartikarora.me` (claat uses `https://storage.googleapis.com`)
   - Use `-prefix` flag to override
-- **Authentication**: Uses OAuth 2.0 with credentials in `local.properties` (claat uses `-auth` bearer token)
+- **Authentication**: Uses OAuth 2.0 with credentials in `gcp_credentials.json` or `src/main/resources/credentials/gcp_credentials.json` (claat uses `-auth` bearer token)
   - Tokens stored in `~/.klaat/tokens/`
   - First run opens browser for Google authentication
 
