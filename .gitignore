@@ -184,3 +184,10 @@ replay_pid*
 .idea
 # But track run configurations
 !.idea/runConfigurations/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
