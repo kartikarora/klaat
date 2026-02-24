@@ -34,11 +34,11 @@ runs:
       run: |
         cd tap
 
-        # Get checksums for each platform
-        MACOS_ARM64_SHA=$(grep "klaat-macos-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
-        MACOS_X64_SHA=$(grep "klaat-macos-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
-        LINUX_ARM64_SHA=$(grep "klaat-linux-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
-        LINUX_X64_SHA=$(grep "klaat-linux-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        # Get checksums for each platform (snapshot binaries are named with klaat-snapshot prefix)
+        MACOS_ARM64_SHA=$(grep "klaat-snapshot-macos-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        MACOS_X64_SHA=$(grep "klaat-snapshot-macos-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_ARM64_SHA=$(grep "klaat-snapshot-linux-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
+        LINUX_X64_SHA=$(grep "klaat-snapshot-linux-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
 
         # Create Formula directory if it doesn't exist
         mkdir -p Formula

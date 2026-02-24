@@ -30,11 +30,17 @@ runs:
       id: build
       shell: bash
       run: |
+        # Determine binary base name depending on snapshot flag
+        BINARY_BASE="klaat"
+        if [ "${IS_SNAPSHOT}" = "true" ]; then
+          BINARY_BASE="klaat-snapshot"
+        fi
+
         ./gradlew nativeCompile
 
         # Move and rename binary based on platform
-        BINARY_NAME="klaat-${{ inputs.platform }}-${{ inputs.version }}"
-        cp build/native/nativeCompile/klaat ${BINARY_NAME}
+        BINARY_NAME="${BINARY_BASE}-${{ inputs.platform }}-${{ inputs.version }}"
+        cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
 
         echo "binary-name=${BINARY_NAME}" >> $GITHUB_OUTPUT
 

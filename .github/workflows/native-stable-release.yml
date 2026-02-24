@@ -41,6 +41,7 @@ jobs:
           type: release
 
       - name: Build native binary
+        id: build
         uses: ./.github/actions/build-native
         with:
           version: ${{ steps.version.outputs.version }}
@@ -50,9 +51,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: klaat-${{ matrix.platform }}-${{ steps.version.outputs.version }}
+          name: ${{ steps.build.outputs.binary-name }}
           path: |
-            klaat-${{ matrix.platform }}-${{ steps.version.outputs.version }}
+            ${{ steps.build.outputs.binary-name }}
             checksums-${{ steps.version.outputs.version }}.txt
 
   upload-and-publish:

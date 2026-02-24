@@ -25,8 +25,9 @@ repositories {
 }
 
 // Build variant configuration
-val buildVariant = project.findProperty("buildVariant")?.toString() ?: "prod"
+val buildVariant = project.findProperty("buildVariant")?.toString() ?: "dev"
 val isDevBuild = buildVariant == "dev"
+val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
 
 dependencies {
     implementation(libs.clikt)
@@ -162,7 +163,7 @@ graalvmNative {
 
     binaries {
         named("main") {
-            imageName.set("klaat")
+            imageName.set(if (isSnapshot) "klaat-snapshot" else "klaat")
             mainClass.set("me.kartikarora.klaat.MainKt")
 
             // Set GraalVM home for native-image
@@ -218,5 +219,6 @@ gradle.projectsEvaluated {
     println("  App Name: ${application.applicationName}")
     println("  Version: ${project.version}")
     println("  Dev Build: $isDevBuild")
+    println("  Snapshot Build: $isSnapshot")
     println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 }
