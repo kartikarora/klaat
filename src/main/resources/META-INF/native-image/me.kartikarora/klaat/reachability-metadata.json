@@ -2981,6 +2981,9 @@
       "glob": "templates/codelab_en_US.html"
     },
     {
+      "glob": "credentials/gcp_credentials.json"
+    },
+    {
       "module": "java.base",
       "glob": "jdk/internal/icu/impl/data/icudt76b/nfc.nrm"
     },
