@@ -1,9 +1,7 @@
 name: Native Snapshot Release
 
 on:
-  push:
-    branches:
-      - develop
+  workflow_dispatch:
 
 permissions:
   contents: write
