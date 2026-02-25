@@ -19,7 +19,7 @@
 
 ## Installation
 
-### Homebrew (Recommended)
+### Homebrew (Recommended for macOS & Linux)
 
 ```bash
 brew tap kartikarora/klaat
@@ -35,17 +35,22 @@ brew install klaat-snapshot
 
 ### Download Binary
 
-Download the latest release from the [CDN](https://distribute.kartikarora.me/):
+> **Alpha Status**: Klaat is currently in alpha. Stable binaries are not yet provided. Please use snapshot builds for testing.
+
+Download the latest snapshot from the [CDN](https://distribute.kartikarora.me/):
 
 ```bash
 # macOS ARM64 (Apple Silicon)
-curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-arm64 -o klaat
+curl -L https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-macos-arm64-COMMIT_HASH -o klaat
 
 # macOS x64 (Intel) - Currently not built
 # curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-x64 -o klaat
 
+# Linux ARM64
+curl -L https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-linux-arm64-COMMIT_HASH -o klaat
+
 # Linux x64
-curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-linux-x64 -o klaat
+curl -L https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-linux-x64-COMMIT_HASH -o klaat
 
 # Make it executable
 chmod +x klaat
@@ -110,19 +115,19 @@ More content here...
 Export it:
 
 ```bash
-klaat export tutorial.md -o codelabs/
+klaat-snapshot export tutorial.md -o codelabs/
 ```
 
 ### 2. Export from Google Docs
 
 ```bash
-klaat export 1ABC-YOUR-DOC-ID -o codelabs/
+klaat-snapshot export 1ABC-YOUR-DOC-ID -o codelabs/
 ```
 
 ### 3. Serve Locally
 
 ```bash
-klaat serve -d codelabs/
+klaat-snapshot serve -d codelabs/
 ```
 
 Opens `http://localhost:9090` in your browser automatically.
@@ -134,7 +139,7 @@ Opens `http://localhost:9090` in your browser automatically.
 Export codelabs from Google Docs or Markdown files.
 
 ```bash
-klaat export [OPTIONS] SOURCES...
+klaat-snapshot export [OPTIONS] SOURCES...
 
 Options:
   -f, --format TEXT     Output format (html|md) [default: html]
@@ -144,9 +149,9 @@ Options:
   -h, --help            Show help
 
 Examples:
-  klaat export 1ABC... -o codelabs/
-  klaat export tutorial.md -f html -o output/
-  klaat export doc1 doc2 doc3 -ga UA-12345-1
+  klaat-snapshot export 1ABC... -o codelabs/
+  klaat-snapshot export tutorial.md -f html -o output/
+  klaat-snapshot export doc1 doc2 doc3 -ga UA-12345-1
 ```
 
 ### `serve`
@@ -154,7 +159,7 @@ Examples:
 Start a local web server to preview codelabs.
 
 ```bash
-klaat serve [OPTIONS]
+klaat-snapshot serve [OPTIONS]
 
 Options:
   -p, --port INT        Port to listen on [default: 9090]
@@ -164,9 +169,9 @@ Options:
   -h, --help            Show help
 
 Examples:
-  klaat serve
-  klaat serve -p 8080 -d ./codelabs
-  klaat serve --no-browser
+  klaat-snapshot serve
+  klaat-snapshot serve -p 8080 -d ./codelabs
+  klaat-snapshot serve --no-browser
 ```
 
 ### `update`
@@ -174,7 +179,7 @@ Examples:
 Update existing codelabs from their original sources.
 
 ```bash
-klaat update [OPTIONS] [PATHS...]
+klaat-snapshot update [OPTIONS] [PATHS...]
 
 Options:
   -ga TEXT              Override Google Analytics tracking ID
@@ -182,9 +187,9 @@ Options:
   -h, --help            Show help
 
 Examples:
-  klaat update                    # Update all in current directory
-  klaat update ./codelabs         # Update specific directory
-  klaat update codelab1 codelab2  # Update specific codelabs
+  klaat-snapshot update                    # Update all in current directory
+  klaat-snapshot update ./codelabs         # Update specific directory
+  klaat-snapshot update codelab1 codelab2  # Update specific codelabs
 ```
 
 ### `version`
@@ -192,7 +197,7 @@ Examples:
 Print the version.
 
 ```bash
-klaat version
+klaat-snapshot version
 ```
 
 ## Codelab Format

@@ -121,13 +121,13 @@ commands:
             for file in klaat-snapshot-*; do
               if [ -f "$file" ]; then
                 echo "📦 Uploading $file..."
-                rclone copy "$file" r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+                rclone copy "$file" r2:${R2_BUCKET_NAME}/${DESTINATION_PATH} --s3-no-check-bucket
               fi
             done
-            
+        
             # Consolidate and upload checksums
             cat checksums-*.txt > consolidated-checksums-${VERSION}.txt
-            rclone copy consolidated-checksums-${VERSION}.txt r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}
+            rclone copy consolidated-checksums-${VERSION}.txt r2:${R2_BUCKET_NAME}/${DESTINATION_PATH} --s3-no-check-bucket
 
 jobs:
   build_linux_x64:
@@ -249,6 +249,66 @@ jobs:
             git commit -m "Update snapshot to ${VERSION} (via CircleCI)"
             git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" main
 
+  create_github_snapshot_release:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - get_version
+      - run:
+          name: Create GitHub Snapshot Release
+          command: |
+            if [ -z "${TAP_GITHUB_TOKEN}" ]; then
+              echo "❌ Error: TAP_GITHUB_TOKEN is not set."
+              exit 1
+            fi
+            
+            # Configure git
+            git config --global user.name "circleci-bot"
+            git config --global user.email "circleci-bot@users.noreply.github.com"
+            
+            # Create and push tag
+            git tag -a "${VERSION}" -m "Snapshot ${VERSION} (via CircleCI)"
+            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" "${VERSION}"
+            
+            # Normalize CDN URL
+            CDN_URL=$(echo "${CDN_URL}" | sed 's:/*$::')
+            
+            # Create release notes
+            cat > release-notes.md \<< EOF
+            # Klaat Snapshot \${VERSION}
+            
+            **⚠️ This is a pre-release snapshot build from the develop branch.**
+            
+            ## Installation
+            
+            ### Homebrew (macOS & Linux)
+            \`\`\`bash
+            brew tap kartikarora/klaat-snapshots
+            brew install klaat-snapshot
+            \`\`\`
+            
+            ### Manual Download
+            Download the native binary for your platform (no Java required):
+            
+            - [macOS ARM64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-macos-arm64-\${VERSION})
+            - [Linux ARM64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-linux-arm64-\${VERSION})
+            - [Linux x64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-linux-x64-\${VERSION})
+            
+            ### Checksums
+            [consolidated-checksums-\${VERSION}.txt](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/consolidated-checksums-\${VERSION}.txt)
+            
+            ---
+            
+            **Note**: All binaries are native executables built with GraalVM. No JRE installation required!
+            EOF
+            
+            # Create GitHub Release
+            GH_TOKEN=${TAP_GITHUB_TOKEN} gh release create "\${VERSION}" \
+              --title "Snapshot \${VERSION}" \
+              --notes-file release-notes.md \
+              --prerelease
+
 workflows:
   version: 2
   snapshot_release:
@@ -263,5 +323,8 @@ workflows:
             - build_linux_arm64
             - build_macos_arm64
       - update_snapshot_tap:
+          requires:
+            - publish_snapshot
+      - create_github_snapshot_release:
           requires:
             - publish_snapshot
