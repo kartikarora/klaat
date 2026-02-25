@@ -8,8 +8,7 @@ import me.kartikarora.klaat.commands.HelpCommand
 import me.kartikarora.klaat.commands.ServeCommand
 import me.kartikarora.klaat.commands.UpdateCommand
 import me.kartikarora.klaat.commands.VersionCommand
-
-val binaryName = BuildConfig.BINARY_NAME
+import me.kartikarora.klaat.util.TablePrinter
 
 class Klaat : CliktCommand("""
     ${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
@@ -21,6 +20,13 @@ class Klaat : CliktCommand("""
     override fun run() = Unit
 }
 
-fun main(args: Array<String>) = Klaat()
-    .subcommands(ExportCommand(), HelpCommand(), ServeCommand(), UpdateCommand(), VersionCommand())
-    .main(args)
+fun main(args: Array<String>) {
+    val klaat = Klaat()
+        .subcommands(ExportCommand(), HelpCommand(), ServeCommand(), UpdateCommand(), VersionCommand())
+    if (args.isEmpty()) {
+        TablePrinter.printInfoTable()
+        println(klaat.getFormattedHelp())
+    } else {
+        klaat.main(args)
+    }
+}

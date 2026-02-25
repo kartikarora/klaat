@@ -3,12 +3,12 @@ package me.kartikarora.klaat.commands
 import com.github.ajalt.clikt.core.CliktCommand
 
 import me.kartikarora.klaat.BuildConfig
+import me.kartikarora.klaat.util.TablePrinter
 
 class HelpCommand : CliktCommand("help") {
     override fun run() {
+        TablePrinter.printInfoTable()
         echo("""
-${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
-
 A drop-in replacement for claat written in Kotlin.
 Generate codelabs from Google Docs or Markdown files.
 
