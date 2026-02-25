@@ -20,7 +20,7 @@ Snapshot releases happen automatically on every push to `develop`:
 3. Uploaded to Cloudflare R2 CDN at: `snapshots/{hash}/`
 4. `homebrew-klaat-snapshots` tap is automatically updated
 
-Users can install snapshots via:
+Users can install snapshots on macOS or Linux via:
 ```bash
 brew tap kartikarora/klaat-snapshots
 brew install klaat-snapshot
@@ -28,11 +28,11 @@ brew install klaat-snapshot
 
 Or download directly from CDN and run (no Java needed).
 
-## Stable Releases (Automated)
+## Stable Releases (Alpha - Currently Snapshots Only)
 
-Stable releases happen automatically when you push to `main`:
+Stable releases will happen automatically when the project reaches maturity. Currently, only automated snapshot releases are active.
 
-### 1. Prepare the Release
+### 1. Prepare the Release (Future)
 
 ```bash
 # Ensure you're on develop with latest changes

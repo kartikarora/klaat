@@ -22,6 +22,11 @@
         <div class="container">
             <div class="nav-content">
                 <div class="logo">Klaat</div>
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
                 <div class="nav-links">
                     <a href="#features">Features</a>
                     <a href="#download">Download</a>
@@ -85,45 +90,82 @@
             </div>
         </section>
 
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="snapshot">Snapshot (Alpha)</button>
+                <button class="tab-btn" data-tab="release">Release (Stable)</button>
+            </div>
+        </div>
+
         <section id="download" class="section">
             <h2>Download</h2>
 
-            <div class="download-options">
-                <div class="download-option">
-                    <h3>🍺 Homebrew (macOS)</h3>
-                    <p>The easiest way to install on macOS:</p>
-                    <div class="code-block">
-                        <code>brew tap kartikarora/klaat
-brew install klaat</code>
-                    </div>
-                    <p class="download-note">Get snapshot builds (latest from develop):</p>
-                    <div class="code-block">
-                        <code>brew tap kartikarora/klaat-snapshots
-brew install klaat-snapshot</code>
-                    </div>
+            <div class="tab-content active" id="snapshot-download">
+                <div class="alert alpha-notice">
+                    <p><strong>Alpha Status:</strong> Klaat is currently in alpha and being actively refined and tested. During this period, it is primarily available as <strong>snapshot builds</strong> from the <code>develop</code> branch.</p>
                 </div>
 
-                <div class="download-option">
-                    <h3>📦 Direct Download</h3>
-                    <p>Download binaries from the CDN:</p>
-                    <div class="download-info">
-                        <p><strong>Stable releases:</strong></p>
-                        <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/release/VERSION/klaat-PLATFORM</code>
-
-                        <p style="margin-top: 16px;"><strong>Snapshot builds:</strong></p>
-                        <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-PLATFORM</code>
-
-                        <p style="margin-top: 16px;"><strong>Available platforms:</strong></p>
-                        <ul style="margin-left: 24px;">
-                            <li><code>linux-x64</code></li>
-                            <li><code>linux-arm64</code></li>
-                            <li><code>macos-arm64</code></li>
-                        </ul>
+                <div class="download-options">
+                    <div class="download-option">
+                        <h3>🍺 Homebrew (macOS & Linux)</h3>
+                        <p>The easiest way to install snapshot builds (latest from develop) on macOS and Linux:</p>
+                        <div class="code-block">
+                            <code>brew tap kartikarora/klaat-snapshots
+brew install klaat-snapshot</code>
+                        </div>
                     </div>
-                    <p class="download-note">After downloading, make the binary executable:</p>
-                    <div class="code-block">
-                        <code>chmod +x klaat-*
+
+                    <div class="download-option">
+                        <h3>📦 Direct Download</h3>
+                        <p>Download binaries from the CDN:</p>
+                        <div class="download-info">
+                            <p><strong>Snapshot builds (Alpha):</strong></p>
+                            <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-PLATFORM-COMMIT_HASH</code>
+
+                            <p style="margin-top: 16px;"><strong>Available platforms:</strong></p>
+                            <ul style="margin-left: 24px;">
+                                <li><code>linux-x64</code></li>
+                                <li><code>linux-arm64</code></li>
+                                <li><code>macos-arm64</code></li>
+                            </ul>
+                        </div>
+                        <p class="download-note">After downloading, make the binary executable:</p>
+                        <div class="code-block">
+                            <code>chmod +x klaat-*
 sudo mv klaat-* /usr/local/bin/klaat</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="release-download">
+                <div class="alert alpha-notice">
+                    <p><strong>Note:</strong> Stable releases are currently not being produced during the alpha phase. Please use <strong>Snapshot builds</strong> for the latest features and fixes.</p>
+                </div>
+
+                <div class="download-options">
+                    <div class="download-option">
+                        <h3>🍺 Homebrew (macOS & Linux)</h3>
+                        <p>Once stable, you'll be able to install via Homebrew Core:</p>
+                        <div class="code-block">
+                            <code>brew install klaat</code>
+                        </div>
+                    </div>
+
+                    <div class="download-option">
+                        <h3>📦 Direct Download</h3>
+                        <p>Stable binaries will be available for download here:</p>
+                        <div class="download-info">
+                            <p><strong>Stable releases:</strong></p>
+                            <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/latest/klaat-PLATFORM</code>
+
+                            <p style="margin-top: 16px;"><strong>Target platforms:</strong></p>
+                            <ul style="margin-left: 24px;">
+                                <li><code>linux-x64</code></li>
+                                <li><code>linux-arm64</code></li>
+                                <li><code>macos-arm64</code></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,38 +174,78 @@ sudo mv klaat-* /usr/local/bin/klaat</code>
         <section id="quickstart" class="section">
             <h2>Quick Start</h2>
 
-            <div class="quickstart-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Export from Markdown</h3>
-                        <p>Create a codelab from a Markdown file:</p>
-                        <div class="code-block">
-                            <code>klaat export my-tutorial.md -o output -f html</code>
+            <div class="tab-content active" id="snapshot-quickstart">
+                <div class="quickstart-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Export from Markdown</h3>
+                            <p>Create a codelab from a Markdown file:</p>
+                            <div class="code-block">
+                                <code>klaat-snapshot export my-tutorial.md -o output -f html</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Export from Google Docs</h3>
+                            <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
+                            <div class="code-block">
+                                <code>klaat-snapshot export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Preview Locally</h3>
+                            <p>Start a local server to preview your codelabs:</p>
+                            <div class="code-block">
+                                <code>klaat-snapshot serve -dir output -addr localhost:9090</code>
+                            </div>
+                            <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Export from Google Docs</h3>
-                        <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
-                        <div class="code-block">
-                            <code>klaat export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+            <div class="tab-content" id="release-quickstart">
+                <div class="quickstart-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Export from Markdown</h3>
+                            <p>Create a codelab from a Markdown file:</p>
+                            <div class="code-block">
+                                <code>klaat export my-tutorial.md -o output -f html</code>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Preview Locally</h3>
-                        <p>Start a local server to preview your codelabs:</p>
-                        <div class="code-block">
-                            <code>klaat serve -dir output -addr localhost:9090</code>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Export from Google Docs</h3>
+                            <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
+                            <div class="code-block">
+                                <code>klaat export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+                            </div>
                         </div>
-                        <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Preview Locally</h3>
+                            <p>Start a local server to preview your codelabs:</p>
+                            <div class="code-block">
+                                <code>klaat serve -dir output -addr localhost:9090</code>
+                            </div>
+                            <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,47 +254,48 @@ sudo mv klaat-* /usr/local/bin/klaat</code>
         <section id="docs" class="section">
             <h2>Documentation</h2>
 
-            <div class="docs-grid">
-                <div class="doc-section">
-                    <h3>Commands</h3>
+            <div class="tab-content active" id="snapshot-docs">
+                <div class="docs-grid">
+                    <div class="doc-section">
+                        <h3>Commands</h3>
 
-                    <h4><code>klaat export</code></h4>
-                    <p>Convert a source document to codelab format</p>
-                    <div class="code-block">
-                        <code>klaat export [SOURCE] [OPTIONS]</code>
+                        <h4><code>klaat-snapshot export</code></h4>
+                        <p>Convert a source document to codelab format</p>
+                        <div class="code-block">
+                            <code>klaat-snapshot export [SOURCE] [OPTIONS]</code>
+                        </div>
+                        <p><strong>Options:</strong></p>
+                        <ul>
+                            <li><code>-o, --output DIR</code> - Output directory</li>
+                            <li><code>-f, --format FORMAT</code> - Output format: html, md, offline</li>
+                            <li><code>-ga ID</code> - Google Analytics ID</li>
+                            <li><code>-prefix URL</code> - Asset URL prefix</li>
+                            <li><code>-e, --environment ENV</code> - Environment: web, kiosk</li>
+                        </ul>
+
+                        <h4><code>klaat-snapshot serve</code></h4>
+                        <p>Start a local preview server</p>
+                        <div class="code-block">
+                            <code>klaat-snapshot serve [OPTIONS]</code>
+                        </div>
+                        <p><strong>Options:</strong></p>
+                        <ul>
+                            <li><code>-dir PATH</code> - Directory to serve</li>
+                            <li><code>-addr HOST:PORT</code> - Server address (default: localhost:9090)</li>
+                        </ul>
+
+                        <h4><code>klaat-snapshot version</code></h4>
+                        <p>Display version information</p>
+                        <div class="code-block">
+                            <code>klaat-snapshot version</code>
+                        </div>
                     </div>
-                    <p><strong>Options:</strong></p>
-                    <ul>
-                        <li><code>-o, --output DIR</code> - Output directory</li>
-                        <li><code>-f, --format FORMAT</code> - Output format: html, md, offline</li>
-                        <li><code>-ga ID</code> - Google Analytics ID</li>
-                        <li><code>-prefix URL</code> - Asset URL prefix</li>
-                        <li><code>-e, --environment ENV</code> - Environment: web, kiosk</li>
-                    </ul>
 
-                    <h4><code>klaat serve</code></h4>
-                    <p>Start a local preview server</p>
-                    <div class="code-block">
-                        <code>klaat serve [OPTIONS]</code>
-                    </div>
-                    <p><strong>Options:</strong></p>
-                    <ul>
-                        <li><code>-dir PATH</code> - Directory to serve</li>
-                        <li><code>-addr HOST:PORT</code> - Server address (default: localhost:9090)</li>
-                    </ul>
-
-                    <h4><code>klaat version</code></h4>
-                    <p>Display version information</p>
-                    <div class="code-block">
-                        <code>klaat version</code>
-                    </div>
-                </div>
-
-                <div class="doc-section">
-                    <h3>Markdown Format</h3>
-                    <p>Klaat uses Markdown with YAML frontmatter:</p>
-                    <div class="code-block">
-                        <code>---
+                    <div class="doc-section">
+                        <h3>Markdown Format</h3>
+                        <p>Klaat uses Markdown with YAML frontmatter:</p>
+                        <div class="code-block">
+                            <code>---
 id: my-codelab
 summary: Brief description
 categories: Android, Kotlin
@@ -232,46 +315,153 @@ Content for step 1...
 Duration: 10
 
 Content for step 2...</code>
+                        </div>
+
+                        <h3>Google Docs Format</h3>
+                        <p>Structure your Google Doc with:</p>
+                        <ul>
+                            <li><strong>Metadata Table</strong> - Optional two-column table at the start</li>
+                            <li><strong>Heading 1</strong> - Each represents a step</li>
+                            <li><strong>Content</strong> - Paragraphs, lists, code blocks, images</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="examples">
+                    <h3>Examples</h3>
+
+                    <div class="example">
+                        <h4>Basic HTML Export</h4>
+                        <div class="code-block">
+                            <code>klaat-snapshot export tutorial.md -o codelabs -f html</code>
+                        </div>
                     </div>
 
-                    <h3>Google Docs Format</h3>
-                    <p>Structure your Google Doc with:</p>
-                    <ul>
-                        <li><strong>Metadata Table</strong> - Optional two-column table at the start</li>
-                        <li><strong>Heading 1</strong> - Each represents a step</li>
-                        <li><strong>Content</strong> - Paragraphs, lists, code blocks, images</li>
-                    </ul>
+                    <div class="example">
+                        <h4>Export with Google Analytics</h4>
+                        <div class="code-block">
+                            <code>klaat-snapshot export tutorial.md -o codelabs -f html -ga UA-123456-7</code>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <h4>Create Offline Bundle</h4>
+                        <div class="code-block">
+                            <code>klaat-snapshot export tutorial.md -o codelabs -f offline</code>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <h4>Export Multiple Codelabs</h4>
+                        <div class="code-block">
+                            <code>klaat-snapshot export tutorial1.md tutorial2.md tutorial3.md -o codelabs</code>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="examples">
-                <h3>Examples</h3>
+            <div class="tab-content" id="release-docs">
+                <div class="docs-grid">
+                    <div class="doc-section">
+                        <h3>Commands</h3>
 
-                <div class="example">
-                    <h4>Basic HTML Export</h4>
-                    <div class="code-block">
-                        <code>klaat export tutorial.md -o codelabs -f html</code>
+                        <h4><code>klaat export</code></h4>
+                        <p>Convert a source document to codelab format</p>
+                        <div class="code-block">
+                            <code>klaat export [SOURCE] [OPTIONS]</code>
+                        </div>
+                        <p><strong>Options:</strong></p>
+                        <ul>
+                            <li><code>-o, --output DIR</code> - Output directory</li>
+                            <li><code>-f, --format FORMAT</code> - Output format: html, md, offline</li>
+                            <li><code>-ga ID</code> - Google Analytics ID</li>
+                            <li><code>-prefix URL</code> - Asset URL prefix</li>
+                            <li><code>-e, --environment ENV</code> - Environment: web, kiosk</li>
+                        </ul>
+
+                        <h4><code>klaat serve</code></h4>
+                        <p>Start a local preview server</p>
+                        <div class="code-block">
+                            <code>klaat serve [OPTIONS]</code>
+                        </div>
+                        <p><strong>Options:</strong></p>
+                        <ul>
+                            <li><code>-dir PATH</code> - Directory to serve</li>
+                            <li><code>-addr HOST:PORT</code> - Server address (default: localhost:9090)</li>
+                        </ul>
+
+                        <h4><code>klaat version</code></h4>
+                        <p>Display version information</p>
+                        <div class="code-block">
+                            <code>klaat version</code>
+                        </div>
+                    </div>
+
+                    <div class="doc-section">
+                        <h3>Markdown Format</h3>
+                        <p>Klaat uses Markdown with YAML frontmatter:</p>
+                        <div class="code-block">
+                            <code>---
+id: my-codelab
+summary: Brief description
+categories: Android, Kotlin
+status: Published
+authors: Your Name
+tags: tutorial, beginner
+---
+
+# Codelab Title
+
+## Step 1: Introduction
+Duration: 5
+
+Content for step 1...
+
+## Step 2: Next Step
+Duration: 10
+
+Content for step 2...</code>
+                        </div>
+
+                        <h3>Google Docs Format</h3>
+                        <p>Structure your Google Doc with:</p>
+                        <ul>
+                            <li><strong>Metadata Table</strong> - Optional two-column table at the start</li>
+                            <li><strong>Heading 1</strong> - Each represents a step</li>
+                            <li><strong>Content</strong> - Paragraphs, lists, code blocks, images</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="example">
-                    <h4>Export with Google Analytics</h4>
-                    <div class="code-block">
-                        <code>klaat export tutorial.md -o codelabs -f html -ga UA-123456-7</code>
-                    </div>
-                </div>
+                <div class="examples">
+                    <h3>Examples</h3>
 
-                <div class="example">
-                    <h4>Create Offline Bundle</h4>
-                    <div class="code-block">
-                        <code>klaat export tutorial.md -o codelabs -f offline</code>
+                    <div class="example">
+                        <h4>Basic HTML Export</h4>
+                        <div class="code-block">
+                            <code>klaat export tutorial.md -o codelabs -f html</code>
+                        </div>
                     </div>
-                </div>
 
-                <div class="example">
-                    <h4>Export Multiple Codelabs</h4>
-                    <div class="code-block">
-                        <code>klaat export tutorial1.md tutorial2.md tutorial3.md -o codelabs</code>
+                    <div class="example">
+                        <h4>Export with Google Analytics</h4>
+                        <div class="code-block">
+                            <code>klaat export tutorial.md -o codelabs -f html -ga UA-123456-7</code>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <h4>Create Offline Bundle</h4>
+                        <div class="code-block">
+                            <code>klaat export tutorial.md -o codelabs -f offline</code>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <h4>Export Multiple Codelabs</h4>
+                        <div class="code-block">
+                            <code>klaat export tutorial1.md tutorial2.md tutorial3.md -o codelabs</code>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -317,6 +507,23 @@ Content for step 2...</code>
     </footer>
 
     <script>
+        // Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
 
@@ -338,6 +545,29 @@ Content for step 2...</code>
                 body.classList.add('dark-mode');
                 localStorage.setItem('theme', 'dark-mode');
             }
+        });
+
+        // Tab switching logic
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Update active button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show relevant content
+                tabContents.forEach(content => {
+                    if (content.id.startsWith(tab)) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
