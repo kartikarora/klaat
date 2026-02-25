@@ -41,6 +41,9 @@ Download the latest release from the [CDN](https://distribute.kartikarora.me/):
 # macOS ARM64 (Apple Silicon)
 curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-arm64 -o klaat
 
+# macOS x64 (Intel) - Currently not built
+# curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-x64 -o klaat
+
 # Linux x64
 curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-linux-x64 -o klaat
 

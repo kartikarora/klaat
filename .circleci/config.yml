@@ -179,40 +179,6 @@ jobs:
             - klaat-snapshot-macos-arm64-*
             - checksums-*.txt
 
-  build_macos_x64:
-    macos:
-      xcode: "15.4.0"
-    resource_class: m4pro.medium
-    steps:
-      - checkout
-      - run:
-          name: Install Rosetta 2
-          command: |
-            if [ "$(uname -m)" = "arm64" ]; then
-              sudo /usr/sbin/softwareupdate --install-rosetta --agree-to-license
-            fi
-      - setup_graalvm:
-          arch: "x86_64"
-      - get_version
-      - run:
-          name: Build Native Binary for macos-x64 (via Rosetta)
-          command: |
-            export IS_SNAPSHOT="true"
-            # Ensure we are using the x86_64 JDK
-            arch -x86_64 ./gradlew nativeCompile
-            
-            BINARY_BASE="klaat-snapshot"
-            BINARY_NAME="${BINARY_BASE}-macos-x64-${VERSION}"
-            cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
-            
-            # Calculate checksum
-            shasum -a 256 ${BINARY_NAME} > checksums-macos-x64-${VERSION}.txt
-            cat checksums-macos-x64-${VERSION}.txt
-      - persist_to_workspace:
-          root: .
-          paths:
-            - klaat-snapshot-macos-x64-*
-            - checksums-*.txt
 
   publish_snapshot:
     docker:
@@ -247,15 +213,13 @@ jobs:
             
             # Extract checksums
             MACOS_ARM64_SHA=$(grep "klaat-snapshot-macos-arm64-${VERSION}" checksums-macos-arm64-${VERSION}.txt | awk '{print $1}' | head -n 1)
-            MACOS_X64_SHA=$(grep "klaat-snapshot-macos-x64-${VERSION}" checksums-macos-x64-${VERSION}.txt | awk '{print $1}' | head -n 1)
             LINUX_ARM64_SHA=$(grep "klaat-snapshot-linux-arm64-${VERSION}" checksums-linux-arm64-${VERSION}.txt | awk '{print $1}' | head -n 1)
             LINUX_X64_SHA=$(grep "klaat-snapshot-linux-x64-${VERSION}" checksums-linux-x64-${VERSION}.txt | awk '{print $1}' | head -n 1)
             
             # Verify we got all checksums
-            if [ -z "$MACOS_ARM64_SHA" ] || [ -z "$MACOS_X64_SHA" ] || [ -z "$LINUX_ARM64_SHA" ] || [ -z "$LINUX_X64_SHA" ]; then
+            if [ -z "$MACOS_ARM64_SHA" ] || [ -z "$LINUX_ARM64_SHA" ] || [ -z "$LINUX_X64_SHA" ]; then
               echo "❌ Error: Could not find all platform checksums."
               echo "MACOS_ARM64_SHA: $MACOS_ARM64_SHA"
-              echo "MACOS_X64_SHA: $MACOS_X64_SHA"
               echo "LINUX_ARM64_SHA: $LINUX_ARM64_SHA"
               echo "LINUX_X64_SHA: $LINUX_X64_SHA"
               exit 1
@@ -276,7 +240,7 @@ jobs:
             sed -i "s|COMMIT_HASH_PLACEHOLDER|${VERSION}|g" Formula/klaat-snapshot.rb
             sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/klaat-snapshot.rb
             sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/klaat-snapshot.rb
-            sed -i "s|MACOS_X64_SHA_PLACEHOLDER|${MACOS_X64_SHA}|g" Formula/klaat-snapshot.rb
+            sed -i "s|MACOS_X64_SHA_PLACEHOLDER||g" Formula/klaat-snapshot.rb
             sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/klaat-snapshot.rb
             sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/klaat-snapshot.rb
             
@@ -293,13 +257,11 @@ workflows:
       - build_linux_x64
       - build_linux_arm64
       - build_macos_arm64
-      - build_macos_x64
       - publish_snapshot:
           requires:
             - build_linux_x64
             - build_linux_arm64
             - build_macos_arm64
-            - build_macos_x64
       - update_snapshot_tap:
           requires:
             - publish_snapshot
