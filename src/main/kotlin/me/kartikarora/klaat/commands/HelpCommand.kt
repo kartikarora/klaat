@@ -2,15 +2,17 @@ package me.kartikarora.klaat.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
 
+import me.kartikarora.klaat.BuildConfig
+
 class HelpCommand : CliktCommand("help") {
     override fun run() {
         echo("""
-klaat - Kodelabs As A Thing
+${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
 
 A drop-in replacement for claat written in Kotlin.
 Generate codelabs from Google Docs or Markdown files.
 
-Usage: klaat <cmd> [options] src [src ...]
+Usage: ${BuildConfig.BINARY_NAME} <cmd> [options] src [src ...]
 
 Available commands are: export, serve, update, version, help.
 
@@ -25,7 +27,7 @@ The following formats are supported:
 - md (Markdown)
 - offline (plain HTML markup for offline consumption)
 
-Note: Unlike the original claat, klaat only supports these three built-in
+Note: Unlike the original claat, ${BuildConfig.BINARY_NAME} only supports these three built-in
 formats. Custom template files are not supported. The built-in FreeMarker
 templates can be found in src/main/resources/templates/.
 
@@ -72,9 +74,9 @@ arguments have no effect during update.
 
 ## Version command
 
-Prints the version of klaat.
+Prints the version of ${BuildConfig.BINARY_NAME}.
 
-Use "klaat <command> --help" for more information about a command.
+Use "${BuildConfig.BINARY_NAME} <command> --help" for more information about a command.
         """.trimIndent())
     }
 }

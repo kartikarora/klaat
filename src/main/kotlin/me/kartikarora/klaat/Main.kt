@@ -9,8 +9,10 @@ import me.kartikarora.klaat.commands.ServeCommand
 import me.kartikarora.klaat.commands.UpdateCommand
 import me.kartikarora.klaat.commands.VersionCommand
 
+val binaryName = BuildConfig.BINARY_NAME
+
 class Klaat : CliktCommand("""
-    klaat - Kodelabs As A Thing
+    ${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
 
     A drop-in replacement for claat written in Kotlin.
     Generate codelabs from Google Docs or Markdown files.
