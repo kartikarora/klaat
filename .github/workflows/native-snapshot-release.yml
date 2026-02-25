@@ -56,8 +56,20 @@ jobs:
             ${{ steps.build.outputs.binary-name }}
             checksums-${{ steps.version.outputs.version }}.txt
 
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup GraalVM
+        uses: ./.github/actions/setup-graalvm
+
+      - name: Run tests
+        run: ./gradlew test
+
   upload-and-publish:
-    needs: build-native
+    needs: [build-native, run-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

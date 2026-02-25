@@ -28,6 +28,7 @@ repositories {
 val buildVariant = project.findProperty("buildVariant")?.toString() ?: "dev"
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
+val versionName = System.getenv("VERSION_NAME") ?: project.findProperty("versionName")?.toString() ?: project.version.toString()
 
 dependencies {
     implementation(libs.clikt)
@@ -72,7 +73,7 @@ tasks.test {
 application {
     mainClass.set("me.kartikarora.klaat.MainKt")
     // Set different application name based on build variant
-    applicationName = if (isDevBuild) "klaat-dev" else "klaat"
+    applicationName = if (isSnapshot) "klaat-snapshot" else if (isDevBuild) "klaat-dev" else "klaat"
 }
 
 // Generate BuildConfig.kt with build variant info
@@ -90,7 +91,9 @@ val generateBuildConfig by tasks.registering {
             object BuildConfig {
                 const val BUILD_VARIANT = "$buildVariant"
                 const val IS_DEV_BUILD = $isDevBuild
-                const val VERSION = "${project.version}"
+                const val VERSION_NAME = "$versionName"
+                const val IS_SNAPSHOT = $isSnapshot
+                const val BINARY_NAME = "${if (isSnapshot) "klaat-snapshot" else "klaat"}"
             }
             """.trimIndent()
         )

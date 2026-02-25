@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klaat - Kodelabs As A Thing</title>
-    <meta name="description" content="Klaat (Kodelabs As A Thing) - Convert Google Docs and Markdown files into beautiful, interactive codelabs. Built with Kotlin and GraalVM.">
+    <title>Klaat - Kodelabs As A Thing | Convert Google Docs and Markdown to Codelabs</title>
+    <meta name="description" content="Klaat (Kodelabs As A Thing) - The modern tool to convert Google Docs and Markdown files into beautiful, interactive, and searchable codelabs. Built with Kotlin and GraalVM for native performance.">
+    <meta name="keywords" content="klaat, kartikarora, kodelabs, codelabs, google docs to codelab, markdown to codelab, tutorials, documentation tool, kotlin, graalvm">
     <meta name="author" content="Kartik Arora">
     <meta name="theme-color" content="#303F9F">
     <link rel="canonical" href="https://klaat.kartikarora.me">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://klaat.kartikarora.me/">
+    <meta property="og:title" content="Klaat - Kodelabs As A Thing">
+    <meta property="og:description" content="Convert Google Docs and Markdown into interactive codelabs with Klaat. Fast, native, and easy to use.">
+    <meta property="og:image" content="https://klaat.kartikarora.me/images/klaat.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://klaat.kartikarora.me/">
+    <meta property="twitter:title" content="Klaat - Kodelabs As A Thing">
+    <meta property="twitter:description" content="Convert Google Docs and Markdown into interactive codelabs with Klaat. Fast, native, and easy to use.">
+    <meta property="twitter:image" content="https://klaat.kartikarora.me/images/klaat.png">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
@@ -118,21 +133,29 @@ brew install klaat-snapshot</code>
                     <div class="download-option">
                         <h3>📦 Direct Download</h3>
                         <p>Download binaries from the CDN:</p>
-                        <div class="download-info">
-                            <p><strong>Snapshot builds (Alpha):</strong></p>
-                            <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-PLATFORM-COMMIT_HASH</code>
+                        
+                        <div class="platform-selector-container">
+                            <label for="platform-select">Target Platform:</label>
+                            <select id="platform-select" class="platform-select">
+                                <option value="macos-arm64" selected>macOS ARM64 (Apple Silicon)</option>
+                                <option value="linux-arm64">Linux ARM64</option>
+                                <option value="linux-x64">Linux x64</option>
+                            </select>
+                        </div>
 
-                            <p style="margin-top: 16px;"><strong>Available platforms:</strong></p>
-                            <ul style="margin-left: 24px;">
-                                <li><code>linux-x64</code></li>
-                                <li><code>linux-arm64</code></li>
-                                <li><code>macos-arm64</code></li>
-                            </ul>
+                        <div class="download-info">
+                            <p><strong>Snapshot builds (Alpha): <span class="snapshot-version">COMMIT_HASH</span></strong></p>
+                            <code class="inline-code"><span id="snapshot-url">https://distribute.kartikarora.me/bin/klaat/snapshot/<span class="snapshot-version">COMMIT_HASH</span>/klaat-snapshot-macos-arm64-<span class="snapshot-version">COMMIT_HASH</span></span></code>
+
+                            <p style="margin-top: 16px;"><strong>Selected platform:</strong> <span id="selected-platform-name">macOS ARM64</span></p>
+                            <div class="code-block">
+                                <code id="snapshot-curl">curl -L -O https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-macos-arm64-COMMIT_HASH</code>
+                            </div>
                         </div>
                         <p class="download-note">After downloading, make the binary executable:</p>
                         <div class="code-block">
-                            <code>chmod +x klaat-*
-sudo mv klaat-* /usr/local/bin/klaat</code>
+                            <code>chmod +x <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span>
+sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span> /usr/local/bin/klaat-snapshot</code>
                         </div>
                     </div>
                 </div>
@@ -155,16 +178,29 @@ sudo mv klaat-* /usr/local/bin/klaat</code>
                     <div class="download-option">
                         <h3>📦 Direct Download</h3>
                         <p>Stable binaries will be available for download here:</p>
-                        <div class="download-info">
-                            <p><strong>Stable releases:</strong></p>
-                            <code class="inline-code">https://distribute.kartikarora.me/bin/klaat/latest/klaat-PLATFORM</code>
 
-                            <p style="margin-top: 16px;"><strong>Target platforms:</strong></p>
-                            <ul style="margin-left: 24px;">
-                                <li><code>linux-x64</code></li>
-                                <li><code>linux-arm64</code></li>
-                                <li><code>macos-arm64</code></li>
-                            </ul>
+                        <div class="platform-selector-container">
+                            <label for="platform-select-release">Target Platform:</label>
+                            <select id="platform-select-release" class="platform-select">
+                                <option value="macos-arm64" selected>macOS ARM64 (Apple Silicon)</option>
+                                <option value="linux-arm64">Linux ARM64</option>
+                                <option value="linux-x64">Linux x64</option>
+                            </select>
+                        </div>
+
+                        <div class="download-info">
+                            <p><strong>Latest release: <span class="release-version">latest</span></strong></p>
+                            <code class="inline-code"><span id="release-url">https://distribute.kartikarora.me/bin/klaat/release/<span class="release-version">latest</span>/klaat-macos-arm64-<span class="release-version">latest</span></span></code>
+
+                            <p style="margin-top: 16px;"><strong>Selected platform:</strong> <span id="selected-platform-name-release">macOS ARM64</span></p>
+                            <div class="code-block">
+                                <code id="release-curl">curl -L -O https://distribute.kartikarora.me/bin/klaat/release/latest/klaat-macos-arm64-latest</code>
+                            </div>
+                        </div>
+                        <p class="download-note">After downloading, make the binary executable:</p>
+                        <div class="code-block">
+                            <code>chmod +x <span class="release-binary-filename">klaat-macos-arm64-latest</span>
+sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /usr/local/bin/klaat</code>
                         </div>
                     </div>
                 </div>
@@ -506,69 +542,6 @@ Content for step 2...</code>
         </div>
     </footer>
 
-    <script>
-        // Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        // Close menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.classList.add(savedTheme);
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            body.classList.add('dark-mode');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                localStorage.setItem('theme', 'light-mode');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark-mode');
-            }
-        });
-
-        // Tab switching logic
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tab = btn.dataset.tab;
-                
-                // Update active button
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Show relevant content
-                tabContents.forEach(content => {
-                    if (content.id.startsWith(tab)) {
-                        content.classList.add('active');
-                    } else {
-                        content.classList.remove('active');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -18,10 +18,10 @@ class KlaatSnapshot < Formula
   end
 
   def install
-    bin.install Dir["klaat-*"].first => "klaat"
+    bin.install Dir["klaat-*"].first => "klaat-snapshot"
   end
 
   test do
-    assert_match "klaat", shell_output("#{bin}/klaat --help")
+    assert_match "klaat", shell_output("#{bin}/klaat-snapshot --help")
   end
 end

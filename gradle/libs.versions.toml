@@ -1,6 +1,6 @@
 [versions]
-klaat = "1.0.0"
-kotlin = "2.3.0"
+klaat = "0.1.0"
+kotlin = "2.3.10"
 clikt = "5.1.0"
 google-api-client = "2.8.1"
 google-oauth-client = "1.39.0"

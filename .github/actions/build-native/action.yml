@@ -36,6 +36,7 @@ runs:
           BINARY_BASE="klaat-snapshot"
         fi
 
+        export VERSION_NAME="${{ inputs.version }}"
         ./gradlew nativeCompile
 
         # Move and rename binary based on platform
