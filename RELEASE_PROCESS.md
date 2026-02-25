@@ -12,7 +12,7 @@ Snapshot releases happen automatically on every push to `develop`:
 
 1. GitHub Actions builds **native binaries** for all platforms using GraalVM:
    - `klaat-snapshot-macos-arm64-{hash}`
-   - `klaat-snapshot-macos-x64-{hash}`
+   - `klaat-snapshot-macos-x64-{hash}` (Note: not built on CircleCI)
    - `klaat-snapshot-linux-arm64-{hash}`
    - `klaat-snapshot-linux-x64-{hash}`
 
@@ -67,7 +67,7 @@ git push origin main
 The stable release workflow (`native-stable-release.yml`) automatically:
 - Reads version from `build.gradle.kts`
 - Builds **native binaries** for all platforms using GraalVM
-  - macOS ARM64, macOS x64, Linux ARM64, Linux x64
+  - macOS ARM64, macOS x64 (Currently not built), Linux ARM64, Linux x64
 - Uploads binaries to Cloudflare R2 at `releases/v{version}/`
 - **Creates git tag** `v{version}` and pushes it
 - **Creates GitHub Release** with download URLs and release notes
