@@ -265,6 +265,8 @@ jobs:
       - image: cimg/base:current
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - get_version
       - run:
           name: Install GitHub CLI
@@ -299,7 +301,7 @@ jobs:
             
             # Create release notes
             cat > release-notes.md \<< EOF
-            # Klaat Snapshot \${VERSION}
+            # Klaat Snapshot ${VERSION}
             
             **⚠️ This is a pre-release snapshot build from the develop branch.**
             
@@ -314,12 +316,12 @@ jobs:
             ### Manual Download
             Download the native binary for your platform (no Java required):
             
-            - [macOS ARM64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-macos-arm64-\${VERSION})
-            - [Linux ARM64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-linux-arm64-\${VERSION})
-            - [Linux x64](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/klaat-snapshot-linux-x64-\${VERSION})
+            - [macOS ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-macos-arm64-${VERSION})
+            - [Linux ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-arm64-${VERSION})
+            - [Linux x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-x64-${VERSION})
             
             ### Checksums
-            [consolidated-checksums-\${VERSION}.txt](\${CDN_URL}/bin/klaat/snapshot/\${VERSION}/consolidated-checksums-\${VERSION}.txt)
+            [consolidated-checksums-${VERSION}.txt](${CDN_URL}/bin/klaat/snapshot/${VERSION}/consolidated-checksums-${VERSION}.txt)
             
             ---
             
@@ -327,8 +329,8 @@ jobs:
             EOF
             
             # Create GitHub Release
-            GH_TOKEN=${TAP_GITHUB_TOKEN} gh release create "\${VERSION}" \
-              --title "Snapshot \${VERSION}" \
+            GH_TOKEN=${TAP_GITHUB_TOKEN} gh release create "${VERSION}" \
+              --title "Snapshot ${VERSION}" \
               --notes-file release-notes.md \
               --prerelease
 
