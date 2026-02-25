@@ -280,7 +280,7 @@ jobs:
             
             # Create and push tag
             git tag -a "${VERSION}" -m "Snapshot ${VERSION} (via CircleCI)"
-            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git" "${VERSION}"
+            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/klaat.git" "${VERSION}"
             
             # Normalize CDN URL
             CDN_URL=$(echo "${CDN_URL}" | sed 's:/*$::')
