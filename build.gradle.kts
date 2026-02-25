@@ -32,6 +32,7 @@ val versionName = System.getenv("VERSION_NAME") ?: project.findProperty("version
 
 dependencies {
     implementation(libs.clikt)
+    implementation(libs.mordant)
     implementation(libs.bundles.google.apis)
     implementation(libs.bundles.ktor)
     implementation(libs.logback.classic)

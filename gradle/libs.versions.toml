@@ -2,6 +2,7 @@
 klaat = "0.1.0"
 kotlin = "2.3.10"
 clikt = "5.1.0"
+mordant = "3.0.2"
 google-api-client = "2.8.1"
 google-oauth-client = "1.39.0"
 google-api-services-docs = "v1-rev20260114-2.0.0"
@@ -17,6 +18,7 @@ graalvm-native = "0.11.4"
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+mordant = { module = "com.github.ajalt.mordant:mordant", version.ref = "mordant" }
 google-api-client = { module = "com.google.api-client:google-api-client", version.ref = "google-api-client" }
 google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client" }
 google-api-services-docs = { module = "com.google.apis:google-api-services-docs", version.ref = "google-api-services-docs" }
