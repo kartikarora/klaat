@@ -505,8 +505,18 @@ body.dark-mode .section a:hover {
 }
 
 .feature-icon {
-    font-size: 48px;
+    font-size: 64px;
     margin-bottom: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+    body:not(.light-mode) .feature-icon {
+        color: var(--accent);
+    }
+}
+
+body.dark-mode .feature-icon {
+    color: var(--accent);
 }
 
 .feature h3 {

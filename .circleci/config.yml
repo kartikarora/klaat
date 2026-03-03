@@ -252,7 +252,6 @@ jobs:
             sed -i "s|COMMIT_HASH_PLACEHOLDER|${VERSION}|g" Formula/klaat-snapshot.rb
             sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/klaat-snapshot.rb
             sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/klaat-snapshot.rb
-            sed -i "s|MACOS_X64_SHA_PLACEHOLDER||g" Formula/klaat-snapshot.rb
             sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/klaat-snapshot.rb
             sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/klaat-snapshot.rb
             

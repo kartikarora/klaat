@@ -4,14 +4,11 @@ class Klaat < Formula
   version "VERSION_PLACEHOLDER"
 
   on_macos do
-    on_arm do
+    if Hardware::CPU.arm?
       url "CDN_URL_PLACEHOLDER/bin/klaat/release/VERSION_PLACEHOLDER/klaat-macos-arm64-VERSION_PLACEHOLDER"
       sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
-    end
-
-    on_intel do
-      url "CDN_URL_PLACEHOLDER/bin/klaat/release/VERSION_PLACEHOLDER/klaat-macos-x64-VERSION_PLACEHOLDER"
-      sha256 "MACOS_X64_SHA_PLACEHOLDER"
+    else
+      odie "Klaat only supports Apple Silicon Macs. Intel Macs are not supported."
     end
   end
 

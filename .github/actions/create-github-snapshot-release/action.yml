@@ -52,10 +52,11 @@ runs:
         ### Manual Download
         Download the native binary for your platform (no Java required):
 
-        - [macOS ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-arm64-${VERSION})
-        - [macOS x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-x64-${VERSION})
-        - [Linux ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-arm64-${VERSION})
-        - [Linux x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-x64-${VERSION})
+        - [macOS ARM64 (Apple Silicon)](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-macos-arm64-${VERSION})
+        - [Linux ARM64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-arm64-${VERSION})
+        - [Linux x64](${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-x64-${VERSION})
+
+        **Note**: Intel Macs are not supported. Apple Silicon (M1/M2/M3/M4) only.
 
         ### Checksums
         [checksums-${VERSION}.txt](${CDN_URL}/bin/klaat/snapshot/${VERSION}/checksums-${VERSION}.txt)
@@ -85,7 +86,6 @@ runs:
         echo "✅ GitHub Snapshot Release created: ${VERSION}"
         echo ""
         echo "📦 Download URLs:"
-        echo "  - macOS ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-arm64-${VERSION}"
-        echo "  - macOS x64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-macos-x64-${VERSION}"
-        echo "  - Linux ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-arm64-${VERSION}"
-        echo "  - Linux x64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-linux-x64-${VERSION}"
+        echo "  - macOS ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-macos-arm64-${VERSION}"
+        echo "  - Linux ARM64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-arm64-${VERSION}"
+        echo "  - Linux x64: ${CDN_URL}/bin/klaat/snapshot/${VERSION}/klaat-snapshot-linux-x64-${VERSION}"

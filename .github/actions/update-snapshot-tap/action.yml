@@ -36,7 +36,6 @@ runs:
 
         # Get checksums for each platform (snapshot binaries are named with klaat-snapshot prefix)
         MACOS_ARM64_SHA=$(grep "klaat-snapshot-macos-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
-        MACOS_X64_SHA=$(grep "klaat-snapshot-macos-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
         LINUX_ARM64_SHA=$(grep "klaat-snapshot-linux-arm64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
         LINUX_X64_SHA=$(grep "klaat-snapshot-linux-x64-${COMMIT_HASH}" ../${CHECKSUMS_FILE} | awk '{print $1}')
 
@@ -48,7 +47,6 @@ runs:
         sed -i "s|COMMIT_HASH_PLACEHOLDER|${COMMIT_HASH}|g" Formula/klaat-snapshot.rb
         sed -i "s|CDN_URL_PLACEHOLDER|${CDN_URL}|g" Formula/klaat-snapshot.rb
         sed -i "s|MACOS_ARM64_SHA_PLACEHOLDER|${MACOS_ARM64_SHA}|g" Formula/klaat-snapshot.rb
-        sed -i "s|MACOS_X64_SHA_PLACEHOLDER|${MACOS_X64_SHA}|g" Formula/klaat-snapshot.rb
         sed -i "s|LINUX_ARM64_SHA_PLACEHOLDER|${LINUX_ARM64_SHA}|g" Formula/klaat-snapshot.rb
         sed -i "s|LINUX_X64_SHA_PLACEHOLDER|${LINUX_X64_SHA}|g" Formula/klaat-snapshot.rb
 

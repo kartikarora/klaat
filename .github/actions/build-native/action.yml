@@ -6,7 +6,7 @@ inputs:
     description: 'Version string for the binary'
     required: true
   platform:
-    description: 'Target platform (linux-x64, linux-arm64, macos-x64, macos-arm64)'
+    description: 'Target platform (linux-x64, linux-arm64, macos-arm64)'
     required: true
   google-credentials-json:
     description: 'Google OAuth credentials JSON'

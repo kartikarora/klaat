@@ -30,6 +30,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
     <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
 
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -48,8 +51,8 @@
                     <a href="#quickstart">Quick Start</a>
                     <a href="#docs">Documentation</a>
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode">
-                        <span class="sun-icon">☀️</span>
-                        <span class="moon-icon">🌙</span>
+                        <span class="sun-icon material-symbols-rounded">light_mode</span>
+                        <span class="moon-icon material-symbols-rounded">dark_mode</span>
                     </button>
                 </div>
             </div>
@@ -73,32 +76,32 @@
             <h2>Features</h2>
             <div class="features">
                 <div class="feature">
-                    <div class="feature-icon">📝</div>
+                    <span class="feature-icon material-symbols-rounded">description</span>
                     <h3>Multiple Input Sources</h3>
                     <p>Convert from Google Docs or Markdown files with full formatting support</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🎨</div>
+                    <span class="feature-icon material-symbols-rounded">palette</span>
                     <h3>Multiple Output Formats</h3>
                     <p>Export to HTML, Markdown, or self-contained offline bundles</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">⚡</div>
+                    <span class="feature-icon material-symbols-rounded">bolt</span>
                     <h3>Native Performance</h3>
                     <p>GraalVM native image for instant startup and low memory usage</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🔄</div>
+                    <span class="feature-icon material-symbols-rounded">preview</span>
                     <h3>Live Preview Server</h3>
                     <p>Built-in web server for real-time preview during development</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🌐</div>
+                    <span class="feature-icon material-symbols-rounded">public</span>
                     <h3>Cross-Platform</h3>
                     <p>Available for Linux (x64, ARM64) and macOS (ARM64)</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🎯</div>
+                    <span class="feature-icon material-symbols-rounded">settings_suggest</span>
                     <h3>Zero Configuration</h3>
                     <p>Works out of the box with sensible defaults</p>
                 </div>
@@ -122,7 +125,7 @@
 
                 <div class="download-options">
                     <div class="download-option">
-                        <h3>🍺 Homebrew (macOS & Linux)</h3>
+                        <h3><span class="material-symbols-rounded">download</span> Homebrew (macOS & Linux)</h3>
                         <p>The easiest way to install snapshot builds (latest from develop) on macOS and Linux:</p>
                         <div class="code-block">
                             <code>brew tap kartikarora/klaat-snapshots
@@ -131,7 +134,7 @@ brew install klaat-snapshot</code>
                     </div>
 
                     <div class="download-option">
-                        <h3>📦 Direct Download</h3>
+                        <h3><span class="material-symbols-rounded">package_2</span> Direct Download</h3>
                         <p>Download binaries from the CDN:</p>
                         
                         <div class="platform-selector-container">
@@ -168,7 +171,7 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT
 
                 <div class="download-options">
                     <div class="download-option">
-                        <h3>🍺 Homebrew (macOS & Linux)</h3>
+                        <h3><span class="material-symbols-rounded">download</span> Homebrew (macOS & Linux)</h3>
                         <p>Once stable, you'll be able to install via Homebrew Core:</p>
                         <div class="code-block">
                             <code>brew install klaat</code>
@@ -176,7 +179,7 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT
                     </div>
 
                     <div class="download-option">
-                        <h3>📦 Direct Download</h3>
+                        <h3><span class="material-symbols-rounded">package_2</span> Direct Download</h3>
                         <p>Stable binaries will be available for download here:</p>
 
                         <div class="platform-selector-container">
