@@ -181,10 +181,6 @@ gradle-app.setting
 hs_err_pid*
 replay_pid*
 
-.idea
-# But track run configurations
-!.idea/runConfigurations/
-
 # wrangler files
 .wrangler
 .dev.vars*

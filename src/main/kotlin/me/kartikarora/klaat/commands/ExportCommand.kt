@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import me.kartikarora.klaat.core.GoogleDocsClient
 import me.kartikarora.klaat.core.Exporter
+import me.kartikarora.klaat.util.TablePrinter
 import java.io.File
 
 /**
@@ -62,11 +63,6 @@ class ExportCommand : CliktCommand("export") {
     ).default("https://distribute.kartikarora.me")
 
     override fun run() {
-        echo("╔═══════════════════════════════════════════════╗")
-        echo("║         Klaat Codelab Exporter               ║")
-        echo("╚═══════════════════════════════════════════════╝")
-        echo()
-
         // Parse extra metadata if provided
         val extraMetadata = if (!extra.isNullOrBlank()) {
             try {
@@ -106,17 +102,17 @@ class ExportCommand : CliktCommand("export") {
 
         val exporter = Exporter(docsService)
 
-        echo("📋 Exporting ${targets.size} codelab(s)")
-        echo("   Format: $format")
-        echo("   Output: $outDir")
-        echo("   Environment: $environment")
-        echo("   Analytics: $ga")
-        echo("   Asset Prefix: $prefix")
-        if (auth != null) echo("   Auth: provided")
-        if (extraMetadata.isNotEmpty()) {
-            echo("   Extra metadata: ${extraMetadata.entries.joinToString(", ") { "${it.key}=${it.value}" }}")
-        }
-        if (passMetadata != null) echo("   Pass metadata: $passMetadata")
+        TablePrinter.printExportConfigTable(
+            targets.size,
+            format,
+            outDir,
+            environment,
+            ga,
+            prefix,
+            extraMetadata,
+            passMetadata,
+            auth
+        )
         echo()
 
         var successCount = 0
@@ -133,12 +129,7 @@ class ExportCommand : CliktCommand("export") {
         }
 
         echo()
-        echo("═══════════════════════════════════════════════")
-        echo("✓ Success: $successCount")
-        if (failureCount > 0) {
-            echo("✗ Failed: $failureCount")
-        }
-        echo("═══════════════════════════════════════════════")
+        TablePrinter.printSummaryTable(successCount, failureCount)
     }
 
     /**

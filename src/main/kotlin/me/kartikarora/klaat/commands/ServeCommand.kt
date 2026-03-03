@@ -4,11 +4,18 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import freemarker.template.Configuration
+import freemarker.template.TemplateExceptionHandler
+import io.ktor.http.*
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.http.content.staticFiles
 import io.ktor.server.netty.Netty
-import io.ktor.server.routing.routing
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import me.kartikarora.klaat.util.TablePrinter
 import java.io.File
+import java.io.StringWriter
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Command to serve codelabs locally for preview
@@ -29,6 +36,13 @@ class ServeCommand : CliktCommand("serve") {
         help = "Don't open browser automatically"
     ).flag()
 
+    private val freemarkerConfig = Configuration(Configuration.VERSION_2_3_32).apply {
+        setClassForTemplateLoading(ServeCommand::class.java, "/templates")
+        defaultEncoding = "UTF-8"
+        templateExceptionHandler = TemplateExceptionHandler.RETHROW_HANDLER
+        logTemplateExceptions = false
+    }
+
     override fun run() {
         val directory = File(dir).absoluteFile
         if (!directory.exists() || !directory.isDirectory) {
@@ -40,13 +54,7 @@ class ServeCommand : CliktCommand("serve") {
         val (host, port) = parseAddr(addr)
         val url = "http://$host:$port"
 
-        echo("╔═══════════════════════════════════════════════╗")
-        echo("║         Klaat Codelab Server                  ║")
-        echo("╚═══════════════════════════════════════════════╝")
-        echo()
-        echo("📂 Serving: ${directory.absolutePath}")
-        echo("🌐 URL: $url")
-        echo("⌨️  Press Ctrl+C to stop")
+        TablePrinter.printServeTable(directory.absolutePath, url)
         echo()
 
         // Open browser if not disabled
@@ -57,9 +65,51 @@ class ServeCommand : CliktCommand("serve") {
         // Start server
         embeddedServer(Netty, port = port, host = host) {
             routing {
-                staticFiles("/", directory)
+                get("{path...}") {
+                    val pathParts = call.parameters.getAll("path") ?: emptyList()
+                    val path = pathParts.joinToString("/")
+                    val file = File(directory, path)
+
+                    if (file.exists() && file.isDirectory) {
+                        val indexHtml = File(file, "index.html")
+                        if (!indexHtml.exists()) {
+                            val fileList = file.listFiles()?.sortedWith(compareByDescending<File> { it.isDirectory }.thenBy { it.name }) ?: emptyList<File>()
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                            
+                            val items = fileList.map { f ->
+                                mapOf(
+                                    "name" to f.name,
+                                    "isDirectory" to f.isDirectory,
+                                    "lastModified" to dateFormat.format(Date(f.lastModified())),
+                                    "size" to if (f.isDirectory) "-" else formatSize(f.length())
+                                )
+                            }
+
+                            val template = freemarkerConfig.getTemplate("directory_listing.ftl")
+                            val dataModel = mapOf(
+                                "path" to path,
+                                "items" to items
+                            )
+
+                            val writer = StringWriter()
+                            template.process(dataModel, writer)
+                            call.respondText(writer.toString(), ContentType.Text.Html)
+                        } else {
+                            call.respondFile(indexHtml)
+                        }
+                    } else if (file.exists() && file.isFile) {
+                        call.respondFile(file)
+                    }
+                }
             }
         }.start(wait = true)
+    }
+
+    private fun formatSize(size: Long): String {
+        if (size <= 0) return "0 B"
+        val units = arrayOf("B", "KB", "MB", "GB", "TB")
+        val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
+        return String.format("%.1f %s", size / Math.pow(1024.0, digitGroups.toDouble()), units[digitGroups])
     }
 
     private fun parseAddr(addr: String): Pair<String, Int> {

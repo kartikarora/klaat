@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import me.kartikarora.klaat.core.Exporter
 import me.kartikarora.klaat.core.GoogleDocsClient
+import me.kartikarora.klaat.util.TablePrinter
 import java.io.File
 
 /**
@@ -61,11 +62,6 @@ class UpdateCommand : CliktCommand("update") {
     ).default("https://distribute.kartikarora.me")
 
     override fun run() {
-        echo("╔═══════════════════════════════════════════════╗")
-        echo("║         Klaat Codelab Updater                ║")
-        echo("╚═══════════════════════════════════════════════╝")
-        echo()
-
         // Parse pass_metadata flag as comma-delimited list
         val passMetadataSet = parsePassMetadata(passMetadata)
 
@@ -85,8 +81,7 @@ class UpdateCommand : CliktCommand("update") {
             return
         }
 
-        echo("📋 Found ${codelabDirs.size} codelab(s) to update")
-        if (passMetadata != null) echo("   Pass metadata: $passMetadata")
+        TablePrinter.printUpdateInfoTable(codelabDirs.size, passMetadata)
         echo()
 
         // Initialize Google Docs client
@@ -136,12 +131,7 @@ class UpdateCommand : CliktCommand("update") {
         }
 
         echo()
-        echo("═══════════════════════════════════════════════")
-        echo("✓ Updated: $successCount")
-        if (failureCount > 0) {
-            echo("✗ Failed: $failureCount")
-        }
-        echo("═══════════════════════════════════════════════")
+        TablePrinter.printSummaryTable(successCount, failureCount, "Updated")
     }
 
     /**
