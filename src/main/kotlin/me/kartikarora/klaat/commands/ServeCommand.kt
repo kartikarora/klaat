@@ -6,16 +6,18 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import freemarker.template.Configuration
 import freemarker.template.TemplateExceptionHandler
-import io.ktor.http.*
+import io.ktor.http.ContentType
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.server.response.respondFile
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 import me.kartikarora.klaat.util.TablePrinter
 import java.io.File
 import java.io.StringWriter
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Command to serve codelabs locally for preview
@@ -122,19 +124,28 @@ class ServeCommand : CliktCommand("serve") {
     }
 
     private fun openBrowser(url: String) {
-        val osName = System.getProperty("os.name").lowercase()
         try {
-            if (osName.contains("mac")) {
-                Runtime.getRuntime().exec(arrayOf("open", url))
-                echo("🚀 Opening browser...")
-            } else if (osName.contains("nix") || osName.contains("nux")) {
-                Runtime.getRuntime().exec(arrayOf("xdg-open", url))
-                echo("🚀 Opening browser...")
-            } else if (osName.contains("win")) {
-                Runtime.getRuntime().exec(arrayOf("cmd", "/c", "start", url))
-                echo("🚀 Opening browser...")
-            } else {
-                echo("ℹ️  Could not auto-open browser. Please navigate to: $url")
+            val osName = System.getProperty("os.name").lowercase()
+            when {
+                osName.contains("mac") -> {
+                    Runtime.getRuntime().exec(arrayOf("open", url))
+                    echo("🚀 Opening browser...")
+                }
+                osName.contains("win") -> {
+                    Runtime.getRuntime().exec(arrayOf("cmd", "/c", "start", url))
+                    echo("🚀 Opening browser...")
+                }
+                osName.contains("nix") || osName.contains("nux") -> {
+                    Runtime.getRuntime().exec(arrayOf("xdg-open", url))
+                    echo("🚀 Opening browser...")
+                }
+                osName.contains("win") -> {
+                    Runtime.getRuntime().exec(arrayOf("cmd", "/c", "start", url))
+                    echo("🚀 Opening browser...")
+                }
+                else -> {
+                    echo("ℹ️  Could not auto-open browser. Please navigate to: $url")
+                }
             }
         } catch (e: Exception) {
             echo("ℹ️  Could not auto-open browser. Please navigate to: $url")

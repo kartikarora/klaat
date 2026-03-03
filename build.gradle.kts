@@ -32,7 +32,6 @@ val versionName = System.getenv("VERSION_NAME") ?: project.findProperty("version
 
 dependencies {
     implementation(libs.clikt)
-    implementation(libs.mordant)
     implementation(libs.bundles.google.apis)
     implementation(libs.bundles.ktor)
     implementation(libs.logback.classic)
@@ -75,11 +74,6 @@ application {
     mainClass.set("me.kartikarora.klaat.MainKt")
     // Set different application name based on build variant
     applicationName = if (isSnapshot) "klaat-snapshot" else if (isDevBuild) "klaat-dev" else "klaat"
-}
-
-tasks.run {
-    // Ensure run task is always executed when invoked
-    outputs.upToDateWhen { false }
 }
 
 // Generate BuildConfig.kt with build variant info
@@ -161,14 +155,8 @@ tasks.register<Exec>("runNative") {
     group = "application"
     description = "Build and run native binary"
     dependsOn("nativeCompile")
-    outputs.upToDateWhen { false }
     commandLine("${layout.buildDirectory.get()}/native/nativeCompile/klaat")
     args(project.findProperty("args")?.toString()?.split(" ") ?: emptyList<String>())
-}
-
-// Ensure dynamic main tasks are not UP-TO-DATE
-tasks.matching { it.name.contains("MainKt.main()") }.configureEach {
-    outputs.upToDateWhen { false }
 }
 
 // GraalVM Native Image configuration

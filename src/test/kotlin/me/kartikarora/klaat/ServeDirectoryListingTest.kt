@@ -34,7 +34,7 @@ class ServeDirectoryListingTest {
     @Test
     @Timeout(value = 15, unit = TimeUnit.SECONDS)
     fun `test serve command shows directory listing when index html is missing`() {
-        val port = 9093
+        val port = 9094
         val host = "localhost"
         
         var serverThread: Thread? = null
