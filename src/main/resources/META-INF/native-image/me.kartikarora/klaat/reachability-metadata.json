@@ -35,15 +35,6 @@
       ]
     },
     {
-      "type": "com.github.ajalt.mordant.terminal.terminalinterface.ffm.TerminalInterfaceProviderFfm"
-    },
-    {
-      "type": "com.github.ajalt.mordant.terminal.terminalinterface.jna.TerminalInterfaceProviderJna"
-    },
-    {
-      "type": "com.github.ajalt.mordant.terminal.terminalinterface.nativeimage.TerminalInterfaceProviderNativeImage"
-    },
-    {
       "type": "com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl",
       "fields": [
         {
@@ -3507,13 +3498,6 @@
     },
     {
       "type": "sun.util.resources.cldr.TimeZoneNames_en_US"
-    },
-    {
-      "type": {
-        "proxy": [
-          "com.github.ajalt.mordant.terminal.terminalinterface.jna.MacosLibC"
-        ]
-      }
     }
   ],
   "resources": [
@@ -3531,9 +3515,6 @@
     },
     {
       "glob": "META-INF/services/ch.qos.logback.classic.spi.Configurator"
-    },
-    {
-      "glob": "META-INF/services/com.github.ajalt.mordant.terminal.TerminalInterfaceProvider"
     },
     {
       "glob": "META-INF/services/com.sun.net.httpserver.spi.HttpServerProvider"
