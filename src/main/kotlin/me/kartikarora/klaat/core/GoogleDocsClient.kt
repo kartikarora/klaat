@@ -26,7 +26,7 @@ class GoogleDocsClient {
         // Try to load credentials from bundled resource first, then fall back to file
         val clientSecrets = try {
             // Try to load from bundled resource in classpath
-            val resourceStream = javaClass.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
+            val resourceStream = GoogleDocsClient::class.java.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
             if (resourceStream != null) {
                 resourceStream.reader().use { reader ->
                     GoogleClientSecrets.load(jsonFactory, reader)
@@ -55,6 +55,30 @@ class GoogleDocsClient {
             .setAccessType("offline")
             .build()
 
+        // 1. Try silent renewal first
+        val credential = flow.loadCredential("user")
+        if (credential != null) {
+            val success = try {
+                if (credential.expiresInSeconds != null && credential.expiresInSeconds <= 60) {
+                    println("🔑 Token expired or expiring soon, renewing...")
+                    credential.refreshToken()
+                } else if (credential.accessToken == null) {
+                    println("🔑 No access token found, refreshing...")
+                    credential.refreshToken()
+                } else {
+                    true
+                }
+            } catch (e: Exception) {
+                println("⚠️  Failed to refresh token: ${e.message}")
+                false
+            }
+
+            if (success) {
+                return credential
+            }
+        }
+
+        // 2. Fallback to interactive flow if silent renewal fails or no credential exists
         val receiver = LocalServerReceiver.Builder().setPort(8888).build()
 
         println("\n🔑 Opening browser for Google authentication...")
