@@ -214,7 +214,6 @@ graalvmNative {
     // Agent configuration for generating native-image configs
     // Disabled by default since we have pre-configured reflection configs
     // Enable with: ./gradlew -Pagent test
-    // For serve command: ./gradlew -Pagent run --args="serve -d examples"
     agent {
         defaultMode.set("standard")
         builtinCallerFilter.set(true)
@@ -223,12 +222,12 @@ graalvmNative {
         enableExperimentalUnsafeAllocationTracing.set(false)
         trackReflectionMetadata.set(true)
         enabled.set(project.hasProperty("agent"))
-        
-        metadataCopy {
-            inputTaskNames.add("test")
-            inputTaskNames.add("run")
-            mergeWithExisting.set(true)
-        }
+    }
+}
+
+tasks.register("printClasspath") {
+    doLast {
+        println(sourceSets.main.get().runtimeClasspath.asPath)
     }
 }
 
