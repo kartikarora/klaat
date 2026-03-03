@@ -57,7 +57,8 @@ commands:
           command: |
             BASE_VERSION=$(grep "^klaat = " gradle/libs.versions.toml | sed 's/klaat = "\(.*\)"/\1/')
             SHORT_HASH=$(git rev-parse --short=8 HEAD)
-            VERSION="${BASE_VERSION}-${SHORT_HASH}"
+            BUILD_NUM="${CIRCLE_BUILD_NUM}"
+            VERSION="${BASE_VERSION}.${BUILD_NUM}-${SHORT_HASH}"
             echo "export VERSION=${VERSION}" >> $BASH_ENV
             echo "Version is ${VERSION}"
 

@@ -28,6 +28,7 @@ repositories {
 val buildVariant = project.findProperty("buildVariant")?.toString() ?: "dev"
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
+// VERSION_NAME is calculated entirely in CI and passed as environment variable
 val versionName = System.getenv("VERSION_NAME") ?: project.findProperty("versionName")?.toString() ?: project.version.toString()
 
 dependencies {

@@ -21,9 +21,6 @@ jobs:
             platform: linux-arm64
             name: Linux ARM64
           - os: macos-latest
-            platform: macos-x64
-            name: macOS x64
-          - os: macos-latest
             platform: macos-arm64
             name: macOS ARM64
 

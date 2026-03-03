@@ -25,5 +25,6 @@ runs:
           echo "version=${BASE_VERSION}" >> $GITHUB_OUTPUT
         else
           SHORT_HASH=$(git rev-parse --short=8 HEAD)
-          echo "version=${BASE_VERSION}-${SHORT_HASH}" >> $GITHUB_OUTPUT
+          BUILD_NUM="${GITHUB_RUN_NUMBER}"
+          echo "version=${BASE_VERSION}.${BUILD_NUM}-${SHORT_HASH}" >> $GITHUB_OUTPUT
         fi
