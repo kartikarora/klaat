@@ -49,10 +49,11 @@ runs:
         ### Manual Download
         Download the native binary for your platform (no Java required):
 
-        - [macOS ARM64](${CDN_URL}/releases/v${VERSION}/klaat-macos-arm64-v${VERSION})
-        - [macOS x64](${CDN_URL}/releases/v${VERSION}/klaat-macos-x64-v${VERSION})
+        - [macOS ARM64 (Apple Silicon)](${CDN_URL}/releases/v${VERSION}/klaat-macos-arm64-v${VERSION})
         - [Linux ARM64](${CDN_URL}/releases/v${VERSION}/klaat-linux-arm64-v${VERSION})
         - [Linux x64](${CDN_URL}/releases/v${VERSION}/klaat-linux-x64-v${VERSION})
+
+        **Note**: Intel Macs are not supported. Apple Silicon (M1/M2/M3/M4) only.
 
         ### Checksums
         [checksums-v${VERSION}.txt](${CDN_URL}/releases/v${VERSION}/checksums-v${VERSION}.txt)
@@ -82,7 +83,6 @@ runs:
         echo ""
         echo "📦 Download URLs:"
         echo "  - macOS ARM64: ${CDN_URL}/releases/v${VERSION}/klaat-macos-arm64-v${VERSION}"
-        echo "  - macOS x64: ${CDN_URL}/releases/v${VERSION}/klaat-macos-x64-v${VERSION}"
         echo "  - Linux ARM64: ${CDN_URL}/releases/v${VERSION}/klaat-linux-arm64-v${VERSION}"
         echo "  - Linux x64: ${CDN_URL}/releases/v${VERSION}/klaat-linux-x64-v${VERSION}"
         echo ""

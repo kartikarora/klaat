@@ -19,6 +19,8 @@
 
 ## Installation
 
+> **Platform Support**: Klaat supports macOS (Apple Silicon only), Linux ARM64, and Linux x64. Intel Macs are **not supported**.
+
 ### Homebrew (Recommended for macOS & Linux)
 
 ```bash
@@ -40,11 +42,8 @@ brew install klaat-snapshot
 Download the latest snapshot from the [CDN](https://distribute.kartikarora.me/):
 
 ```bash
-# macOS ARM64 (Apple Silicon)
+# macOS ARM64 (Apple Silicon M1/M2/M3/M4)
 curl -L https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-macos-arm64-COMMIT_HASH -o klaat
-
-# macOS x64 (Intel) - Currently not built
-# curl -L https://distribute.kartikarora.me/bin/klaat/latest/klaat-macos-x64 -o klaat
 
 # Linux ARM64
 curl -L https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-linux-arm64-COMMIT_HASH -o klaat
