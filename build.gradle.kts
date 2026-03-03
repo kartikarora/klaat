@@ -77,6 +77,11 @@ application {
     applicationName = if (isSnapshot) "klaat-snapshot" else if (isDevBuild) "klaat-dev" else "klaat"
 }
 
+tasks.run {
+    // Ensure run task is always executed when invoked
+    outputs.upToDateWhen { false }
+}
+
 // Generate BuildConfig.kt with build variant info
 val generateBuildConfig by tasks.registering {
     val outputDir = layout.buildDirectory.dir("generated/source/buildConfig")
@@ -156,8 +161,14 @@ tasks.register<Exec>("runNative") {
     group = "application"
     description = "Build and run native binary"
     dependsOn("nativeCompile")
+    outputs.upToDateWhen { false }
     commandLine("${layout.buildDirectory.get()}/native/nativeCompile/klaat")
     args(project.findProperty("args")?.toString()?.split(" ") ?: emptyList<String>())
+}
+
+// Ensure dynamic main tasks are not UP-TO-DATE
+tasks.matching { it.name.contains("MainKt.main()") }.configureEach {
+    outputs.upToDateWhen { false }
 }
 
 // GraalVM Native Image configuration
