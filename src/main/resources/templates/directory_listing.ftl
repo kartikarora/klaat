@@ -4,50 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of /${path} - Klaat</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;700&family=Roboto+Mono&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.ee883bc4.css">
+    <script src="https://distribute.kartikarora.me/js/kartikarora.57ea7c40.js" defer></script>
+    
     <style>
-        :root {
-            --primary: #303F9F;
-            --primary-dark: #1a237e;
-            --primary-light: #5c6bc0;
-            --accent: #FFC107;
-            --secondary: #212121;
-            --background: #ffffff;
-            --surface: #f8f9fa;
-            --text-primary: #212121;
-            --text-secondary: #666666;
-            --text-light: #dedede;
-            --border: #e0e0e0;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
-            --code-bg: #f5f5f5;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body:not(.light-mode) {
-                --background: #121212;
-                --surface: #1e1e1e;
-                --text-primary: #e0e0e0;
-                --text-secondary: #aaaaaa;
-                --border: #333333;
-                --code-bg: #2d2d2d;
-                --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-                --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
-            }
-        }
-
-        body.dark-mode {
-            --background: #121212;
-            --surface: #1e1e1e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #aaaaaa;
-            --border: #333333;
-            --code-bg: #2d2d2d;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -55,125 +21,119 @@
         }
 
         body {
-            font-family: 'Readex Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-sans);
             line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--background);
-            transition: background-color 0.3s, color 0.3s;
+            color: var(--primary);
+            background: var(--bg);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-        }
-
-        .main-content {
-            flex: 1;
-            background: var(--primary);
-            color: white;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .nav {
-            background: var(--primary);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: hsla(0, 0%, 100%, 0.85);
         }
 
-        .nav-content {
-            max-width: 1200px;
+        @media (prefers-color-scheme: dark) {
+            .nav {
+                background: rgba(13, 17, 23, 0.85);
+            }
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 20px 24px;
+            padding: 0.75rem var(--space-md);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 70px;
         }
 
-        .logo {
-            font-size: 24px;
+        .nav-brand {
             font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1.25rem;
+            color: var(--accent);
             text-decoration: none;
-        }
-
-        .theme-toggle {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent);
         }
 
         .hero {
-            background: var(--primary);
-            color: white;
-            padding: 60px 0;
+            padding-top: calc(70px + var(--space-3xl));
+            padding-bottom: var(--space-3xl);
             text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-alt);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: calc(60px + var(--space-lg));
+            }
         }
 
         .hero h1 {
-            font-size: 48px;
+            font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: var(--space-xs);
             letter-spacing: -1px;
+            color: var(--primary);
         }
 
         .hero p {
-            font-size: 18px;
-            opacity: 0.9;
+            font-size: 1.25rem;
+            color: var(--secondary);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 24px 80px;
+            padding: 0 var(--space-md) var(--space-3xl);
         }
 
         .breadcrumb {
-            margin-bottom: 24px;
+            margin: var(--space-xl) 0 var(--space-md);
             font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--secondary);
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: var(--space-xs);
         }
 
         .breadcrumb a {
-            color: #fff;
+            color: var(--accent);
             text-decoration: none;
             font-weight: 500;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
-            transition: all 0.2s;
+            border-bottom: 1px dashed var(--accent);
+            transition: all var(--transition);
         }
 
         .breadcrumb a:hover {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
+            color: var(--accent-hover);
+            border-bottom-color: transparent;
         }
 
         .listing-card {
-            background: var(--surface);
-            border-radius: 12px;
+            background: var(--card);
+            border-radius: var(--border-radius);
             border: 1px solid var(--border);
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: box-shadow 0.3s;
-            color: var(--text-primary);
+            transition: all var(--transition);
         }
 
         .listing-card:hover {
             box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
         }
 
         table {
@@ -183,21 +143,17 @@
 
         th, td {
             text-align: left;
-            padding: 16px 24px;
+            padding: var(--space-md) var(--space-lg);
             border-bottom: 1px solid var(--border);
         }
 
         th {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--text-secondary);
-            background: rgba(0, 0, 0, 0.05);
+            color: var(--tertiary);
+            background: var(--bg-alt);
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        body.dark-mode th {
-            background: rgba(255, 255, 255, 0.05);
         }
 
         tr:last-child td {
@@ -205,194 +161,147 @@
         }
 
         tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
-
-        body.dark-mode tr:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: var(--bg-alt);
         }
 
         .name-col {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: var(--space-xs);
         }
 
         .icon {
             font-size: 24px;
-            color: var(--text-secondary);
-        }
-
-        .icon.folder {
-            color: var(--primary-light);
-        }
-
-        body.dark-mode .icon.folder {
             color: var(--accent);
         }
 
         .name-col a {
-            color: var(--text-primary);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color var(--transition);
         }
 
         .name-col a:hover {
             color: var(--accent);
         }
 
-        body.dark-mode .name-col a:hover {
-            color: var(--accent);
-        }
-
         .size-col, .date-col {
-            font-family: 'Roboto Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 13px;
-            color: var(--text-secondary);
+            color: var(--secondary);
         }
 
         .footer {
-            background: var(--primary);
-            padding: 48px 0;
+            border-top: 1px solid var(--border);
+            padding: var(--space-3xl) 0;
+            margin-top: auto;
             text-align: center;
-            color: #fff;
+            background: var(--bg-alt);
+            color: var(--secondary);
         }
 
         .footer p {
-            margin-bottom: 8px;
+            margin-bottom: var(--space-xs);
             font-size: 14px;
         }
 
-        .material-symbols-outlined {
-            vertical-align: middle;
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+            border-bottom-color: transparent;
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 32px;
-            }
-            .hero p {
-                font-size: 16px;
-            }
-            th, td {
-                padding: 12px 16px;
-            }
-            .date-col {
-                display: none;
-            }
+            .hero h1 { font-size: 2.25rem; }
+            .hero p { font-size: 1.15rem; }
+            th, td { padding: var(--space-sm) var(--space-md); }
+            .date-col { display: none; }
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = themeToggle.querySelector('.material-symbols-outlined');
-            const body = document.body;
-
-            const getStoredTheme = () => localStorage.getItem('theme');
-            const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
-
-            const applyTheme = (theme) => {
-                const isDark = theme === 'dark' || (theme === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                if (isDark) {
-                    body.classList.add('dark-mode');
-                    body.classList.remove('light-mode');
-                    themeIcon.textContent = 'light_mode';
-                } else {
-                    body.classList.remove('dark-mode');
-                    body.classList.add('light-mode');
-                    themeIcon.textContent = 'dark_mode';
-                }
-            };
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                applyTheme(newTheme);
-                setStoredTheme(newTheme);
-            });
-
-            applyTheme(getStoredTheme());
-        });
-    </script>
 </head>
 <body>
     <nav class="nav">
-        <div class="nav-content">
-            <a href="/" class="logo">Klaat</a>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                <span class="material-symbols-outlined">dark_mode</span>
-            </button>
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Klaat</a>
         </div>
     </nav>
 
-    <div class="main-content">
-        <header class="hero">
-            <div class="container">
-                <h1>Index of /${path}</h1>
-                <p>Generated by Klaat Codelab Server</p>
-            </div>
-        </header>
+    <header class="hero">
+        <div class="container" style="padding-bottom: 0;">
+            <h1>Index of /${path}</h1>
+            <p>Generated by Klaat Codelab Server</p>
+        </div>
+    </header>
 
-        <main class="container">
-            <div class="breadcrumb">
-                <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
-                <a href="/">root</a> / 
-                <#assign current = "">
-                <#list path?split("/") as part>
-                    <#if part != "">
-                        <#assign current = current + part + "/">
-                        <a href="/${current}">${part}</a> /
-                    </#if>
-                </#list>
-            </div>
+    <main class="container">
+        <div class="breadcrumb">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: var(--accent);">home</span>
+            <a href="/">root</a> / 
+            <#assign current = "">
+            <#list path?split("/") as part>
+                <#if part != "">
+                    <#assign current = current + part + "/">
+                    <a href="/${current}">${part}</a> /
+                </#if>
+            </#list>
+        </div>
 
-            <div class="listing-card">
-                <table>
-                    <thead>
+        <div class="listing-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="date-col">Last Modified</th>
+                        <th class="size-col">Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#if path != "">
                         <tr>
-                            <th>Name</th>
-                            <th class="date-col">Last Modified</th>
-                            <th class="size-col">Size</th>
+                            <td>
+                                <div class="name-col">
+                                    <span class="material-symbols-outlined icon">folder_open</span>
+                                    <a href="..">.. (Parent Directory)</a>
+                                </div>
+                            </td>
+                            <td class="date-col">-</td>
+                            <td class="size-col">-</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <#if path != "">
-                            <tr>
-                                <td>
-                                    <div class="name-col">
-                                        <span class="material-symbols-outlined icon folder">folder_open</span>
-                                        <a href="..">.. (Parent Directory)</a>
-                                    </div>
-                                </td>
-                                <td class="date-col">-</td>
-                                <td class="size-col">-</td>
-                            </tr>
-                        </#if>
-                        <#list items as item>
-                            <tr>
-                                <td>
-                                    <div class="name-col">
-                                        <span class="material-symbols-outlined icon ${item.isDirectory?string('folder', '')}">
-                                            ${item.isDirectory?string("folder", "description")}
-                                        </span>
-                                        <a href="${item.name}${item.isDirectory?string("/", "")}">${item.name}</a>
-                                    </div>
-                                </td>
-                                <td class="date-col">${item.lastModified}</td>
-                                <td class="size-col">${item.size}</td>
-                            </tr>
-                        </#list>
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </div>
+                    </#if>
+                    <#list items as item>
+                        <tr>
+                            <td>
+                                <div class="name-col">
+                                    <span class="material-symbols-outlined icon">
+                                        ${item.isDirectory?string("folder", "description")}
+                                    </span>
+                                    <a href="${item.name}${item.isDirectory?string("/", "")}">${item.name}</a>
+                                </div>
+                            </td>
+                            <td class="date-col">${item.lastModified}</td>
+                            <td class="size-col">${item.size}</td>
+                        </tr>
+                    </#list>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Kartik Arora. Built with ❤️ using Kotlin and GraalVM.</p>
-            <p>Klaat is inspired by Google's <a href="https://github.com/googlecodelabs/tools" target="_blank" style="color: var(--accent); text-decoration: none;">claat</a> tool.</p>
+        <div class="container" style="padding-bottom: 0;">
+            <p>
+                Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
+            </p>
+            <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
+                Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
+                &copy; 2026 Kartik Arora
+            </p>
         </div>
     </footer>
 </body>
