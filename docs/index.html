@@ -35,9 +35,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.ee883bc4.css">
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.4.0.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://distribute.kartikarora.me/js/kartikarora.57ea7c40.js" defer></script>
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.4.0.js" defer></script>
 </head>
 <body>
     <nav class="nav">
@@ -62,8 +62,14 @@
             <p class="subtitle">Kodelabs As A Thing</p>
             <p class="hero-description">Convert Google Docs and Markdown into interactive codelabs. A fast, native command-line tool built with Kotlin and GraalVM for creating beautiful, step-by-step tutorials.</p>
             <div class="hero-buttons">
-                <a href="#download" class="btn btn-primary">Download</a>
-                <a href="#quickstart" class="btn btn-secondary">Quick Start</a>
+                <a href="#download" class="btn btn-primary">
+                    <span class="material-symbols-outlined">download</span>
+                    Download
+                </a>
+                <a href="#quickstart" class="btn btn-secondary">
+                    <span class="material-symbols-outlined">bolt</span>
+                    Quick Start
+                </a>
             </div>
         </div>
     </header>
@@ -105,10 +111,10 @@
             </div>
         </section>
 
-        <div class="tabs-container">
-            <div class="tabs-header">
-                <button class="tab-btn active" data-tab="snapshot">Snapshot (Alpha)</button>
-                <button class="tab-btn" data-tab="release">Release (Stable)</button>
+        <div class="tabs-sticky-container">
+            <div class="tabs">
+                <div class="tab-item active" data-tab="snapshot">Snapshot (Alpha)</div>
+                <div class="tab-item" data-tab="release">Release (Stable)</div>
             </div>
         </div>
 
@@ -125,8 +131,8 @@
                         <h3><span class="material-symbols-outlined">download</span> Homebrew (macOS & Linux)</h3>
                         <p>The easiest way to install snapshot builds (latest from develop) on macOS and Linux:</p>
                         <div class="code-block">
-                            <code>brew tap kartikarora/klaat-snapshots
-brew install klaat-snapshot</code>
+                            <pre><code class="language-bash">brew tap kartikarora/klaat-snapshots
+brew install klaat-snapshot</code></pre>
                         </div>
                     </div>
 
@@ -147,15 +153,15 @@ brew install klaat-snapshot</code>
                             <p><strong>Snapshot builds (Alpha): <span class="snapshot-version">COMMIT_HASH</span></strong></p>
                             <code class="inline-code"><span id="snapshot-url">https://distribute.kartikarora.me/bin/klaat/snapshot/<span class="snapshot-version">COMMIT_HASH</span>/klaat-snapshot-macos-arm64-<span class="snapshot-version">COMMIT_HASH</span></span></code>
 
-                            <p style="margin-top: 16px;"><strong>Selected platform:</strong> <span id="selected-platform-name">macOS ARM64</span></p>
+                            <p style="margin-top: var(--space-md);"><strong>Selected platform:</strong> <span id="selected-platform-name">macOS ARM64</span></p>
                             <div class="code-block">
-                                <code id="snapshot-curl">curl -L -O https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-macos-arm64-COMMIT_HASH</code>
+                                <pre><code id="snapshot-curl" class="language-bash">curl -L -O https://distribute.kartikarora.me/bin/klaat/snapshot/COMMIT_HASH/klaat-snapshot-macos-arm64-COMMIT_HASH</code></pre>
                             </div>
                         </div>
                         <p class="download-note">After downloading, make the binary executable:</p>
                         <div class="code-block">
-                            <code>chmod +x <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span>
-sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span> /usr/local/bin/klaat-snapshot</code>
+                            <pre><code class="language-bash">chmod +x <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span>
+sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT_HASH</span> /usr/local/bin/klaat-snapshot</code></pre>
                         </div>
                     </div>
                 </div>
@@ -171,7 +177,7 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT
                         <h3><span class="material-symbols-outlined">download</span> Homebrew (macOS & Linux)</h3>
                         <p>Once stable, you'll be able to install via Homebrew Core:</p>
                         <div class="code-block">
-                            <code>brew install klaat</code>
+                            <pre><code class="language-bash">brew install klaat</code></pre>
                         </div>
                     </div>
 
@@ -192,15 +198,15 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-COMMIT
                             <p><strong>Latest release: <span class="release-version">latest</span></strong></p>
                             <code class="inline-code"><span id="release-url">https://distribute.kartikarora.me/bin/klaat/release/<span class="release-version">latest</span>/klaat-macos-arm64-<span class="release-version">latest</span></span></code>
 
-                            <p style="margin-top: 16px;"><strong>Selected platform:</strong> <span id="selected-platform-name-release">macOS ARM64</span></p>
+                            <p style="margin-top: var(--space-md);"><strong>Selected platform:</strong> <span id="selected-platform-name-release">macOS ARM64</span></p>
                             <div class="code-block">
-                                <code id="release-curl">curl -L -O https://distribute.kartikarora.me/bin/klaat/release/latest/klaat-macos-arm64-latest</code>
+                                <pre><code id="release-curl" class="language-bash">curl -L -O https://distribute.kartikarora.me/bin/klaat/release/latest/klaat-macos-arm64-latest</code></pre>
                             </div>
                         </div>
                         <p class="download-note">After downloading, make the binary executable:</p>
                         <div class="code-block">
-                            <code>chmod +x <span class="release-binary-filename">klaat-macos-arm64-latest</span>
-sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /usr/local/bin/klaat</code>
+                            <pre><code class="language-bash">chmod +x <span class="release-binary-filename">klaat-macos-arm64-latest</span>
+sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /usr/local/bin/klaat</code></pre>
                         </div>
                     </div>
                 </div>
@@ -218,7 +224,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Export from Markdown</h3>
                             <p>Create a codelab from a Markdown file:</p>
                             <div class="code-block">
-                                <code>klaat-snapshot export my-tutorial.md -o output -f html</code>
+                                <pre><code class="language-bash">klaat-snapshot export my-tutorial.md -o output -f html</code></pre>
                             </div>
                         </div>
                     </div>
@@ -229,7 +235,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Export from Google Docs</h3>
                             <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
                             <div class="code-block">
-                                <code>klaat-snapshot export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+                                <pre><code class="language-bash">klaat-snapshot export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code></pre>
                             </div>
                         </div>
                     </div>
@@ -240,7 +246,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Preview Locally</h3>
                             <p>Start a local server to preview your codelabs:</p>
                             <div class="code-block">
-                                <code>klaat-snapshot serve -dir output -addr localhost:9090</code>
+                                <pre><code class="language-bash">klaat-snapshot serve -dir output -addr localhost:9090</code></pre>
                             </div>
                             <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
                         </div>
@@ -256,7 +262,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Export from Markdown</h3>
                             <p>Create a codelab from a Markdown file:</p>
                             <div class="code-block">
-                                <code>klaat export my-tutorial.md -o output -f html</code>
+                                <pre><code class="language-bash">klaat export my-tutorial.md -o output -f html</code></pre>
                             </div>
                         </div>
                     </div>
@@ -267,7 +273,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Export from Google Docs</h3>
                             <p>Convert a Google Doc to a codelab (requires one-time authentication):</p>
                             <div class="code-block">
-                                <code>klaat export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code>
+                                <pre><code class="language-bash">klaat export https://docs.google.com/document/d/YOUR_DOC_ID -o output -f html</code></pre>
                             </div>
                         </div>
                     </div>
@@ -278,7 +284,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                             <h3>Preview Locally</h3>
                             <p>Start a local server to preview your codelabs:</p>
                             <div class="code-block">
-                                <code>klaat serve -dir output -addr localhost:9090</code>
+                                <pre><code class="language-bash">klaat serve -dir output -addr localhost:9090</code></pre>
                             </div>
                             <p>Open <a href="http://localhost:9090">http://localhost:9090</a> in your browser</p>
                         </div>
@@ -298,7 +304,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                         <h4><code>klaat-snapshot export</code></h4>
                         <p>Convert a source document to codelab format</p>
                         <div class="code-block">
-                            <code>klaat-snapshot export [SOURCE] [OPTIONS]</code>
+                            <pre><code class="language-bash">klaat-snapshot export [SOURCE] [OPTIONS]</code></pre>
                         </div>
                         <p><strong>Options:</strong></p>
                         <ul>
@@ -312,7 +318,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                         <h4><code>klaat-snapshot serve</code></h4>
                         <p>Start a local preview server</p>
                         <div class="code-block">
-                            <code>klaat-snapshot serve [OPTIONS]</code>
+                            <pre><code class="language-bash">klaat-snapshot serve [OPTIONS]</code></pre>
                         </div>
                         <p><strong>Options:</strong></p>
                         <ul>
@@ -323,7 +329,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                         <h4><code>klaat-snapshot version</code></h4>
                         <p>Display version information</p>
                         <div class="code-block">
-                            <code>klaat-snapshot version</code>
+                            <pre><code class="language-bash">klaat-snapshot version</code></pre>
                         </div>
                     </div>
 
@@ -331,7 +337,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-latest</span> /u
                         <h3>Markdown Format</h3>
                         <p>Klaat uses Markdown with YAML frontmatter:</p>
                         <div class="code-block">
-                            <code>---
+                            <pre><code class="language-markdown">---
 id: my-codelab
 summary: Brief description
 categories: Android, Kotlin
@@ -350,7 +356,7 @@ Content for step 1...
 ## Step 2: Next Step
 Duration: 10
 
-Content for step 2...</code>
+Content for step 2...</code></pre>
                         </div>
 
                         <h3>Google Docs Format</h3>
@@ -372,7 +378,7 @@ Content for step 2...</code>
                         <h4><code>klaat export</code></h4>
                         <p>Convert a source document to codelab format</p>
                         <div class="code-block">
-                            <code>klaat export [SOURCE] [OPTIONS]</code>
+                            <pre><code class="language-bash">klaat export [SOURCE] [OPTIONS]</code></pre>
                         </div>
                         <p><strong>Options:</strong></p>
                         <ul>
@@ -386,7 +392,7 @@ Content for step 2...</code>
                         <h4><code>klaat serve</code></h4>
                         <p>Start a local preview server</p>
                         <div class="code-block">
-                            <code>klaat serve [OPTIONS]</code>
+                            <pre><code class="language-bash">klaat serve [OPTIONS]</code></pre>
                         </div>
                         <p><strong>Options:</strong></p>
                         <ul>
@@ -397,7 +403,7 @@ Content for step 2...</code>
                         <h4><code>klaat version</code></h4>
                         <p>Display version information</p>
                         <div class="code-block">
-                            <code>klaat version</code>
+                            <pre><code class="language-bash">klaat version</code></pre>
                         </div>
                     </div>
 
@@ -405,7 +411,7 @@ Content for step 2...</code>
                         <h3>Markdown Format</h3>
                         <p>Klaat uses Markdown with YAML frontmatter:</p>
                         <div class="code-block">
-                            <code>---
+                            <pre><code class="language-markdown">---
 id: my-codelab
 summary: Brief description
 categories: Android, Kotlin
@@ -424,7 +430,7 @@ Content for step 1...
 ## Step 2: Next Step
 Duration: 10
 
-Content for step 2...</code>
+Content for step 2...</code></pre>
                         </div>
 
                         <h3>Google Docs Format</h3>

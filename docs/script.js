@@ -49,13 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateDownloadURLs(updateUrl = false) {
         const platform = platformSelectSnapshot ? platformSelectSnapshot.value : detectPlatform();
-        const releaseEl = Array.from(document.querySelectorAll('.release-version')).find(el => !el.closest('#release-url'));
-        const snapshotEl = Array.from(document.querySelectorAll('.snapshot-version')).find(el => !el.closest('#snapshot-url'));
+        const releaseEls = document.querySelectorAll('.release-version');
+        const snapshotEls = document.querySelectorAll('.snapshot-version');
 
-        if (!releaseEl || !snapshotEl) return;
+        if (releaseEls.length === 0 || snapshotEls.length === 0) return;
 
-        const releaseVersion = releaseEl.textContent;
-        const snapshotVersion = snapshotEl.textContent;
+        // Get version from one of the elements that isn't a URL container
+        const releaseVersion = releaseEls[0].textContent;
+        const snapshotVersion = snapshotEls[0].textContent;
 
         const platformNames = {
             'macos-arm64': 'macOS ARM64 (Apple Silicon)',
@@ -131,16 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize versions
     fetchVersions();
 
-    // Tab Switching Logic
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    // Custom tab content switching (brand JS handles button states and indicator)
+    const tabBtns = document.querySelectorAll('.tabs .tab-item');
     const tabContents = document.querySelectorAll('.tab-content');
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const tabId = btn.getAttribute('data-tab');
-
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
 
             tabContents.forEach(content => {
                 if (content.id.includes(tabId)) {
@@ -151,31 +149,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-
-    // Mobile Navigation
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.getElementById('nav-links');
-
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            
-            // Toggle icon between menu and close
-            const icon = navToggle.querySelector('.material-symbols-outlined');
-            if (icon) {
-                icon.textContent = navToggle.classList.contains('active') ? 'close' : 'menu';
-            }
-        });
-
-        // Close menu when clicking a link
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-                const icon = navToggle.querySelector('.material-symbols-outlined');
-                if (icon) icon.textContent = 'menu';
-            });
-        });
-    }
 });
