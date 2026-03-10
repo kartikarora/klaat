@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.ee883bc4.css">
-    <script src="https://distribute.kartikarora.me/js/kartikarora.57ea7c40.js" defer></script>
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.4.0.css">
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.4.0.js" defer></script>
     
     <style>
         * {
@@ -30,40 +30,6 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-        }
-
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            backdrop-filter: blur(12px);
-            background: hsla(0, 0%, 100%, 0.85);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .nav {
-                background: rgba(13, 17, 23, 0.85);
-            }
-        }
-
-        .nav-container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0.75rem var(--space-md);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .nav-brand {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--accent);
-            text-decoration: none;
         }
 
         .hero {
@@ -132,7 +98,7 @@
         }
 
         .listing-card:hover {
-            box-shadow: var(--shadow-hover);
+            box-shadow: var(--shadow);
             border-color: var(--accent);
         }
 
@@ -190,31 +156,6 @@
             font-family: var(--font-mono);
             font-size: 13px;
             color: var(--secondary);
-        }
-
-        .footer {
-            border-top: 1px solid var(--border);
-            padding: var(--space-3xl) 0;
-            margin-top: auto;
-            text-align: center;
-            background: var(--bg-alt);
-            color: var(--secondary);
-        }
-
-        .footer p {
-            margin-bottom: var(--space-xs);
-            font-size: 14px;
-        }
-
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-            border-bottom: 1px dashed var(--primary);
-        }
-
-        .footer a:hover {
-            color: var(--accent);
-            border-bottom-color: transparent;
         }
 
         @media (max-width: 768px) {
