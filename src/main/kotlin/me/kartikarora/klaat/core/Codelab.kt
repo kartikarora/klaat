@@ -39,7 +39,7 @@ sealed class Node {
     data class CommandBlock(val commands: String) : Node()
     data class InfoBox(val type: InfoBoxType, val nodes: List<Node>) : Node()
     data class BulletList(val items: List<List<Node>>) : Node()
-    data class NumberedList(val items: List<List<Node>>) : Node()
+    data class NumberedList(val items: List<List<Node>>, val start: Int = 1) : Node()
     data class Image(val src: String, val alt: String = "", val maxWidth: Int? = null) : Node()
     data class YoutubeVideo(val videoId: String) : Node()
     data class IFrame(val src: String) : Node()
