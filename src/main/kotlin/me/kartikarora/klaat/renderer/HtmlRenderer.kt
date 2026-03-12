@@ -114,7 +114,10 @@ class HtmlRenderer {
             is Node.CommandBlock -> """<pre class="devsite-terminal"><code>${escape(node.commands)}</code></pre>"""
             is Node.InfoBox -> renderInfoBox(node)
             is Node.BulletList -> "<ul>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ul>"
-            is Node.NumberedList -> "<ol>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ol>"
+            is Node.NumberedList -> {
+                val startAttr = if (node.start > 1) """ start="${node.start}"""" else ""
+                "<ol$startAttr>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ol>"
+            }
             is Node.Image -> renderImage(node)
             is Node.YoutubeVideo -> """<iframe class="youtube-video" src="https://www.youtube.com/embed/${node.videoId}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>"""
             is Node.IFrame -> """<iframe src="${escape(node.src)}"></iframe>"""

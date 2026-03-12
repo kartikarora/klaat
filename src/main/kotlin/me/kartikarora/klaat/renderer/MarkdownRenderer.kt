@@ -149,7 +149,7 @@ class MarkdownRenderer {
 
     private fun renderNumberedList(node: Node.NumberedList): String {
         return node.items.mapIndexed { index, item ->
-            "${index + 1}. ${renderStepContent(item)}"
+            "${node.start + index}. ${renderStepContent(item)}"
         }.joinToString("\n")
     }
 

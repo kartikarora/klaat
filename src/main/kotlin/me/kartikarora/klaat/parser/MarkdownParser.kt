@@ -237,7 +237,7 @@ class MarkdownParser {
                     }
                     listItem = listItem.next
                 }
-                nodes.add(CodelabNode.NumberedList(items))
+                nodes.add(CodelabNode.NumberedList(items, start = node.startNumber))
             }
             is com.vladsch.flexmark.ast.FencedCodeBlock -> {
                 nodes.add(CodelabNode.CodeBlock(
