@@ -5,6 +5,7 @@ import me.kartikarora.klaat.core.Node
 import java.io.ByteArrayInputStream
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -410,5 +411,180 @@ class MarkdownParserTest {
         assertEquals(listOf("Published"), codelab.metadata.status)
         assertEquals("", codelab.metadata.feedbackLink)
         assertEquals(0, codelab.metadata.duration)
+    }
+
+    @Test
+    fun `test parse step duration from Duration line`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+            Duration: 5
+
+            This is step 1 content.
+
+            ## Step 2
+            Duration: 10
+
+            This is step 2 content.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(2, codelab.steps.size)
+        assertEquals(5, codelab.steps[0].duration)
+        assertEquals(10, codelab.steps[1].duration)
+    }
+
+    @Test
+    fun `test step duration defaults to 1 when not specified`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+
+            This is step 1 content without duration.
+
+            ## Step 2
+            Duration: 15
+
+            This step has a duration.
+
+            ## Step 3
+
+            This step also has no duration.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(3, codelab.steps.size)
+        assertEquals(1, codelab.steps[0].duration)
+        assertEquals(15, codelab.steps[1].duration)
+        assertEquals(1, codelab.steps[2].duration)
+    }
+
+    @Test
+    fun `test step duration with various spacing`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+            Duration:5
+
+            Step with no space after colon.
+
+            ## Step 2
+            Duration:  20
+
+            Step with multiple spaces.
+
+            ## Step 3
+            Duration: 7
+
+            Normal spacing.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(3, codelab.steps.size)
+        assertEquals(5, codelab.steps[0].duration)
+        assertEquals(20, codelab.steps[1].duration)
+        assertEquals(7, codelab.steps[2].duration)
+    }
+
+    @Test
+    fun `test duration line is not included in step content`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+            Duration: 5
+
+            This is the actual content.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(1, codelab.steps.size)
+        val content = codelab.steps[0].content
+
+        // Should have 1 paragraph with the actual content, not the Duration line
+        assertEquals(1, content.size)
+        assertTrue(content[0] is Node.Paragraph)
+        val paragraph = content[0] as Node.Paragraph
+        val text = paragraph.nodes.filterIsInstance<Node.Text>().joinToString("") { it.content }
+        assertTrue(text.contains("This is the actual content"))
+        assertFalse(text.contains("Duration"))
+    }
+
+    @Test
+    fun `test invalid duration value defaults to 1`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+            Duration: invalid
+
+            Content here.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(1, codelab.steps.size)
+        // Invalid duration should be treated as regular content, so default of 1 is used
+        assertEquals(1, codelab.steps[0].duration)
+    }
+
+    @Test
+    fun `test parse tldr example file durations`() {
+        val markdown = """
+            # Build Your Own Tech News TL;DR App
+
+            ## Overview
+            Duration: 5
+
+            In this codelab, you'll learn how to build...
+
+            ## Getting started with AI Studio
+            Duration: 10
+
+            Let's navigate to AI Studio...
+
+            ## Create a basic Express API
+            Duration: 15
+
+            Let's go to the cloud console...
+
+            ## Add the Gemini magic!
+            Duration: 20
+
+            In this step we will be adding Gemini...
+
+            ## Deploy your app
+            Duration: 10
+
+            It's time to deploy our application...
+
+            ## Send curated news to your email
+            Duration: 15
+
+            In your Cloud Console, search for application integration...
+
+            ## What's next?
+            Duration: 5
+
+            Well done on creating your own TL;DR app...
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(7, codelab.steps.size)
+        assertEquals(5, codelab.steps[0].duration)
+        assertEquals(10, codelab.steps[1].duration)
+        assertEquals(15, codelab.steps[2].duration)
+        assertEquals(20, codelab.steps[3].duration)
+        assertEquals(10, codelab.steps[4].duration)
+        assertEquals(15, codelab.steps[5].duration)
+        assertEquals(5, codelab.steps[6].duration)
     }
 }

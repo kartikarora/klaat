@@ -127,11 +127,12 @@ class MarkdownParser {
         var currentStepTitle = ""
         var currentStepDuration = 1
         var currentStepEnv = listOf("Web", "Kiosk")
-        
+
         var node: FlexmarkNode? = document.firstChild
         var skipUntilFirstH2 = false
         var foundTitle = false
-        
+        var skipNextIfDuration = false
+
         while (node != null) {
             when {
                 node is com.vladsch.flexmark.ast.Heading && node.level == 1 -> {
@@ -148,24 +149,38 @@ class MarkdownParser {
                             environment = currentStepEnv
                         ))
                     }
-                    
+
                     // Start new step
                     currentStepTitle = node.text.toString()
                     currentStep = mutableListOf()
                     currentStepDuration = 1
                     currentStepEnv = listOf("Web", "Kiosk")
                     skipUntilFirstH2 = false
+                    skipNextIfDuration = true
                 }
                 !skipUntilFirstH2 && currentStep != null -> {
+                    // Check if this is a Duration paragraph
+                    if (skipNextIfDuration && node is com.vladsch.flexmark.ast.Paragraph) {
+                        val text = node.chars.toString().trim()
+                        val durationMatch = Regex("^Duration:\\s*(\\d+)$").find(text)
+                        if (durationMatch != null) {
+                            currentStepDuration = durationMatch.groupValues[1].toIntOrNull() ?: 1
+                            skipNextIfDuration = false
+                            node = node.next
+                            continue
+                        }
+                    }
+                    skipNextIfDuration = false
+
                     // Parse node content and add to current step
                     val parsedNodes = parseNode(node)
                     currentStep.addAll(parsedNodes)
                 }
             }
-            
+
             node = node.next
         }
-        
+
         // Add last step
         if (currentStep != null && currentStepTitle.isNotEmpty()) {
             steps.add(Step(
@@ -175,7 +190,7 @@ class MarkdownParser {
                 environment = currentStepEnv
             ))
         }
-        
+
         return steps
     }
 
