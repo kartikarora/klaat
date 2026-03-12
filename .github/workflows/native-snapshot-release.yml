@@ -7,6 +7,41 @@ permissions:
   contents: write
 
 jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup GraalVM
+        uses: ./.github/actions/setup-graalvm
+
+      - name: Run tests
+        run: ./gradlew test
+
+      - name: Cancel builds on test failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runId = context.runId;
+            const jobs = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: runId
+            });
+
+            for (const job of jobs.data.jobs) {
+              if (job.name.startsWith('Build ') && job.status === 'in_progress') {
+                await github.rest.actions.cancelWorkflowRun({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: runId
+                });
+                break;
+              }
+            }
+
   build-native:
     name: Build ${{ matrix.name }}
     env:
@@ -25,6 +60,7 @@ jobs:
             name: macOS ARM64
 
     runs-on: ${{ matrix.os }}
+    if: ${{ !cancelled() }}
     steps:
       - uses: actions/checkout@v6
 
@@ -53,21 +89,10 @@ jobs:
             ${{ steps.build.outputs.binary-name }}
             checksums-${{ steps.version.outputs.version }}.txt
 
-  run-tests:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Setup GraalVM
-        uses: ./.github/actions/setup-graalvm
-
-      - name: Run tests
-        run: ./gradlew test
-
   upload-and-publish:
     needs: [build-native, run-tests]
     runs-on: ubuntu-latest
+    if: ${{ !cancelled() && needs.run-tests.result == 'success' && needs.build-native.result == 'success' }}
     steps:
       - uses: actions/checkout@v6
 
