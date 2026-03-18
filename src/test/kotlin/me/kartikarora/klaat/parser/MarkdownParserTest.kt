@@ -536,6 +536,86 @@ class MarkdownParserTest {
     }
 
     @Test
+    fun `test parse comma-separated categories and tags`() {
+        val markdown = """
+            ---
+            summary: Test codelab for comma-separated values
+            id: test-comma-separated
+            categories: AI, Gemini
+            tags: gcp, generativeai, gemini, workshop
+            authors: John Doe, Jane Smith, Bob Johnson
+            ---
+
+            # Test Codelab
+
+            ## Step 1
+
+            Content here.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        // Verify categories are properly split
+        assertEquals(2, codelab.metadata.category.size)
+        assertEquals(listOf("AI", "Gemini"), codelab.metadata.category)
+
+        // Verify tags are properly split
+        assertEquals(4, codelab.metadata.tags.size)
+        assertEquals(listOf("gcp", "generativeai", "gemini", "workshop"), codelab.metadata.tags)
+
+        // Verify authors are properly split
+        assertEquals(3, codelab.metadata.authors.size)
+        assertEquals(listOf("John Doe", "Jane Smith", "Bob Johnson"), codelab.metadata.authors)
+    }
+
+    @Test
+    fun `test parse single category without comma`() {
+        val markdown = """
+            ---
+            summary: Test single value
+            id: test-single
+            categories: Android
+            tags: beginner
+            ---
+
+            # Test Codelab
+
+            ## Step 1
+
+            Content here.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        assertEquals(listOf("Android"), codelab.metadata.category)
+        assertEquals(listOf("beginner"), codelab.metadata.tags)
+    }
+
+    @Test
+    fun `test parse categories and tags with extra whitespace`() {
+        val markdown = """
+            ---
+            summary: Test whitespace handling
+            id: test-whitespace
+            categories:  AI ,  Gemini
+            tags:  gcp , generativeai  ,  gemini
+            ---
+
+            # Test Codelab
+
+            ## Step 1
+
+            Content here.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        // Verify whitespace is trimmed
+        assertEquals(listOf("AI", "Gemini"), codelab.metadata.category)
+        assertEquals(listOf("gcp", "generativeai", "gemini"), codelab.metadata.tags)
+    }
+
+    @Test
     fun `test parse tldr example file durations`() {
         val markdown = """
             # Build Your Own Tech News TL;DR App

@@ -484,6 +484,79 @@ class HtmlRendererTest {
         assertTrue(jsonContent.contains("\"duration\": 25"))
     }
 
+    @Test
+    fun `test comma-separated arrays in JSON metadata`() {
+        val metadata = CodelabMetadata(
+            summary = "Test",
+            url = "test-url",
+            category = listOf("AI", "Gemini"),
+            status = listOf("Published"),
+            tags = listOf("gcp", "generativeai", "gemini", "workshop"),
+            authors = listOf("John Doe", "Jane Smith")
+        )
+        val step = Step("Test", listOf(Node.Text("Content")))
+        val codelab = Codelab("test", "Title", steps = listOf(step), metadata = metadata)
+
+        renderer.render(codelab, tempDir)
+
+        val jsonContent = File(tempDir, "test/codelab.json").readText()
+
+        // Verify categories are properly split in JSON array (with flexible whitespace)
+        assertTrue(jsonContent.contains("\"category\":") && jsonContent.contains("[\"AI\", \"Gemini\"]"),
+            "Categories should be a proper JSON array with separate elements. Got: $jsonContent")
+
+        // Verify tags are properly split in JSON array
+        assertTrue(jsonContent.contains("\"tags\":") && jsonContent.contains("[\"gcp\", \"generativeai\", \"gemini\", \"workshop\"]"),
+            "Tags should be a proper JSON array with separate elements. Got: $jsonContent")
+
+        // Ensure it's NOT rendering as a single element
+        assertFalse(jsonContent.contains("[\"AI, Gemini\"]"),
+            "Categories should NOT be a single comma-separated string")
+        assertFalse(jsonContent.contains("[\"gcp, generativeai, gemini, workshop\"]"),
+            "Tags should NOT be a single comma-separated string")
+    }
+
+    @Test
+    fun `test single value arrays in JSON metadata`() {
+        val metadata = CodelabMetadata(
+            category = listOf("Android"),
+            tags = listOf("beginner")
+        )
+        val step = Step("Test", listOf(Node.Text("Content")))
+        val codelab = Codelab("test", "Title", steps = listOf(step), metadata = metadata)
+
+        renderer.render(codelab, tempDir)
+
+        val jsonContent = File(tempDir, "test/codelab.json").readText()
+
+        assertTrue(jsonContent.contains("\"category\": [\"Android\"]"))
+        assertTrue(jsonContent.contains("\"tags\": [\"beginner\"]"))
+    }
+
+    @Test
+    fun `test empty arrays in JSON metadata`() {
+        val metadata = CodelabMetadata(
+            category = emptyList(),
+            tags = emptyList()
+        )
+        val step = Step("Test", listOf(Node.Text("Content")))
+        val codelab = Codelab("test", "Title", steps = listOf(step), metadata = metadata)
+
+        renderer.render(codelab, tempDir)
+
+        val jsonContent = File(tempDir, "test/codelab.json").readText()
+
+        // For empty lists, renderJsonArray produces "[]" without any content inside
+        // So we just need to find the pattern with the quotes removed
+        val hasCategoryArray = jsonContent.contains("\"category\": []") ||
+                               jsonContent.contains("\"category\":[]")
+        val hasTagsArray = jsonContent.contains("\"tags\": []") ||
+                          jsonContent.contains("\"tags\":[]")
+
+        assertTrue(hasCategoryArray, "Category should be an empty array. Got: $jsonContent")
+        assertTrue(hasTagsArray, "Tags should be an empty array. Got: $jsonContent")
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",
