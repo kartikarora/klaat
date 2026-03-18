@@ -200,10 +200,10 @@ class MarkdownRenderer {
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")
-            appendLine("""  "category": ${codelab.metadata.category.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
-            appendLine("""  "status": ${codelab.metadata.status.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
-            appendLine("""  "tags": ${codelab.metadata.tags.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
-            appendLine("""  "authors": ${codelab.metadata.authors.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
+            appendLine("""  "category": ${renderJsonArray(codelab.metadata.category)},""")
+            appendLine("""  "status": ${renderJsonArray(codelab.metadata.status)},""")
+            appendLine("""  "tags": ${renderJsonArray(codelab.metadata.tags)},""")
+            appendLine("""  "authors": ${renderJsonArray(codelab.metadata.authors)},""")
             appendLine("""  "feedback": "${escapeJson(codelab.metadata.feedbackLink)}",""")
 
             // Add extra metadata fields
@@ -229,5 +229,13 @@ class MarkdownRenderer {
             .replace("\n", "\\n")
             .replace("\r", "\\r")
             .replace("\t", "\\t")
+    }
+
+    private fun renderJsonArray(items: List<String>): String {
+        return if (items.isEmpty()) {
+            "[]"
+        } else {
+            items.joinToString("\", \"", "[\"", "\"]") { escapeJson(it) }
+        }
     }
 }

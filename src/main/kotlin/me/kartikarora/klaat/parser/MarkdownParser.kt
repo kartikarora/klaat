@@ -93,23 +93,48 @@ class MarkdownParser {
         return CodelabMetadata(
             summary = data["summary"]?.firstOrNull() ?: "",
             url = data["id"]?.firstOrNull() ?: "",
-            category = data["categories"]?.firstOrNull()?.split(",")?.map { it.trim() } ?: emptyList(),
-            environment = data["environments"]?.firstOrNull()?.split(",")?.map { it.trim() } ?: listOf("Web"),
-            status = data["status"]?.firstOrNull()?.split(",")?.map { it.trim() } ?: listOf("Published"),
+            category = parseStringList(data["categories"]),
+            environment = parseStringList(data["environments"]).ifEmpty { listOf("Web") },
+            status = parseStringList(data["status"]).ifEmpty { listOf("Published") },
             feedbackLink = data["feedback_link"]?.firstOrNull() ?: "",
             analyticsAccount = data["analytics_account"]?.firstOrNull() ?: "",
-            tags = data["tags"]?.firstOrNull()?.split(",")?.map { it.trim() } ?: emptyList(),
-            authors = data["authors"]?.firstOrNull()?.split(",")?.map { it.trim() } ?: emptyList(),
+            tags = parseStringList(data["tags"]),
+            authors = parseStringList(data["authors"]),
             source = data["source"]?.firstOrNull() ?: "",
             duration = data["duration"]?.firstOrNull()?.toIntOrNull() ?: 0,
             extraMetadata = extraMetadata
         )
     }
 
+    /**
+     * Parse a list of strings from YAML frontmatter data.
+     * YAML can represent lists in two ways:
+     * 1. Inline with commas: "tags: foo, bar, baz" -> ["foo, bar, baz"] (single string)
+     * 2. Native YAML list: "tags: foo, bar, baz" -> ["foo", "bar", "baz"] (multiple strings)
+     *
+     * This function handles both cases by checking if we have multiple items or need to split.
+     */
+    private fun parseStringList(values: List<String>?): List<String> {
+        if (values.isNullOrEmpty()) return emptyList()
+
+        // If YAML parser gave us multiple items, use them as-is (trimmed)
+        if (values.size > 1) {
+            return values.map { it.trim() }
+        }
+
+        // If we have a single item, check if it contains commas and split if needed
+        val single = values.first()
+        return if (single.contains(",")) {
+            single.split(",").map { it.trim() }
+        } else {
+            listOf(single.trim())
+        }
+    }
+
     private fun extractTitle(document: Document): String {
         var title = "Untitled Codelab"
         var node: FlexmarkNode? = document.firstChild
-        
+
         while (node != null) {
             if (node is com.vladsch.flexmark.ast.Heading && node.level == 1) {
                 title = node.text.toString()
@@ -117,7 +142,7 @@ class MarkdownParser {
             }
             node = node.next
         }
-        
+
         return title
     }
 

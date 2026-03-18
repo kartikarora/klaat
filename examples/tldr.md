@@ -1,9 +1,12 @@
+---
 summary: Build Your Own Tech News TL;DR App: Grounding, Cloud Run & No-Code Email Automation
 id: gemini-tldr-app
+categories: AI, Gemini
 tags: gcp, generativeai, gemini, workshop
 status: Published 
 authors: Lovee Jain
 Feedback Link: https://zarin.io
+---
 
 # Build Your Own Tech News TL;DR App
 <!-- ------------------------ -->

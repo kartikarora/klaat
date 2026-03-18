@@ -216,9 +216,9 @@ $options
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")
             appendLine("""  "theme": "",""")
-            appendLine("""  "status": ${codelab.metadata.status.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
-            appendLine("""  "category": ${codelab.metadata.category.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
-            appendLine("""  "tags": ${codelab.metadata.tags.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
+            appendLine("""  "status": ${renderJsonArray(codelab.metadata.status)},""")
+            appendLine("""  "category": ${renderJsonArray(codelab.metadata.category)},""")
+            appendLine("""  "tags": ${renderJsonArray(codelab.metadata.tags)},""")
             appendLine("""  "feedback": "${escapeJson(codelab.metadata.feedbackLink)}",""")
 
             // Add extra metadata fields
@@ -253,5 +253,13 @@ $options
             .replace("\n", "\\n")
             .replace("\r", "\\r")
             .replace("\t", "\\t")
+    }
+
+    private fun renderJsonArray(items: List<String>): String {
+        return if (items.isEmpty()) {
+            "[]"
+        } else {
+            items.joinToString("\", \"", "[\"", "\"]") { escapeJson(it) }
+        }
     }
 }
