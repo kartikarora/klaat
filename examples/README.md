@@ -101,6 +101,11 @@ Google Docs versions of the examples above, demonstrating the full Google Docs f
 - **View:** [Open in Google Docs](https://docs.google.com/document/d/1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM)
 - Full-featured example with all formatting options
 
+#### Image Example (Google Docs)
+- **Document ID:** `1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg`
+- **View:** [Open in Google Docs](https://docs.google.com/document/d/1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg)
+- Example with images and media
+
 **Export from Google Docs:**
 ```bash
 # Export Simple Test
@@ -111,6 +116,9 @@ klaat export 1Q0x_U07QUXHCsS6Kg1RJgnooiaTodNZsT7U1Z48EiRA -o output/
 
 # Export Comprehensive
 klaat export 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM -o output/
+
+# Export Image Example
+klaat export 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg -o output/
 ```
 
 **Use for:**

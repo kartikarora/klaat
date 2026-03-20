@@ -5,6 +5,9 @@ parameters:
   run_snapshot:
     type: boolean
     default: false
+  build_num:
+    type: string
+    default: ""
 
 # Reusable commands for GraalVM and build logic
 commands:
@@ -17,13 +20,31 @@ commands:
       - run:
           name: Install GraalVM
           command: |
+            # On macOS, ensure we use a modern Bash (installed via Homebrew by default in CI)
+            if [ "$(uname)" = "Darwin" ]; then
+                if [ -f /usr/local/bin/bash ]; then
+                    SHELL_CMD="/usr/local/bin/bash"
+                elif [ -f /opt/homebrew/bin/bash ]; then
+                    SHELL_CMD="/opt/homebrew/bin/bash"
+                else
+                    SHELL_CMD="bash"
+                fi
+            else
+                SHELL_CMD="bash"
+            fi
+
             # Install SDKMAN
             if ! command -v sdk >/dev/null 2>&1; then
-              curl -s "https://get.sdkman.io" | bash
+              curl -s "https://get.sdkman.io" | $SHELL_CMD
             fi
             
             # Source SDKMAN
             source "$HOME/.sdkman/bin/sdkman-init.sh"
+            
+            # Use the modern bash to run sdk install if on Mac
+            if [ "$(uname)" = "Darwin" ]; then
+               alias sdk="$SHELL_CMD -c 'source $HOME/.sdkman/bin/sdkman-init.sh && sdk \"\$@\"' --"
+            fi
             
             # Install GraalVM
             JAVA_VERSION="25.0.2-graalce"
@@ -51,13 +72,20 @@ commands:
             } >> $BASH_ENV
 
   get_version:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     steps:
       - run:
           name: Get Version
           command: |
             BASE_VERSION=$(grep "^klaat = " gradle/libs.versions.toml | sed 's/klaat = "\(.*\)"/\1/')
             SHORT_HASH=$(git rev-parse --short=8 HEAD)
-            BUILD_NUM="${CIRCLE_BUILD_NUM}"
+            BUILD_NUM="<< parameters.build_num >>"
+            if [ -z "$BUILD_NUM" ]; then
+              BUILD_NUM="${CIRCLE_BUILD_NUM}"
+            fi
             VERSION="${BASE_VERSION}.${BUILD_NUM}-${SHORT_HASH}"
             echo "export VERSION=${VERSION}" >> $BASH_ENV
             echo "Version is ${VERSION}"
@@ -133,13 +161,18 @@ commands:
 
 jobs:
   build_linux_x64:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     docker:
       - image: cimg/base:current
     resource_class: large
     steps:
       - checkout
       - setup_graalvm
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - build_native:
           platform: linux-x64
       - persist_to_workspace:
@@ -149,13 +182,18 @@ jobs:
             - checksums-*.txt
 
   build_linux_arm64:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     docker:
       - image: cimg/base:current
     resource_class: arm.large
     steps:
       - checkout
       - setup_graalvm
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - build_native:
           platform: linux-arm64
       - persist_to_workspace:
@@ -165,6 +203,10 @@ jobs:
             - checksums-*.txt
 
   build_macos_arm64:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     macos:
       xcode: "15.4.0"
     resource_class: m4pro.medium
@@ -172,7 +214,8 @@ jobs:
       - checkout
       - setup_graalvm:
           arch: "arm64"
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - build_native:
           platform: macos-arm64
       - persist_to_workspace:
@@ -193,23 +236,33 @@ jobs:
           command: ./gradlew test
 
   publish_snapshot:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     docker:
       - image: cimg/base:current
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - upload_to_r2
 
   update_snapshot_tap:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     docker:
       - image: cimg/base:current
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - run:
           name: Update Homebrew Snapshot Tap
           command: |
@@ -261,13 +314,18 @@ jobs:
             git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" main
 
   create_github_snapshot_release:
+    parameters:
+      build_num:
+        type: string
+        default: ""
     docker:
       - image: cimg/base:current
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - get_version
+      - get_version:
+          build_num: << parameters.build_num >>
       - run:
           name: Install GitHub CLI
           command: |
@@ -339,19 +397,25 @@ workflows:
   snapshot_release:
     when: << pipeline.parameters.run_snapshot >>
     jobs:
-      - build_linux_x64
-      - build_linux_arm64
-      - build_macos_arm64
+      - build_linux_x64:
+          build_num: << pipeline.parameters.build_num >>
+      - build_linux_arm64:
+          build_num: << pipeline.parameters.build_num >>
+      - build_macos_arm64:
+          build_num: << pipeline.parameters.build_num >>
       - run_tests
       - publish_snapshot:
+          build_num: << pipeline.parameters.build_num >>
           requires:
             - build_linux_x64
             - build_linux_arm64
             - build_macos_arm64
             - run_tests
       - update_snapshot_tap:
+          build_num: << pipeline.parameters.build_num >>
           requires:
             - publish_snapshot
       - create_github_snapshot_release:
+          build_num: << pipeline.parameters.build_num >>
           requires:
             - update_snapshot_tap

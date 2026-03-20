@@ -23,12 +23,32 @@ class GoogleDocParser {
             docId
         }
 
+        var finalMetadata = metadata.copy(source = docId)
+        if (finalMetadata.image.isEmpty()) {
+            val firstImage = steps.asSequence()
+                .flatMap { it.content.asSequence() }
+                .flatMap { node ->
+                    when (node) {
+                        is Node.Image -> sequenceOf(node)
+                        is Node.Paragraph -> node.nodes.filterIsInstance<Node.Image>().asSequence()
+                        is Node.InfoBox -> node.nodes.filterIsInstance<Node.Image>().asSequence()
+                        is Node.BulletList -> node.items.flatten().filterIsInstance<Node.Image>().asSequence()
+                        is Node.NumberedList -> node.items.flatten().filterIsInstance<Node.Image>().asSequence()
+                        else -> emptySequence()
+                    }
+                }
+                .firstOrNull()
+            if (firstImage != null) {
+                finalMetadata = finalMetadata.copy(image = firstImage.src)
+            }
+        }
+
         return Codelab(
             id = id,
             title = title,
             summary = metadata.summary,
             steps = steps,
-            metadata = metadata.copy(source = docId)
+            metadata = finalMetadata
         )
     }
 
@@ -66,7 +86,7 @@ class GoogleDocParser {
                 }
                 // Parse content within a step
                 currentStep != null -> {
-                    val nodes = parseElement(element)
+                    val nodes = parseElement(document, element)
                     currentStep.addAll(nodes)
                 }
             }
@@ -98,7 +118,7 @@ class GoogleDocParser {
         }
     }
 
-    private fun parseElement(element: StructuralElement): List<Node> {
+    private fun parseElement(document: Document, element: StructuralElement): List<Node> {
         val nodes = mutableListOf<Node>()
 
         when {
@@ -111,7 +131,7 @@ class GoogleDocParser {
                     "HEADING_3" -> nodes.add(Node.Heading(3, extractText(paragraph.elements)))
                     "HEADING_4" -> nodes.add(Node.Heading(4, extractText(paragraph.elements)))
                     else -> {
-                        val textNodes = parseTextElements(paragraph.elements)
+                        val textNodes = parseTextElements(document, paragraph.elements)
                         if (textNodes.isNotEmpty()) {
                             nodes.add(Node.Paragraph(textNodes))
                         }
@@ -134,10 +154,21 @@ class GoogleDocParser {
         return nodes
     }
 
-    private fun parseTextElements(elements: List<ParagraphElement>?): List<Node> {
+    private fun parseTextElements(document: Document, elements: List<ParagraphElement>?): List<Node> {
         val nodes = mutableListOf<Node>()
 
         elements?.forEach { element ->
+            if (element.inlineObjectElement != null) {
+                // Handle images
+                val objectId = element.inlineObjectElement.inlineObjectId
+                val inlineObject = document.inlineObjects?.get(objectId)
+                val embeddedObject = inlineObject?.inlineObjectProperties?.embeddedObject
+                val src = embeddedObject?.imageProperties?.contentUri ?: ""
+                val alt = embeddedObject?.description ?: embeddedObject?.title ?: ""
+                nodes.add(Node.Image(src = src, alt = alt))
+                return@forEach
+            }
+
             val textRun = element.textRun ?: return@forEach
             val content = textRun.content ?: ""
 
@@ -149,12 +180,7 @@ class GoogleDocParser {
             // Note: TextStyle doesn't have fontFamily in v1 API, using weightedFontFamily instead
             val code = false // Simplified for now
 
-            if (element.inlineObjectElement != null) {
-                // Handle images
-                nodes.add(Node.Image(src = "", alt = content))
-            } else {
-                nodes.add(Node.Text(content, bold, italic, code))
-            }
+            nodes.add(Node.Text(content, bold, italic, code))
         }
 
         return nodes
@@ -191,6 +217,9 @@ class GoogleDocParser {
             analyticsAccount = map["analytics account"] ?: map["analytics_account"] ?: "",
             tags = map["tags"]?.split(",")?.map { it.trim() } ?: emptyList(),
             authors = map["authors"]?.split(",")?.map { it.trim() } ?: emptyList(),
+            source = map["source"] ?: "",
+            duration = map["duration"]?.toIntOrNull() ?: 0,
+            image = "",
             extraMetadata = extraMetadata
         )
     }

@@ -10,7 +10,6 @@ import com.vladsch.flexmark.util.ast.Document
 import com.vladsch.flexmark.util.data.MutableDataSet
 import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
-import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Step
 import java.io.File
 import java.io.InputStream
@@ -38,19 +37,19 @@ class MarkdownParser {
      */
     fun parse(input: InputStream, passMetadata: Set<String> = emptySet()): Codelab {
         val content = input.bufferedReader().readText()
-        return parseContent(content, passMetadata)
+        return parseContent(content, passMetadata, null)
     }
 
     fun parse(file: File, passMetadata: Set<String> = emptySet()): Codelab {
         val content = file.readText()
-        return parseContent(content, passMetadata)
+        return parseContent(content, passMetadata, file.absolutePath)
     }
 
-    private fun parseContent(content: String, passMetadata: Set<String>): Codelab {
+    private fun parseContent(content: String, passMetadata: Set<String>, sourcePath: String?): Codelab {
         val document = parser.parse(content)
 
         // Extract YAML frontmatter
-        val metadata = extractMetadata(document, content, passMetadata)
+        val metadata = extractMetadata(document, content, passMetadata, sourcePath)
 
         // Extract steps (H2 headings)
         val steps = extractSteps(document)
@@ -59,16 +58,36 @@ class MarkdownParser {
             metadata.summary.lowercase().replace(Regex("[^a-z0-9]+"), "-")
         }
 
+        var finalMetadata = metadata
+        if (finalMetadata.image.isEmpty()) {
+            val firstImage = steps.asSequence()
+                .flatMap { it.content.asSequence() }
+                .flatMap { node ->
+                    when (node) {
+                        is CodelabNode.Image -> sequenceOf(node)
+                        is CodelabNode.Paragraph -> node.nodes.filterIsInstance<CodelabNode.Image>().asSequence()
+                        is CodelabNode.InfoBox -> node.nodes.filterIsInstance<CodelabNode.Image>().asSequence()
+                        is CodelabNode.BulletList -> node.items.flatten().filterIsInstance<CodelabNode.Image>().asSequence()
+                        is CodelabNode.NumberedList -> node.items.flatten().filterIsInstance<CodelabNode.Image>().asSequence()
+                        else -> emptySequence()
+                    }
+                }
+                .firstOrNull()
+            if (firstImage != null) {
+                finalMetadata = finalMetadata.copy(image = firstImage.src)
+            }
+        }
+
         return Codelab(
             id = id,
             title = extractTitle(document),
             summary = metadata.summary,
             steps = steps,
-            metadata = metadata
+            metadata = finalMetadata
         )
     }
 
-    private fun extractMetadata(document: Document, content: String, passMetadata: Set<String>): CodelabMetadata {
+    private fun extractMetadata(document: Document, content: String, passMetadata: Set<String>, sourcePath: String?): CodelabMetadata {
         val visitor = AbstractYamlFrontMatterVisitor()
         visitor.visit(document)
         val data = visitor.data
@@ -100,8 +119,9 @@ class MarkdownParser {
             analyticsAccount = data["analytics_account"]?.firstOrNull() ?: "",
             tags = parseStringList(data["tags"]),
             authors = parseStringList(data["authors"]),
-            source = data["source"]?.firstOrNull() ?: "",
+            source = data["source"]?.firstOrNull() ?: sourcePath ?: "",
             duration = data["duration"]?.firstOrNull()?.toIntOrNull() ?: 0,
+            image = "",
             extraMetadata = extraMetadata
         )
     }

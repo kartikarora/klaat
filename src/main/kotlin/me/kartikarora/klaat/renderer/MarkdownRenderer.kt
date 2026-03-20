@@ -205,6 +205,7 @@ class MarkdownRenderer {
             appendLine("""  "tags": ${renderJsonArray(codelab.metadata.tags)},""")
             appendLine("""  "authors": ${renderJsonArray(codelab.metadata.authors)},""")
             appendLine("""  "feedback": "${escapeJson(codelab.metadata.feedbackLink)}",""")
+            appendLine("""  "image": "${escapeJson(codelab.metadata.image)}",""")
 
             // Add extra metadata fields
             if (codelab.metadata.extraMetadata.isNotEmpty()) {
