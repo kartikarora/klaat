@@ -22,6 +22,13 @@ commands:
           command: |
             # On macOS, ensure we use a modern Bash (installed via Homebrew by default in CI)
             if [ "$(uname)" = "Darwin" ]; then
+                # Check current bash version
+                CURRENT_BASH_MAJOR=$(bash -c 'echo "${BASH_VERSINFO[0]}"')
+                if [ "$CURRENT_BASH_MAJOR" -lt 4 ]; then
+                    echo "Bash version is too old ($CURRENT_BASH_MAJOR). Installing modern Bash via Homebrew..."
+                    brew install bash
+                fi
+
                 if [ -f /usr/local/bin/bash ]; then
                     SHELL_CMD="/usr/local/bin/bash"
                 elif [ -f /opt/homebrew/bin/bash ]; then
