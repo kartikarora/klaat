@@ -62,6 +62,7 @@ class OfflineRenderer {
         println("✓ Exported: ${codelab.id} (${codelab.steps.size} step files)")
     }
 
+
     private fun copyAssets(outputDir: File) {
         val assetsDir = File(outputDir, "codelab-elements")
         if (assetsDir.exists()) return // Already copied
@@ -249,6 +250,7 @@ $options
             appendLine("""  "category": ${codelab.metadata.category.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
             appendLine("""  "tags": ${codelab.metadata.tags.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
             appendLine("""  "feedback": "${escapeJson(codelab.metadata.feedbackLink)}",""")
+            appendLine("""  "image": "${escapeJson(codelab.metadata.image)}",""")
 
             // Add extra metadata fields
             if (codelab.metadata.extraMetadata.isNotEmpty()) {

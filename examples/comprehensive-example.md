@@ -151,18 +151,18 @@ Duration: 3
 
 ### Basic Image
 
-![Example diagram](https://via.placeholder.com/600x300/4F7DC9/ffffff?text=Codelab+Diagram)
+![Example diagram](https://placeholdit.com/800x600/f3f4f6/6b7280?text=Example+Diagram)
 
 ### Image with Caption
 
-![Architecture overview](https://via.placeholder.com/800x400/1e8e3e/ffffff?text=System+Architecture)
+![Architecture overview](https://placeholdit.com/800x600/f3f4f6/6b7280?text=Architecture+Overview)
 
 *Figure 1: System architecture showing the main components*
 
 ### Multiple Images
 
-![Component A](https://via.placeholder.com/300x200/FF6F00/ffffff?text=Component+A)
-![Component B](https://via.placeholder.com/300x200/7B1FA2/ffffff?text=Component+B)
+![Component A](https://placeholdit.com/800x600/f3f4f6/6b7280?text=Component+A)
+![Component B](https://placeholdit.com/800x600/f3f4f6/6b7280?text=Component+B)
 
 ## Positive Info Boxes
 Duration: 2

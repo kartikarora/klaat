@@ -6,6 +6,7 @@ import me.kartikarora.klaat.parser.MarkdownParser
 import me.kartikarora.klaat.renderer.HtmlRenderer
 import me.kartikarora.klaat.renderer.MarkdownRenderer
 import me.kartikarora.klaat.renderer.OfflineRenderer
+import me.kartikarora.klaat.util.ImageDownloader
 import java.io.File
 
 /**
@@ -84,10 +85,13 @@ class Exporter(private val docsService: Docs?) {
         val outputDir = File(outputDirectory)
         outputDir.mkdirs()
 
+        // Process images (download remote ones and copy local ones)
+        val finalCodelab = ImageDownloader.processImages(updatedCodelab, outputDir)
+
         when (format.lowercase()) {
-            "html" -> htmlRenderer.render(updatedCodelab, outputDir, gaId, prefix, environment)
-            "md", "markdown" -> markdownRenderer.render(updatedCodelab, outputDir, environment)
-            "offline" -> offlineRenderer.render(updatedCodelab, outputDir, gaId, prefix, environment)
+            "html" -> htmlRenderer.render(finalCodelab, outputDir, gaId, prefix, environment)
+            "md", "markdown" -> markdownRenderer.render(finalCodelab, outputDir, environment)
+            "offline" -> offlineRenderer.render(finalCodelab, outputDir, gaId, prefix, environment)
             else -> {
                 println("✗ Error: Unsupported format: $format. Use 'html', 'md', or 'offline'")
             }

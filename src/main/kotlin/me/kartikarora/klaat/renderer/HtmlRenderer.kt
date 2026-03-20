@@ -48,6 +48,7 @@ class HtmlRenderer {
         println("✓ Exported: ${codelab.id}")
     }
 
+
     private fun copyAssets(outputDir: File) {
         val assetsDir = File(outputDir, "codelab-elements")
         if (assetsDir.exists()) return // Already copied
@@ -220,6 +221,7 @@ $options
             appendLine("""  "category": ${renderJsonArray(codelab.metadata.category)},""")
             appendLine("""  "tags": ${renderJsonArray(codelab.metadata.tags)},""")
             appendLine("""  "feedback": "${escapeJson(codelab.metadata.feedbackLink)}",""")
+            appendLine("""  "image": "${escapeJson(codelab.metadata.image)}",""")
 
             // Add extra metadata fields
             if (codelab.metadata.extraMetadata.isNotEmpty()) {

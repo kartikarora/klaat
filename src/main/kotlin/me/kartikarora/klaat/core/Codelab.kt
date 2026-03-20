@@ -21,6 +21,7 @@ data class CodelabMetadata(
     val authors: List<String> = emptyList(),
     val source: String = "",
     val duration: Int = 0,
+    val image: String = "",
     val extraMetadata: Map<String, String> = emptyMap()
 )
 

@@ -5,6 +5,10 @@ inputs:
   type:
     description: 'Version type: "release" or "snapshot"'
     required: true
+  build_number:
+    description: 'The build number to use for snapshot versions'
+    required: false
+    default: ""
 
 outputs:
   version:
@@ -25,6 +29,9 @@ runs:
           echo "version=${BASE_VERSION}" >> $GITHUB_OUTPUT
         else
           SHORT_HASH=$(git rev-parse --short=8 HEAD)
-          BUILD_NUM="${GITHUB_RUN_NUMBER}"
+          BUILD_NUM="${{ inputs.build_number }}"
+          if [ -z "${BUILD_NUM}" ]; then
+            BUILD_NUM="${GITHUB_RUN_NUMBER}"
+          fi
           echo "version=${BASE_VERSION}.${BUILD_NUM}-${SHORT_HASH}" >> $GITHUB_OUTPUT
         fi

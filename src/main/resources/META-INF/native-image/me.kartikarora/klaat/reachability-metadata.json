@@ -35,6 +35,15 @@
       ]
     },
     {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.ffm.TerminalInterfaceProviderFfm"
+    },
+    {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.jna.TerminalInterfaceProviderJna"
+    },
+    {
+      "type": "com.github.ajalt.mordant.terminal.terminalinterface.nativeimage.TerminalInterfaceProviderNativeImage"
+    },
+    {
       "type": "com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl",
       "fields": [
         {
@@ -587,6 +596,15 @@
       ]
     },
     {
+      "type": "com.google.api.services.docs.v1.model.CropProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.google.api.services.docs.v1.model.Dimension",
       "methods": [
         {
@@ -630,6 +648,12 @@
           "name": "setDocumentStyle",
           "parameterTypes": [
             "com.google.api.services.docs.v1.model.DocumentStyle"
+          ]
+        },
+        {
+          "name": "setInlineObjects",
+          "parameterTypes": [
+            "java.util.Map"
           ]
         },
         {
@@ -750,6 +774,174 @@
           "name": "setUseCustomHeaderFooterMargins",
           "parameterTypes": [
             "java.lang.Boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.EmbeddedObject",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEmbeddedObjectBorder",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.EmbeddedObjectBorder"
+          ]
+        },
+        {
+          "name": "setImageProperties",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.ImageProperties"
+          ]
+        },
+        {
+          "name": "setMarginBottom",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginLeft",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginRight",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setMarginTop",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setSize",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Size"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.EmbeddedObjectBorder",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setColor",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.OptionalColor"
+          ]
+        },
+        {
+          "name": "setDashStyle",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setPropertyState",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setWidth",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.ImageProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContentUri",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setCropProperties",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.CropProperties"
+          ]
+        },
+        {
+          "name": "setSourceUri",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.InlineObject",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setInlineObjectProperties",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.InlineObjectProperties"
+          ]
+        },
+        {
+          "name": "setObjectId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.InlineObjectElement",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setInlineObjectId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.InlineObjectProperties",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEmbeddedObject",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.EmbeddedObject"
           ]
         }
       ]
@@ -978,6 +1170,12 @@
           "name": "setEndIndex",
           "parameterTypes": [
             "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setInlineObjectElement",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.InlineObjectElement"
           ]
         },
         {
@@ -1673,6 +1871,17 @@
       ]
     },
     {
+      "type": "com.sun.crypto.provider.HKDFKeyDerivation$HKDFSHA256",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "javax.crypto.KDFParameters"
+          ]
+        }
+      ]
+    },
+    {
       "type": "com.sun.crypto.provider.HKDFKeyDerivation$HKDFSHA384",
       "methods": [
         {
@@ -1680,6 +1889,15 @@
           "parameterTypes": [
             "javax.crypto.KDFParameters"
           ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.crypto.provider.HmacCore$HmacSHA256",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
         }
       ]
     },
@@ -2144,6 +2362,9 @@
     },
     {
       "type": "io.netty.util.ReferenceCountUtil"
+    },
+    {
+      "type": "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
     },
     {
       "type": "io.netty.util.concurrent.DefaultPromise"
@@ -3498,127 +3719,13 @@
     },
     {
       "type": "sun.util.resources.cldr.TimeZoneNames_en_US"
-    }
-  ],
-  "resources": [
-    {
-      "glob": "META-INF/native/libnetty_transport_native_kqueue.dylib"
     },
     {
-      "glob": "META-INF/native/libnetty_transport_native_kqueue.jnilib"
-    },
-    {
-      "glob": "META-INF/native/libnetty_transport_native_kqueue_aarch_64.dylib"
-    },
-    {
-      "glob": "META-INF/native/libnetty_transport_native_kqueue_aarch_64.jnilib"
-    },
-    {
-      "glob": "META-INF/services/ch.qos.logback.classic.spi.Configurator"
-    },
-    {
-      "glob": "META-INF/services/com.sun.net.httpserver.spi.HttpServerProvider"
-    },
-    {
-      "glob": "META-INF/services/java.net.spi.InetAddressResolverProvider"
-    },
-    {
-      "glob": "META-INF/services/java.net.spi.URLStreamHandlerProvider"
-    },
-    {
-      "glob": "META-INF/services/java.nio.channels.spi.SelectorProvider"
-    },
-    {
-      "glob": "META-INF/services/java.time.zone.ZoneRulesProvider"
-    },
-    {
-      "glob": "META-INF/services/kotlin.reflect.jvm.internal.impl.km.internal.extensions.MetadataExtensions"
-    },
-    {
-      "glob": "META-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition"
-    },
-    {
-      "glob": "META-INF/services/kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper"
-    },
-    {
-      "glob": "META-INF/services/org.slf4j.spi.SLF4JServiceProvider"
-    },
-    {
-      "glob": "ch/qos/logback/classic/logback-classic-version.properties"
-    },
-    {
-      "glob": "ch/qos/logback/core/logback-core-version.properties"
-    },
-    {
-      "glob": "com/google/api/client/googleapis/google-api-client.properties"
-    },
-    {
-      "glob": "com/google/api/client/googleapis/google.p12"
-    },
-    {
-      "glob": "com/google/api/client/http/google-http-client.properties"
-    },
-    {
-      "glob": "com/sun/jna/darwin-aarch64/libjnidispatch.jnilib"
-    },
-    {
-      "glob": "credentials/gcp_credentials.json"
-    },
-    {
-      "glob": "freemarker/ext/beans/DefaultMemberAccessPolicy-rules"
-    },
-    {
-      "glob": "freemarker/version.properties"
-    },
-    {
-      "glob": "kotlin/collections/collections.kotlin_builtins"
-    },
-    {
-      "glob": "kotlin/kotlin.kotlin_builtins"
-    },
-    {
-      "glob": "logback-test.xml"
-    },
-    {
-      "glob": "logback.xml"
-    },
-    {
-      "glob": "templates/codelab.html"
-    },
-    {
-      "glob": "templates/codelab_en.html"
-    },
-    {
-      "glob": "templates/codelab_en_US.html"
-    },
-    {
-      "glob": "templates/directory_listing.ftl"
-    },
-    {
-      "glob": "templates/directory_listing_en.ftl"
-    },
-    {
-      "glob": "templates/directory_listing_en_US.ftl"
-    },
-    {
-      "module": "java.base",
-      "glob": "jdk/internal/icu/impl/data/icudt76b/nfc.nrm"
-    },
-    {
-      "module": "java.base",
-      "glob": "jdk/internal/icu/impl/data/icudt76b/nfkc.nrm"
-    },
-    {
-      "module": "java.base",
-      "glob": "jdk/internal/icu/impl/data/icudt76b/uprops.icu"
-    },
-    {
-      "module": "java.base",
-      "glob": "sun/net/idn/uidna.spp"
-    },
-    {
-      "module": "jdk.jfr",
-      "glob": "jdk/jfr/internal/types/metadata.bin"
+      "type": {
+        "proxy": [
+          "com.github.ajalt.mordant.terminal.terminalinterface.jna.MacosLibC"
+        ]
+      }
     }
   ],
   "foreign": {
