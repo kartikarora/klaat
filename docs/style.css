@@ -199,7 +199,7 @@ body {
     display: none !important;
 }
 
-.tab-content.active {
+.tab-content.active-tab-content {
     display: block !important;
     animation: fadeIn var(--transition) ease-in-out;
 }
@@ -249,6 +249,34 @@ body {
 .quickstart-steps {
     display: grid;
     gap: var(--space-xl);
+}
+
+.step {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h3 {
+    margin-top: 0 !important;
 }
 
 /* Code Blocks */

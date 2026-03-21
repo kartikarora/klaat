@@ -69,32 +69,43 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update Snapshot UI
         const selectedPlatformName = document.getElementById('selected-platform-name');
         if (selectedPlatformName) selectedPlatformName.textContent = platformName;
-        
+
+        // Update Platform ID spans
+        document.querySelectorAll('.snapshot-platform').forEach(el => el.textContent = platform);
+        document.querySelectorAll('.release-platform').forEach(el => el.textContent = platform);
+
         const snapshotBinary = `klaat-snapshot-${platform}-${snapshotVersion}`;
         const snapshotURL = `https://distribute.kartikarora.me/bin/klaat/snapshot/${snapshotVersion}/${snapshotBinary}`;
-        
+
         const snapshotUrlEl = document.getElementById('snapshot-url');
         if (snapshotUrlEl) snapshotUrlEl.textContent = snapshotURL;
-        
+
         const snapshotCurlEl = document.getElementById('snapshot-curl');
         if (snapshotCurlEl) snapshotCurlEl.textContent = `curl -L -O ${snapshotURL}`;
-        
+
+        const snapshotInstallEl = document.getElementById('snapshot-install');
+        if (snapshotInstallEl) {
+            snapshotInstallEl.textContent = `chmod +x ${snapshotBinary}\nsudo mv ${snapshotBinary} /usr/local/bin/klaat-snapshot`;
+        }
+
         document.querySelectorAll('.snapshot-binary-filename').forEach(el => el.textContent = snapshotBinary);
 
         // Update Release UI
         const selectedPlatformNameRelease = document.getElementById('selected-platform-name-release');
-        if (selectedPlatformNameRelease) selectedPlatformNameRelease.textContent = platformName;
-        
-        const releaseBinary = `klaat-${platform}-${releaseVersion}`;
-        const releaseURL = `https://distribute.kartikarora.me/bin/klaat/release/${releaseVersion}/${releaseBinary}`;
-        
-        const releaseUrlEl = document.getElementById('release-url');
-        if (releaseUrlEl) releaseUrlEl.textContent = releaseURL;
-        
-        const releaseCurlEl = document.getElementById('release-curl');
-        if (releaseCurlEl) releaseCurlEl.textContent = `curl -L -O ${releaseURL}`;
-        
-        document.querySelectorAll('.release-binary-filename').forEach(el => el.textContent = releaseBinary);
+        if (selectedPlatformNameRelease) {
+            selectedPlatformNameRelease.textContent = platformName;
+
+            const releaseBinary = `klaat-${platform}-${releaseVersion}`;
+            const releaseURL = `https://distribute.kartikarora.me/bin/klaat/release/${releaseVersion}/${releaseBinary}`;
+
+            const releaseUrlEl = document.getElementById('release-url');
+            if (releaseUrlEl) releaseUrlEl.textContent = releaseURL;
+
+            const releaseCurlEl = document.getElementById('release-curl');
+            if (releaseCurlEl) releaseCurlEl.textContent = `curl -L -O ${releaseURL}`;
+
+            document.querySelectorAll('.release-binary-filename').forEach(el => el.textContent = releaseBinary);
+        }
 
         if (updateUrl) {
             const url = new URL(window.location);
@@ -132,21 +143,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize versions
     fetchVersions();
 
-    // Custom tab content switching (brand JS handles button states and indicator)
-    const tabBtns = document.querySelectorAll('.tabs .tab-item');
+    // Custom tab content switching
+    const tabsContainer = document.querySelector('.tabs');
     const tabContents = document.querySelectorAll('.tab-content');
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabId = btn.getAttribute('data-tab');
-
-            tabContents.forEach(content => {
-                if (content.id.includes(tabId)) {
-                    content.classList.add('active');
-                } else {
-                    content.classList.remove('active');
-                }
-            });
+    function switchTab(tabId) {
+        // Toggle active class on buttons
+        document.querySelectorAll('.tab-item').forEach(btn => {
+            if (btn.dataset.tab === tabId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         });
-    });
+
+        // Toggle active class on contents
+        tabContents.forEach(content => {
+            if (content.id.includes(tabId)) {
+                content.classList.add('active-tab-content');
+            } else {
+                content.classList.remove('active-tab-content');
+            }
+        });
+    }
+
+    if (tabsContainer) {
+        tabsContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-item');
+            if (btn) {
+                const tabId = btn.dataset.tab;
+                switchTab(tabId);
+            }
+        });
+    }
+
+    // Set initial active tab state
+    const activeBtn = document.querySelector('.tab-item.active');
+    if (activeBtn) {
+        switchTab(activeBtn.dataset.tab);
+    }
 });
