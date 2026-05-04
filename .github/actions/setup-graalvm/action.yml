@@ -5,11 +5,10 @@ runs:
   using: 'composite'
   steps:
     - name: Setup GraalVM
-      uses: graalvm/setup-graalvm@v1.4.5
+      uses: graalvm/setup-graalvm@v1
       with:
         distribution: 'graalvm-community'
         java-version: '25'
-        version: '25.0.2'
         github-token: ${{ github.token }}
 
     - name: Setup Gradle

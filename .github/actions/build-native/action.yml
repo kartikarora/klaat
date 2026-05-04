@@ -29,6 +29,8 @@ runs:
     - name: Build native image
       id: build
       shell: bash
+      env:
+        GRADLE_OPTS: -Xmx8g
       run: |
         # Determine binary base name depending on snapshot flag
         BINARY_BASE="klaat"
@@ -49,5 +51,5 @@ runs:
     - name: Calculate SHA256 checksum
       shell: bash
       run: |
-        sha256sum klaat-* > checksums-${{ inputs.version }}.txt
+        sha256sum ${{ steps.build.outputs.binary-name }} > checksums-${{ inputs.version }}.txt
         cat checksums-${{ inputs.version }}.txt

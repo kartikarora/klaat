@@ -1,7 +1,3 @@
-import jdk.internal.agent.resources.agent
-import sun.jvmstat.monitor.MonitoredVmUtil.commandLine
-import sun.jvmstat.monitor.MonitoredVmUtil.mainClass
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
