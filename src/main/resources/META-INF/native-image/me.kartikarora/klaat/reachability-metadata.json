@@ -213,6 +213,85 @@
       ]
     },
     {
+      "type": "com.google.api.client.googleapis.json.GoogleJsonError",
+      "fields": [
+        {
+          "name": "code"
+        },
+        {
+          "name": "details"
+        },
+        {
+          "name": "errors"
+        },
+        {
+          "name": "message"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setErrors",
+          "parameterTypes": [
+            "java.util.List"
+          ]
+        },
+        {
+          "name": "setMessage",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.client.googleapis.json.GoogleJsonError$ErrorInfo",
+      "fields": [
+        {
+          "name": "domain"
+        },
+        {
+          "name": "location"
+        },
+        {
+          "name": "locationType"
+        },
+        {
+          "name": "message"
+        },
+        {
+          "name": "reason"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setDomain",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setMessage",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setReason",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
       "type": "com.google.api.client.googleapis.services.AbstractGoogleClientRequest"
     },
     {
@@ -573,6 +652,12 @@
           ]
         },
         {
+          "name": "setNestingLevel",
+          "parameterTypes": [
+            "java.lang.Integer"
+          ]
+        },
+        {
           "name": "setTextStyle",
           "parameterTypes": [
             "com.google.api.services.docs.v1.model.TextStyle"
@@ -601,6 +686,18 @@
         {
           "name": "<init>",
           "parameterTypes": []
+        },
+        {
+          "name": "setOffsetBottom",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
+        },
+        {
+          "name": "setOffsetTop",
+          "parameterTypes": [
+            "java.lang.Float"
+          ]
         }
       ]
     },
@@ -863,6 +960,21 @@
       ]
     },
     {
+      "type": "com.google.api.services.docs.v1.model.HorizontalRule",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setTextStyle",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TextStyle"
+          ]
+        }
+      ]
+    },
+    {
       "type": "com.google.api.services.docs.v1.model.ImageProperties",
       "methods": [
         {
@@ -942,6 +1054,27 @@
           "name": "setEmbeddedObject",
           "parameterTypes": [
             "com.google.api.services.docs.v1.model.EmbeddedObject"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.Link",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setHeadingId",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setUrl",
+          "parameterTypes": [
+            "java.lang.String"
           ]
         }
       ]
@@ -1170,6 +1303,12 @@
           "name": "setEndIndex",
           "parameterTypes": [
             "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setHorizontalRule",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.HorizontalRule"
           ]
         },
         {
@@ -1477,6 +1616,12 @@
           "parameterTypes": [
             "com.google.api.services.docs.v1.model.Table"
           ]
+        },
+        {
+          "name": "setTableOfContents",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.TableOfContents"
+          ]
         }
       ]
     },
@@ -1636,6 +1781,33 @@
         {
           "name": "<init>",
           "parameterTypes": []
+        },
+        {
+          "name": "setWidth",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Dimension"
+          ]
+        },
+        {
+          "name": "setWidthType",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.google.api.services.docs.v1.model.TableOfContents",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setContent",
+          "parameterTypes": [
+            "java.util.List"
+          ]
         }
       ]
     },
@@ -1693,6 +1865,12 @@
         {
           "name": "<init>",
           "parameterTypes": []
+        },
+        {
+          "name": "setTableColumnProperties",
+          "parameterTypes": [
+            "java.util.List"
+          ]
         }
       ]
     },
@@ -1758,6 +1936,12 @@
           "name": "setItalic",
           "parameterTypes": [
             "java.lang.Boolean"
+          ]
+        },
+        {
+          "name": "setLink",
+          "parameterTypes": [
+            "com.google.api.services.docs.v1.model.Link"
           ]
         },
         {
@@ -2425,6 +2609,17 @@
     },
     {
       "type": "java.io.FileDescriptor"
+    },
+    {
+      "type": "java.io.FileNotFoundException",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
     },
     {
       "type": "java.io.Serializable"

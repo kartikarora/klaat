@@ -22,7 +22,7 @@ class GoogleDocsClient {
     private val tokensDirectoryPath = System.getProperty("user.home") + "/.klaat/tokens"
     private val scopes = listOf(DocsScopes.DOCUMENTS_READONLY)
 
-    private fun getCredentials(httpTransport: HttpTransport): Credential {
+    private fun getCredentials(httpTransport: HttpTransport, retryCount: Int = 0): Credential {
         // Try to load credentials from bundled resource first, then fall back to file
         val clientSecrets = try {
             // Try to load from bundled resource in classpath
@@ -48,15 +48,41 @@ class GoogleDocsClient {
             throw Exception("Unable to start authentication service. Please try again later.", e)
         }
 
-        val flow = GoogleAuthorizationCodeFlow.Builder(
-            httpTransport, jsonFactory, clientSecrets, scopes
-        )
-            .setDataStoreFactory(FileDataStoreFactory(File(tokensDirectoryPath)))
-            .setAccessType("offline")
-            .build()
+        val tokensDir = File(tokensDirectoryPath)
+        val flow = try {
+            GoogleAuthorizationCodeFlow.Builder(
+                httpTransport, jsonFactory, clientSecrets, scopes
+            )
+                .setDataStoreFactory(FileDataStoreFactory(tokensDir))
+                .setAccessType("offline")
+                .build()
+        } catch (e: Exception) {
+            if (retryCount == 0) {
+                println("⚠️  Stored credentials appear to be corrupted. Attempting re-authentication...")
+                if (tokensDir.exists()) {
+                    tokensDir.deleteRecursively()
+                }
+                return getCredentials(httpTransport, retryCount + 1)
+            } else {
+                throw Exception("Failed to initialize Google Docs client: ${e.message}", e)
+            }
+        }
 
         // 1. Try silent renewal first
-        val credential = flow.loadCredential("user")
+        val credential = try {
+            flow.loadCredential("user")
+        } catch (e: Exception) {
+            if (retryCount == 0) {
+                println("⚠️  Failed to load stored credentials. Attempting re-authentication...")
+                if (tokensDir.exists()) {
+                    tokensDir.deleteRecursively()
+                }
+                return getCredentials(httpTransport, retryCount + 1)
+            } else {
+                throw Exception("Failed to load credentials: ${e.message}", e)
+            }
+        }
+
         if (credential != null) {
             val success = try {
                 if (credential.expiresInSeconds != null && credential.expiresInSeconds <= 60) {
