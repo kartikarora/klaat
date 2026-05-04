@@ -189,7 +189,9 @@ class OfflineRenderer {
         } else ""
 
         val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
-        return """$header<pre><code class="$lang">${escape(node.code)}</code></pre>"""
+        val codeContent = escape(node.code)
+
+        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-icons">content_copy</span><span>Copy</span></button></div>"""
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {

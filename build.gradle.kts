@@ -119,7 +119,7 @@ tasks.register("buildDev") {
     description = "Build the development variant (JVM)"
     dependsOn("installDist")
     doFirst {
-        project.setProperty("buildVariant", "dev")
+        extensions.extraProperties["buildVariant"] = "dev"
     }
 }
 
@@ -128,7 +128,7 @@ tasks.register("buildProd") {
     description = "Build the production variant (JVM)"
     dependsOn("installDist")
     doFirst {
-        project.setProperty("buildVariant", "prod")
+        extensions.extraProperties["buildVariant"] = "prod"
     }
 }
 
@@ -138,7 +138,7 @@ tasks.register("nativeDev") {
     description = "Build development native binary"
     dependsOn("nativeCompile")
     doFirst {
-        project.setProperty("buildVariant", "dev")
+        extensions.extraProperties["buildVariant"] = "dev"
     }
 }
 
@@ -147,7 +147,7 @@ tasks.register("nativeProd") {
     description = "Build production native binary"
     dependsOn("nativeCompile")
     doFirst {
-        project.setProperty("buildVariant", "prod")
+        extensions.extraProperties["buildVariant"] = "prod"
     }
 }
 
