@@ -65,46 +65,51 @@ class ServeCommand : CliktCommand("serve") {
         }
 
         // Start server
-        embeddedServer(Netty, port = port, host = host) {
-            routing {
-                get("{path...}") {
-                    val pathParts = call.parameters.getAll("path") ?: emptyList()
-                    val path = pathParts.joinToString("/")
-                    val file = File(directory, path)
+        try {
+            embeddedServer(Netty, port = port, host = host) {
+                routing {
+                    get("{path...}") {
+                        val pathParts = call.parameters.getAll("path") ?: emptyList()
+                        val path = pathParts.joinToString("/")
+                        val file = File(directory, path)
 
-                    if (file.exists() && file.isDirectory) {
-                        val indexHtml = File(file, "index.html")
-                        if (!indexHtml.exists()) {
-                            val fileList = file.listFiles()?.sortedWith(compareByDescending<File> { it.isDirectory }.thenBy { it.name }) ?: emptyList<File>()
-                            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                            
-                            val items = fileList.map { f ->
-                                mapOf(
-                                    "name" to f.name,
-                                    "isDirectory" to f.isDirectory,
-                                    "lastModified" to dateFormat.format(Date(f.lastModified())),
-                                    "size" to if (f.isDirectory) "-" else formatSize(f.length())
+                        if (file.exists() && file.isDirectory) {
+                            val indexHtml = File(file, "index.html")
+                            if (!indexHtml.exists()) {
+                                val fileList = file.listFiles()?.sortedWith(compareByDescending<File> { it.isDirectory }.thenBy { it.name }) ?: emptyList<File>()
+                                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                                
+                                val items = fileList.map { f ->
+                                    mapOf(
+                                        "name" to f.name,
+                                        "isDirectory" to f.isDirectory,
+                                        "lastModified" to dateFormat.format(Date(f.lastModified())),
+                                        "size" to if (f.isDirectory) "-" else formatSize(f.length())
+                                    )
+                                }
+
+                                val template = freemarkerConfig.getTemplate("directory_listing.ftl")
+                                val dataModel = mapOf(
+                                    "path" to path,
+                                    "items" to items
                                 )
+
+                                val writer = StringWriter()
+                                template.process(dataModel, writer)
+                                call.respondText(writer.toString(), ContentType.Text.Html)
+                            } else {
+                                call.respondFile(indexHtml)
                             }
-
-                            val template = freemarkerConfig.getTemplate("directory_listing.ftl")
-                            val dataModel = mapOf(
-                                "path" to path,
-                                "items" to items
-                            )
-
-                            val writer = StringWriter()
-                            template.process(dataModel, writer)
-                            call.respondText(writer.toString(), ContentType.Text.Html)
-                        } else {
-                            call.respondFile(indexHtml)
+                        } else if (file.exists() && file.isFile) {
+                            call.respondFile(file)
                         }
-                    } else if (file.exists() && file.isFile) {
-                        call.respondFile(file)
                     }
                 }
-            }
-        }.start(wait = true)
+            }.start(wait = true)
+        } catch (e: java.net.BindException) {
+            echo("✗ Error: Could not bind to $addr. Address already in use.")
+            echo("  Try using a different port with -addr <host>:<port>")
+        }
     }
 
     private fun formatSize(size: Long): String {

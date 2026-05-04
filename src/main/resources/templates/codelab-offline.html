@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>${title?html}</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="${prefix}/styles/codelab.css">
   <style>
     html {
@@ -185,10 +186,84 @@
     .step__body a:hover {
       text-decoration: underline;
     }
+    .code-container {
+      position: relative;
+    }
+    .copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #333;
+    }
+    .copy-button .material-icons {
+      font-size: 16px;
+    }
+    .code-container:hover .copy-button {
+      opacity: 1;
+    }
+    .copy-button:hover {
+      background: #fff;
+    }
   </style>
 </head>
 
 <body class="codelab-takeover">
+  <script>
+    function copyToClipboard(button) {
+      const container = button.parentElement;
+      const code = container.querySelector('code').innerText;
+      
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code).then(() => {
+          updateButtonText(button);
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+          fallbackCopy(code, button);
+        });
+      } else {
+        fallbackCopy(code, button);
+      }
+    }
+
+    function fallbackCopy(text, button) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        updateButtonText(button);
+      } catch (err) {
+        console.error('Fallback copy failed: ', err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function updateButtonText(button) {
+      const textSpan = button.querySelector('span:last-child');
+      const originalText = textSpan.textContent;
+      textSpan.textContent = 'Copied!';
+      setTimeout(() => {
+        textSpan.textContent = originalText;
+      }, 2000);
+    }
+  </script>
   <div class="codelab__toc">
 <#list steps as step>
     <a href="<#if step.stepNum == 1>index.html<#else>step-${step.stepNum}.html</#if>" class="toc-item<#if step.isCurrent> toc-item--current</#if>">

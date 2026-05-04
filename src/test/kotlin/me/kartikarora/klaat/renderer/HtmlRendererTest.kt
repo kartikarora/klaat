@@ -98,8 +98,10 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertFalse(content.contains("<script>"))
-        assertTrue(content.contains("&lt;script&gt;") || content.contains("&amp;lt;"))
+        // Check that the injected script is escaped, not just that the file contains no <script> tags
+        // since we now have a legitimate script tag for the copy button
+        assertFalse(content.contains("<script>alert"))
+        assertTrue(content.contains("&lt;script&gt;alert") || content.contains("&amp;lt;script&amp;gt;alert"))
     }
 
     @Test
@@ -555,6 +557,23 @@ class HtmlRendererTest {
 
         assertTrue(hasCategoryArray, "Category should be an empty array. Got: $jsonContent")
         assertTrue(hasTagsArray, "Tags should be an empty array. Got: $jsonContent")
+    }
+
+    @Test
+    fun `test render code block always contains copy button and icon`() {
+        val code = "line 1"
+        val codeBlock = Node.CodeBlock(code, "kotlin")
+        val step = Step("Test", listOf(codeBlock))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<div class=\"code-container\">"))
+        assertTrue(content.contains("<button type=\"button\" class=\"copy-button\""))
+        assertTrue(content.contains("<span class=\"material-icons\">content_copy</span>"))
+        assertTrue(content.contains("<span>Copy</span>"))
+        assertTrue(content.contains("copyToClipboard(this)"))
     }
 
     private fun createSimpleCodlab(): Codelab {
