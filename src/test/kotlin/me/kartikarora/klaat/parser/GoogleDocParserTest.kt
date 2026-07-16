@@ -15,6 +15,7 @@ import me.kartikarora.klaat.core.Node
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class GoogleDocParserTest {
@@ -257,7 +258,7 @@ class GoogleDocParserTest {
 
         val codelab = parser.parse(document)
 
-        assertEquals(1, codelab.steps[0].duration)
+        assertNull(codelab.steps[0].duration)
     }
 
     @Test

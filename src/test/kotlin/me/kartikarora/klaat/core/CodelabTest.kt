@@ -3,6 +3,7 @@ package me.kartikarora.klaat.core
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class CodelabTest {
 
@@ -65,7 +66,7 @@ class CodelabTest {
         )
 
         assertEquals("Introduction", step.title)
-        assertEquals(1, step.duration)
+        assertNull(step.duration)
         assertEquals(2, step.environment.size)
         assertEquals("Web", step.environment[0])
         assertEquals("Kiosk", step.environment[1])

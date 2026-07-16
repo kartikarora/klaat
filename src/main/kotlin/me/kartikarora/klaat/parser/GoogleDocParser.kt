@@ -58,7 +58,8 @@ class GoogleDocParser {
 
         var currentStep: MutableList<Node>? = null
         var currentStepTitle = ""
-        var currentStepDuration = 1
+        var currentStepDuration: Int? = null
+        var currentStepExcludeDuration = false
         var foundMetadataTable = false
 
         document.body?.content?.forEach { element ->
@@ -75,14 +76,16 @@ class GoogleDocParser {
                         steps.add(Step(
                             title = currentStepTitle,
                             content = currentStep,
-                            duration = currentStepDuration
+                            duration = currentStepDuration,
+                            excludeDurationFromTotal = currentStepExcludeDuration
                         ))
                     }
 
                     // Start new step
                     currentStepTitle = extractText(element.paragraph.elements)
                     currentStep = mutableListOf()
-                    currentStepDuration = 1
+                    currentStepDuration = null
+                    currentStepExcludeDuration = false
                 }
                 // Parse content within a step
                 currentStep != null -> {
@@ -97,7 +100,8 @@ class GoogleDocParser {
             steps.add(Step(
                 title = currentStepTitle,
                 content = currentStep,
-                duration = currentStepDuration
+                duration = currentStepDuration,
+                excludeDurationFromTotal = currentStepExcludeDuration
             ))
         }
 

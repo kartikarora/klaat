@@ -63,8 +63,9 @@ class MarkdownRenderer {
             codelab.steps.forEach { step ->
                 appendLine("## ${step.title}")
                 appendLine()
-                if (step.duration > 0) {
-                    appendLine("Duration: ${step.duration}")
+                if (step.duration != null) {
+                    val ignoreFlag = if (step.excludeDurationFromTotal) " ignore" else ""
+                    appendLine("Duration: ${step.duration}$ignoreFlag")
                     appendLine()
                 }
                 appendLine(renderStepContent(step.content))
