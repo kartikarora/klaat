@@ -103,7 +103,7 @@ class MarkdownParser {
         val standardFields = setOf(
             "summary", "id", "categories", "environments", "status",
             "feedback_link", "analytics_account", "tags", "authors",
-            "source", "duration"
+            "source", "duration", "theme"
         )
 
         // Collect extra metadata fields that are in passMetadata but not in standard fields
@@ -127,6 +127,7 @@ class MarkdownParser {
             tags = parseStringList(data["tags"]),
             authors = parseStringList(data["authors"]),
             source = data["source"]?.firstOrNull() ?: sourcePath ?: "",
+            theme = data["theme"]?.firstOrNull() ?: "",
             duration = data["duration"]?.firstOrNull()?.toIntOrNull() ?: 0,
             image = "",
             extraMetadata = extraMetadata

@@ -199,7 +199,7 @@ class GoogleDocParser {
         val standardFields = setOf(
             "summary", "url", "category", "environment", "status",
             "feedback link", "feedback_link", "analytics account", "analytics_account",
-            "tags", "authors", "source", "duration"
+            "tags", "authors", "source", "duration", "theme"
         )
 
         // Collect extra metadata fields that are in passMetadata but not in standard fields
@@ -222,6 +222,7 @@ class GoogleDocParser {
             tags = map["tags"]?.split(",")?.map { it.trim() } ?: emptyList(),
             authors = map["authors"]?.split(",")?.map { it.trim() } ?: emptyList(),
             source = map["source"] ?: "",
+            theme = map["theme"] ?: "",
             duration = map["duration"]?.toIntOrNull() ?: 0,
             image = "",
             extraMetadata = extraMetadata

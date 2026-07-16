@@ -22,7 +22,8 @@ data class CodelabMetadata(
     val source: String = "",
     val duration: Int = 0,
     val image: String = "",
-    val extraMetadata: Map<String, String> = emptyMap()
+    val extraMetadata: Map<String, String> = emptyMap(),
+    val theme: String = ""
 )
 
 data class Step(

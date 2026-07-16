@@ -62,6 +62,11 @@ class ExportCommand : CliktCommand("export") {
         help = "URL prefix for assets"
     ).default("https://distribute.kartikarora.me")
 
+    private val customCss by option(
+        "-css",
+        help = "Custom CSS file to use instead of the default codelab-elements.css"
+    )
+
     override fun run() {
         // Parse extra metadata if provided
         val extraMetadata = if (!extra.isNullOrBlank()) {
@@ -120,7 +125,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata)
+                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")
