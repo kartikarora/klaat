@@ -47,7 +47,9 @@ class MarkdownParser {
 
     fun parse(file: File, passMetadata: Set<String> = emptySet()): Codelab {
         val content = file.readText()
-        return parseContent(content, passMetadata, file.absolutePath)
+        val projectDir = File(System.getProperty("user.dir"))
+        val sourcePath = file.absoluteFile.relativeToOrNull(projectDir)?.path ?: file.absolutePath
+        return parseContent(content, passMetadata, sourcePath)
     }
 
     private fun parseContent(content: String, passMetadata: Set<String>, sourcePath: String?): Codelab {

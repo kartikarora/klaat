@@ -3,6 +3,7 @@ package me.kartikarora.klaat.parser
 import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
 import java.io.ByteArrayInputStream
+import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -752,5 +753,30 @@ class MarkdownParserTest {
         assertEquals("center", table.alignments[1])
         assertEquals("right", table.alignments[2])
         assertNull(table.alignments[3])
+    }
+
+    @Test
+    fun `test parse file sets relative source path`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            Content
+        """.trimIndent()
+
+        val projectDir = File(System.getProperty("user.dir"))
+        val tempDir = File(projectDir, "build/tmp/test-markdown")
+        tempDir.mkdirs()
+        val testFile = File(tempDir, "test-codelab.md")
+        testFile.writeText(markdown)
+
+        try {
+            val codelab = parser.parse(testFile)
+            val expectedPath = "build/tmp/test-markdown/test-codelab.md".replace("/", File.separator)
+            assertEquals(expectedPath, codelab.metadata.source)
+        } finally {
+            testFile.delete()
+        }
     }
 }
