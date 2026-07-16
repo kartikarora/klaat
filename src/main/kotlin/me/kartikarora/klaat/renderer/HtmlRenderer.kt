@@ -37,9 +37,12 @@ class HtmlRenderer {
             }
         }
 
+        val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
+        val customCssUrl = if (isCustomCssUrl) customCss else null
+
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -81,7 +84,7 @@ class HtmlRenderer {
         }
     }
 
-    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String): String {
+    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?): String {
         val template = freemarkerConfig.getTemplate("codelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -92,6 +95,7 @@ class HtmlRenderer {
             "codelabGA" to codelab.metadata.analyticsAccount,
             "jsPrefix" to jsPrefix,
             "cssPrefix" to cssPrefix,
+            "customCssUrl" to (customCssUrl ?: ""),
             "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.map { step ->
                 mapOf(
