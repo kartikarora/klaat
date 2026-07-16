@@ -228,6 +228,7 @@ class MarkdownRenderer {
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")
+            appendLine("""  "theme": "${escapeJson(codelab.metadata.theme)}",""")
             appendLine("""  "category": ${renderJsonArray(codelab.metadata.category)},""")
             appendLine("""  "status": ${renderJsonArray(codelab.metadata.status)},""")
             appendLine("""  "tags": ${renderJsonArray(codelab.metadata.tags)},""")

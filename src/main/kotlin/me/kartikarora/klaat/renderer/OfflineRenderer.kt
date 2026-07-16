@@ -22,7 +22,7 @@ class OfflineRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web") {
+    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -31,7 +31,7 @@ class OfflineRenderer {
             !prefix.isNullOrEmpty() -> prefix
             else -> {
                 // Copy assets locally and use relative path
-                copyAssets(outputDir)
+                copyAssets(outputDir, customCss)
                 "../codelab-elements"
             }
         }
@@ -63,9 +63,9 @@ class OfflineRenderer {
     }
 
 
-    private fun copyAssets(outputDir: File) {
+    private fun copyAssets(outputDir: File, customCss: String? = null) {
         val assetsDir = File(outputDir, "codelab-elements")
-        if (assetsDir.exists()) return // Already copied
+        if (assetsDir.exists() && customCss == null) return // Already copied
 
         assetsDir.mkdirs()
 
@@ -78,10 +78,19 @@ class OfflineRenderer {
             "prettify.js"
         )
 
+        val customCssFile = customCss?.let { File(it) }
+
         assetFiles.forEach { filename ->
-            val resource = javaClass.getResourceAsStream("/assets/$filename")
-            if (resource != null) {
-                File(assetsDir, filename).writeBytes(resource.readBytes())
+            if (filename == "codelab-elements.css" && customCssFile != null && customCssFile.exists()) {
+                customCssFile.copyTo(File(assetsDir, filename), overwrite = true)
+            } else {
+                val destFile = File(assetsDir, filename)
+                if (!destFile.exists() || customCss != null) {
+                    val resource = javaClass.getResourceAsStream("/assets/$filename")
+                    if (resource != null) {
+                        destFile.writeBytes(resource.readBytes())
+                    }
+                }
             }
         }
     }
@@ -105,6 +114,7 @@ class OfflineRenderer {
             "globalGA" to (ga ?: ""),
             "codelabGA" to codelab.metadata.analyticsAccount,
             "prefix" to prefix,
+            "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.mapIndexed { index, step ->
                 mapOf(
                     "title" to step.title,
@@ -276,7 +286,7 @@ $options
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")
-            appendLine("""  "theme": "",""")
+            appendLine("""  "theme": "${escapeJson(codelab.metadata.theme)}",""")
             appendLine("""  "status": ${codelab.metadata.status.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
             appendLine("""  "category": ${codelab.metadata.category.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
             appendLine("""  "tags": ${codelab.metadata.tags.joinToString(", ", "[\"", "\"]") { escapeJson(it) }},""")
