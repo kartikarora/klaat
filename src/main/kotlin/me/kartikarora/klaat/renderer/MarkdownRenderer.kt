@@ -91,6 +91,7 @@ class MarkdownRenderer {
                 is Node.Button -> renderButton(node)
                 is Node.Survey -> renderSurvey(node)
                 is Node.FAQ -> renderFAQ(node)
+                is Node.Table -> renderTable(node)
             }
         }
     }
@@ -186,6 +187,32 @@ class MarkdownRenderer {
             "* [${link.text}](${link.url})"
         }
         return "### Frequently Asked Questions\n\n$links"
+    }
+
+    private fun renderTable(node: Node.Table): String {
+        return buildString {
+            if (node.header.isNotEmpty()) {
+                append("| ")
+                append(node.header.joinToString(" | ") { renderStepContent(it) })
+                append(" |\n")
+                // Separator row with alignment markers
+                append("| ")
+                append(node.header.mapIndexed { colIdx, _ ->
+                    when (node.alignments.getOrNull(colIdx)) {
+                        "left" -> ":---"
+                        "center" -> ":---:"
+                        "right" -> "---:"
+                        else -> "---"
+                    }
+                }.joinToString(" | "))
+                append(" |\n")
+            }
+            node.rows.forEach { row ->
+                append("| ")
+                append(row.joinToString(" | ") { renderStepContent(it) })
+                append(" |\n")
+            }
+        }
     }
 
     private fun renderMetadataJson(codelab: Codelab, environment: String): String {

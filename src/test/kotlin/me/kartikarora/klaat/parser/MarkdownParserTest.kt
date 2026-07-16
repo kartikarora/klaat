@@ -7,6 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class MarkdownParserTest {
@@ -666,5 +667,57 @@ class MarkdownParserTest {
         assertEquals(10, codelab.steps[4].duration)
         assertEquals(15, codelab.steps[5].duration)
         assertEquals(5, codelab.steps[6].duration)
+    }
+
+    @Test
+    fun `test parse table`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+
+            | Header 1 | Header 2 |
+            | --- | --- |
+            | Cell 1.1 | Cell 1.2 |
+            | Cell 2.1 | Cell 2.2 |
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        val content = codelab.steps[0].content
+        val table = content.find { it is Node.Table } as? Node.Table
+        assertNotNull(table)
+        assertEquals(2, table.header.size)
+        assertEquals(2, table.rows.size)
+        assertEquals(2, table.rows[0].size)
+        // Header cells should contain text nodes
+        val header1Text = table.header[0].filterIsInstance<Node.Text>().joinToString("") { it.content }
+        val header2Text = table.header[1].filterIsInstance<Node.Text>().joinToString("") { it.content }
+        assertEquals("Header 1", header1Text)
+        assertEquals("Header 2", header2Text)
+    }
+
+    @Test
+    fun `test parse table with column alignment`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+
+            | Left | Center | Right | None |
+            | :--- | :---: | ---: | --- |
+            | a | b | c | d |
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+
+        val content = codelab.steps[0].content
+        val table = content.find { it is Node.Table } as? Node.Table
+        assertNotNull(table)
+        assertEquals(4, table.alignments.size)
+        assertEquals("left", table.alignments[0])
+        assertEquals("center", table.alignments[1])
+        assertEquals("right", table.alignments[2])
+        assertNull(table.alignments[3])
     }
 }

@@ -48,6 +48,12 @@ sealed class Node {
     data class Button(val url: String, val text: String, val download: Boolean = false) : Node()
     data class Survey(val question: String, val options: List<String>) : Node()
     data class FAQ(val links: List<Link>) : Node()
+    data class Table(
+        val header: List<List<Node>>,
+        val rows: List<List<List<Node>>>,
+        /** Per-column alignment: "left", "center", "right", or null when unspecified. */
+        val alignments: List<String?> = emptyList()
+    ) : Node()
 }
 
 enum class InfoBoxType {

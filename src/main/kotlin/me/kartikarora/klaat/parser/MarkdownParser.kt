@@ -2,6 +2,11 @@ package me.kartikarora.klaat.parser
 
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
+import com.vladsch.flexmark.ext.tables.TableBlock
+import com.vladsch.flexmark.ext.tables.TableHead
+import com.vladsch.flexmark.ext.tables.TableBody
+import com.vladsch.flexmark.ext.tables.TableRow
+import com.vladsch.flexmark.ext.tables.TableCell
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
@@ -301,6 +306,63 @@ class MarkdownParser {
                     src = url,
                     alt = node.text.toString()
                 ))
+            }
+            is TableBlock -> {
+                val header = mutableListOf<List<CodelabNode>>()
+                val alignments = mutableListOf<String?>()
+                val rows = mutableListOf<List<List<CodelabNode>>>()
+
+                var child = node.firstChild
+                while (child != null) {
+                    when (child) {
+                        is TableHead -> {
+                            var row = child.firstChild
+                            while (row != null) {
+                                if (row is TableRow) {
+                                    var cell = row.firstChild
+                                    while (cell != null) {
+                                        if (cell is TableCell) {
+                                            val cellNodes = mutableListOf<CodelabNode>()
+                                            extractTextNodes(cell, cellNodes)
+                                            header.add(cellNodes)
+                                            // Capture column alignment from the header cell
+                                            val align = when (cell.alignment) {
+                                                TableCell.Alignment.LEFT -> "left"
+                                                TableCell.Alignment.CENTER -> "center"
+                                                TableCell.Alignment.RIGHT -> "right"
+                                                else -> null
+                                            }
+                                            alignments.add(align)
+                                        }
+                                        cell = cell.next
+                                    }
+                                }
+                                row = row.next
+                            }
+                        }
+                        is TableBody -> {
+                            var row = child.firstChild
+                            while (row != null) {
+                                if (row is TableRow) {
+                                    val rowCells = mutableListOf<List<CodelabNode>>()
+                                    var cell = row.firstChild
+                                    while (cell != null) {
+                                        if (cell is TableCell) {
+                                            val cellNodes = mutableListOf<CodelabNode>()
+                                            extractTextNodes(cell, cellNodes)
+                                            rowCells.add(cellNodes)
+                                        }
+                                        cell = cell.next
+                                    }
+                                    rows.add(rowCells)
+                                }
+                                row = row.next
+                            }
+                        }
+                    }
+                    child = child.next
+                }
+                nodes.add(CodelabNode.Table(header, rows, alignments))
             }
         }
         

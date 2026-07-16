@@ -126,6 +126,7 @@ class HtmlRenderer {
             is Node.Button -> renderButton(node)
             is Node.Survey -> renderSurvey(node)
             is Node.FAQ -> renderFAQ(node)
+            is Node.Table -> renderTable(node)
         }
     }
 
@@ -203,6 +204,33 @@ $options
             """<li><a href="${escape(link.url)}" target="_blank">${escape(link.text)}</a></li>"""
         }
         return """<h3>Frequently Asked Questions</h3><ul>$links</ul>"""
+    }
+    
+    private fun renderTable(node: Node.Table): String {
+        return buildString {
+            append("<table>\n")
+            if (node.header.isNotEmpty()) {
+                append("<thead>\n<tr>\n")
+                node.header.forEachIndexed { colIdx, cell ->
+                    val align = node.alignments.getOrNull(colIdx)
+                    val style = if (align != null) """ style="text-align: $align"""" else ""
+                    append("<th$style>${renderNodes(cell)}</th>")
+                }
+                append("\n</tr>\n</thead>\n")
+            }
+            append("<tbody>\n")
+            node.rows.forEach { row ->
+                append("<tr>\n")
+                row.forEachIndexed { colIdx, cell ->
+                    val align = node.alignments.getOrNull(colIdx)
+                    val style = if (align != null) """ style="text-align: $align"""" else ""
+                    append("<td$style>${renderNodes(cell)}</td>")
+                }
+                append("\n</tr>\n")
+            }
+            append("</tbody>\n")
+            append("</table>")
+        }
     }
 
     private fun renderMetadataJson(codelab: Codelab, environment: String): String {
