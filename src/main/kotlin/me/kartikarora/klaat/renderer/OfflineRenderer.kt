@@ -79,23 +79,25 @@ class OfflineRenderer {
             "codelab-elements.js",
             "custom-elements.min.js",
             "native-shim.js",
-            "prettify.js"
+            "prettify.js",
+            "klaat-bridge.js"
         )
 
         val customCssFile = customCss?.let { File(it) }
 
         assetFiles.forEach { filename ->
-            if (filename == "codelab-elements.css" && customCssFile != null && customCssFile.exists()) {
-                customCssFile.copyTo(File(assetsDir, filename), overwrite = true)
-            } else {
-                val destFile = File(assetsDir, filename)
-                if (!destFile.exists() || customCss != null) {
-                    val resource = javaClass.getResourceAsStream("/assets/$filename")
-                    if (resource != null) {
-                        destFile.writeBytes(resource.readBytes())
-                    }
+            val destFile = File(assetsDir, filename)
+            if (!destFile.exists()) {
+                val resource = javaClass.getResourceAsStream("/assets/$filename")
+                if (resource != null) {
+                    destFile.writeBytes(resource.readBytes())
                 }
             }
+        }
+
+        // Copy custom CSS if provided and it's a local file
+        if (customCssFile != null && customCssFile.exists()) {
+            customCssFile.copyTo(File(assetsDir, customCssFile.name), overwrite = true)
         }
     }
 
