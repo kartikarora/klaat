@@ -22,7 +22,7 @@ class OfflineRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null) {
+    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -39,6 +39,10 @@ class OfflineRenderer {
         val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
         val customCssUrl = if (isCustomCssUrl) customCss else null
 
+        val bridgeScript = if (customCss != null) {
+            javaClass.getResourceAsStream("/assets/klaat-bridge.js")?.bufferedReader()?.readText() ?: ""
+        } else ""
+
         // Create a file for each step
         codelab.steps.forEachIndexed { index, step ->
             val stepNum = index + 1
@@ -54,7 +58,9 @@ class OfflineRenderer {
                     hasNext = index < codelab.steps.size - 1,
                     ga = ga,
                     prefix = assetPrefix,
-                    customCssUrl = customCssUrl
+                    customCssUrl = customCssUrl,
+                    bridgeScript = bridgeScript,
+                    favicon = favicon
                 )
             )
         }
@@ -109,7 +115,9 @@ class OfflineRenderer {
         hasNext: Boolean,
         ga: String?,
         prefix: String,
-        customCssUrl: String?
+        customCssUrl: String?,
+        bridgeScript: String,
+        favicon: String?
     ): String {
         val template = freemarkerConfig.getTemplate("codelab-offline.html")
 
@@ -122,6 +130,8 @@ class OfflineRenderer {
             "codelabGA" to codelab.metadata.analyticsAccount,
             "prefix" to prefix,
             "customCssUrl" to (customCssUrl ?: ""),
+            "bridgeScript" to bridgeScript,
+            "favicon" to (favicon ?: ""),
             "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.mapIndexed { index, step ->
                 mapOf(

@@ -64,7 +64,12 @@ class ExportCommand : CliktCommand("export") {
 
     private val customCss by option(
         "-css",
-        help = "Custom CSS file to use instead of the default codelab-elements.css"
+        help = "Custom CSS file or URL to use"
+    )
+    
+    private val favicon by option(
+        "-favicon",
+        help = "Custom favicon URL or path to use"
     )
 
     override fun run() {
@@ -125,7 +130,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss)
+                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss, favicon)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")
