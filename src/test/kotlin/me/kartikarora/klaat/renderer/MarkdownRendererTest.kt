@@ -415,6 +415,104 @@ class MarkdownRendererTest {
         assertTrue(content.contains("Duration: 5"))
     }
 
+    @Test
+    fun `test render table basic structure`() {
+        val table = Node.Table(
+            header = listOf(
+                listOf(Node.Text("Name")),
+                listOf(Node.Text("Value"))
+            ),
+            rows = listOf(
+                listOf(listOf(Node.Text("foo")), listOf(Node.Text("bar"))),
+                listOf(listOf(Node.Text("baz")), listOf(Node.Text("qux")))
+            )
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.md").readText()
+        assertTrue(content.contains("| Name | Value |"))
+        assertTrue(content.contains("| --- | --- |"))
+        assertTrue(content.contains("| foo | bar |"))
+        assertTrue(content.contains("| baz | qux |"))
+    }
+
+    @Test
+    fun `test render table with rich cell content`() {
+        val table = Node.Table(
+            header = listOf(listOf(Node.Text("Header", bold = true))),
+            rows = listOf(listOf(listOf(Node.Text("code", code = true))))
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.md").readText()
+        assertTrue(content.contains("**Header**"))
+        assertTrue(content.contains("`code`"))
+    }
+
+    @Test
+    fun `test render table with column alignment markers`() {
+        val table = Node.Table(
+            header = listOf(
+                listOf(Node.Text("Left")),
+                listOf(Node.Text("Center")),
+                listOf(Node.Text("Right")),
+                listOf(Node.Text("None"))
+            ),
+            rows = listOf(
+                listOf(
+                    listOf(Node.Text("a")),
+                    listOf(Node.Text("b")),
+                    listOf(Node.Text("c")),
+                    listOf(Node.Text("d"))
+                )
+            ),
+            alignments = listOf("left", "center", "right", null)
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.md").readText()
+        assertTrue(content.contains(":---"))
+        assertTrue(content.contains(":---:"))
+        assertTrue(content.contains("---:"))
+        // A column with no alignment should use plain "---"
+        assertTrue(content.contains("| :--- | :---: | ---: | --- |"))
+    }
+
+    @Test
+    fun `test parse and render table round-trip`() {
+        val markdown = """
+            # Title
+
+            ## Step 1
+
+            | Tool | Version | Notes |
+            | :--- | :---: | ---: |
+            | Kotlin | 2.0 | Stable |
+            | Gradle | 8.x | Required |
+        """.trimIndent()
+
+        val parser = me.kartikarora.klaat.parser.MarkdownParser()
+        val codelab = parser.parse(markdown.byteInputStream())
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "${codelab.id}/index.md").readText()
+        assertTrue(content.contains("| Tool | Version | Notes |"))
+        assertTrue(content.contains(":---"))
+        assertTrue(content.contains(":---:"))
+        assertTrue(content.contains("---:"))
+        assertTrue(content.contains("| Kotlin | 2.0 | Stable |"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

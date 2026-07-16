@@ -576,6 +576,84 @@ class HtmlRendererTest {
         assertTrue(content.contains("copyToClipboard(this)"))
     }
 
+    @Test
+    fun `test render table basic structure`() {
+        val table = Node.Table(
+            header = listOf(
+                listOf(Node.Text("Name")),
+                listOf(Node.Text("Value"))
+            ),
+            rows = listOf(
+                listOf(listOf(Node.Text("foo")), listOf(Node.Text("bar"))),
+                listOf(listOf(Node.Text("baz")), listOf(Node.Text("qux")))
+            )
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<table>"))
+        assertTrue(content.contains("<thead>"))
+        assertTrue(content.contains("<tbody>"))
+        assertTrue(content.contains("<th>Name</th>"))
+        assertTrue(content.contains("<th>Value</th>"))
+        assertTrue(content.contains("<td>foo</td>"))
+        assertTrue(content.contains("<td>bar</td>"))
+        assertTrue(content.contains("<td>baz</td>"))
+        assertTrue(content.contains("<td>qux</td>"))
+        assertTrue(content.contains("</table>"))
+    }
+
+    @Test
+    fun `test render table with rich cell content`() {
+        val table = Node.Table(
+            header = listOf(listOf(Node.Text("Header", bold = true))),
+            rows = listOf(listOf(listOf(Node.Text("code", code = true))))
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<strong>Header</strong>"))
+        assertTrue(content.contains("<code>code</code>"))
+    }
+
+    @Test
+    fun `test render table with column alignment`() {
+        val table = Node.Table(
+            header = listOf(
+                listOf(Node.Text("Left")),
+                listOf(Node.Text("Center")),
+                listOf(Node.Text("Right")),
+                listOf(Node.Text("None"))
+            ),
+            rows = listOf(
+                listOf(
+                    listOf(Node.Text("a")),
+                    listOf(Node.Text("b")),
+                    listOf(Node.Text("c")),
+                    listOf(Node.Text("d"))
+                )
+            ),
+            alignments = listOf("left", "center", "right", null)
+        )
+        val step = Step("Test", listOf(table))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("""style="text-align: left""""))
+        assertTrue(content.contains("""style="text-align: center""""))
+        assertTrue(content.contains("""style="text-align: right""""))
+        // The column with null alignment should not have a style attribute on its cells
+        assertFalse(content.contains("<th>None</th>").not()) // th for "None" exists without style
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",
