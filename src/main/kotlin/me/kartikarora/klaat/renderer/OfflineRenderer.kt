@@ -36,6 +36,9 @@ class OfflineRenderer {
             }
         }
 
+        val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
+        val customCssUrl = if (isCustomCssUrl) customCss else null
+
         // Create a file for each step
         codelab.steps.forEachIndexed { index, step ->
             val stepNum = index + 1
@@ -50,7 +53,8 @@ class OfflineRenderer {
                     hasPrev = index > 0,
                     hasNext = index < codelab.steps.size - 1,
                     ga = ga,
-                    prefix = assetPrefix
+                    prefix = assetPrefix,
+                    customCssUrl = customCssUrl
                 )
             )
         }
@@ -102,7 +106,8 @@ class OfflineRenderer {
         hasPrev: Boolean,
         hasNext: Boolean,
         ga: String?,
-        prefix: String
+        prefix: String,
+        customCssUrl: String?
     ): String {
         val template = freemarkerConfig.getTemplate("codelab-offline.html")
 
@@ -114,6 +119,7 @@ class OfflineRenderer {
             "globalGA" to (ga ?: ""),
             "codelabGA" to codelab.metadata.analyticsAccount,
             "prefix" to prefix,
+            "customCssUrl" to (customCssUrl ?: ""),
             "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.mapIndexed { index, step ->
                 mapOf(
