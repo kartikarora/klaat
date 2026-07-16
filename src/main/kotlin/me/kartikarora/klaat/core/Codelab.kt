@@ -28,7 +28,9 @@ data class CodelabMetadata(
 data class Step(
     val title: String,
     val content: List<Node>,
-    val duration: Int = 1,
+    /** null = no Duration line present; positive = normal duration */
+    val duration: Int? = null,
+    val excludeDurationFromTotal: Boolean = false,
     val environment: List<String> = listOf("Web", "Kiosk")
 )
 

@@ -87,6 +87,7 @@ class HtmlRenderer {
                 mapOf(
                     "title" to step.title,
                     "duration" to step.duration,
+                    "hasDuration" to (step.duration != null),
                     "content" to renderStepContent(step.content)
                 )
             }
@@ -242,7 +243,7 @@ $options
             appendLine("""  "mainga": "${codelab.metadata.analyticsAccount}",""")
             appendLine("""  "updated": "${java.time.Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
-            appendLine("""  "duration": ${codelab.steps.sumOf { it.duration }},""")
+            appendLine("""  "duration": ${codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }},""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")

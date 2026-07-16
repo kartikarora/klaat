@@ -175,7 +175,8 @@ class MarkdownParser {
         val steps = mutableListOf<Step>()
         var currentStep: MutableList<CodelabNode>? = null
         var currentStepTitle = ""
-        var currentStepDuration = 1
+        var currentStepDuration: Int? = null
+        var currentStepExcludeDuration = false
         var currentStepEnv = listOf("Web", "Kiosk")
 
         var node: FlexmarkNode? = document.firstChild
@@ -196,6 +197,7 @@ class MarkdownParser {
                             title = currentStepTitle,
                             content = currentStep,
                             duration = currentStepDuration,
+                            excludeDurationFromTotal = currentStepExcludeDuration,
                             environment = currentStepEnv
                         ))
                     }
@@ -203,7 +205,8 @@ class MarkdownParser {
                     // Start new step
                     currentStepTitle = node.text.toString()
                     currentStep = mutableListOf()
-                    currentStepDuration = 1
+                    currentStepDuration = null
+                    currentStepExcludeDuration = false
                     currentStepEnv = listOf("Web", "Kiosk")
                     skipUntilFirstH2 = false
                     skipNextIfDuration = true
@@ -212,9 +215,10 @@ class MarkdownParser {
                     // Check if this is a Duration paragraph
                     if (skipNextIfDuration && node is com.vladsch.flexmark.ast.Paragraph) {
                         val text = node.chars.toString().trim()
-                        val durationMatch = Regex("^Duration:\\s*(\\d+)$").find(text)
+                        val durationMatch = Regex("^Duration:\\s*(\\d+)(?:\\s+(?:\\(ignore\\)|ignore))?", RegexOption.IGNORE_CASE).find(text)
                         if (durationMatch != null) {
-                            currentStepDuration = durationMatch.groupValues[1].toIntOrNull() ?: 1
+                            currentStepDuration = durationMatch.groupValues[1].toIntOrNull()
+                            currentStepExcludeDuration = text.contains("ignore", ignoreCase = true)
                             skipNextIfDuration = false
                             node = node.next
                             continue
@@ -237,6 +241,7 @@ class MarkdownParser {
                 title = currentStepTitle,
                 content = currentStep,
                 duration = currentStepDuration,
+                excludeDurationFromTotal = currentStepExcludeDuration,
                 environment = currentStepEnv
             ))
         }

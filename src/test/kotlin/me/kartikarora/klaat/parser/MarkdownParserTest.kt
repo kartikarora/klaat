@@ -459,9 +459,9 @@ class MarkdownParserTest {
         val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
 
         assertEquals(3, codelab.steps.size)
-        assertEquals(1, codelab.steps[0].duration)
+        assertNull(codelab.steps[0].duration)
         assertEquals(15, codelab.steps[1].duration)
-        assertEquals(1, codelab.steps[2].duration)
+        assertNull(codelab.steps[2].duration)
     }
 
     @Test
@@ -533,7 +533,40 @@ class MarkdownParserTest {
 
         assertEquals(1, codelab.steps.size)
         // Invalid duration should be treated as regular content, so default of 1 is used
-        assertEquals(1, codelab.steps[0].duration)
+        assertNull(codelab.steps[0].duration)
+    }
+
+    @Test
+    fun `test duration ignore syntax`() {
+        val markdown = """
+            # Test
+            
+            ## Step 1
+            Duration: 5 ignore
+            
+            ## Step 2
+            Duration: 10 (ignore)
+            
+            ## Step 3
+            Duration: 15 Ignore
+            
+            ## Step 4
+            Duration: 20
+        """.trimIndent()
+        
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        
+        assertEquals(5, codelab.steps[0].duration)
+        assertTrue(codelab.steps[0].excludeDurationFromTotal)
+        
+        assertEquals(10, codelab.steps[1].duration)
+        assertTrue(codelab.steps[1].excludeDurationFromTotal)
+        
+        assertEquals(15, codelab.steps[2].duration)
+        assertTrue(codelab.steps[2].excludeDurationFromTotal)
+        
+        assertEquals(20, codelab.steps[3].duration)
+        assertFalse(codelab.steps[3].excludeDurationFromTotal)
     }
 
     @Test
