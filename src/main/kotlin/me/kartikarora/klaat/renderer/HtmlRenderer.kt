@@ -20,7 +20,7 @@ class HtmlRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null) {
+    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -39,10 +39,14 @@ class HtmlRenderer {
 
         val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
         val customCssUrl = if (isCustomCssUrl) customCss else null
+        
+        val bridgeScript = if (customCss != null) {
+            javaClass.getResourceAsStream("/assets/klaat-bridge.js")?.bufferedReader()?.readText() ?: ""
+        } else ""
 
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, bridgeScript, favicon))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -86,7 +90,7 @@ class HtmlRenderer {
         }
     }
 
-    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?): String {
+    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, bridgeScript: String, favicon: String?): String {
         val template = freemarkerConfig.getTemplate("codelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -98,6 +102,8 @@ class HtmlRenderer {
             "jsPrefix" to jsPrefix,
             "cssPrefix" to cssPrefix,
             "customCssUrl" to (customCssUrl ?: ""),
+            "bridgeScript" to bridgeScript,
+            "favicon" to (favicon ?: ""),
             "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.map { step ->
                 mapOf(
