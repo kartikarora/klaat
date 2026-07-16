@@ -33,3 +33,13 @@ Final step with a list:
 * Item 1
 * Item 2
 * Item 3
+
+## Step 4
+Duration: 1
+
+This step has a table with alignment:
+
+| Tool | Version | Notes |
+| :--- | :---: | ---: |
+| Kotlin | 2.0 | Stable |
+| Gradle | 8.x | Required |
