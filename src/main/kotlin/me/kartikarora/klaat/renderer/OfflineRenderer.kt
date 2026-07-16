@@ -39,10 +39,6 @@ class OfflineRenderer {
         val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
         val customCssUrl = if (isCustomCssUrl) customCss else null
 
-        val bridgeScript = if (customCss != null) {
-            javaClass.getResourceAsStream("/assets/klaat-bridge.js")?.bufferedReader()?.readText() ?: ""
-        } else ""
-
         // Create a file for each step
         codelab.steps.forEachIndexed { index, step ->
             val stepNum = index + 1
@@ -59,7 +55,6 @@ class OfflineRenderer {
                     ga = ga,
                     prefix = assetPrefix,
                     customCssUrl = customCssUrl,
-                    bridgeScript = bridgeScript,
                     favicon = favicon
                 )
             )
@@ -116,7 +111,6 @@ class OfflineRenderer {
         ga: String?,
         prefix: String,
         customCssUrl: String?,
-        bridgeScript: String,
         favicon: String?
     ): String {
         val template = freemarkerConfig.getTemplate("codelab-offline.html")
@@ -130,7 +124,6 @@ class OfflineRenderer {
             "codelabGA" to codelab.metadata.analyticsAccount,
             "prefix" to prefix,
             "customCssUrl" to (customCssUrl ?: ""),
-            "bridgeScript" to bridgeScript,
             "favicon" to (favicon ?: ""),
             "theme" to codelab.metadata.theme,
             "steps" to codelab.steps.mapIndexed { index, step ->
