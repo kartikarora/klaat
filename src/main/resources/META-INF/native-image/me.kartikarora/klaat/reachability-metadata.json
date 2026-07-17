@@ -2600,6 +2600,15 @@
       "type": "io.netty.util.ResourceLeakDetector$DefaultResourceLeak"
     },
     {
+      "type": "io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap"
+    },
+    {
+      "type": "io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap$Index"
+    },
+    {
+      "type": "io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap$Node"
+    },
+    {
       "type": "io.netty.util.concurrent.DefaultPromise"
     },
     {
@@ -3060,6 +3069,10 @@
       "type": "java.lang.foreign.MemorySegment",
       "methods": [
         {
+          "name": "address",
+          "parameterTypes": []
+        },
+        {
           "name": "asByteBuffer",
           "parameterTypes": []
         },
@@ -3067,6 +3080,12 @@
           "name": "ofAddress",
           "parameterTypes": [
             "long"
+          ]
+        },
+        {
+          "name": "ofBuffer",
+          "parameterTypes": [
+            "java.nio.Buffer"
           ]
         },
         {
@@ -3146,6 +3165,15 @@
     },
     {
       "type": "java.lang.invoke.MethodType"
+    },
+    {
+      "type": "java.lang.invoke.VarHandle",
+      "methods": [
+        {
+          "name": "acquireFence",
+          "parameterTypes": []
+        }
+      ]
     },
     {
       "type": "java.lang.management.ManagementFactory",
@@ -3246,6 +3274,24 @@
         {
           "name": "arrayOffset",
           "parameterTypes": []
+        },
+        {
+          "name": "put",
+          "parameterTypes": [
+            "int",
+            "java.nio.ByteBuffer",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "put",
+          "parameterTypes": [
+            "int",
+            "byte[]",
+            "int",
+            "int"
+          ]
         },
         {
           "name": "slice",
