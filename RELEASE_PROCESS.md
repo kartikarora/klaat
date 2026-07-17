@@ -43,10 +43,11 @@ git pull origin develop
 git checkout -b release/v1.0.0
 ```
 
-### 2. Update Version in build.gradle.kts
+### 2. Update Version in gradle/libs.versions.toml
 
-```kotlin
-version = "1.0.0"  // Update this line
+```toml
+[versions]
+klaat = "1.0.0"  # Update this line
 ```
 
 Also update version references in `README.md` if needed.

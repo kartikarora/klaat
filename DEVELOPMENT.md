@@ -2,11 +2,11 @@
 
 ## Prerequisites
 
-- **GraalVM JDK 21** (for native builds)
+- **GraalVM JDK 25** (for native builds)
   ```bash
   # Install via SDKMAN
-  sdk install java 21-graalce
-  sdk use java 21-graalce
+  sdk install java 25.0.2-graalce
+  sdk use java 25.0.2-graalce
   ```
 
   Or download from: https://www.graalvm.org/downloads/
@@ -66,17 +66,14 @@ CI builds use full optimization for production binaries.
 
 ## Generating Native Image Configs
 
-GraalVM needs to know about reflection, resources, and JNI usage. You can generate these configs:
+GraalVM needs to know about reflection, resources, and JNI usage. We have an automated script in the project that instruments runtime execution using the GraalVM Tracing Agent across all CLI entrypoints and merges the configs automatically to prevent overwrites:
 
 ```bash
-# Run with the tracing agent
-./gradlew -Pagent run --args="export --help"
-
-# This generates configs in build/native/agent-output/
-
-# Copy them to src/main/resources/META-INF/native-image/
-cp build/native/agent-output/run/*.json src/main/resources/META-INF/native-image/
+# Run the automated tracing and config merging script
+./.gemini/skills/graalvm-native-agent/scripts/run-agent.sh
 ```
+
+This runs `version`, `help`, `export`, `update`, and `serve` commands on the local JVM distribution using the agent's `config-merge-dir` option to safely accumulate reflections into `src/main/resources/META-INF/native-image/`.
 
 ## Testing Native Builds
 
