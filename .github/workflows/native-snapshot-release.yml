@@ -12,7 +12,7 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup GraalVM
         uses: ./.github/actions/setup-graalvm
@@ -63,7 +63,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: ${{ !cancelled() }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup GraalVM
         uses: ./.github/actions/setup-graalvm
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() && needs.run-tests.result == 'success' && needs.build-native.result == 'success' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Get version
         id: version
@@ -105,7 +105,7 @@ jobs:
           type: snapshot
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
