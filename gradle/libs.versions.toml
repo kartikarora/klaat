@@ -1,19 +1,19 @@
 [versions]
 klaat = "0.4.0"
-kotlin = "2.3.10"
+kotlin = "2.4.10"
 clikt = "5.1.0"
-google-api-client = "2.8.1"
+google-api-client = "2.9.0"
 google-oauth-client = "1.39.0"
 google-api-services-docs = "v1-rev20260114-2.0.0"
-ktor = "3.4.3"
-logback = "1.5.32"
+ktor = "3.5.1"
+logback = "1.5.38"
 flexmark = "0.64.8"
 freemarker = "2.3.34"
 gson = "2.14.0"
 kaml = "0.104.0"
 kotlinx-serialization = "1.11.0"
-mockk = "1.14.9"
-graalvm-native = "1.1.0"
+mockk = "1.14.11"
+graalvm-native = "1.1.3"
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
