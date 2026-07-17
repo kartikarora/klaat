@@ -16,7 +16,7 @@ echo "  Starting Tracing Agent Execution"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Set up local paths
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 TARGET_DIR="${PROJECT_ROOT}/src/main/resources/META-INF/native-image/me.kartikarora/klaat"
 APP_BIN="${PROJECT_ROOT}/build/install/klaat-dev/bin/klaat-dev"
 
