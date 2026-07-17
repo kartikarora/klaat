@@ -141,16 +141,24 @@ Export codelabs from Google Docs or Markdown files.
 klaat-snapshot export [OPTIONS] SOURCES...
 
 Options:
-  -f, --format TEXT     Output format (html|md) [default: html]
-  -o, --out TEXT        Output directory [default: .]
-  -ga TEXT              Google Analytics tracking ID
-  -p, --prefix TEXT     URL prefix for assets
-  -h, --help            Show help
+  -f, --format TEXT       Output format (html|md|offline) [default: html]
+  -o, --out TEXT          Output directory [default: .]
+  -ga TEXT                Google Analytics tracking ID [default: UA-49880327-14]
+  -p, --prefix TEXT       URL prefix for assets [default: https://distribute.kartikarora.me]
+  -css TEXT               Custom CSS stylesheet file or URL to inject
+  -favicon TEXT           Custom favicon URL or file path to use
+  -fonts TEXT             Google Fonts link URL to load additional font families
+  -extra TEXT             JSON string representing additional metadata to inject
+  -pass_metadata TEXT     Comma-delimited list of metadata keys to preserve in output
+  -auth TEXT              OAuth2 token to use for Google Docs API authentication
+  -e TEXT                 Codelab environment filter [default: web]
+  -h, --help              Show help
 
 Examples:
   klaat-snapshot export 1ABC... -o codelabs/
   klaat-snapshot export tutorial.md -f html -o output/
-  klaat-snapshot export doc1 doc2 doc3 -ga UA-12345-1
+  klaat-snapshot export tutorial.md -css https://example.com/custom.css
+  klaat-snapshot export doc1 doc2 -ga UA-12345-1 -extra '{"author":"AGY"}'
 ```
 
 ### `serve`
