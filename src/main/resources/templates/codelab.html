@@ -5,7 +5,11 @@
   <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>${title?html}</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <#if googleFonts?has_content>
+  <link rel="stylesheet" href="${googleFonts}">
+  <#else>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap">
+  </#if>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <#if favicon?has_content>
   <link rel="icon" href="${favicon}">
@@ -13,7 +17,7 @@
   <link rel="stylesheet" href="${cssPrefix}/codelab-elements.css">
   <#if customCssUrl?has_content>
   <link rel="stylesheet" href="${customCssUrl}">
-  <script src="${jsPrefix}/klaat-bridge.js"></script>
+  <script src="${jsPrefix}/klaat-bridge.js?timestamp=${timestamp}"></script>
   </#if>
   <style>
     .success {
@@ -51,6 +55,11 @@
     }
     .copy-button:hover {
       background: #fff;
+    }
+    code, pre, .prettyprint, code[class*="lang-"], pre[class*="lang-"],
+    google-codelab-step code, google-codelab-step pre,
+    .step__body code, .step__body pre {
+      font-family: 'JetBrains Mono', monospace !important;
     }
   </style>
 </head>
