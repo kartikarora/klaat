@@ -86,8 +86,48 @@
       ]
     },
     {
+      "type": "com.google.api.client.auth.oauth2.RefreshTokenRequest",
+      "fields": [
+        {
+          "name": "refreshToken"
+        }
+      ]
+    },
+    {
       "type": "com.google.api.client.auth.oauth2.StoredCredential",
       "serializable": true
+    },
+    {
+      "type": "com.google.api.client.auth.oauth2.TokenErrorResponse",
+      "fields": [
+        {
+          "name": "error"
+        },
+        {
+          "name": "errorDescription"
+        },
+        {
+          "name": "errorUri"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setError",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setErrorDescription",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
     },
     {
       "type": "com.google.api.client.auth.oauth2.TokenRequest",
@@ -1992,6 +2032,15 @@
       ]
     },
     {
+      "type": "com.google.gson.internal.bind.JavaTimeTypeAdapters",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.sun.crypto.provider.AESCipher$General",
       "methods": [
         {
@@ -2612,6 +2661,17 @@
     },
     {
       "type": "java.io.FileNotFoundException",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.io.IOException",
       "methods": [
         {
           "name": "<init>",
