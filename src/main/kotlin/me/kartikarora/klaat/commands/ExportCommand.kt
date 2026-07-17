@@ -72,6 +72,11 @@ class ExportCommand : CliktCommand("export") {
         help = "Custom favicon URL or path to use"
     )
 
+    private val fonts by option(
+        "-fonts",
+        help = "Google Fonts URL to load additional fonts (e.g. https://fonts.googleapis.com/css2?family=Inter)"
+    )
+
     override fun run() {
         // Parse extra metadata if provided
         val extraMetadata = if (!extra.isNullOrBlank()) {
@@ -130,7 +135,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss, favicon)
+                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")

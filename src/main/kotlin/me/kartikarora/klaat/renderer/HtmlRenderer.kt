@@ -20,7 +20,7 @@ class HtmlRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null) {
+    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null, googleFonts: String? = null) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -42,7 +42,7 @@ class HtmlRenderer {
 
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -86,7 +86,7 @@ class HtmlRenderer {
         }
     }
 
-    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?): String {
+    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?, googleFonts: String?): String {
         val template = freemarkerConfig.getTemplate("codelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -99,7 +99,9 @@ class HtmlRenderer {
             "cssPrefix" to cssPrefix,
             "customCssUrl" to (customCssUrl ?: ""),
             "favicon" to (favicon ?: ""),
+            "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
+            "timestamp" to System.currentTimeMillis().toString(),
             "steps" to codelab.steps.map { step ->
                 mapOf(
                     "title" to step.title,

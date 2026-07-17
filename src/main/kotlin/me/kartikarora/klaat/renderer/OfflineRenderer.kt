@@ -22,7 +22,7 @@ class OfflineRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null) {
+    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null, googleFonts: String? = null) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -55,7 +55,8 @@ class OfflineRenderer {
                     ga = ga,
                     prefix = assetPrefix,
                     customCssUrl = customCssUrl,
-                    favicon = favicon
+                    favicon = favicon,
+                    googleFonts = googleFonts
                 )
             )
         }
@@ -111,7 +112,8 @@ class OfflineRenderer {
         ga: String?,
         prefix: String,
         customCssUrl: String?,
-        favicon: String?
+        favicon: String?,
+        googleFonts: String?
     ): String {
         val template = freemarkerConfig.getTemplate("codelab-offline.html")
 
@@ -125,7 +127,9 @@ class OfflineRenderer {
             "prefix" to prefix,
             "customCssUrl" to (customCssUrl ?: ""),
             "favicon" to (favicon ?: ""),
+            "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
+            "timestamp" to System.currentTimeMillis().toString(),
             "steps" to codelab.steps.mapIndexed { index, step ->
                 mapOf(
                     "title" to step.title,
