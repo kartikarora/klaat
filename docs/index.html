@@ -113,18 +113,15 @@
 
         <div class="tabs-sticky-container">
             <div class="tabs">
-                <div class="tab-item active" data-tab="snapshot">Snapshot (Alpha)</div>
-                <div class="tab-item" data-tab="release">Release (Stable)</div>
+                <div class="tab-item active" data-tab="release">Release (Stable)</div>
+                <div class="tab-item" data-tab="snapshot">Snapshot (Alpha)</div>
             </div>
         </div>
 
         <section id="download" class="section">
             <h2 class="section-title">Download</h2>
 
-            <div class="tab-content active-tab-content" id="snapshot-download">
-                <div class="alert alpha-notice">
-                    <p><strong>Alpha Status:</strong> Klaat is currently in alpha and being actively refined and tested. During this period, it is primarily available as <strong>snapshot builds</strong> from the <code>develop</code> branch.</p>
-                </div>
+            <div class="tab-content" id="snapshot-download">
 
                 <div class="download-options">
                     <div class="download-option">
@@ -169,7 +166,7 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-VERSIO
                 </div>
             </div>
 
-            <div class="tab-content" id="release-download">
+            <div class="tab-content active-tab-content" id="release-download">
                 <div class="download-options">
                     <div class="download-option">
                         <h3><span class="material-symbols-outlined">download</span> Homebrew (macOS & Linux)</h3>
@@ -217,7 +214,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-VERSION</span> /
         <section id="quickstart" class="section">
             <h2 class="section-title">Quick Start</h2>
 
-            <div class="tab-content active-tab-content" id="snapshot-quickstart">
+            <div class="tab-content" id="snapshot-quickstart">
                 <div class="quickstart-steps">
                     <div class="step">
                         <div class="step-number">1</div>
@@ -255,7 +252,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-VERSION</span> /
                 </div>
             </div>
 
-            <div class="tab-content" id="release-quickstart">
+            <div class="tab-content active-tab-content" id="release-quickstart">
                 <div class="quickstart-steps">
                     <div class="step">
                         <div class="step-number">1</div>
@@ -297,7 +294,7 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-VERSION</span> /
         <section id="docs" class="section">
             <h2 class="section-title">Documentation</h2>
 
-            <div class="tab-content active-tab-content" id="snapshot-docs">
+            <div class="tab-content" id="snapshot-docs">
                 <div class="docs-grid">
                     <div class="doc-section">
                         <h3>Commands</h3>
@@ -371,7 +368,7 @@ Content for step 2...</code></pre>
                 </div>
             </div>
 
-            <div class="tab-content" id="release-docs">
+            <div class="tab-content active-tab-content" id="release-docs">
                 <div class="docs-grid">
                     <div class="doc-section">
                         <h3>Commands</h3>
