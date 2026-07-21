@@ -1,0 +1,31 @@
+class Klaat < Formula
+  desc "Command-line tool for exporting Google Docs to Markdown codelabs"
+  homepage "https://klaat.kartikarora.me"
+  version "VERSION_PLACEHOLDER"
+
+  # Default URL (macOS ARM64) to satisfy Homebrew's static parsing requirement
+  url "CDN_URL_PLACEHOLDER/bin/klaat/release/VERSION_PLACEHOLDER/klaat-macos-arm64-VERSION_PLACEHOLDER"
+  sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
+
+  if OS.linux?
+    if Hardware::CPU.arm?
+      url "CDN_URL_PLACEHOLDER/bin/klaat/release/VERSION_PLACEHOLDER/klaat-linux-arm64-VERSION_PLACEHOLDER"
+      sha256 "LINUX_ARM64_SHA_PLACEHOLDER"
+    elsif Hardware::CPU.intel?
+      url "CDN_URL_PLACEHOLDER/bin/klaat/release/VERSION_PLACEHOLDER/klaat-linux-x64-VERSION_PLACEHOLDER"
+      sha256 "LINUX_X64_SHA_PLACEHOLDER"
+    end
+  end
+
+  def install
+    if OS.mac? && Hardware::CPU.intel?
+      odie "Klaat only supports Apple Silicon Macs. Intel Macs are not supported."
+    end
+
+    bin.install Dir["klaat-*"].first => "klaat"
+  end
+
+  test do
+    assert_match "klaat", shell_output("#{bin}/klaat --help")
+  end
+end

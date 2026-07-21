@@ -1,0 +1,37 @@
+name: 'Get Version'
+description: 'Extracts version from gradle/libs.versions.toml or generates snapshot version'
+
+inputs:
+  type:
+    description: 'Version type: "release" or "snapshot"'
+    required: true
+  build_number:
+    description: 'The build number to use for snapshot versions'
+    required: false
+    default: ""
+
+outputs:
+  version:
+    description: 'The extracted or generated version'
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get version
+      id: version
+      shell: bash
+      run: |
+        # Extract version from gradle/libs.versions.toml
+        BASE_VERSION=$(grep "^klaat = " gradle/libs.versions.toml | sed 's/klaat = "\(.*\)"/\1/')
+
+        if [ "${{ inputs.type }}" == "release" ]; then
+          echo "version=${BASE_VERSION}" >> $GITHUB_OUTPUT
+        else
+          SHORT_HASH=$(git rev-parse --short=8 HEAD)
+          BUILD_NUM="${{ inputs.build_number }}"
+          if [ -z "${BUILD_NUM}" ]; then
+            BUILD_NUM="${GITHUB_RUN_NUMBER}"
+          fi
+          echo "version=${BASE_VERSION}.${BUILD_NUM}-${SHORT_HASH}" >> $GITHUB_OUTPUT
+        fi

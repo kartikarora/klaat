@@ -1,0 +1,55 @@
+name: 'Build Native Binary'
+description: 'Builds Klaat native binary using GraalVM'
+
+inputs:
+  version:
+    description: 'Version string for the binary'
+    required: true
+  platform:
+    description: 'Target platform (linux-x64, linux-arm64, macos-arm64)'
+    required: true
+  google-credentials-json:
+    description: 'Google OAuth credentials JSON'
+    required: true
+
+outputs:
+  binary-name:
+    description: 'Name of the created binary'
+    value: ${{ steps.build.outputs.binary-name }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create gcp_credentials.json
+      shell: bash
+      run: |
+        mkdir -p src/main/resources/credentials
+        echo '${{ inputs.google-credentials-json }}' > src/main/resources/credentials/gcp_credentials.json
+
+    - name: Build native image
+      id: build
+      shell: bash
+      env:
+        GRADLE_OPTS: -Xmx8g
+      run: |
+        # Determine binary base name depending on snapshot flag
+        BINARY_BASE="klaat"
+        if [ "${IS_SNAPSHOT}" = "true" ]; then
+          BINARY_BASE="klaat-snapshot"
+        fi
+
+        # VERSION_NAME is the full version calculated by get-version action
+        export VERSION_NAME="${{ inputs.version }}"
+        ./gradlew nativeCompile
+
+        # Move and rename binary based on platform
+        BINARY_NAME="${BINARY_BASE}-${{ inputs.platform }}-${{ inputs.version }}"
+        cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
+
+        echo "binary-name=${BINARY_NAME}" >> $GITHUB_OUTPUT
+
+    - name: Calculate SHA256 checksum
+      shell: bash
+      run: |
+        sha256sum ${{ steps.build.outputs.binary-name }} > checksums-${{ inputs.version }}.txt
+        cat checksums-${{ inputs.version }}.txt
