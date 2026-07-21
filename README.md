@@ -422,16 +422,14 @@ klaat/
 
 The project uses GitHub Actions for CI/CD:
 
-- **CI Workflow** (`.github/workflows/ci.yml`): Runs on every push and PR
-  - Builds the project
-  - Runs tests
-  - Exports example codelabs
-  - Uses dummy credentials for testing
+- **Snapshot Release Workflow** (`.github/workflows/native-snapshot-release.yml`): Triggers manually (`workflow_dispatch`)
+  - Builds development snapshot binaries
+  - Publishes them to CDN and updates the Homebrew snapshot tap
 
-- **Release Workflow** (`.github/workflows/release.yml`): Triggers on version tags
-  - Builds distribution with real OAuth credentials from GitHub secrets
-  - Creates GitHub Release with binaries
-  - Generates Homebrew formula
+- **Stable Release Workflow** (`.github/workflows/native-stable-release.yml`): Triggers on push to `main`
+  - Builds stable release binaries
+  - Publishes to R2 CDN
+  - Auto-submits PR to Homebrew Core and creates a GitHub Release
 
 #### Creating a Release
 
@@ -451,17 +449,14 @@ The project uses GitHub Actions for CI/CD:
    }
    ```
 
-2. **Tag and push**:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
+2. **Trigger Release**:
+   Commit the version change (e.g. to `1.0.0`) on `develop`, then raise a PR and merge `develop` into the `main` branch.
 
 3. **Automated steps**:
-   - GitHub Actions builds the binary
-   - Creates a GitHub Release
-   - Generates Homebrew formula
-   - Users can download and install
+   - GitHub Actions builds native binaries for macOS and Linux using GraalVM.
+   - Publishes binaries to Cloudflare R2 CDN.
+   - Automatically submits a PR to Homebrew Core to update the `klaat` formula.
+   - Creates a GitHub Release with compiled binaries.
 
 #### Credentials Configuration
 

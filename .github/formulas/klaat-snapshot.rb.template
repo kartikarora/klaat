@@ -3,18 +3,25 @@ class KlaatSnapshot < Formula
   homepage "https://klaat.kartikarora.me"
   version "COMMIT_HASH_PLACEHOLDER"
 
-  if OS.mac? && Hardware::CPU.arm?
-    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-macos-arm64-COMMIT_HASH_PLACEHOLDER"
-    sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
-  elsif OS.linux? && Hardware::CPU.arm?
-    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-linux-arm64-COMMIT_HASH_PLACEHOLDER"
-    sha256 "LINUX_ARM64_SHA_PLACEHOLDER"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-linux-x64-COMMIT_HASH_PLACEHOLDER"
-    sha256 "LINUX_X64_SHA_PLACEHOLDER"
+  # Default URL (macOS ARM64) to satisfy Homebrew's static parsing requirement
+  url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-macos-arm64-COMMIT_HASH_PLACEHOLDER"
+  sha256 "MACOS_ARM64_SHA_PLACEHOLDER"
+
+  if OS.linux?
+    if Hardware::CPU.arm?
+      url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-linux-arm64-COMMIT_HASH_PLACEHOLDER"
+      sha256 "LINUX_ARM64_SHA_PLACEHOLDER"
+    elsif Hardware::CPU.intel?
+      url "CDN_URL_PLACEHOLDER/bin/klaat/snapshot/COMMIT_HASH_PLACEHOLDER/klaat-snapshot-linux-x64-COMMIT_HASH_PLACEHOLDER"
+      sha256 "LINUX_X64_SHA_PLACEHOLDER"
+    end
   end
 
   def install
+    if OS.mac? && Hardware::CPU.intel?
+      odie "Klaat only supports Apple Silicon Macs. Intel Macs are not supported."
+    end
+
     bin.install Dir["klaat-*"].first => "klaat-snapshot"
   end
 

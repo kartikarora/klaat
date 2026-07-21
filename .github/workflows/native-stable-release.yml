@@ -136,13 +136,13 @@ jobs:
           checksum-file: ${{ steps.checksums.outputs.checksum-file }}
           version-pattern: ${{ steps.version.outputs.version }}
 
-      - name: Submit to Homebrew Core
-        uses: ./.github/actions/submit-to-homebrew-core
+      - name: Update Homebrew stable tap
+        uses: ./.github/actions/update-stable-tap
         with:
           version: ${{ steps.version.outputs.version }}
           cdn-url: ${{ steps.cdn.outputs.url }}
           checksums-file: ${{ steps.checksums.outputs.checksum-file }}
-          github-token: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
+          github-token: ${{ secrets.TAP_GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: ./.github/actions/create-github-release
