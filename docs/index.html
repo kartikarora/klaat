@@ -170,11 +170,47 @@ sudo mv <span class="snapshot-binary-filename">klaat-snapshot-macos-arm64-VERSIO
             </div>
 
             <div class="tab-content" id="release-download">
-                <div class="alert alpha-notice">
-                    <p><strong>Note:</strong> Stable releases are currently not being produced during the alpha phase. Please use <strong>Snapshot builds</strong> for the latest features and fixes.</p>
+                <div class="download-options">
+                    <div class="download-option">
+                        <h3><span class="material-symbols-outlined">download</span> Homebrew (macOS & Linux)</h3>
+                        <p>The easiest way to install stable releases on macOS and Linux:</p>
+                        <div class="code-block">
+                            <pre><code class="language-bash">brew tap kartikarora/klaat
+brew install klaat</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="download-option">
+                        <h3><span class="material-symbols-outlined">package_2</span> Direct Download</h3>
+                        <p>Download binaries from the CDN:</p>
+                        
+                        <div class="platform-selector-container">
+                            <label for="platform-select-release">Target Platform:</label>
+                            <select id="platform-select-release" class="platform-select">
+                                <option value="macos-arm64" selected>macOS ARM64 (Apple Silicon)</option>
+                                <option value="linux-arm64">Linux ARM64</option>
+                                <option value="linux-x64">Linux x64</option>
+                            </select>
+                        </div>
+
+                        <div class="download-info">
+                            <p><strong>Stable Release: <span class="release-version">latest</span></strong></p>
+                            <!-- Version container used by script.js to read the version -->
+                            <span class="release-version" style="display: none;">latest</span>
+                            <code class="inline-code"><span id="release-url">https://distribute.kartikarora.me/bin/klaat/release/VERSION/klaat-macos-arm64-VERSION</span></code>
+
+                            <p style="margin-top: var(--space-md);"><strong>Selected platform:</strong> <span id="selected-platform-name-release">macOS ARM64</span></p>
+                            <div class="code-block">
+                                <pre><code id="release-curl" class="language-bash">curl -L -O https://distribute.kartikarora.me/bin/klaat/release/VERSION/klaat-macos-arm64-VERSION</code></pre>
+                            </div>
+                        </div>
+                        <p class="download-note">After downloading, make the binary executable:</p>
+                        <div class="code-block">
+                            <pre><code>chmod +x <span class="release-binary-filename">klaat-macos-arm64-VERSION</span>
+sudo mv <span class="release-binary-filename">klaat-macos-arm64-VERSION</span> /usr/local/bin/klaat</code></pre>
+                        </div>
+                    </div>
                 </div>
-                <!-- Version container used by script.js to read the version -->
-                <span class="release-version" style="display: none;">latest</span>
             </div>
         </section>
 
