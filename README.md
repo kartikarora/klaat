@@ -506,9 +506,7 @@ All claat commands and flags work identically in klaat:
   - First run opens browser for Google authentication
 
 **Limitations:**
-- **Custom template files**: Unlike claat (which accepts Go template file paths via `-f /path/to/template.tmpl`), klaat only supports the three built-in formats: `html`, `md`, and `offline`. Custom FreeMarker templates are not supported via command-line flags.
-  - Built-in templates are located in `src/main/resources/templates/`
-  - To customize output, modify the built-in templates and rebuild klaat
+- **Custom template files**: Unlike claat (which accepts Go template file paths via `-f /path/to/template.tmpl`), klaat only supports the three built-in formats: `html`, `md`, and `offline`. Custom templates are not supported.
 
 All standard claat workflows using built-in formats are fully supported. If you have scripts or documentation using claat commands with `html`, `md`, or `offline` formats, you can replace `claat` with `klaat` without modifications.
 
