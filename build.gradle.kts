@@ -72,6 +72,16 @@ application {
     // Set different application name based on build variant
     applicationName = if (isSnapshot) "klaat-snapshot" else if (isDevBuild) "klaat-dev" else "klaat"
     applicationDefaultJvmArgs = listOf(
+        "-Dio.netty.noUnsafe=true",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-opens=java.base/java.nio=ALL-UNNAMED",
+        "--add-opens=java.base/sun.misc=ALL-UNNAMED"
+    )
+}
+
+tasks.named<JavaExec>("run") {
+    jvmArgs(
+        "-Dio.netty.noUnsafe=true",
         "--enable-native-access=ALL-UNNAMED",
         "--add-opens=java.base/java.nio=ALL-UNNAMED",
         "--add-opens=java.base/sun.misc=ALL-UNNAMED"

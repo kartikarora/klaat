@@ -17,7 +17,7 @@ When the codebase changes (especially adding new dependencies or reflection-heav
 
 ## Task: Update Native Image Configs
 
-Use the bundled script to run Klaat with the tracing agent. This script executes multiple commands (version, help, export, serve) to ensure maximum coverage for reflection and resource discovery.
+Use the bundled script to run Klaat with the GraalVM tracing agent. This script automatically discovers all subcommands (including `export`, `serve`, `update`, `install-skills`, `version`, and `help`), and runs them under the tracing agent to capture reflection and resource configurations.
 
 ```bash
 # Run the configuration update script
@@ -26,14 +26,12 @@ bash klaat-native-manager/scripts/update_configs.sh
 
 **What this script does:**
 - Builds the JVM distribution (`buildDev`).
-- Runs the app with `-Pagent` for:
-    - `version`
-    - `help`
-    - `export --help`
-    - `export` (Markdown to HTML, MD, and Offline formats)
-    - `serve --help`
-    - `update --help`
-    - `serve` (runs for 10 seconds to capture Ktor/Netty reflections)
+- Automatically scans the compiled binary to discover all available subcommands dynamically.
+- Traces execution metadata (`-Pagent`) for:
+    - Base execution of `version` and `help` commands.
+    - Dynamic help screen executions (`--help`) for all subcommands (e.g. `install-skills --help`, `export --help`).
+    - Standard export runs (converting Markdown to HTML, MD, and Offline formats).
+    - Local server runs (starts Ktor/Netty for 10 seconds to trace asynchronous network reflections).
 - Merges and copies the captured metadata to the project resources using `./gradlew metadataCopy`.
 
 ## Task: Build Native Binary
