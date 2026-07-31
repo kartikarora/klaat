@@ -199,6 +199,22 @@ Examples:
   klaat-snapshot update codelab1 codelab2  # Update specific codelabs
 ```
 
+### `install-skills`
+
+Install Klaat AI codelab authoring and formatting guidelines directly into your coding agent's project or global workspace. KLAAT scans the workspace and only writes the skills to agent folders that exist (supporting over 55+ distinct coding agents, including Claude Code, Gemini CLI, Cursor, Copilot, Cline, Zed, Windsurf, etc.).
+
+```bash
+klaat-snapshot install-skills [OPTIONS]
+
+Options:
+  -g, --global      Install to the global user home directories (~/) instead of the project root
+  -h, --help        Show help
+
+Examples:
+  klaat-snapshot install-skills           # Installs locally to detected agent directories (e.g. .agents/, .claude/, .continue/)
+  klaat-snapshot install-skills -g        # Installs globally to active user agent directories (e.g. ~/.agents/, ~/.claude/)
+```
+
 ### `version`
 
 Print the version.

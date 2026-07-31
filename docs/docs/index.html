@@ -63,6 +63,7 @@
                         <li><a href="#cmd-export" class="docs-sidebar-link">klaat export</a></li>
                         <li><a href="#cmd-serve" class="docs-sidebar-link">klaat serve</a></li>
                         <li><a href="#cmd-update" class="docs-sidebar-link">klaat update</a></li>
+                        <li><a href="#cmd-install-skills" class="docs-sidebar-link">klaat install-skills</a></li>
                         <li><a href="#cmd-version" class="docs-sidebar-link">klaat version</a></li>
                     </ul>
                 </div>
@@ -440,6 +441,59 @@ You are done!</code></pre>
                                         <td>URL</td>
                                         <td>-</td>
                                         <td>Override CDN asset loading prefix URL during update.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Command: install-skills -->
+            <section id="cmd-install-skills" class="docs-section">
+                <h1>klaat install-skills</h1>
+                <p>The <code>install-skills</code> command dynamically unpacks KLAAT codelab authoring skills and formatting instructions into existing AI coding agent folders in the project workspace or global directories.</p>
+
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">NAME</div>
+                        <div class="man-content">
+                            <p><strong>klaat-install-skills</strong> - Install KLAAT AI guidelines to active coding agent directories</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">SYNOPSIS</div>
+                        <div class="man-content">
+                            <p><code>klaat install-skills [OPTIONS]</code></p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">DESCRIPTION</div>
+                        <div class="man-content">
+                            <p>Scans the directory for existing AI agent config paths and populates active folders with offline authoring references (<code>klaat-markdown-author</code> and <code>klaat-gdocs-author</code>). Supports over 55+ distinct coding agents, writing only to paths that exist.</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">OPTIONS</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option / Flag</th>
+                                        <th>Type</th>
+                                        <th>Default Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>-g, --global</code></td>
+                                        <td>Flag</td>
+                                        <td>-</td>
+                                        <td>Install to global user home directories (e.g. <code>~/.claude</code>, <code>~/.agents</code>) instead of the project root.</td>
                                     </tr>
                                 </tbody>
                             </table>
