@@ -6,8 +6,8 @@ set -e
 
 echo "🚀 Starting GraalVM Tracing Agent for Klaat..."
 
-# 1. Build the project first
-./gradlew buildDev
+# 1. Clean and build the project first
+./gradlew clean buildDev
 
 # Define executable path for dynamic command discovery
 DEV_BIN="./build/install/klaat-dev/bin/klaat-dev"
