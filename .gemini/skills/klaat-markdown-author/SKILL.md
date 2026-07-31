@@ -73,7 +73,7 @@ Ensure the correct Markdown markup is used for rich elements:
     ```
 
 ### 3. Code Blocks
-*   Always specify the programming language (e.g., ```` ```kotlin ````, ```` ```bash ````).
+*   Always specify the programming language (e.g., ```kotlin, ```bash).
 *   **Code block with filename:** Add bold file header immediately above the code block:
     ```markdown
     **Main.kt**
