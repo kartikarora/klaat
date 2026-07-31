@@ -1,80 +1,158 @@
 package me.kartikarora.klaat.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
 import java.io.File
 
 class InstallSkillsCommand : CliktCommand("install-skills") {
+    private val global by option("-g", "--global", help = "Install to global user directory instead of project").flag(default = false)
+
     override fun run() {
         val detectedDirs = mutableListOf<File>()
+        val baseDir = if (global) File(System.getProperty("user.home")) else File(".")
 
-        // Auto-detect directories by checking if their parent or config directories exist in the project root
-        val potentialAgentDirs = mapOf(
-            ".aider-desk" to File(".aider-desk/skills"),
-            ".agents" to File(".agents/skills"),
-            ".autohand" to File(".autohand/skills"),
-            ".augment" to File(".augment/skills"),
-            ".bob" to File(".bob/skills"),
-            ".claude" to File(".claude/skills"),
-            ".codeartsdoer" to File(".codeartsdoer/skills"),
-            ".codebuddy" to File(".codebuddy/skills"),
-            ".codemaker" to File(".codemaker/skills"),
-            ".codestudio" to File(".codestudio/skills"),
-            ".commandcode" to File(".commandcode/skills"),
-            ".continue" to File(".continue/skills"),
-            ".cortex" to File(".cortex/skills"),
-            ".crush" to File(".crush/skills"),
-            ".devin" to File(".devin/skills"),
-            ".factory" to File(".factory/skills"),
-            ".forge" to File(".forge/skills"),
-            ".goose" to File(".goose/skills"),
-            ".grok" to File(".grok/skills"),
-            ".hermes" to File(".hermes/skills"),
-            ".inferencesh" to File(".inferencesh/skills"),
-            ".jazz" to File(".jazz/skills"),
-            ".junie" to File(".junie/skills"),
-            ".iflow" to File(".iflow/skills"),
-            ".kilocode" to File(".kilocode/skills"),
-            ".kimchi" to File(".kimchi/skills"),
-            ".kiro" to File(".kiro/skills"),
-            ".kode" to File(".kode/skills"),
-            ".lingma" to File(".lingma/skills"),
-            ".mcpjam" to File(".mcpjam/skills"),
-            ".minimax" to File(".minimax/skills"),
-            ".vibe" to File(".vibe/skills"),
-            ".moxby" to File(".moxby/skills"),
-            ".mux" to File(".mux/skills"),
-            ".openhands" to File(".openhands/skills"),
-            ".ona" to File(".ona/skills"),
-            ".pi" to File(".pi/skills"),
-            ".qoder" to File(".qoder/skills"),
-            ".qwen" to File(".qwen/skills"),
-            ".reasonix" to File(".reasonix/skills"),
-            ".rovodev" to File(".rovodev/skills"),
-            ".roo" to File(".roo/skills"),
-            ".tabnine" to File(".tabnine/agent/skills"),
-            ".terramind" to File(".terramind/skills"),
-            ".tinycloud" to File(".tinycloud/skills"),
-            ".trae" to File(".trae/skills"),
-            ".windsurf" to File(".windsurf/skills"),
-            ".zcode" to File(".zcode/skills"),
-            ".zencoder" to File(".zencoder/skills"),
-            ".neovate" to File(".neovate/skills"),
-            ".pochi" to File(".pochi/skills"),
-            ".adal" to File(".adal/skills")
-        )
+        // Auto-detect directories by checking if their parent or config directories exist
+        val potentialAgentDirs = if (global) {
+            mapOf(
+                ".aider-desk" to File(baseDir, ".aider-desk/skills"),
+                ".config/agents" to File(baseDir, ".config/agents/skills"),
+                ".gemini/antigravity" to File(baseDir, ".gemini/antigravity/skills"),
+                ".gemini/antigravity-cli" to File(baseDir, ".gemini/antigravity-cli/skills"),
+                ".astrbot/data" to File(baseDir, ".astrbot/data/skills"),
+                ".autohand" to File(baseDir, ".autohand/skills"),
+                ".augment" to File(baseDir, ".augment/skills"),
+                ".bob" to File(baseDir, ".bob/skills"),
+                ".claude" to File(baseDir, ".claude/skills"),
+                ".openclaw" to File(baseDir, ".openclaw/skills"),
+                ".agents" to File(baseDir, ".agents/skills"),
+                ".codeartsdoer" to File(baseDir, ".codeartsdoer/skills"),
+                ".codebuddy" to File(baseDir, ".codebuddy/skills"),
+                ".codemaker" to File(baseDir, ".codemaker/skills"),
+                ".codestudio" to File(baseDir, ".codestudio/skills"),
+                ".codex" to File(baseDir, ".codex/skills"),
+                ".commandcode" to File(baseDir, ".commandcode/skills"),
+                ".continue" to File(baseDir, ".continue/skills"),
+                ".snowflake/cortex" to File(baseDir, ".snowflake/cortex/skills"),
+                ".config/crush" to File(baseDir, ".config/crush/skills"),
+                ".cursor" to File(baseDir, ".cursor/skills"),
+                ".deepagents/agent" to File(baseDir, ".deepagents/agent/skills"),
+                ".config/devin" to File(baseDir, ".config/devin/skills"),
+                ".factory" to File(baseDir, ".factory/skills"),
+                ".firebender" to File(baseDir, ".firebender/skills"),
+                ".forge" to File(baseDir, ".forge/skills"),
+                ".gemini" to File(baseDir, ".gemini/skills"),
+                ".copilot" to File(baseDir, ".copilot/skills"),
+                ".config/goose" to File(baseDir, ".config/goose/skills"),
+                ".grok" to File(baseDir, ".grok/skills"),
+                ".hermes" to File(baseDir, ".hermes/skills"),
+                ".inferencesh" to File(baseDir, ".inferencesh/skills"),
+                ".jazz" to File(baseDir, ".jazz/skills"),
+                ".junie" to File(baseDir, ".junie/skills"),
+                ".iflow" to File(baseDir, ".iflow/skills"),
+                ".kilocode" to File(baseDir, ".kilocode/skills"),
+                ".config/kimchi/harness" to File(baseDir, ".config/kimchi/harness/skills"),
+                ".kiro" to File(baseDir, ".kiro/skills"),
+                ".kode" to File(baseDir, ".kode/skills"),
+                ".lingma" to File(baseDir, ".lingma/skills"),
+                ".mcpjam" to File(baseDir, ".mcpjam/skills"),
+                ".minimax" to File(baseDir, ".minimax/skills"),
+                ".vibe" to File(baseDir, ".vibe/skills"),
+                ".moxby" to File(baseDir, ".moxby/skills"),
+                ".mux" to File(baseDir, ".mux/skills"),
+                ".config/opencode" to File(baseDir, ".config/opencode/skills"),
+                ".openhands" to File(baseDir, ".openhands/skills"),
+                ".ona" to File(baseDir, ".ona/skills"),
+                ".pi/agent" to File(baseDir, ".pi/agent/skills"),
+                ".qoder" to File(baseDir, ".qoder/skills"),
+                ".qoder-cn" to File(baseDir, ".qoder-cn/skills"),
+                ".qwen" to File(baseDir, ".qwen/skills"),
+                ".reasonix" to File(baseDir, ".reasonix/skills"),
+                ".rovodev" to File(baseDir, ".rovodev/skills"),
+                ".roo" to File(baseDir, ".roo/skills"),
+                ".tabnine/agent" to File(baseDir, ".tabnine/agent/skills"),
+                ".terramind" to File(baseDir, ".terramind/skills"),
+                ".tinycloud" to File(baseDir, ".tinycloud/skills"),
+                ".trae" to File(baseDir, ".trae/skills"),
+                ".trae-cn" to File(baseDir, ".trae-cn/skills"),
+                ".codeium/windsurf" to File(baseDir, ".codeium/windsurf/skills"),
+                ".zcode" to File(baseDir, ".zcode/skills"),
+                ".zencoder" to File(baseDir, ".zencoder/skills"),
+                ".neovate" to File(baseDir, ".neovate/skills"),
+                ".pochi" to File(baseDir, ".pochi/skills"),
+                ".adal" to File(baseDir, ".adal/skills")
+            )
+        } else {
+            mapOf(
+                ".aider-desk" to File(baseDir, ".aider-desk/skills"),
+                ".agents" to File(baseDir, ".agents/skills"),
+                ".autohand" to File(baseDir, ".autohand/skills"),
+                ".augment" to File(baseDir, ".augment/skills"),
+                ".bob" to File(baseDir, ".bob/skills"),
+                ".claude" to File(baseDir, ".claude/skills"),
+                ".codeartsdoer" to File(baseDir, ".codeartsdoer/skills"),
+                ".codebuddy" to File(baseDir, ".codebuddy/skills"),
+                ".codemaker" to File(baseDir, ".codemaker/skills"),
+                ".codestudio" to File(baseDir, ".codestudio/skills"),
+                ".commandcode" to File(baseDir, ".commandcode/skills"),
+                ".continue" to File(baseDir, ".continue/skills"),
+                ".cortex" to File(baseDir, ".cortex/skills"),
+                ".crush" to File(baseDir, ".crush/skills"),
+                ".devin" to File(baseDir, ".devin/skills"),
+                ".factory" to File(baseDir, ".factory/skills"),
+                ".forge" to File(baseDir, ".forge/skills"),
+                ".goose" to File(baseDir, ".goose/skills"),
+                ".grok" to File(baseDir, ".grok/skills"),
+                ".hermes" to File(baseDir, ".hermes/skills"),
+                ".inferencesh" to File(baseDir, ".inferencesh/skills"),
+                ".jazz" to File(baseDir, ".jazz/skills"),
+                ".junie" to File(baseDir, ".junie/skills"),
+                ".iflow" to File(baseDir, ".iflow/skills"),
+                ".kilocode" to File(baseDir, ".kilocode/skills"),
+                ".kimchi" to File(baseDir, ".kimchi/skills"),
+                ".kiro" to File(baseDir, ".kiro/skills"),
+                ".kode" to File(baseDir, ".kode/skills"),
+                ".lingma" to File(baseDir, ".lingma/skills"),
+                ".mcpjam" to File(baseDir, ".mcpjam/skills"),
+                ".minimax" to File(baseDir, ".minimax/skills"),
+                ".vibe" to File(baseDir, ".vibe/skills"),
+                ".moxby" to File(baseDir, ".moxby/skills"),
+                ".mux" to File(baseDir, ".mux/skills"),
+                ".openhands" to File(baseDir, ".openhands/skills"),
+                ".ona" to File(baseDir, ".ona/skills"),
+                ".pi" to File(baseDir, ".pi/skills"),
+                ".qoder" to File(baseDir, ".qoder/skills"),
+                ".qwen" to File(baseDir, ".qwen/skills"),
+                ".reasonix" to File(baseDir, ".reasonix/skills"),
+                ".rovodev" to File(baseDir, ".rovodev/skills"),
+                ".roo" to File(baseDir, ".roo/skills"),
+                ".tabnine/agent" to File(baseDir, ".tabnine/agent/skills"),
+                ".terramind" to File(baseDir, ".terramind/skills"),
+                ".tinycloud" to File(baseDir, ".tinycloud/skills"),
+                ".trae" to File(baseDir, ".trae/skills"),
+                ".windsurf" to File(baseDir, ".windsurf/skills"),
+                ".zcode" to File(baseDir, ".zcode/skills"),
+                ".zencoder" to File(baseDir, ".zencoder/skills"),
+                ".neovate" to File(baseDir, ".neovate/skills"),
+                ".pochi" to File(baseDir, ".pochi/skills"),
+                ".adal" to File(baseDir, ".adal/skills")
+            )
+        }
 
         for ((indicator, target) in potentialAgentDirs) {
-            if (File(indicator).exists()) {
+            val indicatorFile = File(baseDir, indicator)
+            if (indicatorFile.exists()) {
                 detectedDirs.add(target)
             }
         }
         
-        // Also check if root 'data', 'agent', or 'skills' folders exist
-        if (File("data").exists()) detectedDirs.add(File("data/skills"))
-        if (File("agent").exists()) detectedDirs.add(File("agent/skills"))
-        if (File("skills").exists()) detectedDirs.add(File("skills"))
+        // Also check if data, agent, or skills folders exist relative to baseDir
+        if (File(baseDir, "data").exists()) detectedDirs.add(File(baseDir, "data/skills"))
+        if (File(baseDir, "agent").exists()) detectedDirs.add(File(baseDir, "agent/skills"))
+        if (File(baseDir, "skills").exists()) detectedDirs.add(File(baseDir, "skills"))
 
-        println("Installing Klaat AI formatting skills into your project workspace...")
+        val scopeName = if (global) "global user" else "project"
+        println("Installing Klaat AI formatting skills into your $scopeName workspace...")
 
         var installedCount = 0
         for (targetDir in detectedDirs) {
