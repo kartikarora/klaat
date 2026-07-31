@@ -12,131 +12,91 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
         val detectedDirs = mutableListOf<File>()
         val baseDir = if (global) File(System.getProperty("user.home")) else File(".")
 
-        // Auto-detect directories by checking if their parent or config directories exist
-        val potentialAgentDirs = if (global) {
-            mapOf(
-                ".aider-desk" to File(baseDir, ".aider-desk/skills"),
-                ".config/agents" to File(baseDir, ".config/agents/skills"),
-                ".gemini/antigravity" to File(baseDir, ".gemini/antigravity/skills"),
-                ".gemini/antigravity-cli" to File(baseDir, ".gemini/antigravity-cli/skills"),
-                ".astrbot/data" to File(baseDir, ".astrbot/data/skills"),
-                ".autohand" to File(baseDir, ".autohand/skills"),
-                ".augment" to File(baseDir, ".augment/skills"),
-                ".bob" to File(baseDir, ".bob/skills"),
-                ".claude" to File(baseDir, ".claude/skills"),
-                ".openclaw" to File(baseDir, ".openclaw/skills"),
-                ".agents" to File(baseDir, ".agents/skills"),
-                ".codeartsdoer" to File(baseDir, ".codeartsdoer/skills"),
-                ".codebuddy" to File(baseDir, ".codebuddy/skills"),
-                ".codemaker" to File(baseDir, ".codemaker/skills"),
-                ".codestudio" to File(baseDir, ".codestudio/skills"),
-                ".codex" to File(baseDir, ".codex/skills"),
-                ".commandcode" to File(baseDir, ".commandcode/skills"),
-                ".continue" to File(baseDir, ".continue/skills"),
-                ".snowflake/cortex" to File(baseDir, ".snowflake/cortex/skills"),
-                ".config/crush" to File(baseDir, ".config/crush/skills"),
-                ".cursor" to File(baseDir, ".cursor/skills"),
-                ".deepagents/agent" to File(baseDir, ".deepagents/agent/skills"),
-                ".config/devin" to File(baseDir, ".config/devin/skills"),
-                ".factory" to File(baseDir, ".factory/skills"),
-                ".firebender" to File(baseDir, ".firebender/skills"),
-                ".forge" to File(baseDir, ".forge/skills"),
-                ".gemini" to File(baseDir, ".gemini/skills"),
-                ".copilot" to File(baseDir, ".copilot/skills"),
-                ".config/goose" to File(baseDir, ".config/goose/skills"),
-                ".grok" to File(baseDir, ".grok/skills"),
-                ".hermes" to File(baseDir, ".hermes/skills"),
-                ".inferencesh" to File(baseDir, ".inferencesh/skills"),
-                ".jazz" to File(baseDir, ".jazz/skills"),
-                ".junie" to File(baseDir, ".junie/skills"),
-                ".iflow" to File(baseDir, ".iflow/skills"),
-                ".kilocode" to File(baseDir, ".kilocode/skills"),
-                ".config/kimchi/harness" to File(baseDir, ".config/kimchi/harness/skills"),
-                ".kiro" to File(baseDir, ".kiro/skills"),
-                ".kode" to File(baseDir, ".kode/skills"),
-                ".lingma" to File(baseDir, ".lingma/skills"),
-                ".mcpjam" to File(baseDir, ".mcpjam/skills"),
-                ".minimax" to File(baseDir, ".minimax/skills"),
-                ".vibe" to File(baseDir, ".vibe/skills"),
-                ".moxby" to File(baseDir, ".moxby/skills"),
-                ".mux" to File(baseDir, ".mux/skills"),
-                ".config/opencode" to File(baseDir, ".config/opencode/skills"),
-                ".openhands" to File(baseDir, ".openhands/skills"),
-                ".ona" to File(baseDir, ".ona/skills"),
-                ".pi/agent" to File(baseDir, ".pi/agent/skills"),
-                ".qoder" to File(baseDir, ".qoder/skills"),
-                ".qoder-cn" to File(baseDir, ".qoder-cn/skills"),
-                ".qwen" to File(baseDir, ".qwen/skills"),
-                ".reasonix" to File(baseDir, ".reasonix/skills"),
-                ".rovodev" to File(baseDir, ".rovodev/skills"),
-                ".roo" to File(baseDir, ".roo/skills"),
-                ".tabnine/agent" to File(baseDir, ".tabnine/agent/skills"),
-                ".terramind" to File(baseDir, ".terramind/skills"),
-                ".tinycloud" to File(baseDir, ".tinycloud/skills"),
-                ".trae" to File(baseDir, ".trae/skills"),
-                ".trae-cn" to File(baseDir, ".trae-cn/skills"),
-                ".codeium/windsurf" to File(baseDir, ".codeium/windsurf/skills"),
-                ".zcode" to File(baseDir, ".zcode/skills"),
-                ".zencoder" to File(baseDir, ".zencoder/skills"),
-                ".neovate" to File(baseDir, ".neovate/skills"),
-                ".pochi" to File(baseDir, ".pochi/skills"),
-                ".adal" to File(baseDir, ".adal/skills")
-            )
+        // Define standard agents where parent indicator and relative target path are identical locally and globally
+        val standardAgents = listOf(
+            ".aider-desk" to ".aider-desk/skills",
+            ".autohand" to ".autohand/skills",
+            ".augment" to ".augment/skills",
+            ".bob" to ".bob/skills",
+            ".claude" to ".claude/skills",
+            ".openclaw" to ".openclaw/skills",
+            ".agents" to ".agents/skills",
+            ".codeartsdoer" to ".codeartsdoer/skills",
+            ".codebuddy" to ".codebuddy/skills",
+            ".codemaker" to ".codemaker/skills",
+            ".codestudio" to ".codestudio/skills",
+            ".codex" to ".codex/skills",
+            ".commandcode" to ".commandcode/skills",
+            ".continue" to ".continue/skills",
+            ".cursor" to ".cursor/skills",
+            ".factory" to ".factory/skills",
+            ".forge" to ".forge/skills",
+            ".gemini" to ".gemini/skills",
+            ".copilot" to ".copilot/skills",
+            ".grok" to ".grok/skills",
+            ".hermes" to ".hermes/skills",
+            ".inferencesh" to ".inferencesh/skills",
+            ".jazz" to ".jazz/skills",
+            ".junie" to ".junie/skills",
+            ".iflow" to ".iflow/skills",
+            ".kilocode" to ".kilocode/skills",
+            ".kiro" to ".kiro/skills",
+            ".kode" to ".kode/skills",
+            ".lingma" to ".lingma/skills",
+            ".mcpjam" to ".mcpjam/skills",
+            ".minimax" to ".minimax/skills",
+            ".vibe" to ".vibe/skills",
+            ".moxby" to ".moxby/skills",
+            ".mux" to ".mux/skills",
+            ".openhands" to ".openhands/skills",
+            ".ona" to ".ona/skills",
+            ".qoder" to ".qoder/skills",
+            ".qwen" to ".qwen/skills",
+            ".reasonix" to ".reasonix/skills",
+            ".rovodev" to ".rovodev/skills",
+            ".roo" to ".roo/skills",
+            ".tabnine/agent" to ".tabnine/agent/skills",
+            ".terramind" to ".terramind/skills",
+            ".tinycloud" to ".tinycloud/skills",
+            ".trae" to ".trae/skills",
+            ".zcode" to ".zcode/skills",
+            ".zencoder" to ".zencoder/skills",
+            ".neovate" to ".neovate/skills",
+            ".pochi" to ".pochi/skills",
+            ".adal" to ".adal/skills"
+        )
+
+        val potentialAgentDirs = mutableMapOf<String, File>()
+        for ((indicator, relativePath) in standardAgents) {
+            potentialAgentDirs[indicator] = File(baseDir, relativePath)
+        }
+
+        // Add scope-specific overrides where directory paths differ between local and global
+        if (global) {
+            potentialAgentDirs[".config/agents"] = File(baseDir, ".config/agents/skills")
+            potentialAgentDirs[".gemini/antigravity"] = File(baseDir, ".gemini/antigravity/skills")
+            potentialAgentDirs[".gemini/antigravity-cli"] = File(baseDir, ".gemini/antigravity-cli/skills")
+            potentialAgentDirs[".astrbot/data"] = File(baseDir, ".astrbot/data/skills")
+            potentialAgentDirs[".snowflake/cortex"] = File(baseDir, ".snowflake/cortex/skills")
+            potentialAgentDirs[".config/crush"] = File(baseDir, ".config/crush/skills")
+            potentialAgentDirs[".deepagents/agent"] = File(baseDir, ".deepagents/agent/skills")
+            potentialAgentDirs[".config/devin"] = File(baseDir, ".config/devin/skills")
+            potentialAgentDirs[".firebender"] = File(baseDir, ".firebender/skills")
+            potentialAgentDirs[".config/goose"] = File(baseDir, ".config/goose/skills")
+            potentialAgentDirs[".config/kimchi/harness"] = File(baseDir, ".config/kimchi/harness/skills")
+            potentialAgentDirs[".config/opencode"] = File(baseDir, ".config/opencode/skills")
+            potentialAgentDirs[".pi/agent"] = File(baseDir, ".pi/agent/skills")
+            potentialAgentDirs[".qoder-cn"] = File(baseDir, ".qoder-cn/skills")
+            potentialAgentDirs[".trae-cn"] = File(baseDir, ".trae-cn/skills")
+            potentialAgentDirs[".codeium/windsurf"] = File(baseDir, ".codeium/windsurf/skills")
         } else {
-            mapOf(
-                ".aider-desk" to File(baseDir, ".aider-desk/skills"),
-                ".agents" to File(baseDir, ".agents/skills"),
-                ".autohand" to File(baseDir, ".autohand/skills"),
-                ".augment" to File(baseDir, ".augment/skills"),
-                ".bob" to File(baseDir, ".bob/skills"),
-                ".claude" to File(baseDir, ".claude/skills"),
-                ".codeartsdoer" to File(baseDir, ".codeartsdoer/skills"),
-                ".codebuddy" to File(baseDir, ".codebuddy/skills"),
-                ".codemaker" to File(baseDir, ".codemaker/skills"),
-                ".codestudio" to File(baseDir, ".codestudio/skills"),
-                ".commandcode" to File(baseDir, ".commandcode/skills"),
-                ".continue" to File(baseDir, ".continue/skills"),
-                ".cortex" to File(baseDir, ".cortex/skills"),
-                ".crush" to File(baseDir, ".crush/skills"),
-                ".devin" to File(baseDir, ".devin/skills"),
-                ".factory" to File(baseDir, ".factory/skills"),
-                ".forge" to File(baseDir, ".forge/skills"),
-                ".goose" to File(baseDir, ".goose/skills"),
-                ".grok" to File(baseDir, ".grok/skills"),
-                ".hermes" to File(baseDir, ".hermes/skills"),
-                ".inferencesh" to File(baseDir, ".inferencesh/skills"),
-                ".jazz" to File(baseDir, ".jazz/skills"),
-                ".junie" to File(baseDir, ".junie/skills"),
-                ".iflow" to File(baseDir, ".iflow/skills"),
-                ".kilocode" to File(baseDir, ".kilocode/skills"),
-                ".kimchi" to File(baseDir, ".kimchi/skills"),
-                ".kiro" to File(baseDir, ".kiro/skills"),
-                ".kode" to File(baseDir, ".kode/skills"),
-                ".lingma" to File(baseDir, ".lingma/skills"),
-                ".mcpjam" to File(baseDir, ".mcpjam/skills"),
-                ".minimax" to File(baseDir, ".minimax/skills"),
-                ".vibe" to File(baseDir, ".vibe/skills"),
-                ".moxby" to File(baseDir, ".moxby/skills"),
-                ".mux" to File(baseDir, ".mux/skills"),
-                ".openhands" to File(baseDir, ".openhands/skills"),
-                ".ona" to File(baseDir, ".ona/skills"),
-                ".pi" to File(baseDir, ".pi/skills"),
-                ".qoder" to File(baseDir, ".qoder/skills"),
-                ".qwen" to File(baseDir, ".qwen/skills"),
-                ".reasonix" to File(baseDir, ".reasonix/skills"),
-                ".rovodev" to File(baseDir, ".rovodev/skills"),
-                ".roo" to File(baseDir, ".roo/skills"),
-                ".tabnine/agent" to File(baseDir, ".tabnine/agent/skills"),
-                ".terramind" to File(baseDir, ".terramind/skills"),
-                ".tinycloud" to File(baseDir, ".tinycloud/skills"),
-                ".trae" to File(baseDir, ".trae/skills"),
-                ".windsurf" to File(baseDir, ".windsurf/skills"),
-                ".zcode" to File(baseDir, ".zcode/skills"),
-                ".zencoder" to File(baseDir, ".zencoder/skills"),
-                ".neovate" to File(baseDir, ".neovate/skills"),
-                ".pochi" to File(baseDir, ".pochi/skills"),
-                ".adal" to File(baseDir, ".adal/skills")
-            )
+            potentialAgentDirs[".cortex"] = File(baseDir, ".cortex/skills")
+            potentialAgentDirs[".crush"] = File(baseDir, ".crush/skills")
+            potentialAgentDirs[".devin"] = File(baseDir, ".devin/skills")
+            potentialAgentDirs[".goose"] = File(baseDir, ".goose/skills")
+            potentialAgentDirs[".kimchi"] = File(baseDir, ".kimchi/skills")
+            potentialAgentDirs[".pi"] = File(baseDir, ".pi/skills")
+            potentialAgentDirs[".windsurf"] = File(baseDir, ".windsurf/skills")
         }
 
         for ((indicator, target) in potentialAgentDirs) {
