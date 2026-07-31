@@ -3,10 +3,19 @@ package me.kartikarora.klaat.commands
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import java.io.File
+
+@Serializable
+data class AgentMapping(val indicator: String, val path: String)
+
+@Serializable
+data class MappingsConfig(
+    val standard: List<AgentMapping>,
+    val global_overrides: List<AgentMapping> = emptyList(),
+    val local_overrides: List<AgentMapping> = emptyList()
+)
 
 class InstallSkillsCommand : CliktCommand("install-skills") {
     private val global by option("-g", "--global", help = "Install to global user directory instead of project").flag(default = false)
@@ -19,27 +28,19 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
         val mappingsStream = javaClass.classLoader.getResourceAsStream("agent-mappings.json")
             ?: throw Exception("Klaat configuration error: 'agent-mappings.json' not found on classpath.")
         val mappingsJson = mappingsStream.bufferedReader().use { it.readText() }
-        val mappings = Gson().fromJson(mappingsJson, JsonObject::class.java)
+        val mappings = Json.decodeFromString<MappingsConfig>(mappingsJson)
 
         val potentialAgentDirs = mutableMapOf<String, File>()
 
         // 1. Load standard mappings
-        val standard = mappings.getAsJsonArray("standard") ?: JsonArray()
-        for (i in 0 until standard.size()) {
-            val element = standard.get(i).asJsonObject
-            val indicator = element.get("indicator").asString
-            val path = element.get("path").asString
-            potentialAgentDirs[indicator] = File(baseDir, path)
+        for (mapping in mappings.standard) {
+            potentialAgentDirs[mapping.indicator] = File(baseDir, mapping.path)
         }
 
         // 2. Load overrides depending on scope
-        val overridesKey = if (global) "global_overrides" else "local_overrides"
-        val overrides = mappings.getAsJsonArray(overridesKey) ?: JsonArray()
-        for (i in 0 until overrides.size()) {
-            val element = overrides.get(i).asJsonObject
-            val indicator = element.get("indicator").asString
-            val path = element.get("path").asString
-            potentialAgentDirs[indicator] = File(baseDir, path)
+        val overrides = if (global) mappings.global_overrides else mappings.local_overrides
+        for (mapping in overrides) {
+            potentialAgentDirs[mapping.indicator] = File(baseDir, mapping.path)
         }
 
         for ((indicator, target) in potentialAgentDirs) {
