@@ -9,15 +9,24 @@ echo "🚀 Starting GraalVM Tracing Agent for Klaat..."
 # 1. Build the project first
 ./gradlew buildDev
 
-# 2. Run the agent for various commands
+# Define executable path for dynamic command discovery
+DEV_BIN="./build/install/klaat-dev/bin/klaat-dev"
+
+# 2. Run the agent for specific base commands to capture actual execution logic
 echo "📝 Running version command..."
 ./gradlew -Pagent run --args="version"
 
 echo "📝 Running help command..."
 ./gradlew -Pagent run --args="help"
 
-echo "📝 Running export help..."
-./gradlew -Pagent run --args="export --help"
+# 3. Discover subcommands dynamically and run the agent on their help screens
+echo "🔍 Discovering subcommands dynamically..."
+subcommands=$($DEV_BIN --help | awk '/Commands:/{flag=1;next}/^$/{flag=0}flag' | sed 's/^[[:space:]]*//' | grep -v '^$')
+
+for cmd in $subcommands; do
+    echo "📝 Running agent for: $cmd --help..."
+    ./gradlew -Pagent run --args="$cmd --help"
+done
 
 # Create a temporary output directory
 mkdir -p build/agent-test-output
@@ -31,12 +40,6 @@ echo "📝 Running export (Markdown to MD)..."
 echo "📝 Running export (Markdown to Offline)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f offline"
 
-echo "📝 Running serve help..."
-./gradlew -Pagent run --args="serve --help"
-
-echo "📝 Running update help..."
-./gradlew -Pagent run --args="update --help"
-
 # Serve command needs to be run and then stopped
 echo "🌐 Running serve command (briefly)..."
 # Use a custom port to avoid conflicts
@@ -46,7 +49,7 @@ sleep 10
 kill $SERVE_PID || true
 echo "✅ Serve command stopped."
 
-# 3. Copy metadata to resources
+# 4. Copy metadata to resources
 echo "📂 Copying agent metadata to resources..."
 ./gradlew metadataCopy --task run
 
