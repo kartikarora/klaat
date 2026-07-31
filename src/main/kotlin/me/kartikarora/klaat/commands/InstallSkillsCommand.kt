@@ -229,7 +229,7 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
             Add the following dependency to your build file:
 
             ```kotlin
-            implementation("me.kartikarora.klaat:core:1.1.0")
+            implementation("me.kartikarora.klaat:core:1.2.0")
             ```
 
             ## Step 2: Running the Command
