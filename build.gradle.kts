@@ -197,9 +197,10 @@ graalvmNative {
             buildArgs.add("--no-fallback")
             buildArgs.add("-H:+ReportExceptionStackTraces")
             buildArgs.add("--enable-url-protocols=http,https")
+            buildArgs.add("--enable-native-access=ALL-UNNAMED")
 
             // Required for reflection used by libraries
-            buildArgs.add("--initialize-at-build-time=kotlin,kotlinx,org.slf4j,ch.qos.logback,com.vladsch.flexmark")
+            buildArgs.add("--initialize-at-build-time=kotlin,kotlinx,org.slf4j,ch.qos.logback,com.vladsch.flexmark,org.xml.sax")
             buildArgs.add("--initialize-at-run-time=io.ktor,io.netty,org.eclipse.jetty")
 
             // Native image configs will be auto-discovered from META-INF/native-image/

@@ -18,6 +18,9 @@ import java.io.File
 import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.LoggerContext
+import org.slf4j.LoggerFactory
 
 /**
  * Command to serve codelabs locally for preview
@@ -46,6 +49,9 @@ class ServeCommand : CliktCommand("serve") {
     }
 
     override fun run() {
+        // Suppress Netty DEBUG logs programmatically (logback.xml may not apply correctly in native image)
+        (LoggerFactory.getILoggerFactory() as? LoggerContext)?.getLogger("io.netty")?.level = Level.WARN
+
         val directory = File(dir).absoluteFile
         if (!directory.exists() || !directory.isDirectory) {
             echo("✗ Error: Directory not found: ${directory.absolutePath}")
