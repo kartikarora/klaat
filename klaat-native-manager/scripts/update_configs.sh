@@ -49,7 +49,32 @@ sleep 10
 kill $SERVE_PID || true
 echo "✅ Serve command stopped."
 
-# 4. Copy metadata to resources
+# 4. Tracing invalid inputs, error paths, and specific flags to maximize reflection coverage
+echo "📝 Running invalid export (no arguments)..."
+./gradlew -Pagent run --args="export" || true
+
+echo "📝 Running invalid export (non-existent file)..."
+./gradlew -Pagent run --args="export non_existent_file.md" || true
+
+echo "📝 Running invalid export (invalid format)..."
+./gradlew -Pagent run --args="export examples/simple-test.md -f invalid_format" || true
+
+echo "📝 Running install-skills (project scope)..."
+./gradlew -Pagent run --args="install-skills" || true
+
+echo "📝 Running install-skills (global scope)..."
+./gradlew -Pagent run --args="install-skills -g" || true
+
+echo "📝 Running install-skills (invalid flag)..."
+./gradlew -Pagent run --args="install-skills --invalid-flag" || true
+
+echo "📝 Running update (no arguments)..."
+./gradlew -Pagent run --args="update" || true
+
+echo "📝 Running update (non-existent folder)..."
+./gradlew -Pagent run --args="update non_existent_folder" || true
+
+# 5. Copy metadata to resources
 echo "📂 Copying agent metadata to resources..."
 ./gradlew metadataCopy --task run
 
