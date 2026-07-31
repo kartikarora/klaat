@@ -779,4 +779,55 @@ class MarkdownParserTest {
             testFile.delete()
         }
     }
+
+    @Test
+    fun `test parse nested formatting and links`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            This is _italic containing [a link](https://example.com) inside it_ and this is **bold containing [another link](https://example.org) inside**.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val paragraph = content[0] as Node.Paragraph
+        
+        // Find links
+        val links = paragraph.nodes.filterIsInstance<Node.Link>()
+        assertEquals(2, links.size)
+        assertEquals("https://example.com", links[0].url)
+        assertEquals("a link", links[0].text)
+        assertEquals("https://example.org", links[1].url)
+        assertEquals("another link", links[1].text)
+        
+        // Ensure other parts of emphasis are parsed as Text with proper flags
+        val textNodes = paragraph.nodes.filterIsInstance<Node.Text>()
+        assertTrue(textNodes.any { it.content.contains("This is") })
+        assertTrue(textNodes.any { it.content.contains("italic containing") && it.italic })
+        assertTrue(textNodes.any { it.content.contains("bold containing") && it.bold })
+    }
+
+    @Test
+    fun `test parse nested formatting and images`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            This is **bold containing ![an image](https://example.com/img.png) inside**.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val paragraph = content[0] as Node.Paragraph
+        
+        // Find image
+        val images = paragraph.nodes.filterIsInstance<Node.Image>()
+        assertEquals(1, images.size)
+        assertEquals("https://example.com/img.png", images[0].src)
+        assertEquals("an image", images[0].alt)
+    }
 }
+

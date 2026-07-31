@@ -377,24 +377,28 @@ class MarkdownParser {
         return nodes
     }
 
-    private fun extractTextNodes(node: FlexmarkNode, output: MutableList<CodelabNode>) {
+    private fun extractTextNodes(
+        node: FlexmarkNode,
+        output: MutableList<CodelabNode>,
+        bold: Boolean = false,
+        italic: Boolean = false,
+        code: Boolean = false
+    ) {
         var child: FlexmarkNode? = node.firstChild
         
         while (child != null) {
             when (child) {
                 is com.vladsch.flexmark.ast.Text -> {
-                    output.add(CodelabNode.Text(child.chars.toString()))
+                    output.add(CodelabNode.Text(child.chars.toString(), bold = bold, italic = italic, code = code))
                 }
                 is com.vladsch.flexmark.ast.StrongEmphasis -> {
-                    val text = child.text.toString()
-                    output.add(CodelabNode.Text(text, bold = true))
+                    extractTextNodes(child, output, bold = true, italic = italic, code = code)
                 }
                 is com.vladsch.flexmark.ast.Emphasis -> {
-                    val text = child.text.toString()
-                    output.add(CodelabNode.Text(text, italic = true))
+                    extractTextNodes(child, output, bold = bold, italic = true, code = code)
                 }
                 is com.vladsch.flexmark.ast.Code -> {
-                    output.add(CodelabNode.Text(child.text.toString(), code = true))
+                    extractTextNodes(child, output, bold = bold, italic = italic, code = true)
                 }
                 is com.vladsch.flexmark.ast.Link -> {
                     output.add(CodelabNode.Link(
@@ -409,8 +413,7 @@ class MarkdownParser {
                     ))
                 }
                 else -> {
-                    // Recursively extract from nested nodes
-                    extractTextNodes(child, output)
+                    extractTextNodes(child, output, bold, italic, code)
                 }
             }
             child = child.next
