@@ -3,6 +3,9 @@ package me.kartikarora.klaat.commands
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.io.File
 
 class InstallSkillsCommand : CliktCommand("install-skills") {
@@ -12,91 +15,31 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
         val detectedDirs = mutableListOf<File>()
         val baseDir = if (global) File(System.getProperty("user.home")) else File(".")
 
-        // Define standard agents where parent indicator and relative target path are identical locally and globally
-        val standardAgents = listOf(
-            ".aider-desk" to ".aider-desk/skills",
-            ".autohand" to ".autohand/skills",
-            ".augment" to ".augment/skills",
-            ".bob" to ".bob/skills",
-            ".claude" to ".claude/skills",
-            ".openclaw" to ".openclaw/skills",
-            ".agents" to ".agents/skills",
-            ".codeartsdoer" to ".codeartsdoer/skills",
-            ".codebuddy" to ".codebuddy/skills",
-            ".codemaker" to ".codemaker/skills",
-            ".codestudio" to ".codestudio/skills",
-            ".codex" to ".codex/skills",
-            ".commandcode" to ".commandcode/skills",
-            ".continue" to ".continue/skills",
-            ".cursor" to ".cursor/skills",
-            ".factory" to ".factory/skills",
-            ".forge" to ".forge/skills",
-            ".gemini" to ".gemini/skills",
-            ".copilot" to ".copilot/skills",
-            ".grok" to ".grok/skills",
-            ".hermes" to ".hermes/skills",
-            ".inferencesh" to ".inferencesh/skills",
-            ".jazz" to ".jazz/skills",
-            ".junie" to ".junie/skills",
-            ".iflow" to ".iflow/skills",
-            ".kilocode" to ".kilocode/skills",
-            ".kiro" to ".kiro/skills",
-            ".kode" to ".kode/skills",
-            ".lingma" to ".lingma/skills",
-            ".mcpjam" to ".mcpjam/skills",
-            ".minimax" to ".minimax/skills",
-            ".vibe" to ".vibe/skills",
-            ".moxby" to ".moxby/skills",
-            ".mux" to ".mux/skills",
-            ".openhands" to ".openhands/skills",
-            ".ona" to ".ona/skills",
-            ".qoder" to ".qoder/skills",
-            ".qwen" to ".qwen/skills",
-            ".reasonix" to ".reasonix/skills",
-            ".rovodev" to ".rovodev/skills",
-            ".roo" to ".roo/skills",
-            ".tabnine/agent" to ".tabnine/agent/skills",
-            ".terramind" to ".terramind/skills",
-            ".tinycloud" to ".tinycloud/skills",
-            ".trae" to ".trae/skills",
-            ".zcode" to ".zcode/skills",
-            ".zencoder" to ".zencoder/skills",
-            ".neovate" to ".neovate/skills",
-            ".pochi" to ".pochi/skills",
-            ".adal" to ".adal/skills"
-        )
+        // Load configuration mappings from JSON resource file
+        val mappingsStream = javaClass.classLoader.getResourceAsStream("agent-mappings.json")
+            ?: throw Exception("Klaat configuration error: 'agent-mappings.json' not found on classpath.")
+        val mappingsJson = mappingsStream.bufferedReader().use { it.readText() }
+        val mappings = Gson().fromJson(mappingsJson, JsonObject::class.java)
 
         val potentialAgentDirs = mutableMapOf<String, File>()
-        for ((indicator, relativePath) in standardAgents) {
-            potentialAgentDirs[indicator] = File(baseDir, relativePath)
+
+        // 1. Load standard mappings
+        val standard = mappings.getAsJsonArray("standard") ?: JsonArray()
+        for (i in 0 until standard.size()) {
+            val element = standard.get(i).asJsonObject
+            val indicator = element.get("indicator").asString
+            val path = element.get("path").asString
+            potentialAgentDirs[indicator] = File(baseDir, path)
         }
 
-        // Add scope-specific overrides where directory paths differ between local and global
-        if (global) {
-            potentialAgentDirs[".config/agents"] = File(baseDir, ".config/agents/skills")
-            potentialAgentDirs[".gemini/antigravity"] = File(baseDir, ".gemini/antigravity/skills")
-            potentialAgentDirs[".gemini/antigravity-cli"] = File(baseDir, ".gemini/antigravity-cli/skills")
-            potentialAgentDirs[".astrbot/data"] = File(baseDir, ".astrbot/data/skills")
-            potentialAgentDirs[".snowflake/cortex"] = File(baseDir, ".snowflake/cortex/skills")
-            potentialAgentDirs[".config/crush"] = File(baseDir, ".config/crush/skills")
-            potentialAgentDirs[".deepagents/agent"] = File(baseDir, ".deepagents/agent/skills")
-            potentialAgentDirs[".config/devin"] = File(baseDir, ".config/devin/skills")
-            potentialAgentDirs[".firebender"] = File(baseDir, ".firebender/skills")
-            potentialAgentDirs[".config/goose"] = File(baseDir, ".config/goose/skills")
-            potentialAgentDirs[".config/kimchi/harness"] = File(baseDir, ".config/kimchi/harness/skills")
-            potentialAgentDirs[".config/opencode"] = File(baseDir, ".config/opencode/skills")
-            potentialAgentDirs[".pi/agent"] = File(baseDir, ".pi/agent/skills")
-            potentialAgentDirs[".qoder-cn"] = File(baseDir, ".qoder-cn/skills")
-            potentialAgentDirs[".trae-cn"] = File(baseDir, ".trae-cn/skills")
-            potentialAgentDirs[".codeium/windsurf"] = File(baseDir, ".codeium/windsurf/skills")
-        } else {
-            potentialAgentDirs[".cortex"] = File(baseDir, ".cortex/skills")
-            potentialAgentDirs[".crush"] = File(baseDir, ".crush/skills")
-            potentialAgentDirs[".devin"] = File(baseDir, ".devin/skills")
-            potentialAgentDirs[".goose"] = File(baseDir, ".goose/skills")
-            potentialAgentDirs[".kimchi"] = File(baseDir, ".kimchi/skills")
-            potentialAgentDirs[".pi"] = File(baseDir, ".pi/skills")
-            potentialAgentDirs[".windsurf"] = File(baseDir, ".windsurf/skills")
+        // 2. Load overrides depending on scope
+        val overridesKey = if (global) "global_overrides" else "local_overrides"
+        val overrides = mappings.getAsJsonArray(overridesKey) ?: JsonArray()
+        for (i in 0 until overrides.size()) {
+            val element = overrides.get(i).asJsonObject
+            val indicator = element.get("indicator").asString
+            val path = element.get("path").asString
+            potentialAgentDirs[indicator] = File(baseDir, path)
         }
 
         for ((indicator, target) in potentialAgentDirs) {
