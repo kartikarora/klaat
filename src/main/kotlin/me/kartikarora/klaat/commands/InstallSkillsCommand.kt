@@ -6,13 +6,11 @@ import java.io.File
 class InstallSkillsCommand : CliktCommand("install-skills") {
     override fun run() {
         val detectedDirs = mutableListOf<File>()
-        
-        // Always install to .agents/skills as it is the primary standard for Antigravity, Gemini CLI, Cursor, Copilot, Cline, Zed, etc.
-        detectedDirs.add(File(".agents/skills"))
 
-        // Auto-detect other directories by checking if their parent or config directories exist in the project root
+        // Auto-detect directories by checking if their parent or config directories exist in the project root
         val potentialAgentDirs = mapOf(
             ".aider-desk" to File(".aider-desk/skills"),
+            ".agents" to File(".agents/skills"),
             ".autohand" to File(".autohand/skills"),
             ".augment" to File(".augment/skills"),
             ".bob" to File(".bob/skills"),
@@ -71,9 +69,10 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
             }
         }
         
-        // Also check if root 'data' or 'agent' folders exist
+        // Also check if root 'data', 'agent', or 'skills' folders exist
         if (File("data").exists()) detectedDirs.add(File("data/skills"))
         if (File("agent").exists()) detectedDirs.add(File("agent/skills"))
+        if (File("skills").exists()) detectedDirs.add(File("skills"))
 
         println("Installing Klaat AI formatting skills into your project workspace...")
 
