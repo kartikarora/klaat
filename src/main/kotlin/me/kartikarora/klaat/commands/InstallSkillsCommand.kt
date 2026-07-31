@@ -5,17 +5,80 @@ import java.io.File
 
 class InstallSkillsCommand : CliktCommand("install-skills") {
     override fun run() {
-        // AI-specific project-level skill directories supported by the skills ecosystem
-        val targetDirs = listOf(
-            File(".agents/skills"),   // Standard directory for Antigravity, Gemini CLI, Cursor, Copilot, Cline, etc.
-            File(".claude/skills"),   // Claude Code specific directory
-            File(".continue/skills")  // Continue.dev specific directory
+        val detectedDirs = mutableListOf<File>()
+        
+        // Always install to .agents/skills as it is the primary standard for Antigravity, Gemini CLI, Cursor, Copilot, Cline, Zed, etc.
+        detectedDirs.add(File(".agents/skills"))
+
+        // Auto-detect other directories by checking if their parent or config directories exist in the project root
+        val potentialAgentDirs = mapOf(
+            ".aider-desk" to File(".aider-desk/skills"),
+            ".autohand" to File(".autohand/skills"),
+            ".augment" to File(".augment/skills"),
+            ".bob" to File(".bob/skills"),
+            ".claude" to File(".claude/skills"),
+            ".codeartsdoer" to File(".codeartsdoer/skills"),
+            ".codebuddy" to File(".codebuddy/skills"),
+            ".codemaker" to File(".codemaker/skills"),
+            ".codestudio" to File(".codestudio/skills"),
+            ".commandcode" to File(".commandcode/skills"),
+            ".continue" to File(".continue/skills"),
+            ".cortex" to File(".cortex/skills"),
+            ".crush" to File(".crush/skills"),
+            ".devin" to File(".devin/skills"),
+            ".factory" to File(".factory/skills"),
+            ".forge" to File(".forge/skills"),
+            ".goose" to File(".goose/skills"),
+            ".grok" to File(".grok/skills"),
+            ".hermes" to File(".hermes/skills"),
+            ".inferencesh" to File(".inferencesh/skills"),
+            ".jazz" to File(".jazz/skills"),
+            ".junie" to File(".junie/skills"),
+            ".iflow" to File(".iflow/skills"),
+            ".kilocode" to File(".kilocode/skills"),
+            ".kimchi" to File(".kimchi/skills"),
+            ".kiro" to File(".kiro/skills"),
+            ".kode" to File(".kode/skills"),
+            ".lingma" to File(".lingma/skills"),
+            ".mcpjam" to File(".mcpjam/skills"),
+            ".minimax" to File(".minimax/skills"),
+            ".vibe" to File(".vibe/skills"),
+            ".moxby" to File(".moxby/skills"),
+            ".mux" to File(".mux/skills"),
+            ".openhands" to File(".openhands/skills"),
+            ".ona" to File(".ona/skills"),
+            ".pi" to File(".pi/skills"),
+            ".qoder" to File(".qoder/skills"),
+            ".qwen" to File(".qwen/skills"),
+            ".reasonix" to File(".reasonix/skills"),
+            ".rovodev" to File(".rovodev/skills"),
+            ".roo" to File(".roo/skills"),
+            ".tabnine" to File(".tabnine/agent/skills"),
+            ".terramind" to File(".terramind/skills"),
+            ".tinycloud" to File(".tinycloud/skills"),
+            ".trae" to File(".trae/skills"),
+            ".windsurf" to File(".windsurf/skills"),
+            ".zcode" to File(".zcode/skills"),
+            ".zencoder" to File(".zencoder/skills"),
+            ".neovate" to File(".neovate/skills"),
+            ".pochi" to File(".pochi/skills"),
+            ".adal" to File(".adal/skills")
         )
+
+        for ((indicator, target) in potentialAgentDirs) {
+            if (File(indicator).exists()) {
+                detectedDirs.add(target)
+            }
+        }
+        
+        // Also check if root 'data' or 'agent' folders exist
+        if (File("data").exists()) detectedDirs.add(File("data/skills"))
+        if (File("agent").exists()) detectedDirs.add(File("agent/skills"))
 
         println("Installing Klaat AI formatting skills into your project workspace...")
 
         var installedCount = 0
-        for (targetDir in targetDirs) {
+        for (targetDir in detectedDirs) {
             try {
                 // 1. Markdown Author Skill
                 val mdAuthorDir = File(targetDir, "klaat-markdown-author")
