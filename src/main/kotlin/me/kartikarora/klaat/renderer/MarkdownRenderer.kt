@@ -4,6 +4,7 @@ import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
 import java.io.File
+import java.time.Instant
 
 /**
  * Renders a Codelab to Markdown format
@@ -227,7 +228,7 @@ class MarkdownRenderer {
             appendLine("""  "format": "md",""")
             appendLine("""  "prefix": "../../",""")
             appendLine("""  "mainga": "",""")
-            appendLine("""  "updated": "${java.time.Instant.ofEpochMilli(codelab.lastUpdated)}",""")
+            appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")

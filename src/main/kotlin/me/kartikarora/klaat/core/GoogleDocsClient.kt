@@ -16,6 +16,8 @@ import com.google.api.services.docs.v1.DocsScopes
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
+import java.awt.Desktop
+import java.net.URI
 
 class GoogleDocsClient {
     private val jsonFactory = GsonFactory.getDefaultInstance()
@@ -128,10 +130,10 @@ class GoogleDocsClient {
                 } catch (e1: Exception) {
                     try {
                         // Fallback to Desktop.browse() if open command fails
-                        if (java.awt.Desktop.isDesktopSupported()) {
-                            val desktop = java.awt.Desktop.getDesktop()
-                            if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
-                                desktop.browse(java.net.URI(urlString))
+                        if (Desktop.isDesktopSupported()) {
+                            val desktop = Desktop.getDesktop()
+                            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                                desktop.browse(URI(urlString))
                                 println("Opening browser...")
                             }
                         }

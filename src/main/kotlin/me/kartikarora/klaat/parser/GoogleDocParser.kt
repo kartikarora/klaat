@@ -7,6 +7,7 @@ import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
 import me.kartikarora.klaat.core.Node
 import me.kartikarora.klaat.core.Step
+import com.google.api.services.docs.v1.model.Table
 
 /**
  * Parser for Google Docs-based codelabs
@@ -109,7 +110,7 @@ class GoogleDocParser {
         return Pair(metadata, steps)
     }
 
-    private fun parseMetadataTable(table: com.google.api.services.docs.v1.model.Table, metadataMap: MutableMap<String, String>) {
+    private fun parseMetadataTable(table: Table, metadataMap: MutableMap<String, String>) {
         table.tableRows?.forEach { row ->
             val cells = row.tableCells ?: return@forEach
             if (cells.size >= 2) {

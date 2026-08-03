@@ -7,6 +7,7 @@ import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
 import java.io.File
 import java.io.StringWriter
+import java.time.Instant
 
 /**
  * Renders a Codelab to HTML format matching the original claat output exactly
@@ -273,7 +274,7 @@ $options
             appendLine("""  "format": "html",""")
             appendLine("""  "prefix": "../../",""")
             appendLine("""  "mainga": "${codelab.metadata.analyticsAccount}",""")
-            appendLine("""  "updated": "${java.time.Instant.ofEpochMilli(codelab.lastUpdated)}",""")
+            appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
             appendLine("""  "duration": ${codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }},""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
