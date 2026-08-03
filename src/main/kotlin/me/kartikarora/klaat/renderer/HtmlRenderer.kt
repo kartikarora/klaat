@@ -130,7 +130,17 @@ class HtmlRenderer {
         return when (node) {
             is Node.Text -> renderText(node)
             is Node.Heading -> renderHeading(node)
-            is Node.Paragraph -> "<p>${renderNodes(node.nodes)}</p>"
+            is Node.Paragraph -> {
+                val isImageWithCaption = node.nodes.count { it is Node.Image } == 1 &&
+                        node.nodes.all { it is Node.Image || (it is Node.Text && (it.italic || it.content.isBlank())) }
+                if (isImageWithCaption && node.nodes.any { it is Node.Text && it.italic }) {
+                    val imageNode = node.nodes.first { it is Node.Image }
+                    val captionNodes = node.nodes.filter { it != imageNode && (it is Node.Text && it.content.isNotBlank()) }
+                    "<figure>\n${renderNode(imageNode)}\n<figcaption>${renderNodes(captionNodes)}</figcaption>\n</figure>"
+                } else {
+                    "<p>${renderNodes(node.nodes)}</p>"
+                }
+            }
             is Node.CodeBlock -> renderCodeBlock(node)
             is Node.CommandBlock -> """<pre class="devsite-terminal"><code>${escape(node.commands)}</code></pre>"""
             is Node.InfoBox -> renderInfoBox(node)
@@ -191,8 +201,8 @@ class HtmlRenderer {
             return "<blockquote>${renderNodes(node.nodes)}</blockquote>"
         }
         val cssClass = when (node.type) {
-            InfoBoxType.POSITIVE -> "positive"
-            InfoBoxType.NEGATIVE -> "negative"
+            InfoBoxType.POSITIVE -> "special"
+            InfoBoxType.NEGATIVE -> "warning"
             else -> ""
         }
         return """<aside class="$cssClass">${renderNodes(node.nodes)}</aside>"""
