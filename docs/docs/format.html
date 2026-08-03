@@ -386,7 +386,7 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">> This is a tip! {.positive}
 > Nest markdown features like `code` inside.</code></pre>
                 </div>
-                <div class="info-box-demo positive">
+                <div class="info-box-demo special">
                     <p>This is a tip! Nest markdown features like <code>code</code> inside.</p>
                 </div>
 
@@ -396,7 +396,7 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">> Security threat! {.negative}
 > Do not expose private keys.</code></pre>
                 </div>
-                <div class="info-box-demo negative">
+                <div class="info-box-demo warning">
                     <p>Security threat! Do not expose private keys.</p>
                 </div>
 
@@ -456,6 +456,10 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                     <pre><code class="language-markdown">![Alternative text](https://placehold.co/600x400/png)
 *Figure 1: Visual mockup design layout.*</code></pre>
                 </div>
+                <figure class="demo-figure">
+                    <img alt="Alternative text" src="https://placehold.co/600x400/png">
+                    <figcaption><em>Figure 1: Visual mockup design layout.</em></figcaption>
+                </figure>
 
                 <h2>YouTube Videos</h2>
                 <p>Embed direct YouTube videos using the standalone video URL inside a markdown image link structure:</p>
