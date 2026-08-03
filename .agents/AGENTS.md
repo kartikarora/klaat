@@ -20,6 +20,7 @@ As an agent working on the Klaat project, follow these guidelines to ensure cons
 -   Manually verify that `./gradlew nativeCompile` still succeeds after significant changes.
 
 ### 3. Verification is Mandatory
+-   **Test-Driven Development for Bugs:** Whenever a bug is being triaged, **always** create unit tests for the expected behavior first, before working on the feature or fix. The tests should fail initially, guiding the implementation of the fix.
 -   Never assume a change works just because it compiles.
 -   Run `./gradlew test` for every logic change.
 -   If you add a new node type or parser feature, add a corresponding unit test in the appropriate package.
