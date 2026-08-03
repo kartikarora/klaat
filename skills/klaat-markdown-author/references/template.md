@@ -23,7 +23,7 @@ Welcome to the tutorial! Here is a tip to help you:
 Add the following dependency to your build file:
 
 ```kotlin
-implementation("me.kartikarora.klaat:core:1.0.0")
+implementation("me.kartikarora.klaat:core:1.2.0")
 ```
 
 ## Step 2: Running the Command

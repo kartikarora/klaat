@@ -88,7 +88,7 @@ Info boxes must be created using blockquotes with a specific prefix. In Google D
         ```
 
 ### Code & Commands
-*   **Inline Code**: Surround with single backticks: `` `val name = "Klaat"` ``.
+*   **Inline Code**: Surround with single backticks: `val name = "Klaat"`.
 *   **Multi-line Code Blocks**: Use triple backticks with syntax language:
     ```kotlin
     fun main() {
