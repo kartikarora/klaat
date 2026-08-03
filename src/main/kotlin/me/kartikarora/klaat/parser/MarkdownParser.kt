@@ -21,6 +21,23 @@ import java.io.File
 import java.io.InputStream
 import com.vladsch.flexmark.util.ast.Node as FlexmarkNode
 import me.kartikarora.klaat.core.Node as KlaatNode
+import com.vladsch.flexmark.ast.Paragraph
+import com.vladsch.flexmark.ast.BlockQuote
+import com.vladsch.flexmark.ast.Heading
+import com.vladsch.flexmark.ast.BulletList
+import com.vladsch.flexmark.ast.BulletListItem
+import com.vladsch.flexmark.ast.OrderedList
+import com.vladsch.flexmark.ast.OrderedListItem
+import com.vladsch.flexmark.ast.FencedCodeBlock
+import com.vladsch.flexmark.ast.IndentedCodeBlock
+import com.vladsch.flexmark.ast.Image
+import com.vladsch.flexmark.ast.HtmlBlock
+import com.vladsch.flexmark.ast.HtmlInline
+import com.vladsch.flexmark.ast.Text
+import com.vladsch.flexmark.ast.StrongEmphasis
+import com.vladsch.flexmark.ast.Emphasis
+import com.vladsch.flexmark.ast.Code
+import com.vladsch.flexmark.ast.Link
 
 /**
  * Parser for Markdown-based codelabs following the Google Codelabs format
@@ -165,7 +182,7 @@ class MarkdownParser {
         var node: FlexmarkNode? = document.firstChild
 
         while (node != null) {
-            if (node is com.vladsch.flexmark.ast.Heading && node.level == 1) {
+            if (node is Heading && node.level == 1) {
                 title = node.text.toString()
                 break
             }
@@ -190,11 +207,11 @@ class MarkdownParser {
 
         while (node != null) {
             when {
-                node is com.vladsch.flexmark.ast.Heading && node.level == 1 -> {
+                node is Heading && node.level == 1 -> {
                     foundTitle = true
                     skipUntilFirstH2 = true
                 }
-                node is com.vladsch.flexmark.ast.Heading && node.level == 2 -> {
+                node is Heading && node.level == 2 -> {
                     // Save previous step if exists
                     if (currentStep != null && currentStepTitle.isNotEmpty()) {
                         steps.add(Step(
@@ -217,7 +234,7 @@ class MarkdownParser {
                 }
                 !skipUntilFirstH2 && currentStep != null -> {
                     // Check if this is a Duration paragraph
-                    if (skipNextIfDuration && node is com.vladsch.flexmark.ast.Paragraph) {
+                    if (skipNextIfDuration && node is Paragraph) {
                         val text = node.chars.toString().trim()
                         val durationMatch = Regex("^Duration:\\s*(\\d+)(?:\\s+(?:\\(ignore\\)|ignore))?", RegexOption.IGNORE_CASE).find(text)
                         if (durationMatch != null) {
@@ -257,7 +274,7 @@ class MarkdownParser {
         val nodes = mutableListOf<KlaatNode>()
         
         when (node) {
-            is com.vladsch.flexmark.ast.Paragraph -> {
+            is Paragraph -> {
                 val textNodes = mutableListOf<KlaatNode>()
                 extractTextNodes(node, textNodes)
                 
@@ -278,7 +295,7 @@ class MarkdownParser {
                     nodes.add(KlaatNode.Paragraph(textNodes))
                 }
             }
-            is com.vladsch.flexmark.ast.BlockQuote -> {
+            is BlockQuote -> {
                 val childNodes = mutableListOf<KlaatNode>()
                 var bChild = node.firstChild
                 while (bChild != null) {
@@ -312,7 +329,7 @@ class MarkdownParser {
                 cleanMetadata(childNodes)
                 nodes.add(KlaatNode.InfoBox(type, childNodes))
             }
-            is com.vladsch.flexmark.ast.Heading -> {
+            is Heading -> {
                 if (node.level >= 2) {
                     nodes.add(KlaatNode.Heading(
                         level = node.level,
@@ -320,11 +337,11 @@ class MarkdownParser {
                     ))
                 }
             }
-            is com.vladsch.flexmark.ast.BulletList -> {
+            is BulletList -> {
                 val items = mutableListOf<List<KlaatNode>>()
                 var listItem: FlexmarkNode? = node.firstChild
                 while (listItem != null) {
-                    if (listItem is com.vladsch.flexmark.ast.BulletListItem) {
+                    if (listItem is BulletListItem) {
                         val itemNodes = mutableListOf<KlaatNode>()
                         var itemChild = listItem.firstChild
                         while (itemChild != null) {
@@ -337,11 +354,11 @@ class MarkdownParser {
                 }
                 nodes.add(KlaatNode.BulletList(items))
             }
-            is com.vladsch.flexmark.ast.OrderedList -> {
+            is OrderedList -> {
                 val items = mutableListOf<List<KlaatNode>>()
                 var listItem: FlexmarkNode? = node.firstChild
                 while (listItem != null) {
-                    if (listItem is com.vladsch.flexmark.ast.OrderedListItem) {
+                    if (listItem is OrderedListItem) {
                         val itemNodes = mutableListOf<KlaatNode>()
                         var itemChild = listItem.firstChild
                         while (itemChild != null) {
@@ -354,29 +371,29 @@ class MarkdownParser {
                 }
                 nodes.add(KlaatNode.NumberedList(items, start = node.startNumber))
             }
-            is com.vladsch.flexmark.ast.FencedCodeBlock -> {
+            is FencedCodeBlock -> {
                 nodes.add(KlaatNode.CodeBlock(
                     code = node.contentChars.toString(),
                     language = node.info.toString()
                 ))
             }
-            is com.vladsch.flexmark.ast.IndentedCodeBlock -> {
+            is IndentedCodeBlock -> {
                 nodes.add(KlaatNode.CodeBlock(
                     code = node.contentChars.toString()
                 ))
             }
-            is com.vladsch.flexmark.ast.Image -> {
+            is Image -> {
                 val url = node.url.toString()
                 nodes.add(KlaatNode.Image(
                     src = url,
                     alt = node.text.toString()
                 ))
             }
-            is com.vladsch.flexmark.ast.HtmlBlock -> {
+            is HtmlBlock -> {
                 val html = node.chars.toString()
                 parseHtmlForMedia(html, nodes)
             }
-            is com.vladsch.flexmark.ast.HtmlInline -> {
+            is HtmlInline -> {
                 val html = node.chars.toString()
                 parseHtmlForMedia(html, nodes)
             }
@@ -453,25 +470,25 @@ class MarkdownParser {
         
         while (child != null) {
             when (child) {
-                is com.vladsch.flexmark.ast.Text -> {
+                is Text -> {
                     output.add(KlaatNode.Text(child.chars.toString(), bold = bold, italic = italic, code = code))
                 }
-                is com.vladsch.flexmark.ast.StrongEmphasis -> {
+                is StrongEmphasis -> {
                     extractTextNodes(child, output, bold = true, italic = italic, code = code)
                 }
-                is com.vladsch.flexmark.ast.Emphasis -> {
+                is Emphasis -> {
                     extractTextNodes(child, output, bold = bold, italic = true, code = code)
                 }
-                is com.vladsch.flexmark.ast.Code -> {
+                is Code -> {
                     extractTextNodes(child, output, bold = bold, italic = italic, code = true)
                 }
-                is com.vladsch.flexmark.ast.Link -> {
+                is Link -> {
                     output.add(KlaatNode.Link(
                         url = child.url.toString(),
                         text = child.text.toString()
                     ))
                 }
-                is com.vladsch.flexmark.ast.Image -> {
+                is Image -> {
                     output.add(KlaatNode.Image(
                         src = child.url.toString(),
                         alt = child.text.toString()
