@@ -17,7 +17,6 @@
     
     <!-- Docs Specific CSS -->
     <link href="style.css" rel="stylesheet">
-    <link href="https://distribute.kartikarora.me/css/codelab-elements.css" rel="stylesheet">
     
     <!-- Brand CDN JS -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.js" defer></script>
@@ -399,26 +398,18 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">> This is a tip! {.special}
 > Nest markdown features like `code` inside.</code></pre>
                 </div>
-                <div class="demo-output">
-                    <google-codelab-step style="display: block; position: static; transform: none; padding: 0;">
-                        <div class="instructions">
-                            <aside class="special"><p>This is a tip! Nest markdown features like <code>code</code> inside.</p></aside>
-                        </div>
-                    </google-codelab-step>
+                <div class="info-box-demo special">
+                    <p>This is a tip! Nest markdown features like <code>code</code> inside.</p>
                 </div>
 
-                <h2>Warning (Alerts)</h2>
+                <h2>Warning (Warnings/Alerts)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.warning}</code> metadata tag:</p>
                 <div class="code-container">
                     <pre><code class="language-markdown">> Security threat! {.warning}
 > Do not expose private keys.</code></pre>
                 </div>
-                <div class="demo-output">
-                    <google-codelab-step style="display: block; position: static; transform: none; padding: 0;">
-                        <div class="instructions">
-                            <aside class="warning"><p>Security threat! Do not expose private keys.</p></aside>
-                        </div>
-                    </google-codelab-step>
+                <div class="info-box-demo warning">
+                    <p>Security threat! Do not expose private keys.</p>
                 </div>
 
                 <h2>Regular (Aside)</h2>
@@ -427,12 +418,8 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">> This is just a regular aside or quote.
 > It will be styled with a neutral gray background.</code></pre>
                 </div>
-                <div class="demo-output">
-                    <google-codelab-step style="display: block; position: static; transform: none; padding: 0;">
-                        <div class="instructions">
-                            <blockquote><p>This is just a regular aside or quote. It will be styled with a neutral gray background.</p></blockquote>
-                        </div>
-                    </google-codelab-step>
+                <div class="info-box-demo regular">
+                    <p>This is just a regular aside or quote. It will be styled with a neutral gray background.</p>
                 </div>
             </section>
 
