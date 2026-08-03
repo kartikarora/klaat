@@ -346,6 +346,9 @@ class Person(val name: String)
                         <div class="code-container" style="margin-top: 10px;">
                             <pre><code class="language-markdown">[Download Source Code](https://example.com/starter.zip)</code></pre>
                         </div>
+                        <div class="demo-output">
+                            <a href="https://example.com/starter.zip" class="demo-button"><span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle; margin-right: 4px;">file_download</span>Download Source Code</a>
+                        </div>
                     </li>
                 </ul>
             </section>
@@ -360,8 +363,11 @@ class Person(val name: String)
                 <div class="code-container">
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">```kotlin
-fun greet(name: String) = "Hello, $name!"
+fun greet(name: String) = "Hello, ${'$'}name!"
 ```</code></pre>
+                </div>
+                <div class="demo-output">
+                    <pre class="demo-code"><code><span style="color: #cc7832">fun</span> <span style="color: #ffc66d">greet</span>(name: <span style="color: #a9b7c6">String</span>) = <span style="color: #6a8759">"Hello, ${'$'}name!"</span></code></pre>
                 </div>
 
                 <h3 style="margin-top: var(--space-lg);">With Source Code Filename</h3>
@@ -372,6 +378,12 @@ fun greet(name: String) = "Hello, $name!"
 ```kotlin
 fun main() = println("Hello!")
 ```</code></pre>
+                </div>
+                <div class="demo-output">
+                    <div class="demo-code-file">
+                        <div class="demo-code-header">Main.kt</div>
+                        <pre class="demo-code"><code><span style="color: #cc7832">fun</span> <span style="color: #ffc66d">main</span>() = println(<span style="color: #6a8759">"Hello!"</span>)</code></pre>
+                    </div>
                 </div>
             </section>
 
@@ -423,6 +435,12 @@ fun main() = println("Hello!")
 - [ ] For open source libraries
 - [ ] For project internal docs</code></pre>
                 </div>
+                <div class="demo-output demo-survey">
+                    <strong>How do you plan to use Klaat?</strong>
+                    <label><input type="checkbox"> For classroom lectures</label>
+                    <label><input type="checkbox"> For open source libraries</label>
+                    <label><input type="checkbox"> For project internal docs</label>
+                </div>
 
                 <h2>Frequently Asked Questions (FAQs)</h2>
                 <p>FAQs use formatted bold queries starting with <code>Q:</code> followed by <code>A:</code> content lines:</p>
@@ -430,6 +448,10 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">**Q: Does it run on Intel Macs?**
 
 A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
+                </div>
+                <div class="demo-output demo-faq">
+                    <strong>Q: Does it run on Intel Macs?</strong>
+                    <p>A: No, currently only Apple Silicon ARM64 is supported.</p>
                 </div>
             </section>
 
@@ -443,6 +465,17 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
 |:---|:---:|:---|
 | `-f` | String | Output format selection. |
 | `-o` | String | Output destination. |</code></pre>
+                </div>
+                <div class="demo-output">
+                    <table class="demo-table">
+                        <thead>
+                            <tr><th style="text-align: left;">Flag</th><th style="text-align: center;">Type</th><th style="text-align: left;">Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="text-align: left;"><code>-f</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output format selection.</td></tr>
+                            <tr><td style="text-align: left;"><code>-o</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output destination.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
@@ -465,6 +498,9 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                 <p>Embed direct YouTube videos using the standalone video URL inside a markdown image link structure:</p>
                 <div class="code-container">
                     <pre><code class="language-markdown">[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)</code></pre>
+                </div>
+                <div class="demo-output">
+                    <iframe class="demo-youtube" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </section>
         </main>
