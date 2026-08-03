@@ -78,6 +78,10 @@ object ImageDownloader {
                 is Node.InfoBox -> node.copy(nodes = processNodes(node.nodes, imagesDir, sourceBaseDir))
                 is Node.BulletList -> node.copy(items = node.items.map { processNodes(it, imagesDir, sourceBaseDir) })
                 is Node.NumberedList -> node.copy(items = node.items.map { processNodes(it, imagesDir, sourceBaseDir) })
+                is Node.Table -> node.copy(
+                    header = node.header.map { processNodes(it, imagesDir, sourceBaseDir) },
+                    rows = node.rows.map { row -> row.map { processNodes(it, imagesDir, sourceBaseDir) } }
+                )
                 else -> node
             }
         }
