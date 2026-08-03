@@ -22,7 +22,8 @@ repositories {
 
 // Build variant configuration
 val isReleaseTask = gradle.startParameter.taskNames.any { it.equals("buildRelease", ignoreCase = true) || it.equals("nativeRelease", ignoreCase = true) }
-val buildVariant = if (isReleaseTask) "Release" else (project.findProperty("buildVariant")?.toString() ?: "dev")
+val isCi = System.getenv("CI") == "true"
+val buildVariant = if (isReleaseTask || isCi) "Release" else (project.findProperty("buildVariant")?.toString() ?: "dev")
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
 // VERSION_NAME is calculated entirely in CI and passed as environment variable

@@ -40,7 +40,7 @@ runs:
 
         # VERSION_NAME is the full version calculated by get-version action
         export VERSION_NAME="${{ inputs.version }}"
-        ./gradlew nativeCompile
+        ./gradlew nativeRelease
 
         # Move and rename binary based on platform
         BINARY_NAME="${BINARY_BASE}-${{ inputs.platform }}-${{ inputs.version }}"
