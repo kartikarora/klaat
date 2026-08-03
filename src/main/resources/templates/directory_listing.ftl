@@ -10,8 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.4.0.css">
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.4.0.js" defer></script>
+    <!-- Brand Identity CSS -->
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.6.0.css">
+    
+    <!-- Brand CDN JS -->
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.6.0.js" defer></script>
     
     <style>
         * {
