@@ -72,19 +72,26 @@ Use these syntax conventions to format various rich widgets:
 ### Info Boxes (Alerts)
 Info boxes must be created using blockquotes with a specific prefix. In Google Docs, create a single-cell table with a background color:
 
-*   **Positive Box (Tips/Info)**:
-    *   *Markdown*: Blockquote starting with `**Note:**` or `**Pro Tip:**`
+*   **Special Box (Tips/Info)**:
+    *   *Markdown*: Blockquote containing the `{.special}` metadata tag.
     *   *Google Docs*: Single-cell table with a **light green** background.
     *   *Example*:
         ```markdown
-        > **Note:** This is a tip/recommendation.
+        > This is a tip/recommendation. {.special}
         ```
-*   **Negative Box (Warnings/Alerts)**:
-    *   *Markdown*: Blockquote starting with `**Warning:**` or `**Caution:**`
+*   **Warning Box (Warnings/Alerts)**:
+    *   *Markdown*: Blockquote containing the `{.warning}` metadata tag.
     *   *Google Docs*: Single-cell table with a **light red/orange** background.
     *   *Example*:
         ```markdown
-        > **Warning:** This is a warning or critical notice.
+        > This is a warning or critical notice. {.warning}
+        ```
+*   **Regular Box (Aside)**:
+    *   *Markdown*: Any other blockquote without the specific metadata tags.
+    *   *Google Docs*: Single-cell table with a **black/light gray** background.
+    *   *Example*:
+        ```markdown
+        > This is just a regular aside or quote.
         ```
 
 ### Code & Commands

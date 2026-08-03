@@ -30,6 +30,7 @@ Info boxes must be created using **single-cell tables** with specific background
 | :--- | :--- | :--- |
 | **Positive Box (Info/Tip)** | Light Green (hex `#E8F5E9` or similar) | Start with **Note:** or **Pro Tip:** |
 | **Negative Box (Warning)** | Light Red (hex `#FFEBEE` or similar) | Start with **Warning:** or **Caution:** |
+| **Regular Box (Aside)** | Black/Light Gray (hex `#F5F5F5` or similar) | Any other blockquote or single-cell table |
 
 ---
 

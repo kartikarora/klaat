@@ -45,7 +45,7 @@ Once the configurations are updated, build the native binary for your platform.
 
 ### Production Build (Optimized)
 ```bash
-./gradlew nativeProd
+./gradlew nativeRelease
 ```
 
 The resulting binary will be located at `build/native/nativeCompile/klaat`.

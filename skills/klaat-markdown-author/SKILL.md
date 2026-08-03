@@ -63,13 +63,13 @@ Ensure the correct Markdown markup is used for rich elements:
 *   Directly beneath the step title, specify the step duration in minutes: `Duration: X` (e.g., `Duration: 5`). Do not add extra text on this line.
 
 ### 2. Info Boxes (Alerts)
-*   **Positive (Tips/Info):** Start blockquote with `**Note:**` or `**Pro Tip:**`
+*   **Special (Tips/Info):** Include `{.special}` in the blockquote:
     ```markdown
-    > **Note:** Best practice tips go here.
+    > This is a tip! {.special}
     ```
-*   **Negative (Warnings/Caution):** Start blockquote with `**Warning:**` or `**Caution:**`
+*   **Warning (Alerts/Caution):** Include `{.warning}` in the blockquote:
     ```markdown
-    > **Warning:** Critical alerts or safety warnings go here.
+    > Critical alerts or safety warnings go here. {.warning}
     ```
 
 ### 3. Code Blocks
@@ -82,7 +82,15 @@ Ensure the correct Markdown markup is used for rich elements:
     ```
     ```
 
-### 4. Interactive Surveys
+### 4. Images & Captions
+*   Load images with standard markdown syntax.
+*   **Captions:** Add a caption by placing italic text immediately below the image:
+    ```markdown
+    ![Alternative text](https://placehold.co/600x400/png)
+    *Figure 1: Visual mockup design layout.*
+    ```
+
+### 5. Interactive Surveys
 Use checklist bullet blocks immediately following a bold question:
 ```markdown
 **How would you rate your Kotlin experience?**
@@ -91,7 +99,7 @@ Use checklist bullet blocks immediately following a bold question:
 - [ ] Expert
 ```
 
-### 5. Frequently Asked Questions (FAQs)
+### 6. Frequently Asked Questions (FAQs)
 Format Q&A sections using bold `Q:` and plain `A:` pairs:
 ```markdown
 **Q: What is the default port?**
@@ -99,7 +107,7 @@ Format Q&A sections using bold `Q:` and plain `A:` pairs:
 A: The default port is 9090.
 ```
 
-### 6. Action / Download Buttons
+### 7. Action / Download Buttons
 Write a single link alone on its own line:
 ```markdown
 [Download Starter Code](https://example.com/starter.zip)
