@@ -259,9 +259,40 @@ class MarkdownParser {
             is com.vladsch.flexmark.ast.Paragraph -> {
                 val textNodes = mutableListOf<CodelabNode>()
                 extractTextNodes(node, textNodes)
-                if (textNodes.isNotEmpty()) {
+                
+                val nonWhitespaceNodes = textNodes.filter { 
+                    it !is CodelabNode.Text || it.content.trim().isNotEmpty() 
+                }
+                
+                if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is CodelabNode.Link) {
+                    val link = nonWhitespaceNodes.first() as CodelabNode.Link
+                    nodes.add(CodelabNode.Button(url = link.url, text = link.text))
+                } else if (textNodes.isNotEmpty()) {
                     nodes.add(CodelabNode.Paragraph(textNodes))
                 }
+            }
+            is com.vladsch.flexmark.ast.BlockQuote -> {
+                val childNodes = mutableListOf<CodelabNode>()
+                var bChild = node.firstChild
+                while (bChild != null) {
+                    childNodes.addAll(parseNode(bChild))
+                    bChild = bChild.next
+                }
+                
+                // Determine InfoBox type based on text content
+                var type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
+                val firstNode = childNodes.firstOrNull()
+                if (firstNode is CodelabNode.Paragraph) {
+                    val firstText = firstNode.nodes.firstOrNull { it is CodelabNode.Text } as? CodelabNode.Text
+                    if (firstText != null) {
+                        val text = firstText.content.lowercase()
+                        if (text.contains("warning:") || text.contains("caution:") || text.contains("negative")) {
+                            type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
+                        }
+                    }
+                }
+                
+                nodes.add(CodelabNode.InfoBox(type, childNodes))
             }
             is com.vladsch.flexmark.ast.Heading -> {
                 if (node.level >= 2) {
@@ -277,7 +308,11 @@ class MarkdownParser {
                 while (listItem != null) {
                     if (listItem is com.vladsch.flexmark.ast.BulletListItem) {
                         val itemNodes = mutableListOf<CodelabNode>()
-                        extractTextNodes(listItem, itemNodes)
+                        var itemChild = listItem.firstChild
+                        while (itemChild != null) {
+                            itemNodes.addAll(parseNode(itemChild))
+                            itemChild = itemChild.next
+                        }
                         items.add(itemNodes)
                     }
                     listItem = listItem.next
@@ -290,7 +325,11 @@ class MarkdownParser {
                 while (listItem != null) {
                     if (listItem is com.vladsch.flexmark.ast.OrderedListItem) {
                         val itemNodes = mutableListOf<CodelabNode>()
-                        extractTextNodes(listItem, itemNodes)
+                        var itemChild = listItem.firstChild
+                        while (itemChild != null) {
+                            itemNodes.addAll(parseNode(itemChild))
+                            itemChild = itemChild.next
+                        }
                         items.add(itemNodes)
                     }
                     listItem = listItem.next
