@@ -318,6 +318,10 @@ class Person(val name: String)
                             <td>A single-cell table with a light orange/red background.</td>
                         </tr>
                         <tr>
+                            <td><strong>Regular Info Box</strong></td>
+                            <td>A single-cell table with a black/light gray background.</td>
+                        </tr>
+                        <tr>
                             <td><strong>Code Block</strong></td>
                             <td>A single-cell table using the <code>Courier New</code> font family.</td>
                         </tr>
@@ -377,23 +381,33 @@ fun main() = println("Hello!")
                 <p>Info boxes are blockquote panels that call out suggestions, warnings, or time-sensitive critical information.</p>
 
                 <h2>Positive (Info/Tips)</h2>
-                <p>Created in markdown using a blockquote block stating <code>Note:</code> or <code>Pro Tip:</code> in bold:</p>
+                <p>Created in markdown using a blockquote block containing the <code>{.positive}</code> metadata tag:</p>
                 <div class="code-container">
-                    <pre><code class="language-markdown">> **Note:** This is a tip!
+                    <pre><code class="language-markdown">> This is a tip! {.positive}
 > Nest markdown features like `code` inside.</code></pre>
                 </div>
                 <div class="info-box-demo positive">
-                    <p><strong>Note:</strong> This is a tip! Nest markdown features like <code>code</code> inside.</p>
+                    <p>This is a tip! Nest markdown features like <code>code</code> inside.</p>
                 </div>
 
                 <h2>Negative (Warnings/Alerts)</h2>
-                <p>Created in markdown using a blockquote block stating <code>Warning:</code> or <code>Caution:</code> in bold:</p>
+                <p>Created in markdown using a blockquote block containing the <code>{.negative}</code> metadata tag:</p>
                 <div class="code-container">
-                    <pre><code class="language-markdown">> **Warning:** Security threat!
+                    <pre><code class="language-markdown">> Security threat! {.negative}
 > Do not expose private keys.</code></pre>
                 </div>
                 <div class="info-box-demo negative">
-                    <p><strong>Warning:</strong> Security threat! Do not expose private keys.</p>
+                    <p>Security threat! Do not expose private keys.</p>
+                </div>
+
+                <h2>Regular (Aside)</h2>
+                <p>Created in markdown using any other blockquote block without the specific metadata tags:</p>
+                <div class="code-container">
+                    <pre><code class="language-markdown">> This is just a regular aside or quote.
+> It will be styled with a neutral gray background.</code></pre>
+                </div>
+                <div class="info-box-demo regular">
+                    <p>This is just a regular aside or quote. It will be styled with a neutral gray background.</p>
                 </div>
             </section>
 

@@ -187,4 +187,4 @@ replay_pid*
 !.dev.vars.example
 .env*
 !.env.example
-.junie
+.juniescratch/

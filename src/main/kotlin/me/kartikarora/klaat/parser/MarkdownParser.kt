@@ -285,21 +285,30 @@ class MarkdownParser {
                     bChild = bChild.next
                 }
                 
-                // Determine InfoBox type based on text content
+                // Determine InfoBox type based on metadata attributes
                 var type = me.kartikarora.klaat.core.InfoBoxType.REGULAR
-                val firstNode = childNodes.firstOrNull()
-                if (firstNode is CodelabNode.Paragraph) {
-                    val firstText = firstNode.nodes.firstOrNull { it is CodelabNode.Text } as? CodelabNode.Text
-                    if (firstText != null) {
-                        val text = firstText.content.lowercase()
-                        if (text.contains("warning:") || text.contains("caution:") || text.contains("negative")) {
-                            type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
-                        } else if (text.contains("note:") || text.contains("tip:") || text.contains("positive")) {
-                            type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
+                
+                fun cleanMetadata(nodes: MutableList<CodelabNode>) {
+                    for (i in 0 until nodes.size) {
+                        val node = nodes[i]
+                        if (node is CodelabNode.Paragraph) {
+                            val pNodes = node.nodes.toMutableList()
+                            cleanMetadata(pNodes)
+                            nodes[i] = CodelabNode.Paragraph(pNodes)
+                        } else if (node is CodelabNode.Text) {
+                            val content = node.content
+                            if (content.contains("{.positive}")) {
+                                type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
+                                nodes[i] = node.copy(content = content.replace("{.positive}", "").trim())
+                            } else if (content.contains("{.negative}")) {
+                                type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
+                                nodes[i] = node.copy(content = content.replace("{.negative}", "").trim())
+                            }
                         }
                     }
                 }
                 
+                cleanMetadata(childNodes)
                 nodes.add(CodelabNode.InfoBox(type, childNodes))
             }
             is com.vladsch.flexmark.ast.Heading -> {

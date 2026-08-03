@@ -271,8 +271,9 @@ Key elements:
 - **Heading 1** - Codelab steps
 - **Heading 2-4** - Section headers within steps
 - **Two-column table** (at start) - Metadata
-- **Single-cell table (green)** - Positive info boxes
-- **Single-cell table (orange)** - Warning info boxes
+- **Single-cell table (green)** - Positive info boxes / Tips
+- **Single-cell table (orange/red)** - Negative info boxes / Warnings
+- **Single-cell table (black/light gray)** - Regular info boxes / Asides
 - **Single-cell table (Courier New)** - Code blocks
 - Duration annotations in grey text
 

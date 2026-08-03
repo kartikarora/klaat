@@ -855,9 +855,9 @@ class MarkdownParserTest {
             
             ## Step 1
             
-            > **Note:** This is a positive info box.
+            > This is a positive info box. {.positive}
             
-            > **Warning:** This is a negative info box.
+            > This is a negative info box. {.negative}
             
             > Just a regular blockquote.
         """.trimIndent()
