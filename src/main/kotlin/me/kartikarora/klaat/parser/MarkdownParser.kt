@@ -15,6 +15,7 @@ import com.vladsch.flexmark.util.ast.Document
 import com.vladsch.flexmark.util.data.MutableDataSet
 import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
+import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Step
 import java.io.File
 import java.io.InputStream
@@ -286,7 +287,7 @@ class MarkdownParser {
                 }
                 
                 // Determine InfoBox type based on metadata attributes
-                var type = me.kartikarora.klaat.core.InfoBoxType.REGULAR
+                var type = InfoBoxType.REGULAR
                 
                 fun cleanMetadata(nodes: MutableList<CodelabNode>) {
                     for (i in 0 until nodes.size) {
@@ -298,10 +299,10 @@ class MarkdownParser {
                         } else if (node is CodelabNode.Text) {
                             val content = node.content
                             if (content.contains("{.special}")) {
-                                type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
+                                type = InfoBoxType.POSITIVE
                                 nodes[i] = node.copy(content = content.replace("{.special}", "").trim())
                             } else if (content.contains("{.warning}")) {
-                                type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
+                                type = InfoBoxType.NEGATIVE
                                 nodes[i] = node.copy(content = content.replace("{.warning}", "").trim())
                             }
                         }
