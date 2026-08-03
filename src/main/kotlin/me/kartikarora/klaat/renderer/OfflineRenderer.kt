@@ -222,10 +222,13 @@ class OfflineRenderer {
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
+        if (node.type == InfoBoxType.REGULAR) {
+            return "<blockquote>${renderNodes(node.nodes)}</blockquote>"
+        }
         val cssClass = when (node.type) {
             InfoBoxType.POSITIVE -> "positive"
             InfoBoxType.NEGATIVE -> "negative"
-            InfoBoxType.REGULAR -> "special"
+            else -> ""
         }
         return """<aside class="$cssClass">${renderNodes(node.nodes)}</aside>"""
     }

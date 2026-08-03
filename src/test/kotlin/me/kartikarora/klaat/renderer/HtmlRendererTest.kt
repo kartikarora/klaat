@@ -264,7 +264,7 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<aside class=\"special\">"))
+        assertTrue(content.contains("<blockquote>Info</blockquote>"))
     }
 
     @Test

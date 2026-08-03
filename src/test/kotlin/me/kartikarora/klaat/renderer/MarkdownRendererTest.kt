@@ -253,7 +253,7 @@ class MarkdownRendererTest {
         val content = File(tempDir, "test/index.md").readText()
         assertTrue(content.contains("✅ **Note:**"))
         assertTrue(content.contains("⚠️ **Note:**"))
-        assertTrue(content.contains("ℹ️ **Note:**"))
+        assertTrue(content.contains("> Info"))
     }
 
     @Test
