@@ -21,7 +21,8 @@ repositories {
 }
 
 // Build variant configuration
-val buildVariant = project.findProperty("buildVariant")?.toString() ?: "dev"
+val isProdTask = gradle.startParameter.taskNames.any { it.equals("buildProd", ignoreCase = true) || it.equals("nativeProd", ignoreCase = true) }
+val buildVariant = if (isProdTask) "prod" else (project.findProperty("buildVariant")?.toString() ?: "dev")
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
 // VERSION_NAME is calculated entirely in CI and passed as environment variable
@@ -129,18 +130,12 @@ tasks.register("buildDev") {
     group = "build"
     description = "Build the development variant (JVM)"
     dependsOn("installDist")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "dev"
-    }
 }
 
 tasks.register("buildProd") {
     group = "build"
     description = "Build the production variant (JVM)"
     dependsOn("installDist")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "prod"
-    }
 }
 
 // Native build tasks
@@ -148,18 +143,12 @@ tasks.register("nativeDev") {
     group = "build"
     description = "Build development native binary"
     dependsOn("nativeCompile")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "dev"
-    }
 }
 
 tasks.register("nativeProd") {
     group = "build"
     description = "Build production native binary"
     dependsOn("nativeCompile")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "prod"
-    }
 }
 
 // Quick run tasks
