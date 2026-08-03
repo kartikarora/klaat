@@ -851,13 +851,18 @@ class MarkdownParserTest {
     @Test
     fun `test parse blockquote as InfoBox`() {
         val markdown = """
+            ---
+            id: test-infobox
+            summary: test
+            ---
+            
             # Title
             
             ## Step 1
             
-            > This is a positive info box. {.positive}
+            > This is a positive info box. {.special}
             
-            > This is a negative info box. {.negative}
+            > This is a negative info box. {.warning}
             
             > Just a regular blockquote.
         """.trimIndent()

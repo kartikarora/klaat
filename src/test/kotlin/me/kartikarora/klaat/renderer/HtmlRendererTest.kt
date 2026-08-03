@@ -240,7 +240,7 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<aside class=\"positive\">"))
+        assertTrue(content.contains("<aside class=\"special\">"))
     }
 
     @Test
@@ -252,7 +252,7 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<aside class=\"negative\">"))
+        assertTrue(content.contains("<aside class=\"warning\">"))
     }
 
     @Test

@@ -297,12 +297,12 @@ class MarkdownParser {
                             nodes[i] = CodelabNode.Paragraph(pNodes)
                         } else if (node is CodelabNode.Text) {
                             val content = node.content
-                            if (content.contains("{.positive}")) {
+                            if (content.contains("{.special}")) {
                                 type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
-                                nodes[i] = node.copy(content = content.replace("{.positive}", "").trim())
-                            } else if (content.contains("{.negative}")) {
+                                nodes[i] = node.copy(content = content.replace("{.special}", "").trim())
+                            } else if (content.contains("{.warning}")) {
                                 type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
-                                nodes[i] = node.copy(content = content.replace("{.negative}", "").trim())
+                                nodes[i] = node.copy(content = content.replace("{.warning}", "").trim())
                             }
                         }
                     }
