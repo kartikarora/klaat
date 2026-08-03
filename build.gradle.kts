@@ -21,8 +21,8 @@ repositories {
 }
 
 // Build variant configuration
-val isProdTask = gradle.startParameter.taskNames.any { it.equals("buildProd", ignoreCase = true) || it.equals("nativeProd", ignoreCase = true) }
-val buildVariant = if (isProdTask) "prod" else (project.findProperty("buildVariant")?.toString() ?: "dev")
+val isReleaseTask = gradle.startParameter.taskNames.any { it.equals("buildRelease", ignoreCase = true) || it.equals("nativeRelease", ignoreCase = true) }
+val buildVariant = if (isReleaseTask) "Release" else (project.findProperty("buildVariant")?.toString() ?: "dev")
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
 // VERSION_NAME is calculated entirely in CI and passed as environment variable
@@ -132,9 +132,9 @@ tasks.register("buildDev") {
     dependsOn("installDist")
 }
 
-tasks.register("buildProd") {
+tasks.register("buildRelease") {
     group = "build"
-    description = "Build the production variant (JVM)"
+    description = "Build the release variant (JVM)"
     dependsOn("installDist")
 }
 
@@ -145,9 +145,9 @@ tasks.register("nativeDev") {
     dependsOn("nativeCompile")
 }
 
-tasks.register("nativeProd") {
+tasks.register("nativeRelease") {
     group = "build"
-    description = "Build production native binary"
+    description = "Build release native binary"
     dependsOn("nativeCompile")
 }
 
