@@ -858,16 +858,19 @@ class MarkdownParserTest {
             > **Note:** This is a positive info box.
             
             > **Warning:** This is a negative info box.
+            
+            > Just a regular blockquote.
         """.trimIndent()
 
         val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
         val content = codelab.steps[0].content
         
         val infoBoxes = content.filterIsInstance<Node.InfoBox>()
-        assertEquals(2, infoBoxes.size)
+        assertEquals(3, infoBoxes.size)
         
         assertEquals(InfoBoxType.POSITIVE, infoBoxes[0].type)
         assertEquals(InfoBoxType.NEGATIVE, infoBoxes[1].type)
+        assertEquals(InfoBoxType.REGULAR, infoBoxes[2].type)
         assertTrue(infoBoxes[0].nodes.isNotEmpty())
     }
 

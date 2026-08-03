@@ -286,7 +286,7 @@ class MarkdownParser {
                 }
                 
                 // Determine InfoBox type based on text content
-                var type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
+                var type = me.kartikarora.klaat.core.InfoBoxType.REGULAR
                 val firstNode = childNodes.firstOrNull()
                 if (firstNode is CodelabNode.Paragraph) {
                     val firstText = firstNode.nodes.firstOrNull { it is CodelabNode.Text } as? CodelabNode.Text
@@ -294,6 +294,8 @@ class MarkdownParser {
                         val text = firstText.content.lowercase()
                         if (text.contains("warning:") || text.contains("caution:") || text.contains("negative")) {
                             type = me.kartikarora.klaat.core.InfoBoxType.NEGATIVE
+                        } else if (text.contains("note:") || text.contains("tip:") || text.contains("positive")) {
+                            type = me.kartikarora.klaat.core.InfoBoxType.POSITIVE
                         }
                     }
                 }
