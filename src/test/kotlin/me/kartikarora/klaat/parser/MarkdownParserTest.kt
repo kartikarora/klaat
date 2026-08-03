@@ -829,5 +829,75 @@ class MarkdownParserTest {
         assertEquals("https://example.com/img.png", images[0].src)
         assertEquals("an image", images[0].alt)
     }
-}
+    @Test
+    fun `test parse single link as button`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Download Starter Code](https://example.com/starter.zip)
+        """.trimIndent()
 
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val button = content.filterIsInstance<Node.Button>().firstOrNull()
+        assertNotNull(button)
+        assertEquals("https://example.com/starter.zip", button.url)
+        assertEquals("Download Starter Code", button.text)
+    }
+
+    @Test
+    fun `test parse blockquote as InfoBox`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            > **Note:** This is a positive info box.
+            
+            > **Warning:** This is a negative info box.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val infoBoxes = content.filterIsInstance<Node.InfoBox>()
+        assertEquals(2, infoBoxes.size)
+        
+        assertEquals(InfoBoxType.POSITIVE, infoBoxes[0].type)
+        assertEquals(InfoBoxType.NEGATIVE, infoBoxes[1].type)
+        assertTrue(infoBoxes[0].nodes.isNotEmpty())
+    }
+
+    @Test
+    fun `test parse nested flow in list`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            * Item 1
+              * Nested bullet
+              ```kotlin
+              fun main() {}
+              ```
+            * Item 2
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val list = content.filterIsInstance<Node.BulletList>().firstOrNull()
+        assertNotNull(list)
+        assertEquals(2, list.items.size)
+        
+        val firstItemNodes = list.items[0]
+        val nestedList = firstItemNodes.filterIsInstance<Node.BulletList>().firstOrNull()
+        val nestedCodeBlock = firstItemNodes.filterIsInstance<Node.CodeBlock>().firstOrNull()
+        
+        assertNotNull(nestedList)
+        assertNotNull(nestedCodeBlock)
+    }
+}
