@@ -899,5 +899,58 @@ class MarkdownParserTest {
         
         assertNotNull(nestedList)
         assertNotNull(nestedCodeBlock)
+    @Test
+    fun `test parse youtube video from link`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Watch this video](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
     }
+
+    @Test
+    fun `test parse youtube video from video tag`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            <video id="dQw4w9WgXcQ"></video>
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
+    }
+
+    @Test
+    fun `test parse youtube video from iframe tag`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="560" height="315"></iframe>
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
+    }
+}
 }

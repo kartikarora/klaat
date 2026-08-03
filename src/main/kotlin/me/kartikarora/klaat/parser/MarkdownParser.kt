@@ -266,7 +266,13 @@ class MarkdownParser {
                 
                 if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is CodelabNode.Link) {
                     val link = nonWhitespaceNodes.first() as CodelabNode.Link
-                    nodes.add(CodelabNode.Button(url = link.url, text = link.text))
+                    val youtubeRegex = Regex("^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]{11})")
+                    val match = youtubeRegex.find(link.url)
+                    if (match != null) {
+                        nodes.add(CodelabNode.YoutubeVideo(match.groupValues[1]))
+                    } else {
+                        nodes.add(CodelabNode.Button(url = link.url, text = link.text))
+                    }
                 } else if (textNodes.isNotEmpty()) {
                     nodes.add(CodelabNode.Paragraph(textNodes))
                 }
@@ -353,6 +359,14 @@ class MarkdownParser {
                     src = url,
                     alt = node.text.toString()
                 ))
+            }
+            is com.vladsch.flexmark.ast.HtmlBlock -> {
+                val html = node.chars.toString()
+                parseHtmlForMedia(html, nodes)
+            }
+            is com.vladsch.flexmark.ast.HtmlInline -> {
+                val html = node.chars.toString()
+                parseHtmlForMedia(html, nodes)
             }
             is TableBlock -> {
                 val header = mutableListOf<List<CodelabNode>>()
@@ -456,6 +470,28 @@ class MarkdownParser {
                 }
             }
             child = child.next
+        }
+    }
+
+    private fun parseHtmlForMedia(html: String, nodes: MutableList<CodelabNode>) {
+        val videoRegex = Regex("<video\\s+[^>]*id=[\"']([a-zA-Z0-9_-]{11})[\"'][^>]*>(?:<\\/video>)?", RegexOption.IGNORE_CASE)
+        var match = videoRegex.find(html)
+        if (match != null) {
+            nodes.add(CodelabNode.YoutubeVideo(match.groupValues[1]))
+            return
+        }
+
+        val iframeRegex = Regex("<iframe\\s+[^>]*src=[\"']([^\"']+)[\"'][^>]*>(?:<\\/iframe>)?", RegexOption.IGNORE_CASE)
+        match = iframeRegex.find(html)
+        if (match != null) {
+            val src = match.groupValues[1]
+            val ytMatch = Regex("youtube\\.com\\/embed\\/([a-zA-Z0-9_-]{11})").find(src)
+            if (ytMatch != null) {
+                nodes.add(CodelabNode.YoutubeVideo(ytMatch.groupValues[1]))
+            } else {
+                nodes.add(CodelabNode.IFrame(src))
+            }
+            return
         }
     }
 }
