@@ -79,6 +79,20 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
                 File(gdocsReferencesDir, "gdoc-mapping-reference.md").writeText(GDOCS_AUTHOR_MAPPING)
                 File(gdocsReferencesDir, "format-guide.md").writeText(FORMAT_GUIDE_CONTENT)
 
+                // 3. Klaat CLI Skill
+                val cliDir = File(targetDir, "klaat-cli")
+                val cliReferencesDir = File(cliDir, "references")
+                cliReferencesDir.mkdirs()
+
+                File(cliDir, "SKILL.md").writeText(CLI_SKILL)
+                File(cliReferencesDir, "export-command.md").writeText(CLI_EXPORT_REF)
+                File(cliReferencesDir, "serve-command.md").writeText(CLI_SERVE_REF)
+                File(cliReferencesDir, "update-command.md").writeText(CLI_UPDATE_REF)
+                File(cliReferencesDir, "version-command.md").writeText(CLI_VERSION_REF)
+                File(cliReferencesDir, "help-command.md").writeText(CLI_HELP_REF)
+                File(cliReferencesDir, "install-skills-command.md").writeText(CLI_INSTALL_SKILLS_REF)
+
+
                 println("✔ Installed skills in: ${targetDir.path}/")
                 installedCount++
             } catch (e: Exception) {
@@ -523,6 +537,184 @@ class InstallSkillsCommand : CliktCommand("install-skills") {
                 ```markdown
                 https://www.youtube.com/watch?v=dQw4w9WgXcQ
                 ```
+        """.trimIndent()
+ 
+        private val CLI_SKILL = """
+---
+name: klaat-cli
+description: >
+  A skill for using the `klaat` command-line tool. This skill teaches AI agents
+  how to install, execute, and use the various commands provided by Klaat.
+---
+
+# Klaat CLI
+
+This skill instructs AI agents on how to use the `klaat` binary. **This skill is for using Klaat, not for building it from source.**
+
+## Installation
+Before running `klaat`, verify if it is installed. If it is not installed, install it using Homebrew:
+
+```bash
+brew tap kartikarora/klaat
+brew install klaat
+```
+
+If you specifically need the snapshot version:
+```bash
+brew tap kartikarora/klaat-snapshots
+brew install klaat-snapshot
+```
+
+## Running the Binary
+Once installed, simply run the binary directly from the terminal:
+```bash
+klaat <command> [flags]
+```
+
+## Formatting References
+When authoring content to be used with `klaat`, always refer to the specific formatting skills to ensure proper structure and metadata:
+- For Google Docs: Use the **klaat-gdocs-author** skill (`skills/klaat-gdocs-author/SKILL.md`).
+- For Markdown: Use the **klaat-markdown-author** skill (`skills/klaat-markdown-author/SKILL.md`).
+
+## Available Commands
+
+Klaat is a drop-in replacement for the original `claat` tool and supports all standard commands.
+For detailed instructions, flags, and examples for each command, please read the corresponding reference file:
+
+- [Export Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/export-command.md): `skills/klaat-cli/references/export-command.md`
+- [Serve Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/serve-command.md): `skills/klaat-cli/references/serve-command.md`
+- [Update Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/update-command.md): `skills/klaat-cli/references/update-command.md`
+- [Version Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/version-command.md): `skills/klaat-cli/references/version-command.md`
+- [Help Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/help-command.md): `skills/klaat-cli/references/help-command.md`
+- [Install Skills Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/install-skills-command.md): `skills/klaat-cli/references/install-skills-command.md`
+
+        """.trimIndent()
+
+        private val CLI_EXPORT_REF = """
+# Klaat Export Command
+
+The `export` command converts a source document (Google Docs ID or Markdown file path) into a Codelab format.
+
+## Usage
+`klaat export <targets> [flags]`
+
+## Targets
+Space-separated list of Google Doc IDs or Markdown file paths to export.
+
+## Flags
+
+- `-f` : Output format. Choices: `html`, `md`, `offline`. Default is `html`.
+- `-o` : Output directory. Default is current directory (`.`).
+- `-ga` : Global Google Analytics tracking ID. Default is `UA-49880327-14`.
+- `-prefix` : URL prefix for assets. Default is `https://distribute.kartikarora.me`.
+- `-e` : Environment to use for the codelab. Default is `web`.
+- `-auth` : OAuth2 token to use for authentication (Google Docs).
+- `-extra` : Additional metadata in JSON format (e.g. `{"key1":"value1"}`).
+- `-pass_metadata` : Comma-delimited list of metadata fields to pass through to the output.
+- `-css` : Custom CSS file or URL to use.
+- `-favicon` : Custom favicon URL or path to use.
+- `-fonts` : Google Fonts URL to load additional fonts (e.g. `https://fonts.googleapis.com/css2?family=Inter`).
+
+## Examples
+```bash
+klaat export -f html -o out/ 1a2b3c4d5e6f7g8h9i0j
+klaat export -f md my-codelab.md
+```
+
+        """.trimIndent()
+
+        private val CLI_SERVE_REF = """
+# Klaat Serve Command
+
+The `serve` command starts a local web server to preview generated Codelabs locally.
+
+## Usage
+`klaat serve [flags]`
+
+## Flags
+
+- `-addr` : `hostname:port` to bind the server to. Default is `localhost:9090`.
+- `-d` or `--dir` : Directory to serve the files from. Default is the current directory (`.`).
+- `--no-browser` : Prevents the tool from automatically opening the browser to preview the codelabs.
+
+## Examples
+```bash
+klaat serve -addr localhost:8080 -d out/
+klaat serve --no-browser
+```
+
+        """.trimIndent()
+
+        private val CLI_UPDATE_REF = """
+# Klaat Update Command
+
+The `update` command updates existing Codelabs within a directory. It will read the metadata from existing generated output and attempt to fetch the latest changes from the original source.
+
+## Usage
+`klaat update [flags]`
+
+## Flags
+The `update` command accepts the same flags as `export`, which apply to any Codelabs updated during the run.
+- `-auth` : OAuth2 token to use for authentication (Google Docs).
+- `-prefix` : URL prefix for assets. Default is `https://distribute.kartikarora.me`.
+- `-ga` : Global Google Analytics tracking ID. Default is `UA-49880327-14`.
+
+## Examples
+```bash
+klaat update
+```
+
+        """.trimIndent()
+
+        private val CLI_VERSION_REF = """
+# Klaat Version Command
+
+The `version` command prints the current version of the Klaat CLI installed on the system.
+
+## Usage
+`klaat version`
+
+## Output Example
+```
+klaat version 1.2.3
+```
+
+        """.trimIndent()
+
+        private val CLI_HELP_REF = """
+# Klaat Help Command
+
+The `help` command displays usage instructions and lists all available commands for the Klaat CLI.
+
+## Usage
+`klaat help`
+or
+`klaat -h`
+or
+`klaat --help`
+
+To get help for a specific command, you can append `--help` or `-h` to the command name:
+`klaat export -h`
+
+        """.trimIndent()
+
+        private val CLI_INSTALL_SKILLS_REF = """
+# Klaat Install-Skills Command
+
+The `install-skills` command installs Klaat's AI formatting skills into your active agent workspaces (e.g. Antigravity `.agents` folder, or `skills` folder). This enables AI assistants to natively understand how to structure, format, and generate Klaat-compatible Codelabs.
+
+## Usage
+`klaat install-skills [flags]`
+
+## Flags
+- `-g`, `--global` : Install the skills to the global user directory instead of the local project directory.
+
+## Examples
+```bash
+klaat install-skills
+klaat install-skills --global
+```
+
         """.trimIndent()
     }
 }
