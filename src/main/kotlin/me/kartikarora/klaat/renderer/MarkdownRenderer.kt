@@ -136,14 +136,15 @@ class MarkdownRenderer {
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
-        if (node.type == InfoBoxType.REGULAR) {
+        if (node.type == InfoBoxType.DEFAULT) {
             val content = renderStepContent(node.nodes)
             return content.split("\n").joinToString("\n") { "> $it" }
         }
         val prefix = when (node.type) {
+            InfoBoxType.SPECIAL -> "💡"
+            InfoBoxType.WARNING -> "⚠️"
             InfoBoxType.POSITIVE -> "✅"
-            InfoBoxType.NEGATIVE -> "⚠️"
-            else -> ""
+            InfoBoxType.CRITICAL -> "❌"
         }
         return "$prefix **Note:** ${renderStepContent(node.nodes)}"
     }

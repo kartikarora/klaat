@@ -873,9 +873,9 @@ class MarkdownParserTest {
         val infoBoxes = content.filterIsInstance<Node.InfoBox>()
         assertEquals(3, infoBoxes.size)
         
-        assertEquals(InfoBoxType.POSITIVE, infoBoxes[0].type)
-        assertEquals(InfoBoxType.NEGATIVE, infoBoxes[1].type)
-        assertEquals(InfoBoxType.REGULAR, infoBoxes[2].type)
+        assertEquals(InfoBoxType.SPECIAL, infoBoxes[0].type)
+        assertEquals(InfoBoxType.WARNING, infoBoxes[1].type)
+        assertEquals(InfoBoxType.DEFAULT, infoBoxes[2].type)
         assertTrue(infoBoxes[0].nodes.isNotEmpty())
     }
 

@@ -304,7 +304,7 @@ class MarkdownParser {
                 }
                 
                 // Determine InfoBox type based on metadata attributes
-                var type = InfoBoxType.REGULAR
+                var type = InfoBoxType.DEFAULT
                 
                 fun cleanMetadata(nodes: MutableList<KlaatNode>) {
                     for (i in 0 until nodes.size) {
@@ -316,11 +316,17 @@ class MarkdownParser {
                         } else if (node is KlaatNode.Text) {
                             val content = node.content
                             if (content.contains("{.special}")) {
-                                type = InfoBoxType.POSITIVE
+                                type = InfoBoxType.SPECIAL
                                 nodes[i] = node.copy(content = content.replace("{.special}", "").trim())
                             } else if (content.contains("{.warning}")) {
-                                type = InfoBoxType.NEGATIVE
+                                type = InfoBoxType.WARNING
                                 nodes[i] = node.copy(content = content.replace("{.warning}", "").trim())
+                            } else if (content.contains("{.critical}")) {
+                                type = InfoBoxType.CRITICAL
+                                nodes[i] = node.copy(content = content.replace("{.critical}", "").trim())
+                            } else if (content.contains("{.positive}")) {
+                                type = InfoBoxType.POSITIVE
+                                nodes[i] = node.copy(content = content.replace("{.positive}", "").trim())
                             }
                         }
                     }

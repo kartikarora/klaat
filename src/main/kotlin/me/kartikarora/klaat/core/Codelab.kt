@@ -60,7 +60,9 @@ sealed class Node {
 }
 
 enum class InfoBoxType {
-    POSITIVE,  // Green - tips, best practices
-    NEGATIVE,  // Orange - warnings, restrictions
-    REGULAR    // Default
+    POSITIVE,  // Green - tips, best practices (Google Docs) (Klaat Markdown {.positive})
+    WARNING,  // Orange - warnings, restrictions (Google Docs) (Klaat Markdown {.warning})
+    SPECIAL,   // Blue - tips, supplementary info (Klaat Markdown {.special})
+    CRITICAL,  // Red - mistakes, breaking changes (Klaat Markdown {.critical})
+    DEFAULT    // Default
 }

@@ -242,8 +242,8 @@ class MarkdownRendererTest {
     @Test
     fun `test render info boxes`() {
         val positive = Node.InfoBox(InfoBoxType.POSITIVE, listOf(Node.Text("Tip")))
-        val negative = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
-        val regular = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+        val negative = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
+        val regular = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
 
         val step = Step("Test", listOf(positive, negative, regular))
         val codelab = Codelab("test", "Title", steps = listOf(step))

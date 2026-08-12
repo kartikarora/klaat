@@ -395,31 +395,47 @@ fun main() = println("Hello!")
                 <h2>Special (Info/Tips)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.special}</code> metadata tag:</p>
                 <div class="code-container">
-                    <pre><code class="language-markdown">> This is a tip! {.special}
-> Nest markdown features like `code` inside.</code></pre>
+                    <pre><code class="language-markdown">> This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details. {.special}</code></pre>
                 </div>
                 <div class="info-box-demo special">
-                    <p>This is a tip! Nest markdown features like <code>code</code> inside.</p>
+                    <p>This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details.</p>
                 </div>
 
                 <h2>Warning (Warnings/Alerts)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.warning}</code> metadata tag:</p>
                 <div class="code-container">
-                    <pre><code class="language-markdown">> Security threat! {.warning}
-> Do not expose private keys.</code></pre>
+                    <pre><code class="language-markdown">> Be careful! "Warning" infoboxes are for important information that the user must not miss. {.warning}</code></pre>
                 </div>
                 <div class="info-box-demo warning">
-                    <p>Security threat! Do not expose private keys.</p>
+                    <p>Be careful! "Warning" infoboxes are for important information that the user must not miss.</p>
                 </div>
 
-                <h2>Regular (Aside)</h2>
+                <h2>Critical (Errors)</h2>
+                <p>Created in markdown using a blockquote block containing the <code>{.critical}</code> metadata tag:</p>
+                <div class="code-container">
+                    <pre><code class="language-markdown">> Do not hardcode credentials in your source code! {.critical}</code></pre>
+                </div>
+                <div class="info-box-demo warning">
+                    <p>Do not hardcode credentials in your source code!</p>
+                </div>
+
+                <h2>Positive (Success)</h2>
+                <p>Created in markdown using a blockquote block containing the <code>{.positive}</code> metadata tag:</p>
+                <div class="code-container">
+                    <pre><code class="language-markdown">> Congratulations! Your application is now running successfully. {.positive}</code></pre>
+                </div>
+                <div class="info-box-demo positive">
+                    <p>Congratulations! Your application is now running successfully.</p>
+                </div>
+
+                <h2>Default</h2>
                 <p>Created in markdown using any other blockquote block without the specific metadata tags:</p>
                 <div class="code-container">
-                    <pre><code class="language-markdown">> This is just a regular aside or quote.
+                    <pre><code class="language-markdown">> This is just a default aside or quote.
 > It will be styled with a neutral gray background.</code></pre>
                 </div>
-                <div class="info-box-demo regular">
-                    <p>This is just a regular aside or quote. It will be styled with a neutral gray background.</p>
+                <div class="info-box-demo default">
+                    <p>This is just a default aside or quote. It will be styled with a neutral gray background.</p>
                 </div>
             </section>
 

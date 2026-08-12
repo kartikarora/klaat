@@ -79,6 +79,7 @@ class OfflineRenderer {
         // Copy assets from resources
         val assetFiles = listOf(
             "codelab-elements.css",
+            "klaat-custom.css",
             "codelab-elements.js",
             "custom-elements.min.js",
             "native-shim.js",
@@ -223,13 +224,12 @@ class OfflineRenderer {
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
-        if (node.type == InfoBoxType.REGULAR) {
-            return "<blockquote>${renderNodes(node.nodes)}</blockquote>"
-        }
         val cssClass = when (node.type) {
+            InfoBoxType.SPECIAL -> "special"
+            InfoBoxType.WARNING -> "warning"
             InfoBoxType.POSITIVE -> "positive"
-            InfoBoxType.NEGATIVE -> "negative"
-            else -> ""
+            InfoBoxType.CRITICAL -> "critical"
+            else -> "default"
         }
         return """<aside class="$cssClass">${renderNodes(node.nodes)}</aside>"""
     }

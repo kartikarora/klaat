@@ -1,0 +1,32 @@
+/* Klaat Custom Styles */
+
+/* Blue .special infobox — overrides codelab-elements.css green */
+google-codelab:not([theme="minimal"]) google-codelab-step .instructions aside.special {
+    border-color: #1A73E8 !important;
+    background: #E8F0FE !important;
+    color: #212124 !important;
+}
+
+/* Red .critical infobox */
+google-codelab:not([theme="minimal"]) google-codelab-step .instructions aside.critical {
+    border-color: #D93025 !important;
+    background: #FCE8E6 !important;
+    color: #212124 !important;
+}
+
+/* Green .positive infobox */
+google-codelab:not([theme="minimal"]) google-codelab-step .instructions aside.positive {
+    border-color: #1E8E3E !important;
+    background: #E6F4EA !important;
+    color: #212124 !important;
+}
+
+/* Light grey default blockquote */
+google-codelab:not([theme="minimal"]) google-codelab-step .instructions aside.default {
+    border-left: 4px solid #808080 !important;
+    background: #F1F3F4 !important;
+    padding: 0.5em 1em !important;
+    margin: 2em 0 !important;
+    border-radius: 4px !important;
+    color: #212124 !important;
+}

@@ -284,16 +284,26 @@ body {
 }
 
 .info-box-demo.special {
-    background: rgba(76, 175, 80, 0.08);
-    border-left-color: #4caf50;
+    border-left-color: #1A73E8;
+    background: #E8F0FE;
 }
 
 .info-box-demo.warning {
-    background: rgba(244, 67, 54, 0.08);
-    border-left-color: #f44336;
+    background: #FEF7E0;
+    border-left-color: #EA8600;
 }
 
-.info-box-demo.regular {
+.info-box-demo.critical {
+    background: #FCE8E6;
+    border-left-color: #D93025;
+}
+
+.info-box-demo.positive {
+    background: #E6F4EA;
+    border-left-color: #1E8E3E;
+}
+
+.info-box-demo.default {
     background: rgba(158, 158, 158, 0.08);
     border-left-color: #9e9e9e;
 }

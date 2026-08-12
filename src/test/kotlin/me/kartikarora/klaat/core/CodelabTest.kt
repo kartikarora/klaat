@@ -148,12 +148,12 @@ class CodelabTest {
     @Test
     fun `test Node InfoBox types`() {
         val positive = Node.InfoBox(InfoBoxType.POSITIVE, listOf(Node.Text("Tip")))
-        val negative = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
-        val regular = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+        val negative = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
+        val regular = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
 
         assertEquals(InfoBoxType.POSITIVE, positive.type)
-        assertEquals(InfoBoxType.NEGATIVE, negative.type)
-        assertEquals(InfoBoxType.REGULAR, regular.type)
+        assertEquals(InfoBoxType.WARNING, negative.type)
+        assertEquals(InfoBoxType.DEFAULT, regular.type)
     }
 
     @Test

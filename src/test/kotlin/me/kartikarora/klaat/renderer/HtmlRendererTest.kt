@@ -240,12 +240,12 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<aside class=\"special\">"))
+        assertTrue(content.contains("<aside class=\"positive\">"))
     }
 
     @Test
     fun `test render negative info box`() {
-        val infoBox = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
+        val infoBox = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
         val step = Step("Test", listOf(infoBox))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
@@ -257,14 +257,14 @@ class HtmlRendererTest {
 
     @Test
     fun `test render regular info box`() {
-        val infoBox = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+        val infoBox = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
         val step = Step("Test", listOf(infoBox))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<blockquote>Info</blockquote>"))
+        assertTrue(content.contains("<aside class=\"default\">Info</aside>"))
     }
 
     @Test
