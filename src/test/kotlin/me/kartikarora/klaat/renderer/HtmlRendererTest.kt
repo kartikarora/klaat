@@ -244,7 +244,31 @@ class HtmlRendererTest {
     }
 
     @Test
-    fun `test render negative info box`() {
+    fun `test render special info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.SPECIAL, listOf(Node.Text("Tip")))
+        val step = Step("Test", listOf(infoBox))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<aside class=\"special\">"))
+    }
+
+    @Test
+    fun `test render critical info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.CRITICAL, listOf(Node.Text("Alert")))
+        val step = Step("Test", listOf(infoBox))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<aside class=\"critical\">"))
+    }
+
+    @Test
+    fun `test render warning info box`() {
         val infoBox = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
         val step = Step("Test", listOf(infoBox))
         val codelab = Codelab("test", "Title", steps = listOf(step))

@@ -860,9 +860,13 @@ class MarkdownParserTest {
             
             ## Step 1
             
-            > This is a positive info box. {.special}
+            > This is a special info box. {.special}
             
-            > This is a negative info box. {.warning}
+            > This is a critical info box. {.critical}
+            
+            > This is a positive info box. {.positive}
+            
+            > This is a warning info box. {.warning}
             
             > Just a regular blockquote.
         """.trimIndent()
@@ -871,11 +875,13 @@ class MarkdownParserTest {
         val content = codelab.steps[0].content
         
         val infoBoxes = content.filterIsInstance<Node.InfoBox>()
-        assertEquals(3, infoBoxes.size)
+        assertEquals(5, infoBoxes.size)
         
         assertEquals(InfoBoxType.SPECIAL, infoBoxes[0].type)
-        assertEquals(InfoBoxType.WARNING, infoBoxes[1].type)
-        assertEquals(InfoBoxType.DEFAULT, infoBoxes[2].type)
+        assertEquals(InfoBoxType.CRITICAL, infoBoxes[1].type)
+        assertEquals(InfoBoxType.POSITIVE, infoBoxes[2].type)
+        assertEquals(InfoBoxType.WARNING, infoBoxes[3].type)
+        assertEquals(InfoBoxType.DEFAULT, infoBoxes[4].type)
         assertTrue(infoBoxes[0].nodes.isNotEmpty())
     }
 
