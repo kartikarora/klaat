@@ -38,3 +38,45 @@ aside.default {
     border-radius: 4px !important;
     color: #212124 !important;
 }
+
+/* Code container and copy button */
+.code-container {
+    position: relative;
+}
+
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #333;
+}
+
+.copy-button .material-icons {
+    font-size: 16px;
+}
+
+.code-container:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: #fff;
+}
+
+code, pre, .prettyprint, code[class*="lang-"], pre[class*="lang-"],
+google-codelab-step code, google-codelab-step pre,
+.step__body code, .step__body pre {
+    font-family: 'JetBrains Mono', monospace !important;
+}

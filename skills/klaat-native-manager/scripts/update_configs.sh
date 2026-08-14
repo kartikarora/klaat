@@ -2,11 +2,11 @@
 set -e
 
 # Script to automate GraalVM native-image configuration generation for Klaat.
-# This runs the application with the tracing agent across all major features.
+# Runs the application with the tracing agent across all major commands, formats, and edge cases.
 
 echo "🚀 Starting GraalVM Tracing Agent for Klaat..."
 
-# 1. Clean and build the project first
+# 1. Clean and build the JVM development distribution first
 ./gradlew clean buildDev
 
 # Define executable path for dynamic command discovery
@@ -33,14 +33,18 @@ mkdir -p build/agent-test-output
 
 echo "📝 Running export (Markdown to HTML)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f html"
+./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f html"
+./gradlew -Pagent run --args="export examples/comprehensive-example.md -o build/agent-test-output -f html"
 
 echo "📝 Running export (Markdown to MD)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f md"
+./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f md"
 
 echo "📝 Running export (Markdown to Offline)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f offline"
+./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f offline"
 
-# Serve command needs to be run and then stopped
+# Serve command needs to be run and then stopped cleanly
 echo "🌐 Running serve command (briefly)..."
 # Use a custom port to avoid conflicts
 ./gradlew -Pagent run --args="serve -d examples -addr localhost:9876 --no-browser" &
@@ -78,5 +82,8 @@ echo "📝 Running update (non-existent folder)..."
 echo "📂 Copying agent metadata to resources..."
 ./gradlew metadataCopy --task run
 
+# 6. Clean up temporary agent lock files
+find src/main/resources/META-INF/native-image/ -name "*.lock" -type f -delete 2>/dev/null || true
+
 echo "✨ Native image configurations updated in src/main/resources/META-INF/native-image/"
-echo "🛠️ You can now build the native binary with: ./gradlew nativeCompile"
+echo "🛠️ You can now build the native binary with: ./gradlew nativeCompile or ./gradlew nativeRelease"
