@@ -392,8 +392,8 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("paper-button"))
-        assertTrue(content.contains("file-download"))
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("download"))
         assertTrue(content.contains("Download"))
     }
 
@@ -406,9 +406,9 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("google-codelab-survey"))
+        assertTrue(content.contains("klaat-kodelab-survey"))
         assertTrue(content.contains("What do you think?"))
-        assertTrue(content.contains("paper-radio-button"))
+        assertTrue(content.contains("klaat-radio-label"))
         assertTrue(content.contains("Great"))
         assertTrue(content.contains("Good"))
     }
@@ -595,7 +595,7 @@ class HtmlRendererTest {
         val content = File(tempDir, "test/index.html").readText()
         assertTrue(content.contains("<div class=\"code-container\">"))
         assertTrue(content.contains("<button type=\"button\" class=\"copy-button\""))
-        assertTrue(content.contains("<span class=\"material-icons\">content_copy</span>"))
+        assertTrue(content.contains("<span class=\"material-symbols-outlined\">content_copy</span>"))
         assertTrue(content.contains("<span>Copy</span>"))
         assertTrue(content.contains("copyToClipboard(this)"))
     }
@@ -678,6 +678,15 @@ class HtmlRendererTest {
         assertFalse(content.contains("<th>None</th>").not()) // th for "None" exists without style
     }
 
+    @Test
+    fun `test render default brand fonts includes Space Grotesk`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("family=Space+Grotesk"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",
@@ -688,3 +697,4 @@ class HtmlRendererTest {
         )
     }
 }
+

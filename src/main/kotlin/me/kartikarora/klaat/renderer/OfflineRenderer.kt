@@ -117,7 +117,7 @@ class OfflineRenderer {
         favicon: String?,
         googleFonts: String?
     ): String {
-        val template = freemarkerConfig.getTemplate("codelab-offline.html")
+        val template = freemarkerConfig.getTemplate("kodelab-offline.html")
 
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -241,21 +241,21 @@ class OfflineRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val downloadIcon = if (node.download) """<iron-icon icon="file-download"></iron-icon>""" else ""
-        return """<paper-button class="colored" raised>$downloadIcon<a href="${escape(node.url)}">${escape(node.text)}</a></paper-button>"""
+        val downloadIcon = if (node.download) """<span class="material-symbols-outlined">download</span>""" else ""
+        return """<a class="klaat-button klaat-button--colored" href="${escape(node.url)}" target="_blank">$downloadIcon${escape(node.text)}</a>"""
     }
 
     private fun renderSurvey(node: Node.Survey): String {
         val options = node.options.joinToString("\n") { option ->
-            """<paper-radio-button>${escape(option)}</paper-radio-button>"""
+            """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${escape(option)}</label>"""
         }
         return """
-<google-codelab-survey survey-id="survey-${node.question.hashCode()}">
+<klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
 <h4>${escape(node.question)}</h4>
-<paper-radio-group>
+<div class="klaat-radio-group">
 $options
-</paper-radio-group>
-</google-codelab-survey>""".trimIndent()
+</div>
+</klaat-kodelab-survey>""".trimIndent()
     }
 
     private fun renderFAQ(node: Node.FAQ): String {

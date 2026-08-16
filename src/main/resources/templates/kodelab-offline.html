@@ -7,10 +7,7 @@
   <title>${title?html}</title>
   <#if googleFonts?has_content>
   <link rel="stylesheet" href="${googleFonts}">
-  <#else>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap">
   </#if>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <#if favicon?has_content>
   <link rel="icon" href="${favicon}">
   </#if>
@@ -20,13 +17,80 @@
   <script src="${prefix}/klaat-bridge.js?timestamp=${timestamp}"></script>
   </#if>
   <style>
+    /* ─── Brand tokens (inlined — offline safe) ──────────────────────────────
+       Mirrors kartikarora.1.7.0.css variables so var(--*) refs resolve
+       without any CDN dependency.
+    ──────────────────────────────────────────────────────────────────────── */
+    :root {
+      /* Fonts — system stack fallbacks (no CDN) */
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+      /* Light mode */
+      --primary:      #0d1117;
+      --secondary:    #57606a;
+      --tertiary:     #8c959f;
+      --muted:        #afb8c1;
+      --accent:       #0066cc;
+      --accent-hover: #0052a3;
+      --bg:           #ffffff;
+      --bg-alt:       #f6f8fa;
+      --card:         #ffffff;
+      --border:       #d0d7de;
+      --shadow:       rgba(140, 149, 159, 0.15);
+      --glow:         rgba(0, 102, 204, 0.15);
+
+      /* Aside semantic tokens — light */
+      --aside-info-border:    #1A73E8;
+      --aside-info-bg:        #E8F0FE;
+      --aside-warn-border:    #D93025;
+      --aside-warn-bg:        #FCE8E6;
+      --aside-ok-border:      #1E8E3E;
+      --aside-ok-bg:          #E6F4EA;
+      --aside-neutral-border: #808080;
+      --aside-neutral-bg:     #F1F3F4;
+      --aside-text:           #212124;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Dark mode */
+        --primary:      #e6edf3;
+        --secondary:    #8b949e;
+        --tertiary:     #484f58;
+        --muted:        #30363d;
+        --accent:       #0099ff;
+        --accent-hover: #33aaff;
+        --bg:           #0d1117;
+        --bg-alt:       #161b22;
+        --card:         #161b22;
+        --border:       #30363d;
+        --shadow:       rgba(0, 0, 0, 0.5);
+        --glow:         rgba(0, 153, 255, 0.2);
+
+        /* Aside semantic tokens — dark */
+        --aside-info-border:    #4da6ff;
+        --aside-info-bg:        rgba(0, 153, 255, 0.12);
+        --aside-warn-border:    #ff6b6b;
+        --aside-warn-bg:        rgba(217, 48, 37, 0.12);
+        --aside-ok-border:      #4caf50;
+        --aside-ok-bg:          rgba(30, 142, 62, 0.12);
+        --aside-neutral-border: #484f58;
+        --aside-neutral-bg:     rgba(139, 148, 158, 0.1);
+        --aside-text:           #e6edf3;
+      }
+    }
+
+
     html {
       height: 100%;
       margin: 0;
       padding: 0;
     }
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--primary);
       margin: 0;
       padding: 0;
     }
@@ -36,28 +100,28 @@
     }
     .codelab__toc {
       width: 250px;
-      background: #f5f5f5;
+      background: var(--bg-alt);
       overflow-y: auto;
-      border-right: 1px solid #ddd;
+      border-right: 1px solid var(--border);
     }
     .toc-item {
       display: block;
       padding: 12px 16px;
       text-decoration: none;
-      color: #333;
+      color: var(--primary);
       border-left: 3px solid transparent;
       transition: all 0.2s;
     }
     .toc-item:hover {
-      background: #e8e8e8;
+      background: var(--bg-alt);
     }
     .toc-item--current {
-      background: #fff;
-      border-left-color: #4285f4;
+      background: var(--card);
+      border-left-color: var(--accent);
       font-weight: 500;
     }
     .toc-item--complete {
-      color: #4285f4;
+      color: var(--accent);
     }
     .toc-item__index {
       display: inline-block;
@@ -77,9 +141,9 @@
       display: flex;
       align-items: center;
       padding: 16px;
-      background: #4285f4;
+      background: var(--accent);
       color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px var(--shadow);
     }
     .step__header h1 {
       flex: 1;
@@ -120,7 +184,7 @@
     .step__body h2 {
       font-size: 24px;
       font-weight: 400;
-      color: #4285f4;
+      color: var(--accent);
       margin-top: 32px;
       margin-bottom: 16px;
     }
@@ -135,15 +199,16 @@
       margin-bottom: 16px;
     }
     .step__body code {
-      background: #f5f5f5;
+      background: var(--bg-alt);
       padding: 2px 6px;
       border-radius: 3px;
-      font-family: 'Roboto Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 0.9em;
     }
     .step__body pre {
-      background: #263238;
-      color: #fff;
+      background: var(--bg-alt);
+      color: var(--primary);
+      border: 1px solid var(--border);
       padding: 16px;
       border-radius: 4px;
       overflow-x: auto;
@@ -152,7 +217,7 @@
     .step__body pre code {
       background: transparent;
       padding: 0;
-      color: #fff;
+      color: inherit;
     }
     .step__body ul, .step__body ol {
       line-height: 1.6;
@@ -173,24 +238,27 @@
       border-radius: 4px;
     }
     .step__body aside.special {
-      background: #E8F0FE;
-      border-color: #1A73E8;
+      background: var(--aside-info-bg);
+      border-color: var(--aside-info-border);
+      color: var(--aside-text);
     }
     .step__body aside.critical {
-      background: #FCE8E6;
-      border-color: #D93025;
+      background: var(--aside-warn-bg);
+      border-color: var(--aside-warn-border);
+      color: var(--aside-text);
     }
     .step__body aside.positive {
-      background: #E6F4EA;
-      border-color: #1E8E3E;
+      background: var(--aside-ok-bg);
+      border-color: var(--aside-ok-border);
+      color: var(--aside-text);
     }
     .step__body aside.default {
-      border-left: 4px solid #F1F3F4;
-      background: #808080;
+      border-left: 4px solid var(--aside-neutral-border);
+      background: var(--aside-neutral-bg);
       padding: 0.5em 1em;
       margin: 2em 0;
       border-radius: 4px;
-      color: #212124;
+      color: var(--aside-text);
     }
     .step__body .youtube-video {
       width: 100%;
@@ -199,7 +267,7 @@
       margin: 16px 0;
     }
     .step__body a {
-      color: #4285f4;
+      color: var(--accent);
       text-decoration: none;
     }
     .step__body a:hover {
@@ -213,8 +281,8 @@
       top: 8px;
       right: 8px;
       padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid #ccc;
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 4px;
       cursor: pointer;
       font-size: 12px;
@@ -224,19 +292,20 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      color: #333;
+      color: var(--primary);
     }
-    .copy-button .material-icons {
+    .copy-button .material-symbols-outlined {
       font-size: 16px;
     }
     .code-container:hover .copy-button {
       opacity: 1;
     }
     .copy-button:hover {
-      background: #fff;
+      background: var(--bg);
     }
   </style>
 </head>
+
 
 <body class="codelab-takeover">
   <script>
@@ -350,7 +419,6 @@
         var param = parts[i].split('=');
         if (param[0] === 'viewga') {
           gaView = param[1];
-          break;
         }
       }
       if (gaView && gaView !== gaCodelab) {

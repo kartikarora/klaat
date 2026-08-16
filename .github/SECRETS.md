@@ -43,11 +43,19 @@ This document lists all the secrets that need to be configured in the GitHub rep
 - **Example**: `klaat-releases`
 
 #### `CDN_URL`
-- **Description**: Public CDN URL where binaries can be downloaded (R2 bucket with custom domain)
+- **Description**: Public CDN URL where binaries and web assets can be downloaded (R2 bucket with custom domain)
 - **How to get**:
   - Set up custom domain for your R2 bucket in Cloudflare
   - Or use R2.dev subdomain
-- **Example**: `https://cdn.yourdomain.com` or `https://pub-abc123.r2.dev`
+- **Example**: `https://distribute.kartikarora.me`
+
+#### `CLOUDFLARE_ZONE_ID` *(Optional, for cache purge)*
+- **Description**: Cloudflare Zone ID for the domain hosting CDN assets
+- **How to get**: Cloudflare Dashboard → Select Domain (`kartikarora.me`) → Overview (bottom right sidebar)
+
+#### `CLOUDFLARE_API_TOKEN` *(Optional, for cache purge)*
+- **Description**: Cloudflare API token with `Zone:Cache Purge:Purge` permission
+- **How to get**: Cloudflare Dashboard → My Profile → API Tokens → Create Token → Custom token with Zone > Cache Purge > Purge permissions
 
 ---
 

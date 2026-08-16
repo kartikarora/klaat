@@ -61,12 +61,8 @@ class HtmlRenderer {
 
         // Copy assets from resources
         val assetFiles = listOf(
-            "codelab-elements.css",
-            "klaat-custom.css",
-            "codelab-elements.js",
-            "custom-elements.min.js",
-            "native-shim.js",
-            "prettify.js",
+            "klaat-elements.css",
+            "klaat-elements.js",
             "klaat-bridge.js"
         )
 
@@ -89,7 +85,7 @@ class HtmlRenderer {
     }
 
     private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?, googleFonts: String?): String {
-        val template = freemarkerConfig.getTemplate("codelab.html")
+        val template = freemarkerConfig.getTemplate("kodelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
             "id" to codelab.id,
@@ -195,7 +191,7 @@ class HtmlRenderer {
         val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
         val codeContent = escape(node.code)
 
-        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-icons">content_copy</span><span>Copy</span></button></div>"""
+        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
@@ -216,21 +212,21 @@ class HtmlRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val downloadIcon = if (node.download) """<iron-icon icon="file-download"></iron-icon>""" else ""
-        return """<paper-button class="colored" raised>$downloadIcon<a href="${escape(node.url)}">${escape(node.text)}</a></paper-button>"""
+        val downloadIcon = if (node.download) """<span class="material-symbols-outlined">download</span>""" else ""
+        return """<a class="klaat-button klaat-button--colored" href="${escape(node.url)}" target="_blank">$downloadIcon${escape(node.text)}</a>"""
     }
 
     private fun renderSurvey(node: Node.Survey): String {
         val options = node.options.joinToString("\n") { option ->
-            """<paper-radio-button>${escape(option)}</paper-radio-button>"""
+            """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${escape(option)}</label>"""
         }
         return """
-<google-codelab-survey survey-id="survey-${node.question.hashCode()}">
+<klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
 <h4>${escape(node.question)}</h4>
-<paper-radio-group>
+<div class="klaat-radio-group">
 $options
-</paper-radio-group>
-</google-codelab-survey>""".trimIndent()
+</div>
+</klaat-kodelab-survey>""".trimIndent()
     }
 
     private fun renderFAQ(node: Node.FAQ): String {

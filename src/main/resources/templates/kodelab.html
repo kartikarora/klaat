@@ -2,25 +2,36 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <meta name="theme-color" content="#4F7DC9">
   <meta charset="UTF-8">
   <title>${title?html}</title>
+
+  <!-- Brand Identity CSS (provides all CSS tokens + light/dark mode) -->
+  <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css">
+
+  <!-- Brand Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <#if googleFonts?has_content>
   <link rel="stylesheet" href="${googleFonts}">
   <#else>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   </#if>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Brand Interaction JS -->
+  <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js"></script>
+
   <#if favicon?has_content>
   <link rel="icon" href="${favicon}">
   </#if>
-  <link rel="stylesheet" href="${cssPrefix}/codelab-elements.css">
-  <link rel="stylesheet" href="${cssPrefix}/klaat-custom.css">
+
+  <!-- Klaat element styles (layout + component tokens, built on brand CSS vars) -->
+  <link rel="stylesheet" href="${cssPrefix}/klaat-elements.css">
   <#if customCssUrl?has_content>
   <link rel="stylesheet" href="${customCssUrl}">
   <script src="${jsPrefix}/klaat-bridge.js?timestamp=${timestamp}"></script>
   </#if>
 </head>
+
 <body>
   <script>
     function copyToClipboard(button) {
@@ -66,24 +77,22 @@
       }, 2000);
     }
   </script>
-  <google-codelab-analytics gaid="${globalGA}"></google-codelab-analytics>
-  <google-codelab codelab-gaid="${codelabGA}"
+
+  <klaat-kodelab-analytics gaid="${globalGA}"></klaat-kodelab-analytics>
+  <klaat-kodelab codelab-gaid="${codelabGA}"
                   id="${id?html}"
                   title="${title?html}"
                   environment="${environment}"
                   feedback-link="${feedbackLink}">
 <#list steps as step>
-    <google-codelab-step label="${step.title?html}"<#if step.hasDuration> duration="${step.duration}"</#if>>
+    <klaat-kodelab-step label="${step.title?html}"<#if step.hasDuration> duration="${step.duration}"</#if>>
       ${step.content}
-    </google-codelab-step>
+    </klaat-kodelab-step>
 </#list>
-  </google-codelab>
+  </klaat-kodelab>
 
-  <script src="${jsPrefix}/native-shim.js"></script>
-  <script src="${jsPrefix}/custom-elements.min.js"></script>
-  <script src="${jsPrefix}/prettify.js"></script>
-  <script src="${jsPrefix}/codelab-elements.js"></script>
-  <script src="//support.google.com/inapp/api.js"></script>
+  <!-- Klaat custom elements (replaces google's codelab-elements.js) -->
+  <script src="${jsPrefix}/klaat-elements.js"></script>
 
 </body>
 </html>

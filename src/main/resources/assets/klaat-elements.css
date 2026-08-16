@@ -1,0 +1,958 @@
+/*
+ * klaat-elements.css
+ * Brand-native styles for <klaat-kodelab-*> custom elements.
+ * Relies entirely on CSS custom properties from kartikarora.1.7.0.css.
+ * No hardcoded colours — all values resolved via var(--*) tokens.
+ * Light/dark mode handled automatically by the brand CDN.
+ */
+
+/* --- Aside semantic tokens ------------------------------------------------- */
+:root {
+  --aside-info-border:    #1A73E8;
+  --aside-info-bg:        #E8F0FE;
+  --aside-warn-border:    #D93025;
+  --aside-warn-bg:        #FCE8E6;
+  --aside-ok-border:      #1E8E3E;
+  --aside-ok-bg:          #E6F4EA;
+  --aside-neutral-border: #808080;
+  --aside-neutral-bg:     #F1F3F4;
+  --aside-text:           #212124;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-alt:               #21262d;
+    --aside-info-border:    #4da6ff;
+    --aside-info-bg:        rgba(0, 153, 255, 0.12);
+    --aside-warn-border:    #ff6b6b;
+    --aside-warn-bg:        rgba(217, 48, 37, 0.12);
+    --aside-ok-border:      #4caf50;
+    --aside-ok-bg:          rgba(30, 142, 62, 0.12);
+    --aside-neutral-border: #484f58;
+    --aside-neutral-bg:     rgba(139, 148, 158, 0.1);
+    --aside-text:           var(--primary);
+  }
+}
+
+/* --- Base reset ------------------------------------------------------------ */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--primary);
+  transition: opacity ease-in 0.2s;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Root layout ----------------------------------------------------------- */
+klaat-kodelab {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-top: 64px;
+}
+
+klaat-kodelab #main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  background: var(--bg);
+}
+
+/* --- Title bar ------------------------------------------------------------- */
+klaat-kodelab #codelab-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 2px 0 var(--shadow), 0 2px 6px 2px var(--shadow);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 36px 0 16px;
+  -webkit-font-smoothing: antialiased;
+  z-index: 1000;
+}
+
+klaat-kodelab #codelab-title h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 8px;
+  font-family: var(--font-sans);
+  color: var(--primary);
+  flex-grow: 1;
+  flex-shrink: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 0;
+}
+
+klaat-kodelab #codelab-title #time-remaining {
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--secondary);
+}
+
+klaat-kodelab #codelab-nav-buttons {
+  display: flex;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+klaat-kodelab #codelab-nav-buttons #arrow-back,
+klaat-kodelab #codelab-nav-buttons #menu {
+  display: flex;
+  text-decoration: none;
+  color: var(--primary);
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+klaat-kodelab #codelab-nav-buttons #arrow-back:hover,
+klaat-kodelab #codelab-nav-buttons #menu:hover {
+  background: var(--bg-alt);
+}
+
+klaat-kodelab #codelab-nav-buttons #menu {
+  display: none;
+}
+
+/* --- Drawer / sidebar ------------------------------------------------------ */
+klaat-kodelab #drawer {
+  width: 256px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-alt);
+  border-right: 1px solid var(--border);
+}
+
+klaat-kodelab #drawer .steps {
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow-x: visible;
+  display: flex;
+  max-height: calc(100% - 54px);
+}
+
+klaat-kodelab #drawer .steps:only-child {
+  max-height: 100%;
+}
+
+klaat-kodelab #drawer ol {
+  margin: 0;
+  padding: 16px 12px;
+  counter-reset: li-count;
+  list-style: none;
+  overflow-x: visible;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+klaat-kodelab #drawer ol li {
+  display: block;
+  counter-increment: li-count;
+}
+
+klaat-kodelab #drawer ol li a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--secondary);
+  padding: 3px 10px;
+  min-height: 48px;
+  font-weight: 400;
+  line-height: 20px;
+  box-sizing: content-box;
+  position: relative;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  transition: all 300ms ease-in-out;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  margin: 6px 0;
+  background: var(--card);
+}
+
+klaat-kodelab #drawer ol li a:hover {
+  border-color: var(--accent);
+  color: var(--primary);
+}
+
+klaat-kodelab #drawer ol li a:active,
+klaat-kodelab #drawer ol li a:focus {
+  background: var(--bg-alt);
+  border-color: var(--accent);
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+klaat-kodelab #drawer ol li a .step {
+  display: flex;
+  align-items: center;
+}
+
+klaat-kodelab #drawer ol li .step::before {
+  content: counter(li-count);
+  display: inline-block;
+  font-style: normal;
+  width: 26px;
+  min-width: 26px;
+  color: var(--bg);
+  background: var(--secondary);
+  border-radius: 50%;
+  text-align: center;
+  height: 26px;
+  vertical-align: middle;
+  line-height: 26px;
+  margin-right: 8px;
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+  transition: all 300ms ease-in-out;
+}
+
+/* Selected step */
+klaat-kodelab #drawer ol li[selected] a,
+klaat-kodelab #drawer ol li a:focus {
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: 0 1px 2px 0 var(--shadow), 0 2px 6px 2px var(--shadow);
+}
+
+klaat-kodelab #drawer ol li[selected] a {
+  border-color: var(--accent);
+}
+
+klaat-kodelab #drawer ol li[selected] .step::before {
+  font-weight: 600;
+}
+
+/* Completed step */
+klaat-kodelab #drawer ol li[completed] a {
+  color: var(--primary);
+}
+
+klaat-kodelab #drawer ol li[completed] .step::before {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+/* Drawer metadata footer */
+klaat-kodelab #drawer .metadata {
+  color: var(--secondary);
+  font-size: 14px;
+  padding: 16px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+klaat-kodelab #drawer .metadata a {
+  color: var(--accent);
+  margin-left: 4px;
+  text-decoration: none;
+}
+
+klaat-kodelab #drawer .metadata a:hover {
+  text-decoration: underline;
+}
+
+/* Drawer scrollbar */
+klaat-kodelab #drawer ol ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+klaat-kodelab #drawer ol ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: var(--border);
+}
+
+/* --- Steps container ------------------------------------------------------- */
+klaat-kodelab #steps {
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  flex-grow: 1;
+}
+
+/* Individual step */
+klaat-kodelab klaat-kodelab-step {
+  display: none;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 32px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+klaat-kodelab klaat-kodelab-step[selected] {
+  display: block;
+  animation: stepFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Navigation controls (bottom FABs) ------------------------------------ */
+klaat-kodelab #controls {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 32px;
+  flex-direction: column;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+klaat-kodelab #fabs {
+  display: flex;
+  flex-grow: 1;
+  max-width: 1025px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+klaat-kodelab #fabs .spacer {
+  flex-grow: 1;
+}
+
+#previous-step,
+#next-step,
+#done {
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  line-height: 24px;
+  padding: 6px 24px;
+  pointer-events: initial;
+  text-transform: none;
+  transform: scale(1, 1);
+  transition: transform 300ms ease-in-out, opacity 0.2s;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  display: inline-block;
+}
+
+#previous-step {
+  background: var(--card);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+#previous-step:hover {
+  background: var(--bg-alt);
+}
+
+#next-step {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+
+#next-step:hover {
+  background: var(--accent-hover, #0052a3);
+}
+
+#done {
+  background: var(--aside-ok-border);
+  color: #fff;
+  border: none;
+}
+
+#done:hover {
+  opacity: 0.9;
+}
+
+klaat-kodelab #fabs a[disappear] {
+  transform: scale(0, 0);
+}
+
+/* --- Step content card ----------------------------------------------------- */
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions {
+  box-shadow: 0 1px 2px 0 var(--shadow), 0 2px 6px 2px var(--shadow);
+  background: var(--card);
+  max-width: 800px;
+  font-size: 14px;
+  margin: 0 auto;
+  margin-bottom: 90px;
+  border-radius: 4px;
+}
+
+klaat-kodelab-step .instructions .inner {
+  padding: 24px;
+}
+
+klaat-kodelab[theme="minimal"] klaat-kodelab-step .instructions .inner {
+  padding: 0 24px;
+}
+
+@media (max-width: 800px) {
+  klaat-kodelab .instructions {
+    margin: 0 0 16px 0;
+  }
+}
+
+/* Typography inside steps */
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions p,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions li {
+  color: var(--primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ul,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ol {
+  padding-left: 1.75rem;
+  margin: 0.75rem 0 1.25rem 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ul {
+  list-style-type: disc;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ol {
+  list-style-type: decimal;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ul ul,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ol ul {
+  list-style-type: circle;
+  margin: 0.25rem 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ol ol,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions ul ol {
+  list-style-type: lower-alpha;
+  margin: 0.25rem 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions li {
+  margin: 0.4rem 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions li > p {
+  margin: 0;
+  display: inline;
+}
+
+klaat-kodelab-step h2.step-title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h2, clamp(1.6rem, 4vw, 2.4rem));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 24px;
+  color: var(--primary);
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions h2 {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h2, clamp(1.4rem, 3.5vw, 2rem));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 28px 0 12px 0;
+  color: var(--primary);
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions h3 {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h3, clamp(1.2rem, 3vw, 1.8rem));
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 24px 0 10px 0;
+  color: var(--primary);
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions h4 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 20px 0 8px 0;
+  color: var(--primary);
+}
+
+/* Links */
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions a,
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions a:visited {
+  color: var(--accent);
+}
+
+/* Tables */
+klaat-kodelab-step .instructions table {
+  border-spacing: 0;
+}
+
+klaat-kodelab-step .instructions td {
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  padding: 8px;
+  color: var(--primary);
+}
+
+klaat-kodelab-step .instructions table p {
+  margin: 0;
+}
+
+klaat-kodelab-step .instructions table code,
+klaat-kodelab-step .instructions h2 code {
+  background: var(--bg-alt);
+  color: var(--primary);
+}
+
+/* Images */
+klaat-kodelab-step .instructions img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+.image-container {
+  text-align: center;
+}
+
+/* Indented content */
+klaat-kodelab-step .instructions .indented {
+  margin-left: 40px;
+}
+
+klaat-kodelab-step .instructions strong {
+  font-weight: 600;
+}
+
+/* --- Code blocks ----------------------------------------------------------- */
+klaat-kodelab-step pre,
+klaat-kodelab-step code {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  border-radius: 4px;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+klaat-kodelab-step code {
+  background-color: var(--bg-alt);
+  color: var(--primary);
+  padding: 0.1em 0.3em;
+}
+
+klaat-kodelab-step pre {
+  display: block;
+  background-color: var(--bg-alt);
+  color: var(--primary);
+  border: 1px solid var(--border);
+  padding: 14px;
+  -webkit-text-size-adjust: none;
+  line-height: 1.4;
+}
+
+klaat-kodelab-step pre > code {
+  padding: 0;
+  background-color: transparent;
+  color: inherit;
+}
+
+/* Syntax highlight tokens */
+klaat-kodelab-step pre .str,
+klaat-kodelab-step code .str  { color: #34A853; }
+
+klaat-kodelab-step pre .kwd,
+klaat-kodelab-step code .kwd  { color: var(--accent); }
+
+klaat-kodelab-step pre .com,
+klaat-kodelab-step code .com  { color: var(--tertiary); font-style: italic; }
+
+klaat-kodelab-step pre .typ,
+klaat-kodelab-step code .typ  { color: var(--accent); }
+
+klaat-kodelab-step pre .lit,
+klaat-kodelab-step code .lit  { color: var(--accent); }
+
+klaat-kodelab-step pre .pun,
+klaat-kodelab-step code .pun  { color: var(--primary); }
+
+klaat-kodelab-step pre .pln,
+klaat-kodelab-step code .pln  { color: var(--primary); }
+
+klaat-kodelab-step pre .tag,
+klaat-kodelab-step code .tag  { color: var(--accent); }
+
+klaat-kodelab-step pre .atn,
+klaat-kodelab-step code .atn  { color: #EDA912; }
+
+klaat-kodelab-step pre .atv,
+klaat-kodelab-step code .atv  { color: #34A853; }
+
+klaat-kodelab-step pre .dec,
+klaat-kodelab-step code .dec  { color: var(--accent); }
+
+klaat-kodelab-step code em { color: var(--accent); }
+
+/* --- Copy button ----------------------------------------------------------- */
+.code-container {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary);
+  font-family: var(--font-sans);
+}
+
+.copy-button .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.code-container:hover .copy-button {
+  opacity: 1;
+}
+
+.copy-button:hover {
+  background: var(--bg-alt);
+}
+
+/* --- Aside info boxes ------------------------------------------------------ */
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions aside {
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  background: var(--aside-info-bg);
+  color: var(--aside-text);
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions aside p {
+  margin: 0.5em 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions aside p:first-child {
+  margin-top: 0;
+}
+
+klaat-kodelab:not([theme="minimal"]) klaat-kodelab-step .instructions aside p:last-child {
+  margin-bottom: 0;
+}
+
+klaat-kodelab-step .instructions aside.special,
+aside.special,
+klaat-kodelab-step .instructions aside.info,
+aside.info {
+  border-left-color: var(--aside-info-border);
+  background: var(--aside-info-bg);
+  color: var(--aside-text);
+}
+
+klaat-kodelab-step .instructions aside.tip,
+aside.tip,
+klaat-kodelab-step .instructions aside.positive,
+aside.positive,
+klaat-kodelab-step .instructions aside.ok,
+aside.ok {
+  border-left-color: var(--aside-ok-border);
+  background: var(--aside-ok-bg);
+  color: var(--aside-text);
+}
+
+klaat-kodelab-step .instructions aside.note,
+klaat-kodelab-step .instructions aside.notice,
+aside.note,
+aside.notice,
+klaat-kodelab-step .instructions aside.warning,
+aside.warning {
+  border-left-color: #EA8600;
+  background: rgba(234, 134, 0, 0.12);
+  color: var(--aside-text);
+}
+
+klaat-kodelab-step .instructions aside.critical,
+aside.critical,
+klaat-kodelab-step .instructions aside.danger,
+aside.danger,
+klaat-kodelab-step .instructions aside.negative,
+aside.negative {
+  border-left-color: var(--aside-warn-border);
+  background: var(--aside-warn-bg);
+  color: var(--aside-text);
+}
+
+klaat-kodelab-step .instructions aside.callout,
+aside.callout {
+  background: var(--aside-info-bg);
+  border-left: 4px solid var(--aside-info-border);
+  color: var(--aside-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+klaat-kodelab-step .instructions aside.default,
+aside.default {
+  border-left: 4px solid var(--aside-neutral-border);
+  background: var(--aside-neutral-bg);
+  color: var(--aside-text);
+}
+
+/* --- Klaat button (replaces paper-button / download buttons) -------------- */
+klaat-kodelab-step .instructions a.klaat-button,
+klaat-kodelab-step .instructions a.klaat-button:visited,
+.klaat-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 8px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #ffffff !important;
+  transition: all var(--transition, 0.2s ease);
+  box-shadow: 0 4px 12px var(--glow);
+  margin: 0.75rem 0;
+}
+
+klaat-kodelab-step .instructions a.klaat-button:hover,
+.klaat-button:hover {
+  background: var(--accent-hover);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--glow);
+}
+
+klaat-kodelab-step .instructions a.klaat-button--colored,
+.klaat-button--colored {
+  background: var(--accent);
+  color: #ffffff !important;
+}
+
+klaat-kodelab-step .instructions a.klaat-button--colored:hover,
+.klaat-button--colored:hover {
+  background: var(--accent-hover);
+  color: #ffffff !important;
+}
+
+klaat-kodelab-step .instructions a.klaat-button--red,
+.klaat-button--red {
+  background: var(--aside-warn-border);
+  color: #ffffff !important;
+}
+
+.klaat-button .material-symbols-outlined {
+  font-size: 18px !important;
+  color: #ffffff !important;
+}
+
+/* --- Survey ---------------------------------------------------------------- */
+klaat-kodelab-survey {
+  display: block;
+  margin: 2em 0;
+  padding: 12px 20px 20px;
+  background: var(--aside-info-bg);
+  border-left: 4px solid var(--aside-info-border);
+  border-radius: 4px;
+  color: var(--primary);
+}
+
+klaat-kodelab-survey h4 {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0.4em 0 0;
+  margin: 0 0 12px;
+  color: var(--primary);
+  font-family: var(--font-sans);
+}
+
+.klaat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.klaat-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--primary);
+  font-family: var(--font-sans);
+  padding: 2px 0;
+}
+
+.klaat-radio-label input[type="radio"] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* --- YouTube embed --------------------------------------------------------- */
+klaat-kodelab-step .youtube-video {
+  display: flex;
+  margin: auto;
+  width: 560px;
+  height: 315px;
+  border: none;
+  max-width: 100%;
+  max-height: 51vw;
+}
+
+/* --- About card ------------------------------------------------------------ */
+klaat-kodelab-about .codelab-title {
+  width: 100%;
+  text-align: center;
+  font-size: 32px;
+  margin: 20px auto 30px;
+  line-height: 45px;
+  max-width: 700px;
+  color: var(--primary);
+  font-family: var(--font-sans);
+}
+
+klaat-kodelab-about .about-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--card);
+  color: var(--primary);
+  max-width: 800px;
+  margin: 0 auto 30px;
+  padding: 20px;
+}
+
+klaat-kodelab-about .about-card h2 {
+  font-weight: 400;
+  line-height: 1em;
+  margin: 0;
+  font-size: 28px;
+  color: var(--primary);
+  font-family: var(--font-sans);
+}
+
+klaat-kodelab-about .about-card > *:not(:first-child) {
+  padding-top: 30px;
+}
+
+/* --- Mobile responsive ----------------------------------------------------- */
+@media (max-width: 768px) {
+  klaat-kodelab {
+    display: block;
+    position: relative;
+  }
+
+  klaat-kodelab #main {
+    height: 100%;
+  }
+
+  klaat-kodelab #codelab-nav-buttons #arrow-back {
+    display: none;
+  }
+
+  klaat-kodelab #codelab-nav-buttons #menu {
+    display: flex;
+  }
+
+  klaat-kodelab #drawer {
+    width: 256px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1001;
+    will-change: transform;
+    box-shadow: 2px 2px 4px transparent;
+    pointer-events: none;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform ease-in-out 0.3s, box-shadow 0.3s;
+  }
+
+  klaat-kodelab[drawer--open] #drawer {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translate3d(0, 0, 0);
+    pointer-events: all;
+  }
+
+  klaat-kodelab #main::before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transition: opacity ease-in-out 0.38s;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  klaat-kodelab[drawer--open] #main::before {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
