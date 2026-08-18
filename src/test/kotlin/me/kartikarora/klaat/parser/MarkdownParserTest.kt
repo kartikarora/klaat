@@ -575,6 +575,45 @@ class MarkdownParserTest {
     }
 
     @Test
+    fun `test duration time formats and ignore`() {
+        val markdown = """
+            # Test Duration Formats
+            
+            ## Step 1
+            Duration: 0:01:00
+            
+            ## Step 2
+            Duration: 0:02:30 (ignore)
+            
+            ## Step 3
+            Duration: 1:30
+            
+            ## Step 4
+            Duration: 5 mins
+            
+            ## Step 5
+            Duration: 0:05:00 ignore
+        """.trimIndent()
+        
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        
+        assertEquals(1, codelab.steps[0].duration)
+        assertFalse(codelab.steps[0].excludeDurationFromTotal)
+        
+        assertEquals(3, codelab.steps[1].duration)
+        assertTrue(codelab.steps[1].excludeDurationFromTotal)
+        
+        assertEquals(2, codelab.steps[2].duration)
+        assertFalse(codelab.steps[2].excludeDurationFromTotal)
+        
+        assertEquals(5, codelab.steps[3].duration)
+        assertFalse(codelab.steps[3].excludeDurationFromTotal)
+        
+        assertEquals(5, codelab.steps[4].duration)
+        assertTrue(codelab.steps[4].excludeDurationFromTotal)
+    }
+
+    @Test
     fun `test parse comma-separated categories and tags`() {
         val markdown = """
             ---

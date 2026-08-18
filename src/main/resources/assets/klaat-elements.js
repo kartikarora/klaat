@@ -154,6 +154,7 @@ class KlaatKodelab extends HTMLElement {
     const stepData = rawSteps.map(s => ({
       label: s.getAttribute('label') || '',
       duration: parseInt(s.getAttribute('duration'), 10) || 0,
+      excludeDuration: s.hasAttribute('exclude-duration') || s.hasAttribute('exclude_duration') || s.hasAttribute('ignore-duration'),
       innerHTML: s.innerHTML
     }));
 
@@ -169,7 +170,7 @@ class KlaatKodelab extends HTMLElement {
     const title = this.getAttribute('codelab-title') || '';
     const feedbackLink = this.getAttribute('feedback-link') || '';
     const homeUrl = this.getAttribute('home-url') || '../';
-    const totalMins = stepData.reduce((sum, s) => sum + s.duration, 0);
+    const totalMins = stepData.reduce((sum, s) => sum + (s.excludeDuration ? 0 : s.duration), 0);
 
     // Inject layout skeleton
     this.innerHTML = `
@@ -224,6 +225,7 @@ class KlaatKodelab extends HTMLElement {
       const stepEl = document.createElement('klaat-kodelab-step');
       stepEl.setAttribute('label', data.label);
       if (data.duration > 0) stepEl.setAttribute('duration', String(data.duration));
+      if (data.excludeDuration) stepEl.setAttribute('exclude-duration', '');
       stepEl.setAttribute('step', String(i + 1));
 
       const instructions = document.createElement('div');
@@ -351,8 +353,12 @@ class KlaatKodelab extends HTMLElement {
     // Update remaining time
     let remainingMins = 0;
     for (let s = index; s < this._steps.length; s++) {
-      const d = parseInt(this._steps[s].getAttribute('duration'), 10);
-      remainingMins += isNaN(d) ? (this._steps[s].duration || 0) : d;
+      const step = this._steps[s];
+      const isExcluded = step.hasAttribute('exclude-duration') || step.hasAttribute('exclude_duration') || step.hasAttribute('ignore-duration');
+      if (!isExcluded) {
+        const d = parseInt(step.getAttribute('duration'), 10);
+        remainingMins += isNaN(d) ? (step.duration || 0) : d;
+      }
     }
     const timeRemainingContainer = this.querySelector('#time-remaining');
     if (timeRemainingContainer) {

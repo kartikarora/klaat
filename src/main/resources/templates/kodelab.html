@@ -93,7 +93,7 @@
                   environment="${environment}"
                   feedback-link="${feedbackLink}">
 <#list steps as step>
-    <klaat-kodelab-step label="${step.title?html}"<#if step.hasDuration> duration="${step.duration}"</#if>>
+    <klaat-kodelab-step label="${step.title?html}"<#if step.hasDuration> duration="${step.duration}"</#if><#if step.excludeDuration> exclude-duration</#if>>
       ${step.content}
     </klaat-kodelab-step>
 </#list>

@@ -238,10 +238,10 @@ class MarkdownParser {
                     // Check if this is a Duration paragraph
                     if (skipNextIfDuration && node is Paragraph) {
                         val text = node.chars.toString().trim()
-                        val durationMatch = Regex("^Duration:\\s*(\\d+)(?:\\s+(?:\\(ignore\\)|ignore))?", RegexOption.IGNORE_CASE).find(text)
-                        if (durationMatch != null) {
-                            currentStepDuration = durationMatch.groupValues[1].toIntOrNull()
-                            currentStepExcludeDuration = text.contains("ignore", ignoreCase = true)
+                        val durationResult = parseDurationString(text)
+                        if (durationResult != null) {
+                            currentStepDuration = durationResult.first
+                            currentStepExcludeDuration = durationResult.second
                             skipNextIfDuration = false
                             node = node.next
                             continue
@@ -538,5 +538,40 @@ class MarkdownParser {
             }
             return
         }
+    }
+
+    private fun parseDurationString(text: String): Pair<Int?, Boolean>? {
+        val trimmed = text.trim()
+        if (!trimmed.startsWith("Duration:", ignoreCase = true)) return null
+
+        val afterPrefix = trimmed.substring(9).trim()
+        val isIgnore = afterPrefix.contains("ignore", ignoreCase = true)
+        val cleanStr = afterPrefix
+            .replace(Regex("(?i)\\s*\\(ignore\\)|\\s*ignore"), "")
+            .replace(Regex("(?i)\\s*minutes?|\\s*mins?"), "")
+            .trim()
+
+        val durationMinutes: Int? = when {
+            cleanStr.contains(":") -> {
+                val parts = cleanStr.split(":")
+                when (parts.size) {
+                    3 -> {
+                        val hours = parts[0].toIntOrNull() ?: 0
+                        val minutes = parts[1].toIntOrNull() ?: 0
+                        val seconds = parts[2].toIntOrNull() ?: 0
+                        hours * 60 + minutes + (if (seconds > 0) 1 else 0)
+                    }
+                    2 -> {
+                        val p1 = parts[0].toIntOrNull() ?: 0
+                        val p2 = parts[1].toIntOrNull() ?: 0
+                        p1 + (if (p2 > 0) 1 else 0)
+                    }
+                    else -> null
+                }
+            }
+            else -> cleanStr.toIntOrNull()
+        }
+
+        return Pair(durationMinutes, isIgnore)
     }
 }

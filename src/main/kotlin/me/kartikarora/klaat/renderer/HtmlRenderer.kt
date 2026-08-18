@@ -103,6 +103,7 @@ class HtmlRenderer {
                     "title" to step.title,
                     "duration" to step.duration,
                     "hasDuration" to (step.duration != null),
+                    "excludeDuration" to step.excludeDurationFromTotal,
                     "content" to renderStepContent(step.content)
                 )
             }
