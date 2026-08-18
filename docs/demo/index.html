@@ -407,22 +407,22 @@ Duration: 0:01:30
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Video Embedding (YouTube)" duration="0">
-      <p>Klaat makes embedding video tutorials effortless. Simply paste a standard YouTube video URL on its own line:</p>
+      <p>Klaat makes embedding video tutorials effortless. Embed YouTube videos using standard Markdown image link syntax or standalone URLs:</p>
 <h3>Responsive 16:9 Video Player</h3>
-<p>https://www.youtube.com/watch?v=dQw4w9WgXcQ</p>
+<iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <h3>Supported Video Formats &amp; Syntax</h3>
-<p>You can embed YouTube videos using either standard watch URLs or shortened share links:</p>
+<p>You can embed YouTube videos using standard watch URLs, shortened links, or thumbnail links:</p>
 <ul>
+<li><p><code>[![Watch the Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)</code></p></li>
+<li><p><code>[Watch on YouTube](https://www.youtube.com/watch?v=VIDEO_ID)</code></p></li>
 <li><p><code>https://www.youtube.com/watch?v=VIDEO_ID</code></p></li>
-<li><p><code>https://youtu.be/VIDEO_ID</code></p></li>
 </ul>
-<p>Klaat automatically converts YouTube URLs into an accessible, responsive video player that adapts fluidly across mobile, tablet, and desktop screens with a 16:9 aspect ratio.</p>
+<p>Klaat automatically converts YouTube references into a responsive video player (<code>&lt;iframe class=&quot;youtube-video&quot;&gt;</code>) that adapts fluidly across mobile, tablet, and desktop screens with a native 16:9 aspect ratio.</p>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">## Video Embedding (YouTube)
 Duration: 0:01:30
 
-# Simply paste the YouTube URL on its own line:
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
@@ -513,7 +513,7 @@ Duration: 0:01:30
 ## Video Embedding (YouTube)
 Duration: 0:01:30
 
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>

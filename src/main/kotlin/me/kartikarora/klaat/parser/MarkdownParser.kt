@@ -284,14 +284,22 @@ class MarkdownParser {
                     it !is KlaatNode.Text || it.content.trim().isNotEmpty() 
                 }
                 
+                val youtubeRegex = Regex("^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]{11})")
                 if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Link) {
                     val link = nonWhitespaceNodes.first() as KlaatNode.Link
-                    val youtubeRegex = Regex("^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]{11})")
                     val match = youtubeRegex.find(link.url)
                     if (match != null) {
                         nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
                     } else {
                         nodes.add(KlaatNode.Button(url = link.url, text = link.text))
+                    }
+                } else if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Text) {
+                    val text = (nonWhitespaceNodes.first() as KlaatNode.Text).content.trim()
+                    val match = youtubeRegex.find(text)
+                    if (match != null) {
+                        nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
+                    } else if (textNodes.isNotEmpty()) {
+                        nodes.add(KlaatNode.Paragraph(textNodes))
                     }
                 } else if (textNodes.isNotEmpty()) {
                     nodes.add(KlaatNode.Paragraph(textNodes))

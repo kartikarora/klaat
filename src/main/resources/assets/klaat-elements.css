@@ -816,7 +816,9 @@ klaat-kodelab-survey h4 {
 }
 
 /* --- YouTube Embed -------------------------------------------------------- */
-klaat-kodelab-step .youtube-video {
+klaat-kodelab-step .youtube-video,
+iframe.youtube-video,
+.youtube-video {
   display: block;
   margin: var(--space-md) auto;
   width: 100%;

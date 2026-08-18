@@ -449,22 +449,23 @@ Duration: 0:01:30
 ## Video Embedding (YouTube)
 Duration: 0:01:30
 
-Klaat makes embedding video tutorials effortless. Simply paste a standard YouTube video URL on its own line:
+Klaat makes embedding video tutorials effortless. Embed YouTube videos using standard Markdown image link syntax or standalone URLs:
 
 ### Responsive 16:9 Video Player
 
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 ---
 
 ### Supported Video Formats & Syntax
 
-You can embed YouTube videos using either standard watch URLs or shortened share links:
+You can embed YouTube videos using standard watch URLs, shortened links, or thumbnail links:
 
+- `[![Watch the Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)`
+- `[Watch on YouTube](https://www.youtube.com/watch?v=VIDEO_ID)`
 - `https://www.youtube.com/watch?v=VIDEO_ID`
-- `https://youtu.be/VIDEO_ID`
 
-Klaat automatically converts YouTube URLs into an accessible, responsive video player that adapts fluidly across mobile, tablet, and desktop screens with a 16:9 aspect ratio.
+Klaat automatically converts YouTube references into a responsive video player (`<iframe class="youtube-video">`) that adapts fluidly across mobile, tablet, and desktop screens with a native 16:9 aspect ratio.
 
 ---
 
@@ -474,8 +475,7 @@ Klaat automatically converts YouTube URLs into an accessible, responsive video p
 ## Video Embedding (YouTube)
 Duration: 0:01:30
 
-# Simply paste the YouTube URL on its own line:
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 ```
 
 ---
@@ -571,7 +571,7 @@ Duration: 0:01:30
 ## Video Embedding (YouTube)
 Duration: 0:01:30
 
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 ```
 
 ---
