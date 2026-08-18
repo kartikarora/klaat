@@ -13,6 +13,12 @@
     <!-- Brand Identity CSS -->
     <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css">
     
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
     <!-- Brand CDN JS -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
 

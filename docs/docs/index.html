@@ -8,8 +8,14 @@
     <meta name="author" content="Kartik Arora">
     
     <!-- Brand Identity CSS -->
-    <link href="https://distribute.kartikarora.me/css/kartikarora.1.6.0.css" rel="stylesheet">
+    <link href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css" rel="stylesheet">
     
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
     <!-- Required Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +25,7 @@
     <link href="style.css" rel="stylesheet">
     
     <!-- Brand CDN JS -->
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.6.0.js" defer></script>
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
 </head>
 <body>
     <nav class="nav">
@@ -61,12 +67,13 @@
                 <div class="docs-sidebar-group">
                     <div class="docs-sidebar-title">CLI Commands</div>
                     <ul class="docs-sidebar-links">
+                        <li><a href="#cmd-help" class="docs-sidebar-link">klaat help</a></li>
+                        <li><a href="#cmd-version" class="docs-sidebar-link">klaat version</a></li>
+                        <li><a href="#cmd-install-skills" class="docs-sidebar-link">klaat install-skills</a></li>
                         <li><a href="#cmd-export" class="docs-sidebar-link">klaat export</a></li>
-                        <li><a href="#cmd-demo" class="docs-sidebar-link">klaat demo</a></li>
                         <li><a href="#cmd-serve" class="docs-sidebar-link">klaat serve</a></li>
                         <li><a href="#cmd-update" class="docs-sidebar-link">klaat update</a></li>
-                        <li><a href="#cmd-install-skills" class="docs-sidebar-link">klaat install-skills</a></li>
-                        <li><a href="#cmd-version" class="docs-sidebar-link">klaat version</a></li>
+                        <li><a href="#cmd-demo" class="docs-sidebar-link">klaat demo</a></li>
                     </ul>
                 </div>
 
@@ -195,6 +202,133 @@ You are done!</code></pre>
                 </div>
             </section>
 
+            <!-- Command: help -->
+            <section id="cmd-help" class="docs-section">
+                <h1>klaat help</h1>
+                <p>The <code>help</code> command displays global help information, available subcommands, or detailed options for a specific subcommand.</p>
+
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">NAME</div>
+                        <div class="man-content">
+                            <p><strong>klaat-help</strong> - Show help information for klaat or any subcommand</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">SYNOPSIS</div>
+                        <div class="man-content">
+                            <p><code>klaat [OPTIONS]</code> or <code>klaat [COMMAND] --help</code></p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">DESCRIPTION</div>
+                        <div class="man-content">
+                            <p>Prints usage syntax, supported flags, subcommands, and options. Append <code>--help</code> or <code>-h</code> to any subcommand to inspect its specific parameters.</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">OPTIONS</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option / Flag</th>
+                                        <th>Type</th>
+                                        <th>Default Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>-h, --help</code></td>
+                                        <td>Flag</td>
+                                        <td>-</td>
+                                        <td>Show command help message and exit.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">EXAMPLES</div>
+                        <div class="man-content font-mono" style="font-size: 0.9rem;">
+                            <p>Show global help and available commands:</p>
+                            <pre><code class="language-bash">klaat --help</code></pre>
+                            <p style="margin-top: 10px;">Show help for a specific subcommand:</p>
+                            <pre><code class="language-bash">klaat export --help</code></pre>
+                            <pre><code class="language-bash">klaat serve -h</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Command: version -->
+            <section id="cmd-version" class="docs-section">
+                <h1>klaat version</h1>
+                <p>Prints version metadata including release build name, commit hashes, target platform architectures, and Gradle dependencies.</p>
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-bash">klaat version</code></pre>
+                </div>
+            </section>
+
+            <!-- Command: install-skills -->
+            <section id="cmd-install-skills" class="docs-section">
+                <h1>klaat install-skills</h1>
+                <p>The <code>install-skills</code> command dynamically unpacks KLAAT codelab authoring skills and formatting instructions into existing AI coding agent folders in the project workspace or global directories.</p>
+
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">NAME</div>
+                        <div class="man-content">
+                            <p><strong>klaat-install-skills</strong> - Install KLAAT AI guidelines to active coding agent directories</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">SYNOPSIS</div>
+                        <div class="man-content">
+                            <p><code>klaat install-skills [OPTIONS]</code></p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">DESCRIPTION</div>
+                        <div class="man-content">
+                            <p>Scans the directory for existing AI agent config paths and populates active folders with offline authoring references (<code>klaat-markdown-author</code> and <code>klaat-gdocs-author</code>). Supports over 55+ distinct coding agents, writing only to paths that exist.</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">OPTIONS</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option / Flag</th>
+                                        <th>Type</th>
+                                        <th>Default Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>-g, --global</code></td>
+                                        <td>Flag</td>
+                                        <td>-</td>
+                                        <td>Install to global user home directories (e.g. <code>~/.claude</code>, <code>~/.agents</code>) instead of the project root.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Command: export -->
             <section id="cmd-export" class="docs-section">
                 <h1>klaat export</h1>
@@ -313,99 +447,6 @@ You are done!</code></pre>
                             <pre><code class="language-bash">klaat export tutorial.md -o build/codelabs/</code></pre>
                             <p style="margin-top: 10px;">Export a Google Doc using custom CSS styles:</p>
                             <pre><code class="language-bash">klaat export 1sK...J6g -o build/ -css https://example.com/custom.css</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Command: demo -->
-            <section id="cmd-demo" class="docs-section">
-                <h1>klaat demo</h1>
-                <p>The <code>demo</code> command extracts the bundled showcase demo codelab into the current working directory, exports it to HTML, and immediately launches the local preview server.</p>
-
-                <div class="man-page">
-                    <div class="man-section">
-                        <div class="man-section-title">NAME</div>
-                        <div class="man-content">
-                            <p><strong>klaat-demo</strong> - Extract, export, and preview the interactive feature showcase</p>
-                        </div>
-                    </div>
-
-                    <div class="man-section">
-                        <div class="man-section-title">SYNOPSIS</div>
-                        <div class="man-content">
-                            <p><code>klaat demo [OPTIONS]</code></p>
-                        </div>
-                    </div>
-
-                    <div class="man-section">
-                        <div class="man-section-title">DESCRIPTION</div>
-                        <div class="man-content">
-                            <p>Unpacks the bundled <code>feature-showcase.md</code> and its assets (images) into the current directory, executes the export pipeline targeting the specified output folder, and begins serving the resulting codelabs locally via Ktor.</p>
-                        </div>
-                    </div>
-
-                    <div class="man-section">
-                        <div class="man-section-title">OPTIONS</div>
-                        <div class="man-content">
-                            <table class="options-table">
-                                <thead>
-                                    <tr>
-                                        <th>Option / Flag</th>
-                                        <th>Type</th>
-                                        <th>Default Value</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>-addr</code></td>
-                                        <td>String</td>
-                                        <td><code>localhost:9090</code></td>
-                                        <td>Hostname and port to bind for the preview server.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>-o, --out</code></td>
-                                        <td>String</td>
-                                        <td><code>output</code></td>
-                                        <td>Directory to export the generated demo codelab into.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>-f, --format</code></td>
-                                        <td>String</td>
-                                        <td><code>html</code></td>
-                                        <td>Output format (<code>html</code>, <code>md</code>, <code>offline</code>).</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>-prefix</code></td>
-                                        <td>String</td>
-                                        <td><code>https://distribute.kartikarora.me</code></td>
-                                        <td>Asset prefix URL for stylesheets and web components.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>--no-browser</code></td>
-                                        <td>Flag</td>
-                                        <td><code>false</code></td>
-                                        <td>Do not automatically open the browser when the server starts.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>--no-serve</code></td>
-                                        <td>Flag</td>
-                                        <td><code>false</code></td>
-                                        <td>Extract and export only, without starting the preview server.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="man-section">
-                        <div class="man-section-title">EXAMPLES</div>
-                        <div class="man-content font-mono" style="font-size: 0.9rem;">
-                            <p>Extract and launch the live demo immediately:</p>
-                            <pre><code class="language-bash">klaat demo</code></pre>
-                            <p style="margin-top: 10px;">Extract and export without starting the server:</p>
-                            <pre><code class="language-bash">klaat demo --no-serve</code></pre>
                         </div>
                     </div>
                 </div>
@@ -534,30 +575,30 @@ You are done!</code></pre>
                 </div>
             </section>
 
-            <!-- Command: install-skills -->
-            <section id="cmd-install-skills" class="docs-section">
-                <h1>klaat install-skills</h1>
-                <p>The <code>install-skills</code> command dynamically unpacks KLAAT codelab authoring skills and formatting instructions into existing AI coding agent folders in the project workspace or global directories.</p>
+            <!-- Command: demo -->
+            <section id="cmd-demo" class="docs-section">
+                <h1>klaat demo</h1>
+                <p>The <code>demo</code> command extracts the bundled showcase demo codelab into the current working directory, exports it to HTML, and immediately launches the local preview server.</p>
 
                 <div class="man-page">
                     <div class="man-section">
                         <div class="man-section-title">NAME</div>
                         <div class="man-content">
-                            <p><strong>klaat-install-skills</strong> - Install KLAAT AI guidelines to active coding agent directories</p>
+                            <p><strong>klaat-demo</strong> - Extract, export, and preview the interactive feature showcase</p>
                         </div>
                     </div>
 
                     <div class="man-section">
                         <div class="man-section-title">SYNOPSIS</div>
                         <div class="man-content">
-                            <p><code>klaat install-skills [OPTIONS]</code></p>
+                            <p><code>klaat demo [OPTIONS]</code></p>
                         </div>
                     </div>
 
                     <div class="man-section">
                         <div class="man-section-title">DESCRIPTION</div>
                         <div class="man-content">
-                            <p>Scans the directory for existing AI agent config paths and populates active folders with offline authoring references (<code>klaat-markdown-author</code> and <code>klaat-gdocs-author</code>). Supports over 55+ distinct coding agents, writing only to paths that exist.</p>
+                            <p>Unpacks the bundled <code>feature-showcase.md</code> and its assets (images) into the current directory, executes the export pipeline targeting the specified output folder, and begins serving the resulting codelabs locally via Ktor.</p>
                         </div>
                     </div>
 
@@ -575,25 +616,55 @@ You are done!</code></pre>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><code>-g, --global</code></td>
+                                        <td><code>-addr</code></td>
+                                        <td>String</td>
+                                        <td><code>localhost:9090</code></td>
+                                        <td>Hostname and port to bind for the preview server.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-o, --out</code></td>
+                                        <td>String</td>
+                                        <td><code>output</code></td>
+                                        <td>Directory to export the generated demo codelab into.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-f, --format</code></td>
+                                        <td>String</td>
+                                        <td><code>html</code></td>
+                                        <td>Output format (<code>html</code>, <code>md</code>, <code>offline</code>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-prefix</code></td>
+                                        <td>String</td>
+                                        <td><code>https://distribute.kartikarora.me</code></td>
+                                        <td>Asset prefix URL for stylesheets and web components.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>--no-browser</code></td>
                                         <td>Flag</td>
-                                        <td>-</td>
-                                        <td>Install to global user home directories (e.g. <code>~/.claude</code>, <code>~/.agents</code>) instead of the project root.</td>
+                                        <td><code>false</code></td>
+                                        <td>Do not automatically open the browser when the server starts.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>--no-serve</code></td>
+                                        <td>Flag</td>
+                                        <td><code>false</code></td>
+                                        <td>Extract and export only, without starting the preview server.</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-            </section>
 
-            <!-- Command: version -->
-            <section id="cmd-version" class="docs-section">
-                <h1>klaat version</h1>
-                <p>Prints version metadata including release build name, commit hashes, target platform architectures, and Gradle dependencies.</p>
-                <div class="code-container">
-                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
-                    <pre><code class="language-bash">klaat version</code></pre>
+                    <div class="man-section">
+                        <div class="man-section-title">EXAMPLES</div>
+                        <div class="man-content font-mono" style="font-size: 0.9rem;">
+                            <p>Extract and launch the live demo immediately:</p>
+                            <pre><code class="language-bash">klaat demo</code></pre>
+                            <p style="margin-top: 10px;">Extract and export without starting the server:</p>
+                            <pre><code class="language-bash">klaat demo --no-serve</code></pre>
+                        </div>
+                    </div>
                 </div>
             </section>
 

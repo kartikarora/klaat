@@ -22,6 +22,12 @@
 
   <#if favicon?has_content>
   <link rel="icon" href="${favicon}">
+  <#else>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
   </#if>
 
   <!-- Klaat element styles (layout + component tokens, built on brand CSS vars) -->

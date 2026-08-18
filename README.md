@@ -133,6 +133,40 @@ Opens `http://localhost:9090` in your browser automatically.
 
 ## Commands
 
+### `help`
+
+Show usage instructions and option summaries for klaat or any subcommand.
+
+```bash
+klaat-snapshot --help
+klaat-snapshot export --help
+klaat-snapshot serve -h
+```
+
+### `version`
+
+Print the version and build metadata.
+
+```bash
+klaat-snapshot version
+```
+
+### `install-skills`
+
+Install Klaat AI codelab authoring and formatting guidelines directly into your coding agent's project or global workspace. KLAAT scans the workspace and only writes the skills to agent folders that exist (supporting over 55+ distinct coding agents, including Claude Code, Gemini CLI, Cursor, Copilot, Cline, Zed, Windsurf, etc.).
+
+```bash
+klaat-snapshot install-skills [OPTIONS]
+
+Options:
+  -g, --global      Install to the global user home directories (~/) instead of the project root
+  -h, --help        Show help
+
+Examples:
+  klaat-snapshot install-skills           # Installs locally to detected agent directories (e.g. .agents/, .claude/, .continue/)
+  klaat-snapshot install-skills -g        # Installs globally to active user agent directories (e.g. ~/.agents/, ~/.claude/)
+```
+
 ### `export`
 
 Export codelabs from Google Docs or Markdown files.
@@ -163,28 +197,6 @@ Examples:
 
   # Export to offline bundle format
   klaat-snapshot export -f offline tutorial.md
-```
-
-### `demo`
-
-Extract the bundled showcase demo codelab into the current working directory, export it to HTML, and immediately launch the live preview server.
-
-```bash
-klaat-snapshot demo [OPTIONS]
-
-Options:
-  -addr TEXT              hostname:port to bind for preview server [default: localhost:9090]
-  -o, --out TEXT          Output directory for exported demo [default: output]
-  -f, --format TEXT       Output format (html|md|offline) [default: html]
-  -prefix TEXT            Asset prefix URL [default: https://distribute.kartikarora.me]
-  --no-browser            Don't open browser automatically
-  --no-serve              Only extract and export, do not start preview server
-  -h, --help              Show help
-
-Examples:
-  klaat-snapshot demo
-  klaat-snapshot demo --no-serve
-  klaat-snapshot demo -addr localhost:8080
 ```
 
 ### `serve`
@@ -225,28 +237,26 @@ Examples:
   klaat-snapshot update codelab1 codelab2  # Update specific codelabs
 ```
 
-### `install-skills`
+### `demo`
 
-Install Klaat AI codelab authoring and formatting guidelines directly into your coding agent's project or global workspace. KLAAT scans the workspace and only writes the skills to agent folders that exist (supporting over 55+ distinct coding agents, including Claude Code, Gemini CLI, Cursor, Copilot, Cline, Zed, Windsurf, etc.).
+Extract the bundled showcase demo codelab into the current working directory, export it to HTML, and immediately launch the live preview server.
 
 ```bash
-klaat-snapshot install-skills [OPTIONS]
+klaat-snapshot demo [OPTIONS]
 
 Options:
-  -g, --global      Install to the global user home directories (~/) instead of the project root
-  -h, --help        Show help
+  -addr TEXT              hostname:port to bind for preview server [default: localhost:9090]
+  -o, --out TEXT          Output directory for exported demo [default: output]
+  -f, --format TEXT       Output format (html|md|offline) [default: html]
+  -prefix TEXT            Asset prefix URL [default: https://distribute.kartikarora.me]
+  --no-browser            Don't open browser automatically
+  --no-serve              Only extract and export, do not start preview server
+  -h, --help              Show help
 
 Examples:
-  klaat-snapshot install-skills           # Installs locally to detected agent directories (e.g. .agents/, .claude/, .continue/)
-  klaat-snapshot install-skills -g        # Installs globally to active user agent directories (e.g. ~/.agents/, ~/.claude/)
-```
-
-### `version`
-
-Print the version.
-
-```bash
-klaat-snapshot version
+  klaat-snapshot demo
+  klaat-snapshot demo --no-serve
+  klaat-snapshot demo -addr localhost:8080
 ```
 
 ## Codelab Format
