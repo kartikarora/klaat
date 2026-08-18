@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - 'src/main/resources/assets/**'
+      - 'scripts/upload-cdn.sh'
       - '.github/workflows/upload-cdn-assets.yml'
   workflow_dispatch:
 
@@ -20,8 +21,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-      - name: Set up Node.js for minification
+      - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
@@ -30,68 +33,14 @@ jobs:
         run: |
           npm install -g clean-css-cli terser
 
-      - name: Prepare & Minify CDN Assets
-        run: |
-          mkdir -p dist/css dist/js
-
-          echo "📦 Minifying CSS assets..."
-          cleancss -o dist/css/klaat-elements.css src/main/resources/assets/klaat-elements.css
-          cleancss -o dist/css/klaat-custom.css src/main/resources/assets/klaat-custom.css
-
-          echo "📦 Minifying JS assets..."
-          terser src/main/resources/assets/klaat-elements.js -c -m -o dist/js/klaat-elements.js
-          terser src/main/resources/assets/klaat-bridge.js -c -m -o dist/js/klaat-bridge.js
-
-          echo "📂 Prepared files:"
-          find dist -type f -exec ls -lh {} +
-
-      - name: Install rclone
-        run: curl https://rclone.org/install.sh | sudo bash
-
-      - name: Configure rclone for R2
+      - name: Upload Assets to Cloudflare R2 via Wrangler Action
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: |
+            chmod +x scripts/upload-cdn.sh
+            ./scripts/upload-cdn.sh --minify --purge
         env:
-          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-        run: |
-          cat << EOF > rclone.conf
-          [r2]
-          type = s3
-          provider = Cloudflare
-          access_key_id = $R2_ACCESS_KEY_ID
-          secret_access_key = $R2_SECRET_ACCESS_KEY
-          endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
-          acl = private
-          EOF
-
-      - name: Upload Assets to Cloudflare R2
-        env:
-          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
-        run: |
-          echo "🚀 Uploading CSS and JS assets to r2:${R2_BUCKET_NAME}/..."
-          rclone --config=rclone.conf copy dist/css r2:${R2_BUCKET_NAME}/css
-          rclone --config=rclone.conf copy dist/js r2:${R2_BUCKET_NAME}/js
-          echo "✅ Upload complete!"
-
-      - name: Purge Cloudflare CDN Cache
-        if: ${{ secrets.CLOUDFLARE_ZONE_ID != '' && secrets.CLOUDFLARE_API_TOKEN != '' }}
-        env:
-          CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME || 'distribute-cdn' }}
           CDN_URL: ${{ secrets.CDN_URL || 'https://distribute.kartikarora.me' }}
-        run: |
-          # Strip trailing slash if present
-          BASE_URL="${CDN_URL%/}"
-
-          echo "🧹 Purging cache for uploaded CDN assets from ${BASE_URL}..."
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data '{
-              "files": [
-                "'"${BASE_URL}/css/klaat-elements.css"'",
-                "'"${BASE_URL}/css/klaat-custom.css"'",
-                "'"${BASE_URL}/js/klaat-elements.js"'",
-                "'"${BASE_URL}/js/klaat-bridge.js"'"
-              ]
-            }' | jq .

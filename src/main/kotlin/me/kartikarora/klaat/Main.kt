@@ -14,7 +14,7 @@ import me.kartikarora.klaat.util.TablePrinter
 class Klaat : CliktCommand("""
     ${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
 
-    A drop-in replacement for claat written in Kotlin.
+    A spiritual successor to claat written in Kotlin.
     Generate codelabs from Google Docs or Markdown files.
     """.trimIndent()
 ) {

@@ -62,14 +62,27 @@ Ensure the correct Markdown markup is used for rich elements:
 *   Each step must start with a **Heading 2** (`## Step Title`).
 *   Directly beneath the step title, specify the step duration in minutes: `Duration: X` (e.g., `Duration: 5`). Do not add extra text on this line.
 
-### 2. Info Boxes (Alerts)
-*   **Special (Tips/Info):** Include `{.special}` in the blockquote:
+### 2. Info Boxes (Alerts & Asides)
+Klaat provides 5 distinct semantic infobox types:
+*   **Special (Blue - Supplementary Info / Tips):**
     ```markdown
-    > This is a tip! {.special}
+    > This is a helpful tip or extra info. {.special}
     ```
-*   **Warning (Alerts/Caution):** Include `{.warning}` in the blockquote:
+*   **Positive (Green - Success / Milestones):**
     ```markdown
-    > Critical alerts or safety warnings go here. {.warning}
+    > Congratulations! Your code built successfully. {.positive}
+    ```
+*   **Warning (Amber / Orange - Caution / Restrictions):**
+    ```markdown
+    > Be careful! Make sure you don't skip this prerequisite. {.warning}
+    ```
+*   **Critical (Red - Breaking Changes / Pitfalls):**
+    ```markdown
+    > Never commit secrets or API tokens to source control! {.critical}
+    ```
+*   **Default (Neutral Gray - General Notes / Quotes):**
+    ```markdown
+    > Standard blockquote without attributes renders as a neutral note.
     ```
 
 ### 3. Code Blocks

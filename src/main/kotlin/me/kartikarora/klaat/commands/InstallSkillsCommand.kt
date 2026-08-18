@@ -578,7 +578,7 @@ When authoring content to be used with `klaat`, always refer to the specific for
 
 ## Available Commands
 
-Klaat is a drop-in replacement for the original `claat` tool and supports all standard commands.
+Klaat is a spiritual successor to the original `claat` tool and supports all standard commands.
 For detailed instructions, flags, and examples for each command, please read the corresponding reference file:
 
 - [Export Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/export-command.md): `skills/klaat-cli/references/export-command.md`

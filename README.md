@@ -281,20 +281,19 @@ Key elements:
 
 ### Supported Content Types
 
-- ✅ Text formatting (bold, italic, code)
+- ✅ Text formatting (bold, italic, inline code)
 - ✅ Headers (H2, H3, H4)
 - ✅ Paragraphs
-- ✅ Code blocks with syntax highlighting
+- ✅ Code blocks with syntax highlighting, filenames, and one-click copy button
 - ✅ Command/terminal blocks
-- ✅ Info boxes (positive, negative, regular)
-- ✅ Bullet lists
-- ✅ Numbered lists
-- ✅ Images
-- ✅ YouTube videos
+- ✅ Info boxes (special/blue, positive/green, warning/amber, critical/red, default/neutral)
+- ✅ Bullet lists and numbered lists
+- ✅ Images with captions and width controls
+- ✅ YouTube videos (responsive embed)
 - ✅ IFrames
-- ✅ Links
-- ✅ Download buttons
-- ✅ Surveys
+- ✅ External and relative links
+- ✅ Action and download buttons
+- ✅ Interactive surveys
 - ✅ FAQ sections
 
 ### Metadata Fields
@@ -483,7 +482,7 @@ The project uses GitHub Actions for CI/CD:
 
 ## Differences from Original claat
 
-Klaat is designed as a **drop-in replacement** for the original claat tool with full command-line compatibility.
+Klaat is designed as a **spiritual successor** to the original claat tool with broad command-line compatibility.
 
 ### ✅ Full Compatibility
 

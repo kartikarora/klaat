@@ -11,7 +11,7 @@ As an agent working on the Klaat project, follow these guidelines to ensure cons
 ## Core Mandates
 
 ### 1. Maintain Compatibility
--   Klaat is a drop-in replacement for the original `claat`.
+-   Klaat is a spiritual successor to the original `claat`.
 -   When adding features or modifying commands, ensure existing CLI flags and behaviors are preserved unless explicitly instructed otherwise.
 
 ### 2. Native Image Awareness

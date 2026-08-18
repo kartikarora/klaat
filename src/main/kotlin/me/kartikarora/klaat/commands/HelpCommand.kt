@@ -9,7 +9,7 @@ class HelpCommand : CliktCommand("help") {
     override fun run() {
         TablePrinter.printInfoTable()
         echo("""
-A drop-in replacement for claat written in Kotlin.
+A spiritual successor to claat written in Kotlin.
 Generate codelabs from Google Docs or Markdown files.
 
 Usage: ${BuildConfig.BINARY_NAME} <cmd> [options] src [src ...]

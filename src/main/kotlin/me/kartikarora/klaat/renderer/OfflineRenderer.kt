@@ -78,12 +78,8 @@ class OfflineRenderer {
 
         // Copy assets from resources
         val assetFiles = listOf(
-            "codelab-elements.css",
-            "klaat-custom.css",
-            "codelab-elements.js",
-            "custom-elements.min.js",
-            "native-shim.js",
-            "prettify.js",
+            "klaat-elements.css",
+            "klaat-elements.js",
             "klaat-bridge.js"
         )
 
