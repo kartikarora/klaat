@@ -46,6 +46,7 @@ class MarkdownParserTest {
             tags: beginner, tutorial
             authors: John Doe, Jane Smith
             duration: 30
+            favicon: https://example.com/favicon.ico
             ---
 
             # Test Codelab
@@ -68,6 +69,7 @@ class MarkdownParserTest {
         assertEquals(listOf("beginner", "tutorial"), codelab.metadata.tags)
         assertEquals(listOf("John Doe", "Jane Smith"), codelab.metadata.authors)
         assertEquals(30, codelab.metadata.duration)
+        assertEquals("https://example.com/favicon.ico", codelab.metadata.favicon)
     }
 
     @Test

@@ -64,7 +64,7 @@ class HtmlRenderer {
             "jsPrefix" to jsPrefix,
             "cssPrefix" to cssPrefix,
             "customCssUrl" to (customCssUrl ?: ""),
-            "favicon" to (favicon ?: ""),
+            "favicon" to (if (!favicon.isNullOrBlank()) favicon else codelab.metadata.favicon),
             "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
             "timestamp" to System.currentTimeMillis().toString(),

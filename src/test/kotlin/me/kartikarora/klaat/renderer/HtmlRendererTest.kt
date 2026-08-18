@@ -726,6 +726,38 @@ class HtmlRendererTest {
         assertTrue(indexHtml.contains("""src="js/kartikarora.1.7.0.js""""))
     }
 
+    @Test
+    fun `test render HTML includes default brand favicons when no custom favicon provided`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon32.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon16.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon180.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon192.png""""))
+    }
+
+    @Test
+    fun `test render HTML includes custom favicon when provided via parameter or metadata`() {
+        val codelabWithMetadata = Codelab(
+            id = "custom-favicon-codelab",
+            title = "Custom Favicon Codelab",
+            metadata = CodelabMetadata(favicon = "https://example.com/meta-fav.ico"),
+            steps = listOf(Step("Step 1", listOf(Node.Text("Hello"))))
+        )
+        renderer.render(codelabWithMetadata, tempDir)
+
+        val indexHtml = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""<link rel="icon" href="https://example.com/meta-fav.ico">"""))
+        assertFalse(indexHtml.contains("""href="https://kartikarora.me/img/icon32.png""""))
+
+        // CLI parameter overrides metadata
+        renderer.render(codelabWithMetadata, tempDir, favicon = "https://example.com/cli-fav.ico")
+        val indexHtmlOverridden = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtmlOverridden.contains("""<link rel="icon" href="https://example.com/cli-fav.ico">"""))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",
