@@ -19,7 +19,8 @@ class OfflineRenderer {
         environment: String = "web",
         customCss: String? = null,
         favicon: String? = null,
-        googleFonts: String? = null
+        googleFonts: String? = null,
+        footer: String? = null
     ) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
@@ -41,7 +42,8 @@ class OfflineRenderer {
             environment = environment,
             customCss = customCss,
             favicon = favicon,
-            googleFonts = googleFonts
+            googleFonts = googleFonts,
+            footer = footer
         )
     }
 

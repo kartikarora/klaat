@@ -182,6 +182,7 @@ Options:
   -css TEXT               Custom CSS stylesheet file or URL to inject
   -favicon TEXT           Custom favicon URL or file path to use
   -fonts TEXT             Google Fonts link URL to load additional font families
+  -footer TEXT            Custom footer HTML or text to display at the bottom of the codelab
   -extra TEXT             JSON string representing additional metadata to inject
   -pass_metadata TEXT     Comma-delimited list of metadata keys to preserve in output
   -auth TEXT              OAuth2 token to use for Google Docs API authentication
@@ -344,6 +345,8 @@ Key elements:
 - `tags` - Comma-separated tags
 - `authors` - Comma-separated author names
 - `duration` - Total duration in minutes
+- `favicon` - Custom favicon URL or icon path
+- `footer` - Custom footer HTML or text
 
 ## Google Docs Setup
 

@@ -47,6 +47,7 @@ class MarkdownParserTest {
             authors: John Doe, Jane Smith
             duration: 30
             favicon: https://example.com/favicon.ico
+            footer: Custom footer text
             ---
 
             # Test Codelab
@@ -70,6 +71,7 @@ class MarkdownParserTest {
         assertEquals(listOf("John Doe", "Jane Smith"), codelab.metadata.authors)
         assertEquals(30, codelab.metadata.duration)
         assertEquals("https://example.com/favicon.ico", codelab.metadata.favicon)
+        assertEquals("Custom footer text", codelab.metadata.footer)
     }
 
     @Test

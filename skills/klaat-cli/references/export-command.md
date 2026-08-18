@@ -21,6 +21,7 @@ Space-separated list of Google Doc IDs or Markdown file paths to export.
 - `-css` : Custom CSS file or URL to use.
 - `-favicon` : Custom favicon URL or path to use.
 - `-fonts` : Google Fonts URL to load additional fonts (e.g. `https://fonts.googleapis.com/css2?family=Inter`).
+- `-footer` : Custom footer HTML or text to display at the bottom of the codelab.
 
 ## Examples
 ```bash

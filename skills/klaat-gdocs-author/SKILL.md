@@ -30,6 +30,8 @@ The document must begin with a **two-column table** listing the configuration pr
 | `status` | `Published` |
 | `authors` | `Your Name` |
 | `feedback_link` | `https://github.com/org/repo/issues` |
+| `favicon` | `https://example.com/favicon.ico` |
+| `footer` | `Custom footer HTML or text` |
 
 ### 2. Title & Steps
 *   **Codelab Title**: Use the standard **Title** paragraph style or a large Header.

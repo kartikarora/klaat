@@ -74,7 +74,7 @@ klaat-kodelab #main {
 }
 
 /* --- Title Bar ------------------------------------------------------------ */
-klaat-kodelab #codelab-title {
+klaat-kodelab #kodelab-title {
   position: fixed;
   top: 0;
   left: 0;
@@ -91,7 +91,7 @@ klaat-kodelab #codelab-title {
   z-index: 1000;
 }
 
-klaat-kodelab #codelab-title h1 {
+klaat-kodelab #kodelab-title h1 {
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -104,7 +104,7 @@ klaat-kodelab #codelab-title h1 {
   overflow: hidden;
 }
 
-klaat-kodelab #codelab-title #time-remaining {
+klaat-kodelab #kodelab-title #time-remaining {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -115,14 +115,14 @@ klaat-kodelab #codelab-title #time-remaining {
   color: var(--secondary);
 }
 
-klaat-kodelab #codelab-nav-buttons {
+klaat-kodelab #kodelab-nav-buttons {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
-klaat-kodelab #codelab-nav-buttons #arrow-back,
-klaat-kodelab #codelab-nav-buttons #menu {
+klaat-kodelab #kodelab-nav-buttons #arrow-back,
+klaat-kodelab #kodelab-nav-buttons #menu {
   display: flex;
   text-decoration: none;
   color: var(--primary);
@@ -135,12 +135,12 @@ klaat-kodelab #codelab-nav-buttons #menu {
   cursor: pointer;
 }
 
-klaat-kodelab #codelab-nav-buttons #arrow-back:hover,
-klaat-kodelab #codelab-nav-buttons #menu:hover {
+klaat-kodelab #kodelab-nav-buttons #arrow-back:hover,
+klaat-kodelab #kodelab-nav-buttons #menu:hover {
   background: var(--bg-alt);
 }
 
-klaat-kodelab #codelab-nav-buttons #menu {
+klaat-kodelab #kodelab-nav-buttons #menu {
   display: none;
 }
 
@@ -313,6 +313,16 @@ klaat-kodelab-step .instructions li {
   font-size: 15px;
 }
 
+klaat-kodelab-step .instructions h1 {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: var(--space-xl) 0 var(--space-sm);
+  color: var(--primary);
+}
+
 klaat-kodelab-step h2.step-title {
   font-family: var(--font-sans);
   font-size: var(--font-size-h2);
@@ -328,6 +338,7 @@ klaat-kodelab-step .instructions h2 {
   font-size: var(--font-size-h2);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.25;
   margin: var(--space-lg) 0 var(--space-xs);
   color: var(--primary);
 }
@@ -337,16 +348,39 @@ klaat-kodelab-step .instructions h3 {
   font-size: var(--font-size-h3);
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.3;
   margin: var(--space-md) 0 var(--space-xs);
   color: var(--primary);
 }
 
 klaat-kodelab-step .instructions h4 {
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1.125rem;
   font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
   margin: var(--space-sm) 0 var(--space-xs);
   color: var(--primary);
+}
+
+klaat-kodelab-step .instructions h5 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: var(--space-xs) 0;
+  color: var(--primary);
+}
+
+klaat-kodelab-step .instructions h6 {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  margin: var(--space-xs) 0;
+  color: var(--secondary);
 }
 
 /* Lists */
@@ -709,6 +743,34 @@ klaat-kodelab #fabs a[disappear] {
   transform: scale(0, 0);
 }
 
+/* --- Kodelab Footer ------------------------------------------------------- */
+klaat-kodelab .kodelab-footer,
+.kodelab-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--secondary);
+  padding: var(--space-lg) var(--space-md) var(--space-3xl);
+  max-width: 800px;
+  margin: var(--space-lg) auto 0;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  border-top: 1px solid var(--border);
+}
+
+klaat-kodelab .kodelab-footer a,
+.kodelab-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+klaat-kodelab .kodelab-footer a:hover,
+.kodelab-footer a:hover {
+  text-decoration: underline;
+  color: var(--accent-hover);
+}
+
 /* --- Interactive Survey --------------------------------------------------- */
 klaat-kodelab-survey {
   display: block;
@@ -772,11 +834,11 @@ klaat-kodelab-step .youtube-video {
     height: 100%;
   }
 
-  klaat-kodelab #codelab-nav-buttons #arrow-back {
+  klaat-kodelab #kodelab-nav-buttons #arrow-back {
     display: none;
   }
 
-  klaat-kodelab #codelab-nav-buttons #menu {
+  klaat-kodelab #kodelab-nav-buttons #menu {
     display: flex;
   }
 

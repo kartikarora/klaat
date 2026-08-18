@@ -149,13 +149,16 @@ class KlaatKodelab extends HTMLElement {
   // -- Initialisation --------------------------------------------------------
 
   _init() {
-    // Collect step data BEFORE modifying DOM
+    // Collect step and footer data BEFORE modifying DOM
     const rawSteps = Array.from(this.querySelectorAll('klaat-kodelab-step'));
     const stepData = rawSteps.map(s => ({
       label: s.getAttribute('label') || '',
       duration: parseInt(s.getAttribute('duration'), 10) || 0,
       innerHTML: s.innerHTML
     }));
+
+    const footerSlot = this.querySelector('[slot="footer"], .kodelab-footer, footer');
+    const footerHtml = footerSlot ? footerSlot.innerHTML.trim() : (this.getAttribute('footer') || '');
 
     // Normalise title attribute
     if (this.hasAttribute('title')) {
@@ -170,8 +173,8 @@ class KlaatKodelab extends HTMLElement {
 
     // Inject layout skeleton
     this.innerHTML = `
-      <div id="codelab-title">
-        <div id="codelab-nav-buttons">
+      <div id="kodelab-title">
+        <div id="kodelab-nav-buttons">
           <a id="arrow-back" href="${this._escape(homeUrl)}" title="Back">
             <span class="material-symbols-outlined">arrow_back</span>
           </a>
@@ -211,7 +214,7 @@ class KlaatKodelab extends HTMLElement {
     this._prevBtn = this.querySelector('#previous-step');
     this._nextBtn = this.querySelector('#next-step');
     this._doneBtn = this.querySelector('#done');
-    this._titleEl = this.querySelector('#codelab-title h1');
+    this._titleEl = this.querySelector('#kodelab-title h1');
     this._timeRemainingLabel = this.querySelector('#time-remaining-label');
 
     // Reconstruct steps and drawer items
@@ -229,6 +232,13 @@ class KlaatKodelab extends HTMLElement {
       inner.innerHTML = `<h2 class="step-title">${i + 1}. ${this._escape(data.label)}</h2>` + data.innerHTML;
       instructions.appendChild(inner);
       stepEl.appendChild(instructions);
+
+      if (footerHtml) {
+        const footerEl = document.createElement('footer');
+        footerEl.className = 'kodelab-footer';
+        footerEl.innerHTML = footerHtml;
+        stepEl.appendChild(footerEl);
+      }
 
       this._stepsContainer.appendChild(stepEl);
       this._steps.push(stepEl);

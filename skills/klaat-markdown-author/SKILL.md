@@ -53,6 +53,8 @@ Verify that the YAML block matches these validation rules:
 | `theme` | String | Optional | Empty string | Styling theme class hook. |
 | `duration` | Int | Optional | Sum of steps | Override for total tutorial duration in minutes. |
 | `image` | String | Optional | First page image | Cover image path/URL. |
+| `favicon` | String | Optional | Default brand icons | Custom favicon URL or icon path. |
+| `footer` | String | Optional | Default Klaat footer | Custom footer HTML or text for each step. |
 
 ## Content Element Syntax
 

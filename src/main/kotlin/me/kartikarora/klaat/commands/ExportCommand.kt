@@ -77,6 +77,11 @@ class ExportCommand : CliktCommand("export") {
         help = "Google Fonts URL to load additional fonts (e.g. https://fonts.googleapis.com/css2?family=Inter)"
     )
 
+    private val footer by option(
+        "-footer",
+        help = "Custom footer HTML or text to display at the bottom of the codelab"
+    )
+
     override fun run() {
         // Parse extra metadata if provided
         val extraMetadata = if (!extra.isNullOrBlank()) {
@@ -141,7 +146,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts)
+                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts, footer)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")

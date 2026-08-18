@@ -758,6 +758,38 @@ class HtmlRendererTest {
         assertTrue(indexHtmlOverridden.contains("""<link rel="icon" href="https://example.com/cli-fav.ico">"""))
     }
 
+    @Test
+    fun `test render HTML includes default footer when no custom footer provided`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""slot="footer""""))
+        assertTrue(indexHtml.contains("kodelab-footer"))
+        assertTrue(indexHtml.contains("Codelab generated using"))
+        assertTrue(indexHtml.contains("""<a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a>"""))
+        assertTrue(indexHtml.contains("""<a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a>"""))
+    }
+
+    @Test
+    fun `test render HTML includes custom footer when provided via parameter or metadata`() {
+        val codelabWithMetadata = Codelab(
+            id = "custom-footer-codelab",
+            title = "Custom Footer Codelab",
+            metadata = CodelabMetadata(footer = "Custom Metadata Footer"),
+            steps = listOf(Step("Step 1", listOf(Node.Text("Hello"))))
+        )
+        renderer.render(codelabWithMetadata, tempDir)
+
+        val indexHtml = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtml.contains("Custom Metadata Footer"))
+
+        // CLI parameter overrides metadata
+        renderer.render(codelabWithMetadata, tempDir, footer = "Custom CLI Footer")
+        val indexHtmlOverridden = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtmlOverridden.contains("Custom CLI Footer"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

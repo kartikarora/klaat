@@ -21,7 +21,21 @@ class HtmlRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null, googleFonts: String? = null) {
+    companion object {
+        const val DEFAULT_FOOTER = """Codelab generated using <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a> - A tool made by <a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a>"""
+    }
+
+    fun render(
+        codelab: Codelab,
+        outputDir: File,
+        ga: String? = null,
+        prefix: String? = null,
+        environment: String = "web",
+        customCss: String? = null,
+        favicon: String? = null,
+        googleFonts: String? = null,
+        footer: String? = null
+    ) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
@@ -43,7 +57,7 @@ class HtmlRenderer {
 
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts, footer))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -52,7 +66,22 @@ class HtmlRenderer {
         println("✓ Exported: ${codelab.id}")
     }
 
-    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?, googleFonts: String?): String {
+    private fun renderIndexHtml(
+        codelab: Codelab,
+        ga: String?,
+        jsPrefix: String,
+        cssPrefix: String,
+        customCssUrl: String?,
+        favicon: String?,
+        googleFonts: String?,
+        footer: String?
+    ): String {
+        val effectiveFooter = when {
+            !footer.isNullOrBlank() -> footer
+            codelab.metadata.footer.isNotBlank() -> codelab.metadata.footer
+            else -> DEFAULT_FOOTER
+        }
+
         val template = freemarkerConfig.getTemplate("kodelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -65,6 +94,7 @@ class HtmlRenderer {
             "cssPrefix" to cssPrefix,
             "customCssUrl" to (customCssUrl ?: ""),
             "favicon" to (if (!favicon.isNullOrBlank()) favicon else codelab.metadata.favicon),
+            "footer" to effectiveFooter,
             "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
             "timestamp" to System.currentTimeMillis().toString(),

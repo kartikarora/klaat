@@ -97,6 +97,9 @@
       ${step.content}
     </klaat-kodelab-step>
 </#list>
+    <#if footer?has_content>
+    <div slot="footer" class="kodelab-footer">${footer}</div>
+    </#if>
   </klaat-kodelab>
 
   <!-- Klaat custom elements (replaces google's codelab-elements.js) -->

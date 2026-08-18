@@ -23,6 +23,7 @@ data class CodelabMetadata(
     val duration: Int = 0,
     val image: String = "",
     val favicon: String = "",
+    val footer: String = "",
     val extraMetadata: Map<String, String> = emptyMap(),
     val theme: String = ""
 )
