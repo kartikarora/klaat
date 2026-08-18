@@ -5,7 +5,7 @@
  */
 
 /* --- Semantic Aside Tokens ------------------------------------------------ */
-:root {
+:root, [data-theme=light] {
   --font-size-h1: clamp(2.2rem, 5vw, 3.5rem);
   --font-size-h2: clamp(1.6rem, 4vw, 2.4rem);
   --font-size-h3: clamp(1.2rem, 3vw, 1.8rem);
@@ -19,7 +19,7 @@
   --aside-critical-bg:     #FCE8E6;
   --aside-default-border:  #808080;
   --aside-default-bg:      #F1F3F4;
-  --aside-text:            #212124;
+  --aside-text:            var(--primary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,6 +37,21 @@
     --aside-default-bg:       rgba(139, 148, 158, 0.12);
     --aside-text:             var(--primary);
   }
+}
+
+[data-theme=dark] {
+  --bg-alt:                 #21262d;
+  --aside-special-border:   #4da6ff;
+  --aside-special-bg:       rgba(0, 153, 255, 0.12);
+  --aside-positive-border:  #4caf50;
+  --aside-positive-bg:      rgba(30, 142, 62, 0.12);
+  --aside-warning-border:   #ffa657;
+  --aside-warning-bg:       rgba(234, 134, 0, 0.15);
+  --aside-critical-border:  #ff6b6b;
+  --aside-critical-bg:      rgba(217, 48, 37, 0.15);
+  --aside-default-border:   #484f58;
+  --aside-default-bg:       rgba(139, 148, 158, 0.12);
+  --aside-text:             var(--primary);
 }
 
 /* --- Base Layout ---------------------------------------------------------- */

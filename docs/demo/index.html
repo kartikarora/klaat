@@ -93,7 +93,7 @@
 <li><p><strong>Video Embedding</strong>: Responsive YouTube video embeds with 16:9 aspect ratios.</p></li>
 <li><p><strong>Complete Source Markdown</strong>: View and copy the full raw markdown document.</p></li>
 </ol>
-<p>Positive: <strong>Tip</strong>: Look at the drawer on the left. Notice how each step automatically tracks your reading progress and estimates time remaining dynamically!</p>
+<aside class="positive"><p><strong>Tip</strong>: Look at the drawer on the left. Notice how each step automatically tracks your reading progress and estimates time remaining dynamically!</p></aside>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">---
 id: klaat-feature-showcase
@@ -114,8 +114,7 @@ Duration: 0:01:00
 
 Welcome to the **Klaat Feature Showcase**!
 
-Positive
-: **Tip**: Look at the drawer on the left for dynamic progress tracking!
+&gt; **Tip**: Look at the drawer on the left for dynamic progress tracking! {.positive}
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
@@ -160,19 +159,27 @@ Duration: 0:02:00
       <p>Klaat supports semantic infoboxes for callouts, tips, cautions, and important notices.</p>
 <h3>Positive / Tip / Success (Green)</h3>
 <p>Use for best practices, success confirmations, or helpful hints.</p>
-<p>Positive: <strong>Best Practice</strong>: Running <code>klaat serve</code> starts a local preview server with live reloading and auto-browser launching.</p>
-<h3>Negative / Warning / Caution (Amber / Red)</h3>
+<aside class="positive"><p><strong>Best Practice</strong>: Running <code>klaat serve</code>starts a local preview server with live reloading and auto-browser launching.</p></aside>
+<h3>Special / Supplementary Info (Blue)</h3>
+<p>Use for helpful recommendations, deep dives, or extra context.</p>
+<aside class="special"><p><strong>Information</strong>: You can customize branding, Google Fonts, and external stylesheets seamlessly with the <code>-p</code>, <code>-fonts</code>, and <code>-css</code>flags.</p></aside>
+<h3>Warning / Caution (Amber / Orange)</h3>
 <p>Use to draw attention to common pitfalls, security notices, or important requirements.</p>
-<p>Negative: <strong>Caution</strong>: Make sure <code>gcp_credentials.json</code> is never committed to your public Git repository.</p>
+<aside class="warning"><p><strong>Caution</strong>: Make sure <code>gcp_credentials.json</code>is never committed to your public Git repository.</p></aside>
+<h3>Critical / Danger (Red)</h3>
+<p>Use to alert users to breaking changes, dangerous commands, or critical errors.</p>
+<aside class="critical"><p><strong>Critical</strong>: Ensure target export directories have appropriate write permissions before running automated build scripts.</p></aside>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">## Semantic Infoboxes (Asides)
 Duration: 0:02:00
 
-Positive
-: **Best Practice**: Running `klaat serve` starts a local preview server.
+&gt; **Best Practice**: Running `klaat serve` starts a local preview server. {.positive}
 
-Negative
-: **Caution**: Make sure `gcp_credentials.json` is never committed.
+&gt; **Information**: Custom styles and fonts can be linked via flags. {.special}
+
+&gt; **Caution**: Make sure `gcp_credentials.json` is never committed. {.warning}
+
+&gt; **Critical**: Ensure write permissions on output directories. {.critical}
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
@@ -364,8 +371,7 @@ Which command is used to extract the demo showcase, export it, and start the loc
 - [ ] `klaat serve -d output`
 - [ ] `klaat preview tutorial.md`
 
-Positive
-: **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically.
+&gt; **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
 
 ---
 
@@ -384,8 +390,7 @@ Which command extracts the demo and starts preview in one step?
 - [ ] `klaat serve -d output`
 - [ ] `klaat preview tutorial.md`
 
-Positive
-: **Correct!** `klaat demo` runs extraction, export, and preview in one step.
+&gt; **Correct!** `klaat demo` runs extraction, export, and preview in one step. {.positive}
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
@@ -442,8 +447,7 @@ Duration: 0:01:00
 
 Welcome to the **Klaat Feature Showcase**!
 
-Positive
-: **Tip**: Dynamic progress tracking!
+&gt; **Tip**: Dynamic progress tracking! {.positive}
 
 ## Typography &amp; Inline Styling
 Duration: 0:02:00
@@ -459,11 +463,10 @@ Duration: 0:02:00
 ## Semantic Infoboxes (Asides)
 Duration: 0:02:00
 
-Positive
-: **Best Practice**: Green positive box.
-
-Negative
-: **Caution**: Amber negative box.
+&gt; **Best Practice**: Green positive box. {.positive}
+&gt; **Information**: Blue special box. {.special}
+&gt; **Caution**: Amber warning box. {.warning}
+&gt; **Critical**: Red critical box. {.critical}
 
 ## Code Blocks &amp; Syntax Highlighting
 Duration: 0:02:00

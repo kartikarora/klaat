@@ -32,8 +32,7 @@ In this codelab, each step demonstrates a distinct capability and provides the e
 9. **Video Embedding**: Responsive YouTube video embeds with 16:9 aspect ratios.
 10. **Complete Source Markdown**: View and copy the full raw markdown document.
 
-Positive
-: **Tip**: Look at the drawer on the left. Notice how each step automatically tracks your reading progress and estimates time remaining dynamically!
+> **Tip**: Look at the drawer on the left. Notice how each step automatically tracks your reading progress and estimates time remaining dynamically! {.positive}
 
 ---
 
@@ -59,8 +58,7 @@ Duration: 0:01:00
 
 Welcome to the **Klaat Feature Showcase**!
 
-Positive
-: **Tip**: Look at the drawer on the left for dynamic progress tracking!
+> **Tip**: Look at the drawer on the left for dynamic progress tracking! {.positive}
 ```
 
 ---
@@ -130,16 +128,28 @@ Klaat supports semantic infoboxes for callouts, tips, cautions, and important no
 ### Positive / Tip / Success (Green)
 Use for best practices, success confirmations, or helpful hints.
 
-Positive
-: **Best Practice**: Running `klaat serve` starts a local preview server with live reloading and auto-browser launching.
+> **Best Practice**: Running `klaat serve` starts a local preview server with live reloading and auto-browser launching. {.positive}
 
 ---
 
-### Negative / Warning / Caution (Amber / Red)
+### Special / Supplementary Info (Blue)
+Use for helpful recommendations, deep dives, or extra context.
+
+> **Information**: You can customize branding, Google Fonts, and external stylesheets seamlessly with the `-p`, `-fonts`, and `-css` flags. {.special}
+
+---
+
+### Warning / Caution (Amber / Orange)
 Use to draw attention to common pitfalls, security notices, or important requirements.
 
-Negative
-: **Caution**: Make sure `gcp_credentials.json` is never committed to your public Git repository.
+> **Caution**: Make sure `gcp_credentials.json` is never committed to your public Git repository. {.warning}
+
+---
+
+### Critical / Danger (Red)
+Use to alert users to breaking changes, dangerous commands, or critical errors.
+
+> **Critical**: Ensure target export directories have appropriate write permissions before running automated build scripts. {.critical}
 
 ---
 
@@ -149,11 +159,13 @@ Negative
 ## Semantic Infoboxes (Asides)
 Duration: 0:02:00
 
-Positive
-: **Best Practice**: Running `klaat serve` starts a local preview server.
+> **Best Practice**: Running `klaat serve` starts a local preview server. {.positive}
 
-Negative
-: **Caution**: Make sure `gcp_credentials.json` is never committed.
+> **Information**: Custom styles and fonts can be linked via flags. {.special}
+
+> **Caution**: Make sure `gcp_credentials.json` is never committed. {.warning}
+
+> **Critical**: Ensure write permissions on output directories. {.critical}
 ```
 
 ---
@@ -388,8 +400,7 @@ Which command is used to extract the demo showcase, export it, and start the loc
 - [ ] `klaat serve -d output`
 - [ ] `klaat preview tutorial.md`
 
-Positive
-: **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically.
+> **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
 
 ---
 
@@ -408,8 +419,7 @@ Which command extracts the demo and starts preview in one step?
 - [ ] `klaat serve -d output`
 - [ ] `klaat preview tutorial.md`
 
-Positive
-: **Correct!** `klaat demo` runs extraction, export, and preview in one step.
+> **Correct!** `klaat demo` runs extraction, export, and preview in one step. {.positive}
 ```
 
 ---
@@ -495,8 +505,7 @@ Duration: 0:01:00
 
 Welcome to the **Klaat Feature Showcase**!
 
-Positive
-: **Tip**: Dynamic progress tracking!
+> **Tip**: Dynamic progress tracking! {.positive}
 
 ## Typography & Inline Styling
 Duration: 0:02:00
@@ -512,11 +521,10 @@ Duration: 0:02:00
 ## Semantic Infoboxes (Asides)
 Duration: 0:02:00
 
-Positive
-: **Best Practice**: Green positive box.
-
-Negative
-: **Caution**: Amber negative box.
+> **Best Practice**: Green positive box. {.positive}
+> **Information**: Blue special box. {.special}
+> **Caution**: Amber warning box. {.warning}
+> **Critical**: Red critical box. {.critical}
 
 ## Code Blocks & Syntax Highlighting
 Duration: 0:02:00
