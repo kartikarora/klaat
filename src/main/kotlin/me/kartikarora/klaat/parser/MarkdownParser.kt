@@ -19,6 +19,11 @@ import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Step
 import java.io.File
 import java.io.InputStream
+import kotlin.math.ceil
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 import com.vladsch.flexmark.util.ast.Node as FlexmarkNode
 import me.kartikarora.klaat.core.Node as KlaatNode
 import com.vladsch.flexmark.ast.Paragraph
@@ -556,20 +561,26 @@ class MarkdownParser {
                 val parts = cleanStr.split(":")
                 when (parts.size) {
                     3 -> {
-                        val hours = parts[0].toIntOrNull() ?: 0
-                        val minutes = parts[1].toIntOrNull() ?: 0
-                        val seconds = parts[2].toIntOrNull() ?: 0
-                        hours * 60 + minutes + (if (seconds > 0) 1 else 0)
+                        val h = parts[0].toLongOrNull()?.hours ?: Duration.ZERO
+                        val m = parts[1].toLongOrNull()?.minutes ?: Duration.ZERO
+                        val s = parts[2].toLongOrNull()?.seconds ?: Duration.ZERO
+                        val totalSecs = (h + m + s).inWholeSeconds
+                        ceil(totalSecs / 60.0).toInt()
                     }
                     2 -> {
-                        val p1 = parts[0].toIntOrNull() ?: 0
-                        val p2 = parts[1].toIntOrNull() ?: 0
-                        p1 + (if (p2 > 0) 1 else 0)
+                        val m = parts[0].toLongOrNull()?.minutes ?: Duration.ZERO
+                        val s = parts[1].toLongOrNull()?.seconds ?: Duration.ZERO
+                        val totalSecs = (m + s).inWholeSeconds
+                        ceil(totalSecs / 60.0).toInt()
                     }
                     else -> null
                 }
             }
-            else -> cleanStr.toIntOrNull()
+            else -> {
+                cleanStr.toIntOrNull() ?: Duration.parseOrNull(cleanStr)?.let {
+                    ceil(it.inWholeSeconds / 60.0).toInt()
+                }
+            }
         }
 
         return Pair(durationMinutes, isIgnore)
