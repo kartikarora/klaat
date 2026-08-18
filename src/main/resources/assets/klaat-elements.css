@@ -747,15 +747,15 @@ klaat-kodelab #fabs a[disappear] {
 }
 
 /* --- Kodelab Footer ------------------------------------------------------- */
+klaat-kodelab #drawer .metadata .kodelab-footer,
 klaat-kodelab .kodelab-footer,
 .kodelab-footer {
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--secondary);
-  padding: var(--space-md) var(--space-sm) var(--space-lg);
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--tertiary);
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
   font-family: var(--font-sans);
 }
 

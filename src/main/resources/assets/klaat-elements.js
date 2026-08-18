@@ -193,6 +193,7 @@ class KlaatKodelab extends HTMLElement {
         <div class="metadata">
           ${totalMins > 0 ? '<span id="total-time">' + totalMins + ' min total</span>' : ''}
           ${feedbackLink ? '<a id="feedback-link" href="' + this._escape(feedbackLink) + '" target="_blank">Report a mistake</a>' : ''}
+          ${footerHtml ? '<div class="kodelab-footer">' + footerHtml + '</div>' : ''}
         </div>
       </div>
       <div id="main">
@@ -232,13 +233,6 @@ class KlaatKodelab extends HTMLElement {
       inner.innerHTML = `<h2 class="step-title">${i + 1}. ${this._escape(data.label)}</h2>` + data.innerHTML;
       instructions.appendChild(inner);
       stepEl.appendChild(instructions);
-
-      if (footerHtml) {
-        const footerEl = document.createElement('footer');
-        footerEl.className = 'kodelab-footer';
-        footerEl.innerHTML = footerHtml;
-        stepEl.appendChild(footerEl);
-      }
 
       this._stepsContainer.appendChild(stepEl);
       this._steps.push(stepEl);
