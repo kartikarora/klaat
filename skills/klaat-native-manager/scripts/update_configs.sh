@@ -35,6 +35,10 @@ echo "📝 Running export (Markdown to HTML)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f html"
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f html"
 ./gradlew -Pagent run --args="export examples/comprehensive-example.md -o build/agent-test-output -f html"
+./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f html"
+
+echo "📝 Running demo command (extract & export)..."
+./gradlew -Pagent run --args="demo --no-serve -o build/agent-test-output"
 
 echo "📝 Running export (Markdown to MD)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f md"
@@ -43,6 +47,7 @@ echo "📝 Running export (Markdown to MD)..."
 echo "📝 Running export (Markdown to Offline)..."
 ./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f offline"
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f offline"
+./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f offline"
 
 # Serve command needs to be run and then stopped cleanly
 echo "🌐 Running serve command (briefly)..."

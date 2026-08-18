@@ -73,31 +73,51 @@
                   environment="web"
                   feedback-link="https://github.com/kartikarora/klaat/issues">
     <klaat-kodelab-step label="Overview &amp; Metadata" duration="0">
-      <p>Welcome to the <strong>Klaat Feature Showcase</strong>! This tutorial serves as a living, interactive demonstration of all the markdown features, custom components, typography styles, and design system elements supported by Klaat.</p>
+      <p>Welcome to the <strong>Klaat Feature Showcase</strong>! This tutorial serves as a living, interactive demonstration of all the markdown features, components, typography styles, and interactive elements supported by Klaat.</p>
 <h3>What You&#39;ll Explore</h3>
-<p>In this codelab, each step is dedicated to a distinct capability:</p>
+<p>In this codelab, each step demonstrates a distinct capability and provides the exact source Markdown used to generate it:</p>
 <ol>
-<li><p><strong>Typography &amp; Formatting</strong>: Fluid headings, weights, blockquotes, and inline styling.</p></li>
-<li><p><strong>Semantic Infoboxes</strong>: Five distinct alert callouts (Info, Tip, Warning, Critical, Neutral).</p></li>
+<li><p><strong>Typography &amp; Formatting</strong>: Fluid headings, text weights, blockquotes, and inline styling.</p></li>
+<li><p><strong>Semantic Infoboxes</strong>: Alert callouts (Positive, Negative, Info, Warning).</p></li>
 <li><p><strong>Code Highlighting &amp; Copying</strong>: Multi-language blocks, filenames, and copy-to-clipboard.</p></li>
-<li><p><strong>Action Buttons</strong>: Modern rounded pill buttons with hover animations.</p></li>
-<li><p><strong>Tables &amp; Structured Data</strong>: Styled tables with code tags, alignment, and metrics.</p></li>
-<li><p><strong>List Hierarchies</strong>: Ordered, unordered, nested, and alphabetized lists.</p></li>
+<li><p><strong>Action Buttons</strong>: Action pill buttons with hover states.</p></li>
+<li><p><strong>Tables &amp; Structured Data</strong>: Clean tables with code tags and alignment.</p></li>
+<li><p><strong>List Hierarchies</strong>: Ordered, unordered, nested, and mixed task workflows.</p></li>
 <li><p><strong>Interactive Surveys</strong>: Embedded knowledge checks with custom radio selectors.</p></li>
-<li><p><strong>Images &amp; Visual Assets</strong>: High-resolution image galleries and responsive scaling.</p></li>
-<li><p><strong>Video Embedding</strong>: Seamless YouTube embeds with responsive 16:9 aspect ratios.</p></li>
-<li><p><strong>Complete Source Markdown</strong>: View and copy the raw source markdown behind this showcase.</p></li>
+<li><p><strong>Images &amp; Visual Assets</strong>: Centered, responsive image galleries.</p></li>
+<li><p><strong>Video Embedding</strong>: Responsive YouTube video embeds with 16:9 aspect ratios.</p></li>
+<li><p><strong>Complete Source Markdown</strong>: View and copy the full raw markdown document.</p></li>
 </ol>
-<div class="code-container"><pre><code class=" language-bash"># Export this tutorial with Klaat CLI
-klaat export examples/feature-showcase.md
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 <p>Positive: <strong>Tip</strong>: Look at the drawer on the left. Notice how each step automatically tracks your reading progress and estimates time remaining dynamically!</p>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">---
+id: klaat-feature-showcase
+summary: A comprehensive, interactive tour showcasing all rich elements.
+authors: Kartik Arora
+categories: demo, markdown, tutorial
+environments: web
+status: published
+feedback_link: https://github.com/kartikarora/klaat/issues
+tags: demo, features, markdown
+duration: 20
+---
+
+# Klaat Feature Showcase &amp; Interactive Demo
+
+## Overview &amp; Metadata
+Duration: 0:01:00
+
+Welcome to the **Klaat Feature Showcase**!
+
+Positive
+: **Tip**: Look at the drawer on the left for dynamic progress tracking!
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Typography &amp; Inline Styling" duration="0">
-      <p>Klaat is built on the <code>@kartikarora</code> brand design system, featuring <strong>Readex Pro</strong> for sans-serif prose and <strong>JetBrains Mono</strong> for code.</p>
+      <p>Klaat provides clean, modern typography for headings, paragraphs, emphasis, and quotes.</p>
 <h3>Heading Hierarchy</h3>
-<p>Headings scale smoothly using fluid clamp tokens:</p>
+<p>Headings scale smoothly across screen sizes:</p>
 <h3>Subsection Heading (H3)</h3>
 <p>Used for primary sub-topics and conceptual divisions.</p>
 <h4>Minor Heading (H4)</h4>
@@ -105,39 +125,55 @@ klaat export examples/feature-showcase.md
 <h3>Text Formatting &amp; Emphasis</h3>
 <p>You can emphasize text using standard Markdown constructs:</p>
 <ul>
-<li><p><strong>Bold Text</strong>: Use <code>**text**</code> to indicate strong importance or key terms.</p></li>
-<li><p><em>Italic Text</em>: Use <code>*text*</code> or <code>_text_</code> for subtle emphasis or definitions.</p></li>
-<li><p><em><strong>Bold &amp; Italic</strong></em>: Combine them for maximum contrast.</p></li>
-<li><p>Strikethrough: Use <code>~~text~~</code> to indicate deprecated flags or legacy syntax.</p></li>
-<li><p><code>Inline Code</code>: Use backticks for CLI commands, variables like <code>val codelab = Exporter.parse()</code>, or file paths like <code>src/main/resources</code>.</p></li>
+<li><p><strong>Bold Text</strong>: Use strong emphasis for key terms or action targets.</p></li>
+<li><p><em>Italic Text</em>: Use subtle emphasis for definitions and terminology.</p></li>
+<li><p><em><strong>Bold &amp; Italic</strong></em>: Combine both for high-contrast callouts.</p></li>
+<li><p>Strikethrough: Indicate deprecated flags or legacy syntax.</p></li>
+<li><p><code>Inline Code</code>: Highlight commands like <code>klaat export</code>, variables, or file paths like <code>src/main/resources</code>.</p></li>
 </ul>
 <h3>High-Impact Blockquotes</h3>
-<p>Blockquotes are styled with the brand&#39;s accent border and subtle background tint:</p>
-<aside class="default"><p>&quot;Klaat enables technical writers, software engineers, and educators to craft polished, interactive codelabs from markdown or Google Docs with zero friction.&quot;</p></aside>
+<p>Blockquotes feature accent borders and subtle background tinting:</p>
+<aside class="default"><p>&quot;Klaat enables technical writers, software engineers, and educators to craft polished, interactive tutorials from Markdown or Google Docs with zero friction.&quot;</p></aside>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Typography &amp; Inline Styling
+Duration: 0:02:00
+
+### Subsection Heading (H3)
+#### Minor Heading (H4)
+
+- **Bold Text**: `**text**`
+- *Italic Text*: `*text*`
+- ***Bold &amp; Italic***: `***text***`
+- ~~Strikethrough~~: `~~text~~`
+- `Inline Code`: `` `val codelab = parse()` ``
+
+&gt; &quot;Klaat enables technical writers and educators to craft polished tutorials.&quot;
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Semantic Infoboxes (Asides)" duration="0">
-      <p>Klaat supports five semantic infobox styles, perfect for callouts, tips, cautions, and critical alerts.</p>
-<h3>1. Special / Info (Blue)</h3>
-<p>Use for general informational callouts, links, or context.</p>
-<p>Positive: <strong>Information</strong>: This is a blue information box. Use it to highlight interesting facts or background context.</p>
-<h3>2. Success / Tip (Green)</h3>
+      <p>Klaat supports semantic infoboxes for callouts, tips, cautions, and important notices.</p>
+<h3>Positive / Tip / Success (Green)</h3>
 <p>Use for best practices, success confirmations, or helpful hints.</p>
-<p>Positive: <strong>Best Practice</strong>: Running <code>klaat serve</code> starts a local Ktor web server with live reloading and auto-browser launching.</p>
-<h3>3. Warning / Note (Amber)</h3>
-<p>Use to draw attention to common pitfalls or important requirements.</p>
+<p>Positive: <strong>Best Practice</strong>: Running <code>klaat serve</code> starts a local preview server with live reloading and auto-browser launching.</p>
+<h3>Negative / Warning / Caution (Amber / Red)</h3>
+<p>Use to draw attention to common pitfalls, security notices, or important requirements.</p>
 <p>Negative: <strong>Caution</strong>: Make sure <code>gcp_credentials.json</code> is never committed to your public Git repository.</p>
-<h3>4. Critical / Danger (Red)</h3>
-<p>Use for breaking changes, security warnings, or destructive actions.</p>
-<p>Negative: <strong>Security Alert</strong>: Modifying production bucket permissions will immediately invalidate public asset delivery.</p>
-<h3>5. Default / Neutral (Gray)</h3>
-<p>Use for standard notes that don&#39;t require an alert state.</p>
-<p>Positive: <strong>Note</strong>: All infoboxes are responsive and adapt seamlessly across Light and Dark system themes.</p>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Semantic Infoboxes (Asides)
+Duration: 0:02:00
+
+Positive
+: **Best Practice**: Running `klaat serve` starts a local preview server.
+
+Negative
+: **Caution**: Make sure `gcp_credentials.json` is never committed.
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Code Blocks &amp; Syntax Highlighting" duration="0">
-      <p>Klaat provides syntax highlighting for all major programming languages, complete with filename tags and an interactive copy button.</p>
-<h3>Kotlin Service Implementation</h3>
+      <p>Klaat provides syntax highlighting for programming languages, complete with optional filename headers and a built-in copy-to-clipboard button.</p>
+<h3>Kotlin Implementation with Filename</h3>
 <div class="code-container"><pre><code class=" language-kotlin:CodelabExporter.kt">package me.kartikarora.klaat.core
 
 import me.kartikarora.klaat.parser.MarkdownParser
@@ -155,7 +191,7 @@ class CodelabExporter(private val targetDir: File) {
     }
 }
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
-<h3>JSON Configuration</h3>
+<h3>JSON Configuration with Filename</h3>
 <div class="code-container"><pre><code class=" language-json:wrangler.jsonc">{
   &quot;name&quot;: &quot;klaat-cdn&quot;,
   &quot;compatibility_date&quot;: &quot;2026-08-18&quot;,
@@ -172,10 +208,29 @@ class CodelabExporter(private val targetDir: File) {
 ./gradlew nativeCompile
 ./build/native/nativeCompile/klaat --help
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Code Blocks &amp; Syntax Highlighting
+Duration: 0:02:00
+
+```kotlin:CodelabExporter.kt
+package me.kartikarora.klaat.core
+class CodelabExporter(private val targetDir: File)
+```
+
+```json:wrangler.jsonc
+{
+  &quot;name&quot;: &quot;klaat-cdn&quot;
+}
+```
+
+```bash
+./gradlew nativeCompile
+```
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Action Buttons &amp; Interactive Links" duration="0">
-      <p>Download buttons and call-to-actions are styled as brand pill buttons with hover elevation and glow effects.</p>
+      <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states.</p>
 <h3>Primary Action Button</h3>
 <p>Download the sample codelab starter project:</p>
 <p><a href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank">Download Starter Kit</a>{.button}</p>
@@ -183,15 +238,25 @@ class CodelabExporter(private val targetDir: File) {
 <p>View the source repository on GitHub:</p>
 <p><a href="https://github.com/kartikarora/klaat" target="_blank">Browse GitHub Repository</a>{.button}</p>
 <h3>External Navigation Links</h3>
-<p>Links inside paragraphs automatically receive brand accent colors and hover transitions:</p>
+<p>Links inside paragraphs receive accent colors and hover transitions:</p>
 <ul>
 <li><p>Visit the official <a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Klaat Documentation</a>.</p></li>
-<li><p>Explore the <a href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css" target="_blank">@kartikarora Brand Design System</a>.</p></li>
+<li><p>View the <a href="https://github.com/kartikarora/klaat" target="_blank">Klaat GitHub Repository</a>.</p></li>
 </ul>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Action Buttons &amp; Interactive Links
+Duration: 0:01:30
+
+[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
+
+[Browse GitHub Repository](https://github.com/kartikarora/klaat){.button}
+
+Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Tables &amp; Structured Data" duration="0">
-      <p>Markdown tables feature clean border dividers, subtle header backgrounds, and monospace formatting for technical specifications.</p>
+      <p>Markdown tables feature clean dividers, distinct headers, and monospace formatting for technical parameters.</p>
 <h3>CLI Command Reference</h3>
 <table>
 <thead>
@@ -204,41 +269,29 @@ class CodelabExporter(private val targetDir: File) {
 <td style="text-align: left"><code>export</code></td><td style="text-align: left"><code>-f html -o output &lt;src&gt;</code></td><td style="text-align: left">HTML / Web Components</td><td style="text-align: left">Converts source Markdown or Google Doc to a web tutorial.</td>
 </tr>
 <tr>
-<td style="text-align: left"><code>serve</code></td><td style="text-align: left"><code>-d output -p 9090</code></td><td style="text-align: left">HTTP Web Server</td><td style="text-align: left">Hosts codelabs locally with live browser preview.</td>
+<td style="text-align: left"><code>demo</code></td><td style="text-align: left"><code>-o output -addr localhost:9090</code></td><td style="text-align: left">HTML / Web Server</td><td style="text-align: left">Extracts bundled showcase, exports it, and launches live preview.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>serve</code></td><td style="text-align: left"><code>-d output -addr localhost:9090</code></td><td style="text-align: left">HTTP Web Server</td><td style="text-align: left">Hosts codelabs locally with live browser preview.</td>
 </tr>
 <tr>
 <td style="text-align: left"><code>update</code></td><td style="text-align: left"><code>-d output</code></td><td style="text-align: left">Refresh Sources</td><td style="text-align: left">Re-fetches and updates existing Google Doc codelabs.</td>
 </tr>
 <tr>
-<td style="text-align: left"><code>version</code></td><td style="text-align: left"><code>--format json</code></td><td style="text-align: left">Console Text / JSON</td><td style="text-align: left">Displays build variant, GraalVM version, and metadata.</td>
+<td style="text-align: left"><code>version</code></td><td style="text-align: left"><code>--format json</code></td><td style="text-align: left">Console Text / JSON</td><td style="text-align: left">Displays build variant, version, and binary metadata.</td>
 </tr>
 </tbody>
 </table>
-<h3>Semantic Infobox Token Reference</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align: left">Variant</th><th style="text-align: left">Border Color (Light)</th><th style="text-align: left">Background Color (Light)</th><th style="text-align: left">Recommended Usage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left"><strong>Special</strong></td><td style="text-align: left"><code>#1A73E8</code> (Blue)</td><td style="text-align: left"><code>#E8F0FE</code></td><td style="text-align: left">General information, context, side-notes</td>
-</tr>
-<tr>
-<td style="text-align: left"><strong>Positive</strong></td><td style="text-align: left"><code>#1E8E3E</code> (Green)</td><td style="text-align: left"><code>#E6F4EA</code></td><td style="text-align: left">Tips, best practices, success milestones</td>
-</tr>
-<tr>
-<td style="text-align: left"><strong>Warning</strong></td><td style="text-align: left"><code>#EA8600</code> (Amber)</td><td style="text-align: left"><code>#FEF7E0</code></td><td style="text-align: left">Cautions, deprecations, performance notes</td>
-</tr>
-<tr>
-<td style="text-align: left"><strong>Critical</strong></td><td style="text-align: left"><code>#D93025</code> (Red)</td><td style="text-align: left"><code>#FCE8E6</code></td><td style="text-align: left">Breaking changes, security alerts, errors</td>
-</tr>
-<tr>
-<td style="text-align: left"><strong>Default</strong></td><td style="text-align: left"><code>#808080</code> (Gray)</td><td style="text-align: left"><code>#F1F3F4</code></td><td style="text-align: left">Neutral observations</td>
-</tr>
-</tbody>
-</table>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Tables &amp; Structured Data
+Duration: 0:01:30
+
+| Command | Arguments / Flags | Output Format | Description |
+| :--- | :--- | :--- | :--- |
+| `export` | `-f html -o output &lt;src&gt;` | HTML | Converts sources to a web tutorial. |
+| `demo` | `-o output` | HTML / Server | Extracts demo and launches preview. |
+| `serve` | `-d output -p 9090` | HTTP Server | Hosts codelabs locally. |
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Lists &amp; Nested Task Hierarchies" duration="0">
@@ -272,30 +325,75 @@ class CodelabExporter(private val targetDir: File) {
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div></li>
 <li><p>Deploy to your preferred web host or Cloudflare Pages.</p></li>
 </ol>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Lists &amp; Nested Task Hierarchies
+Duration: 0:01:30
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Interactive Knowledge Check (Surveys)" duration="0">
-      <p>Engage readers with embedded multiple-choice quizzes and survey checkpoints directly in the flow of the tutorial.</p>
-<h3>Quick Knowledge Check</h3>
-<p>Which command is used to start the built-in preview server in Klaat?</p>
-<ul>
-<li><p> <code>klaat export --preview</code></p></li>
-<li><p>x <code>klaat serve -d output</code></p></li>
-<li><p> <code>klaat run-server</code></p></li>
-<li><p> <code>klaat preview tutorial.md</code></p></li>
-</ul>
-<p>Positive: <strong>Correct!</strong> <code>klaat serve</code> starts the built-in Ktor preview server, serving all codelabs from your output directory.</p>
+* **Zero Native Dependencies**:
+  * Compiled directly to native code
+  * Sub-millisecond startup times
+* **Extensible Architecture**:
+  * Pluggable Markdown and Google Docs parsers
+
+1. Author your tutorial in Markdown:
+   1. Set required frontmatter metadata
+   2. Organize content into level-2 headings
+2. Export with Klaat CLI:
+   ```bash
+   klaat export -o output tutorial.md
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<div class="code-container"><pre><code class="">
+---
+
+## Interactive Knowledge Check (Surveys)
+Duration: 0:01:30
+
+Engage readers with embedded multiple-choice quizzes and survey checkpoints directly in the flow of the tutorial.
+
+### Quick Knowledge Check
+
+Which command is used to extract the demo showcase, export it, and start the local preview server in one step?
+
+- [ ] `klaat export --preview`
+- [x] `klaat demo`
+- [ ] `klaat serve -d output`
+- [ ] `klaat preview tutorial.md`
+
+Positive
+: **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically.
+
+---
+
+### Source Markdown for this Step
+
+```markdown
+## Interactive Knowledge Check (Surveys)
+Duration: 0:01:30
+
+### Quick Knowledge Check
+
+Which command extracts the demo and starts preview in one step?
+
+- [ ] `klaat export --preview`
+- [x] `klaat demo`
+- [ ] `klaat serve -d output`
+- [ ] `klaat preview tutorial.md`
+
+Positive
+: **Correct!** `klaat demo` runs extraction, export, and preview in one step.
+</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Images &amp; Visual Assets" duration="0">
-      <p>Images in Klaat are centered by default, responsive to mobile screen sizes, and styled with subtle border radii.</p>
+      <p>Images in Klaat are centered by default, responsive across mobile and desktop, and styled with rounded corners.</p>
 <h3>Responsive Image with Caption</h3>
 <p><img alt="Klaat Architecture &amp; Native Engine" src="images/klaat.png"></p>
-<h3>Markdown Image Syntax</h3>
-<p>You can include images stored locally relative to your Markdown file or hosted remotely on a CDN:</p>
-<div class="code-container"><pre><code class=" language-markdown">![Alternative text description](images/diagram.png)
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Images &amp; Visual Assets
+Duration: 0:01:30
+
+![Klaat Architecture &amp; Native Engine](images/klaat.png)
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
-<p>Positive: <strong>Automatic Image Extraction</strong>: When exporting from Google Docs, Klaat automatically downloads all embedded drawings and screenshots into an <code>images/</code> directory alongside your generated HTML.</p>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Video Embedding (YouTube)" duration="0">
@@ -308,18 +406,21 @@ class CodelabExporter(private val targetDir: File) {
 <li><p><code>https://www.youtube.com/watch?v=VIDEO_ID</code></p></li>
 <li><p><code>https://youtu.be/VIDEO_ID</code></p></li>
 </ul>
-<p>Klaat automatically converts YouTube URLs into an accessible, responsive <code>&lt;iframe&gt;</code> player that adapts fluidly across mobile, tablet, and desktop screens with a perfect 16:9 aspect ratio.</p>
-<div class="code-container"><pre><code class=" language-markdown"># To embed a video, simply paste the URL on its own line:
+<p>Klaat automatically converts YouTube URLs into an accessible, responsive video player that adapts fluidly across mobile, tablet, and desktop screens with a 16:9 aspect ratio.</p>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Video Embedding (YouTube)
+Duration: 0:01:30
+
+# Simply paste the YouTube URL on its own line:
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
-<p>Positive: <strong>Zero Configuration</strong>: No complex HTML embed codes or JavaScript widget scripts are needed.</p>
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Complete Source Markdown" duration="0">
       <p>Below is the complete, raw Markdown source used to produce this interactive codelab. You can use the copy button in the top right corner to copy the full template for your own projects:</p>
 <div class="code-container"><pre><code class=" language-markdown:examples/feature-showcase.md">---
 id: klaat-feature-showcase
-summary: A comprehensive, interactive tour showcasing all rich elements, typography, code blocks, infoboxes, surveys, and media supported by Klaat.
+summary: A comprehensive, interactive tour showcasing all rich elements, typography, code blocks, infoboxes, surveys, media, and video embeds supported by Klaat.
 authors: Kartik Arora
 categories: demo, markdown, kotlin, tutorial
 environments: web
@@ -336,6 +437,9 @@ Duration: 0:01:00
 
 Welcome to the **Klaat Feature Showcase**!
 
+Positive
+: **Tip**: Dynamic progress tracking!
+
 ## Typography &amp; Inline Styling
 Duration: 0:02:00
 
@@ -351,16 +455,10 @@ Duration: 0:02:00
 Duration: 0:02:00
 
 Positive
-: **Information**: Blue info box.
-
-Positive
-: **Best Practice**: Green tip box.
+: **Best Practice**: Green positive box.
 
 Negative
-: **Caution**: Amber warning box.
-
-Negative
-: **Security Alert**: Red critical alert box.
+: **Caution**: Amber negative box.
 
 ## Code Blocks &amp; Syntax Highlighting
 Duration: 0:02:00
@@ -373,7 +471,7 @@ class CodelabExporter(private val targetDir: File)
 ## Action Buttons &amp; Interactive Links
 Duration: 0:01:30
 
-[Download Starter Kit](https://github.com/kartikarora/klaat){.button}
+[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
 
 ## Tables &amp; Structured Data
 Duration: 0:01:30
@@ -381,6 +479,7 @@ Duration: 0:01:30
 | Command | Arguments | Format |
 | :--- | :--- | :--- |
 | `export` | `-f html -o output` | HTML |
+| `demo` | `-o output` | HTML / Server |
 
 ## Lists &amp; Nested Task Hierarchies
 Duration: 0:01:30
@@ -394,9 +493,9 @@ Duration: 0:01:30
 Duration: 0:01:30
 
 ### Quick Knowledge Check
-Which command starts preview?
+Which command starts demo?
 - [ ] `klaat export --preview`
-- [x] `klaat serve -d output`
+- [x] `klaat demo`
 
 ## Images &amp; Visual Assets
 Duration: 0:01:30
@@ -415,16 +514,16 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 <h3>What You Explored</h3>
 <ul>
 <li><p>✅ Frontmatter metadata and dynamic drawer duration calculation</p></li>
-<li><p>✅ Fluid typography with Readex Pro and JetBrains Mono</p></li>
-<li><p>✅ All 5 semantic aside infobox styles (Info, Tip, Warning, Critical, Neutral)</p></li>
+<li><p>✅ Fluid typography with headings, bold, italics, and blockquotes</p></li>
+<li><p>✅ Semantic aside infobox styles (Positive, Negative, Info, Caution)</p></li>
 <li><p>✅ Multi-language syntax highlighting with filename pills and copy buttons</p></li>
 <li><p>✅ Rounded action buttons and navigation styling</p></li>
 <li><p>✅ Clean tabular data layouts</p></li>
 <li><p>✅ Nested list hierarchies</p></li>
 <li><p>✅ Interactive surveys and knowledge check blocks</p></li>
-<li><p>✅ Responsive images with automatic Google Docs extraction</p></li>
+<li><p>✅ Responsive images with automatic centering and captions</p></li>
 <li><p>✅ Seamless YouTube video embeds with responsive 16:9 aspect ratios</p></li>
-<li><p>✅ Complete source Markdown template with one-click copy</p></li>
+<li><p>✅ In-step source Markdown snippets for every single feature</p></li>
 </ul>
 <h3>Next Steps</h3>
 <ul>

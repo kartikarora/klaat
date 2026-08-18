@@ -1,0 +1,19 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "../../",
+  "mainga": "",
+  "updated": "2026-08-18T07:46:42.160Z",
+  "id": "klaat-feature-showcase",
+  "duration": 0,
+  "title": "Klaat Feature Showcase & Interactive Demo",
+  "summary": "A comprehensive, interactive tour showcasing all rich elements, typography, code blocks, infoboxes, surveys, media, and video embeds supported by Klaat.",
+  "source": "examples/feature-showcase.md",
+  "theme": "",
+  "status": ["published"],
+  "category": ["demo", "markdown", "kotlin", "tutorial"],
+  "tags": ["demo", "features", "components", "markdown", "showcase", "video", "youtube"],
+  "feedback": "https://github.com/kartikarora/klaat/issues",
+  "image": "images/klaat.png",
+  "url": "klaat-feature-showcase"
+}
