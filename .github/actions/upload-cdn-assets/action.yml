@@ -1,0 +1,41 @@
+name: 'Upload CDN Assets'
+description: 'Uploads Klaat web component assets (CSS/JS) to Cloudflare R2 CDN and purges cache'
+
+inputs:
+  cloudflare-api-token:
+    description: 'Cloudflare API Token'
+    required: true
+  r2-account-id:
+    description: 'Cloudflare R2 Account ID'
+    required: true
+  r2-bucket-name:
+    description: 'R2 Bucket Name'
+    required: false
+    default: 'distribute-cdn'
+  cloudflare-zone-id:
+    description: 'Cloudflare Zone ID for cache purging'
+    required: false
+  cdn-url:
+    description: 'CDN Base URL'
+    required: false
+    default: 'https://distribute.kartikarora.me'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: '24'
+
+    - name: Run CDN Asset Upload Script
+      shell: bash
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ inputs.cloudflare-api-token }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.r2-account-id }}
+        CLOUDFLARE_ZONE_ID: ${{ inputs.cloudflare-zone-id }}
+        R2_BUCKET_NAME: ${{ inputs.r2-bucket-name }}
+        CDN_URL: ${{ inputs.cdn-url }}
+      run: |
+        chmod +x scripts/upload-cdn.sh
+        ./scripts/upload-cdn.sh --purge

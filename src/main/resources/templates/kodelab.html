@@ -6,7 +6,7 @@
   <title>${title?html}</title>
 
   <!-- Brand Identity CSS (provides all CSS tokens + light/dark mode) -->
-  <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css">
+  <link rel="stylesheet" href="${cssPrefix}/kartikarora.1.7.0.css">
 
   <!-- Brand Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
   </#if>
 
   <!-- Brand Interaction JS -->
-  <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js"></script>
+  <script src="${jsPrefix}/kartikarora.1.7.0.js"></script>
 
   <#if favicon?has_content>
   <link rel="icon" href="${favicon}">

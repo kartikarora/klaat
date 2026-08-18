@@ -687,6 +687,45 @@ class HtmlRendererTest {
         assertTrue(content.contains("family=Space+Grotesk"))
     }
 
+    @Test
+    fun `test render HTML format uses CDN urls and does not create codelab-elements`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("https://distribute.kartikarora.me/css/klaat-elements.css"))
+        assertTrue(content.contains("https://distribute.kartikarora.me/js/klaat-elements.js"))
+
+        val elementsDir = File(tempDir, "codelab-elements")
+        assertFalse(elementsDir.exists())
+    }
+
+    @Test
+    fun `test render offline format bundles css and js into codelab subdirectories`() {
+        val codelab = createSimpleCodlab()
+        val offlineRenderer = OfflineRenderer()
+        offlineRenderer.render(codelab, tempDir)
+
+        val codelabDir = File(tempDir, codelab.id)
+        val cssFile = File(codelabDir, "css/klaat-elements.css")
+        val jsFile = File(codelabDir, "js/klaat-elements.js")
+        val bridgeFile = File(codelabDir, "js/klaat-bridge.js")
+        val brandCssFile = File(codelabDir, "css/kartikarora.1.7.0.css")
+        val brandJsFile = File(codelabDir, "js/kartikarora.1.7.0.js")
+
+        assertTrue(cssFile.exists(), "css/klaat-elements.css should exist in codelab folder")
+        assertTrue(jsFile.exists(), "js/klaat-elements.js should exist in codelab folder")
+        assertTrue(bridgeFile.exists(), "js/klaat-bridge.js should exist in codelab folder")
+        assertTrue(brandCssFile.exists(), "css/kartikarora.1.7.0.css should exist in codelab folder")
+        assertTrue(brandJsFile.exists(), "js/kartikarora.1.7.0.js should exist in codelab folder")
+
+        val indexHtml = File(codelabDir, "index.html").readText()
+        assertTrue(indexHtml.contains("""href="css/klaat-elements.css""""))
+        assertTrue(indexHtml.contains("""src="js/klaat-elements.js""""))
+        assertTrue(indexHtml.contains("""href="css/kartikarora.1.7.0.css""""))
+        assertTrue(indexHtml.contains("""src="js/kartikarora.1.7.0.js""""))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

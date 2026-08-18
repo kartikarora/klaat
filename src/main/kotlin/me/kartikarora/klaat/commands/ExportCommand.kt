@@ -60,7 +60,7 @@ class ExportCommand : CliktCommand("export") {
     private val prefix by option(
         "-prefix",
         help = "URL prefix for assets"
-    ).default("https://distribute.kartikarora.me")
+    )
 
     private val customCss by option(
         "-css",
@@ -117,13 +117,19 @@ class ExportCommand : CliktCommand("export") {
 
         val exporter = Exporter(docsService)
 
+        val effectivePrefix = when {
+            prefix != null -> prefix
+            format.lowercase() == "html" -> "https://distribute.kartikarora.me"
+            else -> null
+        }
+
         TablePrinter.printExportConfigTable(
             targets.size,
             format,
             outDir,
             environment,
             ga,
-            prefix,
+            effectivePrefix ?: "(local bundle)",
             extraMetadata,
             passMetadata,
             auth
@@ -135,7 +141,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts)
+                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")

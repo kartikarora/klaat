@@ -25,17 +25,17 @@ class HtmlRenderer {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
-        // Determine asset prefixes
+        // Determine asset prefixes - always use CDN URL by default unless a prefix is provided
         val (jsPrefix, cssPrefix) = when {
-            !prefix.isNullOrEmpty() -> {
-                // Use custom prefix - assume separate js/css paths
-                Pair("$prefix/js", "$prefix/css")
+            prefix != null -> {
+                val trimmed = prefix.trimEnd('/')
+                if (trimmed.isEmpty()) {
+                    Pair("js", "css")
+                } else {
+                    Pair("$trimmed/js", "$trimmed/css")
+                }
             }
-            else -> {
-                // Copy assets locally and use relative path
-                copyAssets(outputDir, customCss)
-                Pair("../codelab-elements", "../codelab-elements")
-            }
+            else -> Pair("https://distribute.kartikarora.me/js", "https://distribute.kartikarora.me/css")
         }
 
         val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
@@ -50,38 +50,6 @@ class HtmlRenderer {
         metadataFile.writeText(renderMetadataJson(codelab, environment))
 
         println("✓ Exported: ${codelab.id}")
-    }
-
-
-    private fun copyAssets(outputDir: File, customCss: String? = null) {
-        val assetsDir = File(outputDir, "codelab-elements")
-        if (assetsDir.exists() && customCss == null) return // Already copied
-
-        assetsDir.mkdirs()
-
-        // Copy assets from resources
-        val assetFiles = listOf(
-            "klaat-elements.css",
-            "klaat-elements.js",
-            "klaat-bridge.js"
-        )
-
-        val customCssFile = customCss?.let { File(it) }
-
-        assetFiles.forEach { filename ->
-            val destFile = File(assetsDir, filename)
-            if (!destFile.exists()) {
-                val resource = javaClass.getResourceAsStream("/assets/$filename")
-                if (resource != null) {
-                    destFile.writeBytes(resource.readBytes())
-                }
-            }
-        }
-
-        // Copy custom CSS if provided and it's a local file
-        if (customCssFile != null && customCssFile.exists()) {
-            customCssFile.copyTo(File(assetsDir, customCssFile.name), overwrite = true)
-        }
     }
 
     private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?, googleFonts: String?): String {

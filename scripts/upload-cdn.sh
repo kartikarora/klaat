@@ -89,45 +89,9 @@ echo "  Purge Cache:   ${DO_PURGE}"
 echo "  Dry Run:       ${DRY_RUN}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Temporary directory for prepared files
-TEMP_DIR="$(mktemp -d)"
-trap 'rm -rf "${TEMP_DIR}"' EXIT
-
 CSS_SRC="${ASSETS_DIR}/klaat-elements.css"
 JS_SRC="${ASSETS_DIR}/klaat-elements.js"
 BRIDGE_SRC="${ASSETS_DIR}/klaat-bridge.js"
-
-CSS_TARGET="${TEMP_DIR}/klaat-elements.css"
-JS_TARGET="${TEMP_DIR}/klaat-elements.js"
-BRIDGE_TARGET="${TEMP_DIR}/klaat-bridge.js"
-
-if [[ "${DO_MINIFY}" == true ]]; then
-  echo "📦 Minifying assets..."
-  if command -v cleancss >/dev/null 2>&1; then
-    cleancss -o "${CSS_TARGET}" "${CSS_SRC}"
-  elif npx --yes clean-css-cli -v >/dev/null 2>&1; then
-    npx --yes clean-css-cli -o "${CSS_TARGET}" "${CSS_SRC}"
-  else
-    echo "⚠️  cleancss not found, copying CSS unminified."
-    cp "${CSS_SRC}" "${CSS_TARGET}"
-  fi
-
-  if command -v terser >/dev/null 2>&1; then
-    terser "${JS_SRC}" -c -m -o "${JS_TARGET}"
-    terser "${BRIDGE_SRC}" -c -m -o "${BRIDGE_TARGET}"
-  elif npx --yes terser -v >/dev/null 2>&1; then
-    npx --yes terser "${JS_SRC}" -c -m -o "${JS_TARGET}"
-    npx --yes terser "${BRIDGE_SRC}" -c -m -o "${BRIDGE_TARGET}"
-  else
-    echo "⚠️  terser not found, copying JS unminified."
-    cp "${JS_SRC}" "${JS_TARGET}"
-    cp "${BRIDGE_SRC}" "${BRIDGE_TARGET}"
-  fi
-else
-  cp "${CSS_SRC}" "${CSS_TARGET}"
-  cp "${JS_SRC}" "${JS_TARGET}"
-  cp "${BRIDGE_SRC}" "${BRIDGE_TARGET}"
-fi
 
 calc_hash() {
   local file="$1"
@@ -190,12 +154,11 @@ SUMMARY_ROWS=()
 
 upload_if_changed() {
   local remote_path="$1"
-  local local_target_file="$2"
-  local local_source_file="$3"
-  local content_type="$4"
+  local local_source_file="$2"
+  local content_type="$3"
 
   local local_hash
-  local_hash="$(calc_hash "${local_target_file}")"
+  local_hash="$(calc_hash "${local_source_file}")"
 
   local remote_url="${CDN_URL%/}/${remote_path}"
   local remote_hash=""
@@ -249,18 +212,22 @@ upload_if_changed() {
     SUMMARY_ROWS+=("| \`${remote_path}\` | ${status_label} | \`${content_type}\` | ${upload_reason} |")
 
     if [[ "${DRY_RUN}" == true ]]; then
-      echo "     [DRY RUN] wrangler r2 object put \"${BUCKET}/${remote_path}\" --file \"${local_target_file}\" --content-type \"${content_type}\" --remote"
+      echo "     [DRY RUN] wrangler r2 object put \"${BUCKET}/${remote_path}\" --file \"${local_source_file}\" --content-type \"${content_type}\" --remote"
     else
-      wrangler r2 object put "${BUCKET}/${remote_path}" --file "${local_target_file}" --content-type "${content_type}" --remote
+      if command -v wrangler >/dev/null 2>&1; then
+        wrangler r2 object put "${BUCKET}/${remote_path}" --file "${local_source_file}" --content-type "${content_type}" --remote
+      else
+        npx --yes wrangler r2 object put "${BUCKET}/${remote_path}" --file "${local_source_file}" --content-type "${content_type}" --remote
+      fi
     fi
   fi
 }
 
 echo "🔍 Checking for changes & timestamps against CDN (${BUCKET})..."
 
-upload_if_changed "css/klaat-elements.css" "${CSS_TARGET}" "${CSS_SRC}" "text/css"
-upload_if_changed "js/klaat-elements.js" "${JS_TARGET}" "${JS_SRC}" "application/javascript"
-upload_if_changed "js/klaat-bridge.js" "${BRIDGE_TARGET}" "${BRIDGE_SRC}" "application/javascript"
+upload_if_changed "css/klaat-elements.css" "${CSS_SRC}" "text/css"
+upload_if_changed "js/klaat-elements.js" "${JS_SRC}" "application/javascript"
+upload_if_changed "js/klaat-bridge.js" "${BRIDGE_SRC}" "application/javascript"
 
 if [[ ${#UPLOADED_FILES[@]} -eq 0 ]]; then
   echo "✨ All assets on CDN are up-to-date or newer. No files uploaded."
