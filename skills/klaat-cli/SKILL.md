@@ -40,6 +40,7 @@ Klaat is a spiritual successor to the original `claat` tool and supports all sta
 For detailed instructions, flags, and examples for each command, please read the corresponding reference file:
 
 - [Export Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/export-command.md): `skills/klaat-cli/references/export-command.md`
+- [Demo Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/demo-command.md): `skills/klaat-cli/references/demo-command.md`
 - [Serve Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/serve-command.md): `skills/klaat-cli/references/serve-command.md`
 - [Update Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/update-command.md): `skills/klaat-cli/references/update-command.md`
 - [Version Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/version-command.md): `skills/klaat-cli/references/version-command.md`

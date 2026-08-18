@@ -47,7 +47,7 @@ object TablePrinter {
         format: String,
         outDir: String,
         environment: String,
-        ga: String,
+        ga: String?,
         prefix: String,
         extraMetadata: Map<String, String>,
         passMetadata: String?,
@@ -57,10 +57,12 @@ object TablePrinter {
             "Exporting $targets codelab(s)",
             "  Format: $format",
             "  Output: $outDir",
-            "  Environment: $environment",
-            "  Analytics: $ga",
-            "  Asset Prefix: $prefix"
+            "  Environment: $environment"
         )
+        if (!ga.isNullOrBlank()) {
+            rows.add("  Analytics: $ga")
+        }
+        rows.add("  Asset Prefix: $prefix")
         if (auth != null) rows.add("  Auth: provided")
         if (extraMetadata.isNotEmpty()) {
             rows.add("  Extra metadata: ${extraMetadata.entries.joinToString(", ") { "${it.key}=${it.value}" }}")

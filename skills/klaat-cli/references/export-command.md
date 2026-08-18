@@ -12,7 +12,7 @@ Space-separated list of Google Doc IDs or Markdown file paths to export.
 
 - `-f` : Output format. Choices: `html`, `md`, `offline`. Default is `html`.
 - `-o` : Output directory. Default is current directory (`.`).
-- `-ga` : Global Google Analytics tracking ID. Default is `UA-49880327-14`.
+- `-ga` : Global Google Analytics tracking ID (optional).
 - `-prefix` : URL prefix for assets. Default is `https://distribute.kartikarora.me`.
 - `-e` : Environment to use for the codelab. Default is `web`.
 - `-auth` : OAuth2 token to use for authentication (Google Docs).

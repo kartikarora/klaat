@@ -14,7 +14,14 @@ Generate codelabs from Google Docs or Markdown files.
 
 Usage: ${BuildConfig.BINARY_NAME} <cmd> [options] src [src ...]
 
-Available commands are: export, serve, update, version, help.
+Available commands are: export, demo, serve, update, version, help, install-skills.
+
+## Demo command
+
+Demo extracts the bundled showcase demo tutorial into the current directory,
+exports it to HTML, and launches the local preview server automatically.
+
+Usage: ${BuildConfig.BINARY_NAME} demo [options]
 
 ## Export command
 

@@ -3,6 +3,7 @@ package me.kartikarora.klaat
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
+import me.kartikarora.klaat.commands.DemoCommand
 import me.kartikarora.klaat.commands.ExportCommand
 import me.kartikarora.klaat.commands.HelpCommand
 import me.kartikarora.klaat.commands.InstallSkillsCommand
@@ -23,7 +24,7 @@ class Klaat : CliktCommand("""
 
 fun main(args: Array<String>) {
     val klaat = Klaat()
-        .subcommands(ExportCommand(), HelpCommand(), ServeCommand(), UpdateCommand(), VersionCommand(), InstallSkillsCommand())
+        .subcommands(ExportCommand(), DemoCommand(), HelpCommand(), ServeCommand(), UpdateCommand(), VersionCommand(), InstallSkillsCommand())
     if (args.isEmpty()) {
         TablePrinter.printInfoTable()
         println(klaat.getFormattedHelp())

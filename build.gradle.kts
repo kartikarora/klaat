@@ -69,6 +69,19 @@ tasks.test {
     })
 }
 
+tasks.named<ProcessResources>("processResources") {
+    // Package distributable skills directly from root skills/ directory
+    from(layout.projectDirectory.dir("skills")) {
+        into("skills")
+        include("klaat-cli/**", "klaat-markdown-author/**", "klaat-gdocs-author/**")
+    }
+    // Package demo assets directly from examples/
+    from(layout.projectDirectory.dir("examples")) {
+        into("demo")
+        include("feature-showcase.md", "images/klaat.png")
+    }
+}
+
 application {
     mainClass.set("me.kartikarora.klaat.MainKt")
     // Set different application name based on build variant

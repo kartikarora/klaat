@@ -143,7 +143,7 @@ klaat-snapshot export [OPTIONS] SOURCES...
 Options:
   -f, --format TEXT       Output format (html|md|offline) [default: html]
   -o, --out TEXT          Output directory [default: .]
-  -ga TEXT                Google Analytics tracking ID [default: UA-49880327-14]
+  -ga TEXT                Google Analytics tracking ID (optional)
   -p, --prefix TEXT       URL prefix for assets [default: https://distribute.kartikarora.me]
   -css TEXT               Custom CSS stylesheet file or URL to inject
   -favicon TEXT           Custom favicon URL or file path to use
@@ -155,10 +155,36 @@ Options:
   -h, --help              Show help
 
 Examples:
-  klaat-snapshot export 1ABC... -o codelabs/
-  klaat-snapshot export tutorial.md -f html -o output/
-  klaat-snapshot export tutorial.md -css https://example.com/custom.css
-  klaat-snapshot export doc1 doc2 -ga UA-12345-1 -extra '{"author":"AGY"}'
+  # Export Markdown file to HTML
+  klaat-snapshot export tutorial.md
+
+  # Export Google Doc with custom output directory
+  klaat-snapshot export 1ABC-YOUR-DOC-ID -o ./output
+
+  # Export to offline bundle format
+  klaat-snapshot export -f offline tutorial.md
+```
+
+### `demo`
+
+Extract the bundled showcase demo codelab into the current working directory, export it to HTML, and immediately launch the live preview server.
+
+```bash
+klaat-snapshot demo [OPTIONS]
+
+Options:
+  -addr TEXT              hostname:port to bind for preview server [default: localhost:9090]
+  -o, --out TEXT          Output directory for exported demo [default: output]
+  -f, --format TEXT       Output format (html|md|offline) [default: html]
+  -prefix TEXT            Asset prefix URL [default: https://distribute.kartikarora.me]
+  --no-browser            Don't open browser automatically
+  --no-serve              Only extract and export, do not start preview server
+  -h, --help              Show help
+
+Examples:
+  klaat-snapshot demo
+  klaat-snapshot demo --no-serve
+  klaat-snapshot demo -addr localhost:8080
 ```
 
 ### `serve`

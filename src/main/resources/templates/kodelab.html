@@ -78,8 +78,10 @@
     }
   </script>
 
+  <#if globalGA?has_content>
   <klaat-kodelab-analytics gaid="${globalGA}"></klaat-kodelab-analytics>
-  <klaat-kodelab codelab-gaid="${codelabGA}"
+  </#if>
+  <klaat-kodelab <#if codelabGA?has_content>codelab-gaid="${codelabGA}"</#if>
                   id="${id?html}"
                   title="${title?html}"
                   environment="${environment}"

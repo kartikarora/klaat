@@ -31,6 +31,11 @@ As an agent working on the Klaat project, follow these guidelines to ensure cons
 -   If you add new testing patterns, update `TESTING.md`.
 -   Keep the "Supported Content Types" and "Metadata Fields" sections in `README.md` in sync with the code.
 
+### 5. Skills: Single Source of Truth
+-   The `skills/` directory at the project root is **always the single source of truth** for all skills (`klaat-cli`, `klaat-markdown-author`, `klaat-gdocs-author`, `klaat-native-manager`, `kartikarora-brand`).
+-   Assume any other copy (e.g. in `.agents/skills/` or temporary folders) is outdated.
+-   Distributable skills packaged into the release binary (`src/main/resources/skills/`) must always be synced directly from `skills/`.
+
 ## Architecture & Design
 
 The project follows a modular design centered around a Parser-Renderer pipeline:

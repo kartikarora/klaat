@@ -45,7 +45,7 @@ class ExportCommand : CliktCommand("export") {
     private val ga by option(
         "-ga",
         help = "Global Google Analytics tracking ID"
-    ).default("UA-49880327-14")
+    )
 
     private val outDir by option(
         "-o",

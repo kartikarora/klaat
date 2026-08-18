@@ -35,6 +35,7 @@
                 </div>
                 <ul style="display: flex; list-style: none; gap: var(--space-md); align-items: center; margin: 0; padding: 0;">
                     <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="../demo/index.html" class="nav-link">Live Demo</a></li>
                     <li><a href="format.html" class="nav-link">Format Guide</a></li>
                     <li><a href="https://github.com/kartikarora/klaat" class="nav-link" target="_blank">GitHub</a></li>
                 </ul>
@@ -61,6 +62,7 @@
                     <div class="docs-sidebar-title">CLI Commands</div>
                     <ul class="docs-sidebar-links">
                         <li><a href="#cmd-export" class="docs-sidebar-link">klaat export</a></li>
+                        <li><a href="#cmd-demo" class="docs-sidebar-link">klaat demo</a></li>
                         <li><a href="#cmd-serve" class="docs-sidebar-link">klaat serve</a></li>
                         <li><a href="#cmd-update" class="docs-sidebar-link">klaat update</a></li>
                         <li><a href="#cmd-install-skills" class="docs-sidebar-link">klaat install-skills</a></li>
@@ -248,8 +250,8 @@ You are done!</code></pre>
                                     <tr>
                                         <td><code>-ga</code></td>
                                         <td>String</td>
-                                        <td><code>UA-49880327-14</code></td>
-                                        <td>Google Analytics measurement or tracking ID to inject.</td>
+                                        <td><code>-</code></td>
+                                        <td>Google Analytics measurement or tracking ID to inject (optional).</td>
                                     </tr>
                                     <tr>
                                         <td><code>-p, --prefix</code></td>
@@ -311,6 +313,99 @@ You are done!</code></pre>
                             <pre><code class="language-bash">klaat export tutorial.md -o build/codelabs/</code></pre>
                             <p style="margin-top: 10px;">Export a Google Doc using custom CSS styles:</p>
                             <pre><code class="language-bash">klaat export 1sK...J6g -o build/ -css https://example.com/custom.css</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Command: demo -->
+            <section id="cmd-demo" class="docs-section">
+                <h1>klaat demo</h1>
+                <p>The <code>demo</code> command extracts the bundled showcase demo codelab into the current working directory, exports it to HTML, and immediately launches the local preview server.</p>
+
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">NAME</div>
+                        <div class="man-content">
+                            <p><strong>klaat-demo</strong> - Extract, export, and preview the interactive feature showcase</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">SYNOPSIS</div>
+                        <div class="man-content">
+                            <p><code>klaat demo [OPTIONS]</code></p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">DESCRIPTION</div>
+                        <div class="man-content">
+                            <p>Unpacks the bundled <code>feature-showcase.md</code> and its assets (images) into the current directory, executes the export pipeline targeting the specified output folder, and begins serving the resulting codelabs locally via Ktor.</p>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">OPTIONS</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option / Flag</th>
+                                        <th>Type</th>
+                                        <th>Default Value</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>-addr</code></td>
+                                        <td>String</td>
+                                        <td><code>localhost:9090</code></td>
+                                        <td>Hostname and port to bind for the preview server.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-o, --out</code></td>
+                                        <td>String</td>
+                                        <td><code>output</code></td>
+                                        <td>Directory to export the generated demo codelab into.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-f, --format</code></td>
+                                        <td>String</td>
+                                        <td><code>html</code></td>
+                                        <td>Output format (<code>html</code>, <code>md</code>, <code>offline</code>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>-prefix</code></td>
+                                        <td>String</td>
+                                        <td><code>https://distribute.kartikarora.me</code></td>
+                                        <td>Asset prefix URL for stylesheets and web components.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>--no-browser</code></td>
+                                        <td>Flag</td>
+                                        <td><code>false</code></td>
+                                        <td>Do not automatically open the browser when the server starts.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>--no-serve</code></td>
+                                        <td>Flag</td>
+                                        <td><code>false</code></td>
+                                        <td>Extract and export only, without starting the preview server.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">EXAMPLES</div>
+                        <div class="man-content font-mono" style="font-size: 0.9rem;">
+                            <p>Extract and launch the live demo immediately:</p>
+                            <pre><code class="language-bash">klaat demo</code></pre>
+                            <p style="margin-top: 10px;">Extract and export without starting the server:</p>
+                            <pre><code class="language-bash">klaat demo --no-serve</code></pre>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 # scripts/upload-cdn.sh
 # Uploads Klaat CDN assets (CSS and JS) to Cloudflare R2 using wrangler CLI.
 # Checks for differences and timestamp recency against the remote CDN before uploading.
-# Purges Cloudflare cache everywhere if changes were deployed.
+# Purges Cloudflare cache everywhere if an API token is provided.
 # Generates a GitHub Actions Step Summary when run in CI.
 #
 # Usage:
@@ -11,9 +11,11 @@
 #
 # Options:
 #   -b, --bucket NAME     Cloudflare R2 bucket name (default: $R2_BUCKET_NAME or "distribute-cdn")
+#   -t, --token TOKEN     Cloudflare API Token (optional, for cache purge)
+#   -z, --zone-id ID      Cloudflare Zone ID (optional, for cache purge)
 #   -m, --minify          Minify assets before checking/uploading (requires clean-css-cli and terser)
 #   -f, --force           Force upload all assets even if no changes or remote is newer
-#   -p, --purge           Purge Cloudflare CDN cache everywhere after upload
+#   -p, --purge           Purge Cloudflare CDN cache everywhere (requires API token or CI secret)
 #   -d, --dry-run         Print the wrangler commands without executing them
 #   -h, --help            Show this help message
 #
@@ -25,6 +27,8 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 ASSETS_DIR="${ROOT_DIR}/src/main/resources/assets"
 
 BUCKET="${R2_BUCKET_NAME:-distribute-cdn}"
+API_TOKEN="${CLOUDFLARE_API_TOKEN:-${CF_API_TOKEN:-}}"
+ZONE_ID="${CLOUDFLARE_ZONE_ID:-${CF_ZONE_ID:-}}"
 DO_MINIFY=false
 FORCE_UPLOAD=false
 DO_PURGE=false
@@ -36,6 +40,14 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -b|--bucket)
       BUCKET="$2"
+      shift 2
+      ;;
+    -t|--token)
+      API_TOKEN="$2"
+      shift 2
+      ;;
+    -z|--zone-id)
+      ZONE_ID="$2"
       shift 2
       ;;
     -m|--minify)
@@ -73,7 +85,7 @@ echo "  CDN Base URL:  ${CDN_URL}"
 echo "  Assets Source: ${ASSETS_DIR}"
 echo "  Minification:  ${DO_MINIFY}"
 echo "  Force Upload:  ${FORCE_UPLOAD}"
-echo "  Purge Everywhere: ${DO_PURGE}"
+echo "  Purge Cache:   ${DO_PURGE}"
 echo "  Dry Run:       ${DRY_RUN}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
@@ -256,49 +268,48 @@ else
   echo "✅ Upload complete! (${#UPLOADED_FILES[@]} file(s) updated)"
 fi
 
-PURGE_STATUS="Skipped (no files changed)"
+PURGE_STATUS="Skipped"
 
-# Optional Purge (purge everywhere when files are updated)
-if [[ "${DO_PURGE}" == true && ${#UPLOADED_FILES[@]} -gt 0 ]]; then
-  API_TOKEN="${CLOUDFLARE_API_TOKEN:-${CF_API_TOKEN:-}}"
-  ZONE_ID="${CLOUDFLARE_ZONE_ID:-${CF_ZONE_ID:-}}"
-
+# Optional Purge: Trigger when --purge is requested and token is available
+if [[ "${DO_PURGE}" == true ]]; then
   if [[ -n "${API_TOKEN}" ]]; then
-    # Auto-discover Zone ID if not provided
     if [[ -z "${ZONE_ID}" ]]; then
-      # Extract host from CDN_URL (e.g., https://distribute.kartikarora.me -> distribute.kartikarora.me)
       HOST_NAME=$(echo "${CDN_URL}" | sed -e 's|^[^/]*//||' -e 's|/.*$||')
-      # Apex domain (e.g. kartikarora.me)
       APEX_DOMAIN=$(echo "${HOST_NAME}" | awk -F. '{if (NF>2) print $(NF-1)"."$NF; else print $0}')
 
-      echo "🔍 Discovering Cloudflare Zone ID for ${APEX_DOMAIN}..."
-      ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${APEX_DOMAIN}" \
+      echo "🔍 Looking up Zone ID for ${APEX_DOMAIN}..."
+      ZONE_RESP=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${APEX_DOMAIN}" \
         -H "Authorization: Bearer ${API_TOKEN}" \
-        -H "Content-Type: application/json" | jq -r '.result[0].id // empty' 2>/dev/null || true)
+        -H "Content-Type: application/json")
+
+      ZONE_ID=$(echo "${ZONE_RESP}" | jq -r '.result[0].id // empty' 2>/dev/null || true)
     fi
 
     if [[ -n "${ZONE_ID}" ]]; then
-      echo "🧹 Purging Cloudflare Cache everywhere (purge_everything)..."
+      echo "🧹 Purging Cloudflare Cache for Zone ${ZONE_ID} (purge_everything)..."
 
-      PURGE_RESP="$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
-        -H "Authorization: Bearer ${API_TOKEN}" \
-        -H "Content-Type: application/json" \
-        --data '{"purge_everything":true}')"
-
-      if echo "${PURGE_RESP}" | grep -q '"success":true'; then
-        echo "✅ Cache purged everywhere successfully."
-        PURGE_STATUS="✅ Cache purged everywhere"
+      if [[ "${DRY_RUN}" == true ]]; then
+        echo "     [DRY RUN] curl -X POST https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache"
+        PURGE_STATUS="[DRY RUN] Would purge everywhere"
       else
-        echo "⚠️ Cache purge response: ${PURGE_RESP}"
-        PURGE_STATUS="⚠️ Failed or partial purge"
+        PURGE_RESP="$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+          -H "Authorization: Bearer ${API_TOKEN}" \
+          -H "Content-Type: application/json" \
+          --data '{"purge_everything":true}')"
+
+        if echo "${PURGE_RESP}" | grep -q '"success":true'; then
+          echo "✅ Cache purged everywhere successfully."
+          PURGE_STATUS="✅ Cache purged everywhere"
+        else
+          echo "❌ Cache purge error response from Cloudflare:"
+          echo "${PURGE_RESP}" | jq . 2>/dev/null || echo "${PURGE_RESP}"
+          PURGE_STATUS="❌ Cache purge failed"
+        fi
       fi
-    else
-      echo "⚠️  Could not auto-discover Zone ID for ${CDN_URL}. Skipping purge."
-      PURGE_STATUS="⚠️ Skipped (Zone ID not found)"
     fi
   else
-    echo "⚠️  Skipping cache purge: CLOUDFLARE_API_TOKEN must be set."
-    PURGE_STATUS="⚠️ Skipped (missing API token)"
+    echo "ℹ️  Cache purge skipped (runs automatically in GitHub Actions CI with secrets)."
+    PURGE_STATUS="ℹ️ Skipped locally"
   fi
 fi
 
