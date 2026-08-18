@@ -24,6 +24,10 @@
     <!-- Docs Specific CSS -->
     <link href="style.css" rel="stylesheet">
     
+    <!-- Klaat Custom Elements CSS & JS -->
+    <link href="https://distribute.kartikarora.me/css/klaat-elements.css" rel="stylesheet">
+    <script src="https://distribute.kartikarora.me/js/klaat-elements.js" defer></script>
+    
     <!-- Brand CDN JS -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
 </head>
@@ -196,7 +200,9 @@ You are done!</code></pre>
                                 <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                                 <pre><code class="language-bash">klaat serve -d output/</code></pre>
                             </div>
-                            <p>Your default browser will automatically open to <code>http://localhost:9090</code>.</p>
+                            <aside class="positive">
+                                <p><strong>Live Browser Preview:</strong> Your default browser will automatically open to <code>http://localhost:9090</code> with full directory listing and live codelab preview.</p>
+                            </aside>
                         </div>
                     </div>
                 </div>
@@ -711,6 +717,10 @@ You are done!</code></pre>
 }</code></pre>
                 </div>
 
+                <aside class="warning">
+                    <p><strong>Security Warning:</strong> Never commit <code>gcp_credentials.json</code> or the <code>~/.klaat/tokens/</code> directory into your public Git repositories.</p>
+                </aside>
+
                 <h2>2. Authentication workflow</h2>
                 <p>On your first export command executing a Google Document ID source, Klaat will:</p>
                 <ol>
@@ -718,7 +728,9 @@ You are done!</code></pre>
                     <li>Request user authorization confirming Read Access permissions for Google Docs.</li>
                     <li>Saves credentials locally within a file token storage: <code>~/.klaat/tokens/StoredCredential</code>.</li>
                 </ol>
-                <p>Subsequent command executions run silently, reusing credentials without prompting again.</p>
+                <aside class="special">
+                    <p><strong>Automatic Token Reuse:</strong> Subsequent command executions run silently, reusing credentials without prompting again.</p>
+                </aside>
             </section>
 
             <!-- Differences from original Claat -->

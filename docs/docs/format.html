@@ -24,6 +24,10 @@
     <!-- Docs Specific CSS -->
     <link href="style.css" rel="stylesheet">
     
+    <!-- Klaat Custom Elements CSS & JS -->
+    <link href="https://distribute.kartikarora.me/css/klaat-elements.css" rel="stylesheet">
+    <script src="https://distribute.kartikarora.me/js/klaat-elements.js" defer></script>
+    
     <!-- Brand CDN JS -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
 </head>
@@ -416,47 +420,68 @@ fun main() = println("Hello!")
                 <h2>Special (Info/Tips)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.special}</code> metadata tag:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details. {.special}</code></pre>
                 </div>
-                <div class="info-box-demo special">
+                <aside class="special">
                     <p>This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details.</p>
-                </div>
+                </aside>
 
                 <h2>Warning (Warnings/Alerts)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.warning}</code> metadata tag:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Be careful! "Warning" infoboxes are for important information that the user must not miss. {.warning}</code></pre>
                 </div>
-                <div class="info-box-demo warning">
+                <aside class="warning">
                     <p>Be careful! "Warning" infoboxes are for important information that the user must not miss.</p>
-                </div>
+                </aside>
 
                 <h2>Critical (Errors)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.critical}</code> metadata tag:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Do not hardcode credentials in your source code! {.critical}</code></pre>
                 </div>
-                <div class="info-box-demo warning">
+                <aside class="critical">
                     <p>Do not hardcode credentials in your source code!</p>
-                </div>
+                </aside>
 
                 <h2>Positive (Success)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.positive}</code> metadata tag:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Congratulations! Your application is now running successfully. {.positive}</code></pre>
                 </div>
-                <div class="info-box-demo positive">
+                <aside class="positive">
                     <p>Congratulations! Your application is now running successfully.</p>
-                </div>
+                </aside>
 
                 <h2>Default</h2>
-                <p>Created in markdown using any other blockquote block without the specific metadata tags:</p>
+                <p>Created in markdown using any other blockquote block without specific metadata tags:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> This is just a default aside or quote.
 > It will be styled with a neutral gray background.</code></pre>
                 </div>
-                <div class="info-box-demo default">
+                <aside class="default">
                     <p>This is just a default aside or quote. It will be styled with a neutral gray background.</p>
+                </aside>
+            </section>
+
+            <!-- Action Buttons -->
+            <section id="elem-buttons" class="docs-section">
+                <h1>Action Buttons</h1>
+                <p>Render interactive call-to-action pill buttons with icons and custom color variants using the <code>{.button}</code> tag:</p>
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-markdown">[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
+[Explore Live Demo](../demo/index.html){.button}</code></pre>
+                </div>
+                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0;">
+                    <a class="klaat-button klaat-button--colored" href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank"><span class="material-symbols-outlined">download</span>Download Starter Kit</a>
+                    <a class="klaat-button klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
+                    <a class="klaat-button klaat-button--red" href="#"><span class="material-symbols-outlined">warning</span>Critical Action</a>
                 </div>
             </section>
 
@@ -467,21 +492,23 @@ fun main() = println("Hello!")
                 <h2>Surveys</h2>
                 <p>Embed interactive questionnaires in tutorials. Surveys use list checkbox elements styled under a bold question title:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">**How do you plan to use Klaat?**
 - [ ] For classroom lectures
 - [ ] For open source libraries
 - [ ] For project internal docs</code></pre>
                 </div>
-                <div class="demo-output demo-survey">
-                    <strong>How do you plan to use Klaat?</strong>
-                    <label><input type="checkbox"> For classroom lectures</label>
-                    <label><input type="checkbox"> For open source libraries</label>
-                    <label><input type="checkbox"> For project internal docs</label>
-                </div>
+                <klaat-kodelab-survey>
+                    <h4>How do you plan to use Klaat?</h4>
+                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For classroom lectures</label>
+                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For open source libraries</label>
+                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For project internal docs</label>
+                </klaat-kodelab-survey>
 
                 <h2>Frequently Asked Questions (FAQs)</h2>
                 <p>FAQs use formatted bold queries starting with <code>Q:</code> followed by <code>A:</code> content lines:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">**Q: Does it run on Intel Macs?**
 
 A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
@@ -523,6 +550,7 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                 <h2>Images</h2>
                 <p>Load images relative or absolute. Add captions on the line immediately below in italic format:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">![Alternative text](https://placehold.co/600x400/png)
 *Figure 1: Visual mockup design layout.*</code></pre>
                 </div>
@@ -534,10 +562,11 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                 <h2>YouTube Videos</h2>
                 <p>Embed direct YouTube videos using the standalone video URL inside a markdown image link structure:</p>
                 <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)</code></pre>
                 </div>
-                <div class="demo-output">
-                    <iframe class="demo-youtube" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="youtube-container" style="max-width: 700px; margin: var(--space-md) 0;">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </section>
         </main>
