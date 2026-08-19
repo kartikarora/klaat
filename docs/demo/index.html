@@ -242,15 +242,15 @@ class CodelabExporter(private val targetDir: File)
 
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Action Buttons &amp; Interactive Links" duration="2">
-      <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states.</p>
+      <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add <code>{.buttonPrimary}</code> (or <code>{.button}</code>) for solid buttons, and <code>{.buttonSecondary}</code> for outlined buttons.</p>
 <h3>Primary Action Button</h3>
 <p>Download the sample codelab starter project:</p>
-<p><a href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank">Download Starter Kit</a>{.button}</p>
+<a class="klaat-button klaat-button--primary klaat-button--colored" href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank"><span class="material-symbols-outlined">download</span>Download Starter Kit</a>
 <h3>Secondary Action Button</h3>
 <p>View the source repository on GitHub:</p>
-<p><a href="https://github.com/kartikarora/klaat" target="_blank">Browse GitHub Repository</a>{.button}</p>
+<a class="klaat-button klaat-button--secondary" href="https://github.com/kartikarora/klaat" target="_blank">Browse GitHub Repository</a>
 <h3>External Navigation Links</h3>
-<p>Links inside paragraphs receive accent colors and hover transitions:</p>
+<p>Links without button attributes remain clean inline navigation links:</p>
 <ul>
 <li><p>Visit the official <a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Klaat Documentation</a>.</p></li>
 <li><p>View the <a href="https://github.com/kartikarora/klaat" target="_blank">Klaat GitHub Repository</a>.</p></li>
@@ -259,10 +259,13 @@ class CodelabExporter(private val targetDir: File)
 <div class="code-container"><pre><code class=" language-markdown">## Action Buttons &amp; Interactive Links
 Duration: 0:01:30
 
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
+# Primary solid button:
+[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
 
-[Browse GitHub Repository](https://github.com/kartikarora/klaat){.button}
+# Secondary outlined button:
+[Browse GitHub Repository](https://github.com/kartikarora/klaat){.buttonSecondary}
 
+# Standard inline links (no tag):
 Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
@@ -479,7 +482,8 @@ class CodelabExporter(private val targetDir: File)
 ## Action Buttons &amp; Interactive Links
 Duration: 0:01:30
 
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
+[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
+[Browse GitHub Repository](https://github.com/kartikarora/klaat){.buttonSecondary}
 
 ## Tables &amp; Structured Data
 Duration: 0:01:30

@@ -13,6 +13,7 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.Document
 import com.vladsch.flexmark.util.data.MutableDataSet
+import me.kartikarora.klaat.core.ButtonType
 import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
 import me.kartikarora.klaat.core.InfoBoxType
@@ -285,7 +286,54 @@ class MarkdownParser {
                 val textNodes = mutableListOf<KlaatNode>()
                 extractTextNodes(node, textNodes)
                 
-                val nonWhitespaceNodes = textNodes.filter { 
+                // Process textNodes to convert links followed by {.buttonPrimary}, {.buttonSecondary}, or {.button} into Buttons
+                val processedNodes = mutableListOf<KlaatNode>()
+                var i = 0
+                val buttonTagRegex = Regex("^\\{\\.(buttonPrimary|buttonSecondary|button)\\}(.*)$", RegexOption.IGNORE_CASE)
+
+                while (i < textNodes.size) {
+                    val current = textNodes[i]
+                    if (current is KlaatNode.Link && i + 1 < textNodes.size) {
+                        val next = textNodes[i + 1]
+                        if (next is KlaatNode.Text) {
+                            val match = buttonTagRegex.find(next.content.trimStart())
+                            if (match != null) {
+                                val tagType = match.groupValues[1].lowercase()
+                                val buttonType = if (tagType == "buttonsecondary") ButtonType.SECONDARY else ButtonType.PRIMARY
+                                val remainder = match.groupValues[2]
+                                val isDownload = current.text.contains("download", ignoreCase = true) ||
+                                        current.url.endsWith(".zip", ignoreCase = true) ||
+                                        current.url.endsWith(".tar.gz", ignoreCase = true)
+
+                                processedNodes.add(
+                                    KlaatNode.Button(
+                                        url = current.url,
+                                        text = current.text,
+                                        type = buttonType,
+                                        download = isDownload
+                                    )
+                                )
+
+                                if (remainder.isNotEmpty()) {
+                                    processedNodes.add(
+                                        KlaatNode.Text(
+                                            remainder,
+                                            bold = next.bold,
+                                            italic = next.italic,
+                                            code = next.code
+                                        )
+                                    )
+                                }
+                                i += 2
+                                continue
+                            }
+                        }
+                    }
+                    processedNodes.add(current)
+                    i++
+                }
+
+                val nonWhitespaceNodes = processedNodes.filter { 
                     it !is KlaatNode.Text || it.content.trim().isNotEmpty() 
                 }
                 
@@ -296,18 +344,20 @@ class MarkdownParser {
                     if (match != null) {
                         nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
                     } else {
-                        nodes.add(KlaatNode.Button(url = link.url, text = link.text))
+                        nodes.add(KlaatNode.Paragraph(processedNodes))
                     }
+                } else if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Button) {
+                    nodes.add(nonWhitespaceNodes.first())
                 } else if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Text) {
                     val text = (nonWhitespaceNodes.first() as KlaatNode.Text).content.trim()
                     val match = youtubeRegex.find(text)
                     if (match != null) {
                         nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
-                    } else if (textNodes.isNotEmpty()) {
-                        nodes.add(KlaatNode.Paragraph(textNodes))
+                    } else if (processedNodes.isNotEmpty()) {
+                        nodes.add(KlaatNode.Paragraph(processedNodes))
                     }
-                } else if (textNodes.isNotEmpty()) {
-                    nodes.add(KlaatNode.Paragraph(textNodes))
+                } else if (processedNodes.isNotEmpty()) {
+                    nodes.add(KlaatNode.Paragraph(processedNodes))
                 }
             }
             is BlockQuote -> {

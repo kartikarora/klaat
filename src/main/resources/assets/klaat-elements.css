@@ -649,9 +649,38 @@ klaat-kodelab-step .instructions a.klaat-button:hover,
   box-shadow: 0 6px 16px var(--glow);
 }
 
+klaat-kodelab-step .instructions a.klaat-button--primary,
 klaat-kodelab-step .instructions a.klaat-button--colored,
+.klaat-button--primary,
 .klaat-button--colored {
   background: var(--accent);
+  color: #ffffff !important;
+}
+
+klaat-kodelab-step .instructions a.klaat-button--secondary,
+klaat-kodelab-step .instructions a.klaat-button--secondary:visited,
+.klaat-button--secondary {
+  background: transparent;
+  color: var(--accent) !important;
+  border: 1.5px solid var(--accent);
+  box-shadow: none;
+}
+
+klaat-kodelab-step .instructions a.klaat-button--secondary:hover,
+.klaat-button--secondary:hover {
+  background: var(--accent);
+  color: #ffffff !important;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--glow);
+}
+
+klaat-kodelab-step .instructions a.klaat-button--secondary .material-symbols-outlined,
+.klaat-button--secondary .material-symbols-outlined {
+  color: var(--accent) !important;
+}
+
+klaat-kodelab-step .instructions a.klaat-button--secondary:hover .material-symbols-outlined,
+.klaat-button--secondary:hover .material-symbols-outlined {
   color: #ffffff !important;
 }
 
@@ -663,7 +692,6 @@ klaat-kodelab-step .instructions a.klaat-button--red,
 
 .klaat-button .material-symbols-outlined {
   font-size: 18px !important;
-  color: #ffffff !important;
 }
 
 /* --- Bottom Navigation Controls ------------------------------------------- */

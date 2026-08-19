@@ -327,14 +327,14 @@ class MarkdownRendererTest {
 
     @Test
     fun `test render button with download`() {
-        val button = Node.Button("https://download.com/file", "Download", download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.PRIMARY, download = true)
         val step = Step("Test", listOf(button))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.md").readText()
-        assertTrue(content.contains("[⬇️ Download](https://download.com/file)"))
+        assertTrue(content.contains("[Download](https://download.com/file){.buttonPrimary}"))
     }
 
     @Test

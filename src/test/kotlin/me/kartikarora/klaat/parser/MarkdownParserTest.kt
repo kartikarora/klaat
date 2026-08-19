@@ -906,22 +906,45 @@ class MarkdownParserTest {
         assertEquals("an image", images[0].alt)
     }
     @Test
-    fun `test parse single link as button`() {
+    fun `test parse link as Button with tag`() {
         val markdown = """
             # Title
             
             ## Step 1
             
-            [Download Starter Code](https://example.com/starter.zip)
+            [Download Starter Code](https://example.com/starter.zip){.buttonPrimary}
+            
+            [Browse Repo](https://example.com/repo){.buttonSecondary}
+            
+            [Default Button](https://example.com/default){.button}
+            
+            [Plain Link](https://example.com/plain)
         """.trimIndent()
 
         val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
         val content = codelab.steps[0].content
         
-        val button = content.filterIsInstance<Node.Button>().firstOrNull()
-        assertNotNull(button)
-        assertEquals("https://example.com/starter.zip", button.url)
-        assertEquals("Download Starter Code", button.text)
+        val buttons = content.filterIsInstance<Node.Button>()
+        assertEquals(3, buttons.size)
+        
+        assertEquals("https://example.com/starter.zip", buttons[0].url)
+        assertEquals("Download Starter Code", buttons[0].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.PRIMARY, buttons[0].type)
+        assertTrue(buttons[0].download)
+        
+        assertEquals("https://example.com/repo", buttons[1].url)
+        assertEquals("Browse Repo", buttons[1].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.SECONDARY, buttons[1].type)
+        assertFalse(buttons[1].download)
+        
+        assertEquals("https://example.com/default", buttons[2].url)
+        assertEquals("Default Button", buttons[2].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.PRIMARY, buttons[2].type)
+
+        // Verify plain link remains a Link inside Paragraph
+        val paragraphs = content.filterIsInstance<Node.Paragraph>()
+        val plainLinkParagraph = paragraphs.firstOrNull { p -> p.nodes.any { it is Node.Link && it.url == "https://example.com/plain" } }
+        assertNotNull(plainLinkParagraph)
     }
 
     @Test

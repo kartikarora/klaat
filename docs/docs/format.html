@@ -472,16 +472,18 @@ fun main() = println("Hello!")
             <!-- Action Buttons -->
             <section id="elem-buttons" class="docs-section">
                 <h1>Action Buttons</h1>
-                <p>Render interactive call-to-action pill buttons with icons and custom color variants using the <code>{.button}</code> tag:</p>
+                <p>A link becomes a call-to-action pill button <strong>only</strong> when accompanied by a button tag attribute. Klaat supports both solid primary and outlined secondary button variants:</p>
                 <div class="code-container">
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
-                    <pre><code class="language-markdown">[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.button}
-[Explore Live Demo](../demo/index.html){.button}</code></pre>
+                    <pre><code class="language-markdown"># Primary Solid Button (Default)
+[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
+
+# Secondary Outlined Button
+[Explore Live Demo](../demo/index.html){.buttonSecondary}</code></pre>
                 </div>
                 <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0;">
-                    <a class="klaat-button klaat-button--colored" href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank"><span class="material-symbols-outlined">download</span>Download Starter Kit</a>
-                    <a class="klaat-button klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
-                    <a class="klaat-button klaat-button--red" href="#"><span class="material-symbols-outlined">warning</span>Critical Action</a>
+                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank"><span class="material-symbols-outlined">download</span>Download Starter Kit</a>
+                    <a class="klaat-button klaat-button--secondary" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
                 </div>
             </section>
 

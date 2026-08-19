@@ -178,8 +178,11 @@ class MarkdownRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val icon = if (node.download) "⬇️ " else ""
-        return "[$icon${node.text}](${node.url})"
+        val tag = when (node.type) {
+            me.kartikarora.klaat.core.ButtonType.PRIMARY -> "{.buttonPrimary}"
+            me.kartikarora.klaat.core.ButtonType.SECONDARY -> "{.buttonSecondary}"
+        }
+        return "[${node.text}](${node.url})$tag"
     }
 
     private fun renderSurvey(node: Node.Survey): String {

@@ -50,7 +50,12 @@ sealed class Node {
     data class YoutubeVideo(val videoId: String) : Node()
     data class IFrame(val src: String) : Node()
     data class Link(val url: String, val text: String) : Node()
-    data class Button(val url: String, val text: String, val download: Boolean = false) : Node()
+    data class Button(
+        val url: String,
+        val text: String,
+        val type: ButtonType = ButtonType.PRIMARY,
+        val download: Boolean = false
+    ) : Node()
     data class Survey(val question: String, val options: List<String>) : Node()
     data class FAQ(val links: List<Link>) : Node()
     data class Table(
@@ -59,6 +64,11 @@ sealed class Node {
         /** Per-column alignment: "left", "center", "right", or null when unspecified. */
         val alignments: List<String?> = emptyList()
     ) : Node()
+}
+
+enum class ButtonType {
+    PRIMARY,
+    SECONDARY
 }
 
 enum class InfoBoxType {

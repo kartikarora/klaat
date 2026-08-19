@@ -385,7 +385,7 @@ class HtmlRendererTest {
 
     @Test
     fun `test render button with download`() {
-        val button = Node.Button("https://download.com/file", "Download", download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.PRIMARY, download = true)
         val step = Step("Test", listOf(button))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
@@ -393,8 +393,23 @@ class HtmlRendererTest {
 
         val content = File(tempDir, "test/index.html").readText()
         assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--primary"))
         assertTrue(content.contains("download"))
         assertTrue(content.contains("Download"))
+    }
+
+    @Test
+    fun `test render secondary button`() {
+        val button = Node.Button("https://example.com/secondary", "Secondary Action", type = me.kartikarora.klaat.core.ButtonType.SECONDARY)
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--secondary"))
+        assertTrue(content.contains("Secondary Action"))
     }
 
     @Test
