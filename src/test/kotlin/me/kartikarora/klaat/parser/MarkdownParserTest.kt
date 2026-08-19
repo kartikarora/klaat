@@ -929,17 +929,17 @@ class MarkdownParserTest {
         
         assertEquals("https://example.com/starter.zip", buttons[0].url)
         assertEquals("Download Starter Code", buttons[0].text)
-        assertEquals(me.kartikarora.klaat.core.ButtonType.PRIMARY, buttons[0].type)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[0].type)
         assertTrue(buttons[0].download)
         
         assertEquals("https://example.com/repo", buttons[1].url)
         assertEquals("Browse Repo", buttons[1].text)
-        assertEquals(me.kartikarora.klaat.core.ButtonType.SECONDARY, buttons[1].type)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Secondary, buttons[1].type)
         assertFalse(buttons[1].download)
         
         assertEquals("https://example.com/default", buttons[2].url)
         assertEquals("Default Button", buttons[2].text)
-        assertEquals(me.kartikarora.klaat.core.ButtonType.PRIMARY, buttons[2].type)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[2].type)
 
         // Verify plain link remains a Link inside Paragraph
         val paragraphs = content.filterIsInstance<Node.Paragraph>()

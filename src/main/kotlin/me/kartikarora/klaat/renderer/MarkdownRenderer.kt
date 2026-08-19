@@ -179,8 +179,8 @@ class MarkdownRenderer {
 
     private fun renderButton(node: Node.Button): String {
         val tag = when (node.type) {
-            me.kartikarora.klaat.core.ButtonType.PRIMARY -> "{.buttonPrimary}"
-            me.kartikarora.klaat.core.ButtonType.SECONDARY -> "{.buttonSecondary}"
+            is me.kartikarora.klaat.core.ButtonType.Primary -> "{.buttonPrimary}"
+            is me.kartikarora.klaat.core.ButtonType.Secondary -> "{.buttonSecondary}"
         }
         return "[${node.text}](${node.url})$tag"
     }

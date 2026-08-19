@@ -211,10 +211,10 @@ class CodelabTest {
 
     @Test
     fun `test Node Button`() {
-        val button = Node.Button("https://download.com/file", "Download", type = ButtonType.PRIMARY, download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = ButtonType.Primary, download = true)
         assertEquals("https://download.com/file", button.url)
         assertEquals("Download", button.text)
-        assertEquals(ButtonType.PRIMARY, button.type)
+        assertEquals(ButtonType.Primary, button.type)
         assertEquals(true, button.download)
     }
 

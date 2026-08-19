@@ -299,7 +299,7 @@ class MarkdownParser {
                             val match = buttonTagRegex.find(next.content.trimStart())
                             if (match != null) {
                                 val tagType = match.groupValues[1].lowercase()
-                                val buttonType = if (tagType == "buttonsecondary") ButtonType.SECONDARY else ButtonType.PRIMARY
+                                val buttonType = if (tagType == "buttonsecondary") ButtonType.Secondary else ButtonType.Primary
                                 val remainder = match.groupValues[2]
                                 val isDownload = current.text.contains("download", ignoreCase = true) ||
                                         current.url.endsWith(".zip", ignoreCase = true) ||

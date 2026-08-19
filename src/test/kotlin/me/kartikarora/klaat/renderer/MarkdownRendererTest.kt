@@ -327,7 +327,7 @@ class MarkdownRendererTest {
 
     @Test
     fun `test render button with download`() {
-        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.PRIMARY, download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.Primary, download = true)
         val step = Step("Test", listOf(button))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 

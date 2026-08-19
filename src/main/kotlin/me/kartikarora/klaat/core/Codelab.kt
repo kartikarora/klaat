@@ -53,7 +53,7 @@ sealed class Node {
     data class Button(
         val url: String,
         val text: String,
-        val type: ButtonType = ButtonType.PRIMARY,
+        val type: ButtonType = ButtonType.Primary,
         val download: Boolean = false
     ) : Node()
     data class Survey(val question: String, val options: List<String>) : Node()
@@ -66,9 +66,9 @@ sealed class Node {
     ) : Node()
 }
 
-enum class ButtonType {
-    PRIMARY,
-    SECONDARY
+sealed interface ButtonType {
+    data object Primary : ButtonType
+    data object Secondary : ButtonType
 }
 
 enum class InfoBoxType {
