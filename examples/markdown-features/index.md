@@ -12,27 +12,28 @@ tags: demo, features
 # Klaat Markdown Features Demo
 
 ## Buttons and InfoBoxes
-Duration: 3
+Duration: 0:02:00
 
-This step demonstrates the new Button and InfoBox features!
+This step demonstrates interactive button variants and rich InfoBoxes!
 
-### Buttons
-A button is created by placing a single link on a line by itself.
+### Action Buttons
+A button is created by adding the `{.buttonPrimary}` or `{.buttonSecondary}` tag attribute to a link:
 
-[Download Klaat](https://github.com/kartikarora/klaat)
+[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
 
-It shouldn't work if there's other text on the line:
-This is a [link](https://github.com/kartikarora/klaat).
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
+
+Standard links without button attributes remain clean inline links:
+Visit the official [documentation](https://klaat.kartikarora.me/docs/index.html) to learn more.
 
 ### InfoBoxes (Alerts)
-InfoBoxes are created using blockquotes.
+InfoBoxes are created using blockquotes with attribute tags:
 
 Positive InfoBox (Note/Tip):
-> **Note:** Klaat now supports InfoBoxes natively!
-> You can even put multiple lines inside.
+> **Note:** Klaat now supports InfoBoxes natively! You can even put multiple lines inside. {.positive}
 
 Negative InfoBox (Warning/Caution):
-> **Warning:** Be careful not to use unsupported Markdown features.
+> **Warning:** Be careful to specify button tags explicitly for pill rendering. {.warning}
 
 ## Nested Flow in Lists and Tables
 Duration: 5

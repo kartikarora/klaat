@@ -338,6 +338,18 @@ class MarkdownRendererTest {
     }
 
     @Test
+    fun `test render button with custom icon`() {
+        val button = Node.Button("https://example.com/play", "Watch Demo", type = me.kartikarora.klaat.core.ButtonType.Secondary, icon = "play_arrow")
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.md").readText()
+        assertTrue(content.contains("[Watch Demo](https://example.com/play){.buttonSecondary icon=play_arrow}"))
+    }
+
+    @Test
     fun `test render survey`() {
         val survey = Node.Survey("Question?", listOf("Yes", "No"))
         val step = Step("Test", listOf(survey))

@@ -211,12 +211,16 @@ class HtmlRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val downloadIcon = if (node.download) """<span class="material-symbols-outlined">download</span>""" else ""
+        val iconSpan = when {
+            node.icon != null -> """<span class="material-symbols-outlined">${escape(node.icon)}</span>"""
+            node.download -> """<span class="material-symbols-outlined">download</span>"""
+            else -> ""
+        }
         val typeClass = when (node.type) {
             is me.kartikarora.klaat.core.ButtonType.Primary -> "klaat-button--primary klaat-button--colored"
             is me.kartikarora.klaat.core.ButtonType.Secondary -> "klaat-button--secondary"
         }
-        return """<a class="klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$downloadIcon${escape(node.text)}</a>"""
+        return """<a class="klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
     }
 
     private fun renderSurvey(node: Node.Survey): String {

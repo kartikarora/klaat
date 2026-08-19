@@ -413,6 +413,21 @@ class HtmlRendererTest {
     }
 
     @Test
+    fun `test render button with custom icon`() {
+        val button = Node.Button("https://example.com/watch", "Watch Video", type = me.kartikarora.klaat.core.ButtonType.Primary, icon = "play_arrow")
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--primary"))
+        assertTrue(content.contains("play_arrow"))
+        assertTrue(content.contains("Watch Video"))
+    }
+
+    @Test
     fun `test render survey`() {
         val survey = Node.Survey("What do you think?", listOf("Great", "Good", "Poor"))
         val step = Step("Test", listOf(survey))

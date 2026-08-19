@@ -5,7 +5,7 @@ authors: Kartik Arora
 categories: demo, markdown, kotlin, tutorial
 environments: web
 status: published
-feedback_link: https://github.com/kartikarora/klaat/issues
+feedback_link: mailto:dev&#64;kartikarora&#46;me
 tags: demo, features, components, markdown, showcase, video, youtube
 duration: 20
 ---
@@ -252,21 +252,29 @@ class CodelabExporter(private val targetDir: File)
 ## Action Buttons & Interactive Links
 Duration: 0:01:30
 
-Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add `{.buttonPrimary}` (or `{.button}`) for solid buttons, and `{.buttonSecondary}` for outlined buttons.
+Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add `{.buttonPrimary}` (or `{.button}`) for solid buttons, `{.buttonSecondary}` for outlined buttons, and `icon=<name>` for custom Material Symbol icons.
 
 ### Primary Action Button
 
-Download the sample codelab starter project:
+Explore the official Klaat documentation:
 
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
+[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
 
 ---
 
-### Secondary Action Button
+### Automatic Download Button (Harmless Demo)
 
-View the source repository on GitHub:
+Links with `"download"` in their text or targeting archive files automatically display the download symbol without requiring a custom icon tag:
 
-[Browse GitHub Repository](https://github.com/kartikarora/klaat){.buttonSecondary}
+[Download Sample Asset](#){.buttonPrimary}
+
+---
+
+### Secondary Action Button with Custom Icon
+
+Send feedback or reach out with suggestions:
+
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
 
 ---
 
@@ -274,7 +282,7 @@ View the source repository on GitHub:
 
 Links without button attributes remain clean inline navigation links:
 - Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
-- View the [Klaat GitHub Repository](https://github.com/kartikarora/klaat).
+- Explore the [Format Guide](https://klaat.kartikarora.me/docs/format.html).
 
 ---
 
@@ -284,11 +292,14 @@ Links without button attributes remain clean inline navigation links:
 ## Action Buttons & Interactive Links
 Duration: 0:01:30
 
-# Primary solid button:
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
+# Primary solid button with custom icon:
+[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
 
-# Secondary outlined button:
-[Browse GitHub Repository](https://github.com/kartikarora/klaat){.buttonSecondary}
+# Automatic download detection (no custom icon needed):
+[Download Sample Asset](#){.buttonPrimary}
+
+# Secondary outlined button with email icon:
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
 
 # Standard inline links (no tag):
 Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
@@ -540,8 +551,9 @@ class CodelabExporter(private val targetDir: File)
 ## Action Buttons & Interactive Links
 Duration: 0:01:30
 
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
-[Browse GitHub Repository](https://github.com/kartikarora/klaat){.buttonSecondary}
+[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
+[Download Sample Asset](#){.buttonPrimary}
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
 
 ## Tables & Structured Data
 Duration: 0:01:30
@@ -601,4 +613,4 @@ Congratulations! You have completed the **Klaat Feature Showcase**.
 ### Next Steps
 - 📖 Read the complete [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html)
 - 🚀 Install Klaat skills for your AI agent with `klaat install-skills`
-- ⭐ Star the project on [GitHub](https://github.com/kartikarora/klaat)
+- 💬 Reach out with feedback, thoughts, or suggestions: `dev [at] kartikarora [dot] me` (<a href="mailto:dev&#64;kartikarora&#46;me">send email</a>)

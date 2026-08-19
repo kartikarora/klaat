@@ -103,9 +103,11 @@ tasks.named<JavaExec>("run") {
     )
 }
 
-// Generate BuildConfig.kt with build variant info
 val generateBuildConfig by tasks.registering {
     val outputDir = layout.buildDirectory.dir("generated/source/buildConfig")
+    inputs.property("versionName", versionName)
+    inputs.property("buildVariant", buildVariant)
+    inputs.property("isSnapshot", isSnapshot)
     outputs.dir(outputDir)
 
     doLast {

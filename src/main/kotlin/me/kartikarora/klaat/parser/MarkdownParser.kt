@@ -289,7 +289,7 @@ class MarkdownParser {
                 // Process textNodes to convert links followed by {.buttonPrimary}, {.buttonSecondary}, or {.button} into Buttons
                 val processedNodes = mutableListOf<KlaatNode>()
                 var i = 0
-                val buttonTagRegex = Regex("^\\{\\.(buttonPrimary|buttonSecondary|button)\\}(.*)$", RegexOption.IGNORE_CASE)
+                val buttonTagRegex = Regex("^\\{\\.(buttonPrimary|buttonSecondary|button)(?:\\s+icon=[\"']?([a-zA-Z0-9_-]+)[\"']?)?\\}(.*)$", RegexOption.IGNORE_CASE)
 
                 while (i < textNodes.size) {
                     val current = textNodes[i]
@@ -300,7 +300,8 @@ class MarkdownParser {
                             if (match != null) {
                                 val tagType = match.groupValues[1].lowercase()
                                 val buttonType = if (tagType == "buttonsecondary") ButtonType.Secondary else ButtonType.Primary
-                                val remainder = match.groupValues[2]
+                                val customIcon = match.groupValues[2].takeIf { it.isNotEmpty() }
+                                val remainder = match.groupValues[3]
                                 val isDownload = current.text.contains("download", ignoreCase = true) ||
                                         current.url.endsWith(".zip", ignoreCase = true) ||
                                         current.url.endsWith(".tar.gz", ignoreCase = true)
@@ -310,7 +311,8 @@ class MarkdownParser {
                                         url = current.url,
                                         text = current.text,
                                         type = buttonType,
-                                        download = isDownload
+                                        download = isDownload,
+                                        icon = customIcon
                                     )
                                 )
 

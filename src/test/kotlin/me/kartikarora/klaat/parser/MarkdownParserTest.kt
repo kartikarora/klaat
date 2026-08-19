@@ -948,6 +948,29 @@ class MarkdownParserTest {
     }
 
     @Test
+    fun `test parse button with custom icon attribute`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Watch Demo](https://example.com/demo){.buttonPrimary icon=play_arrow}
+            
+            [External Docs](https://example.com/docs){.buttonSecondary icon="launch"}
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val buttons = content.filterIsInstance<Node.Button>()
+        
+        assertEquals(2, buttons.size)
+        assertEquals("play_arrow", buttons[0].icon)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[0].type)
+        assertEquals("launch", buttons[1].icon)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Secondary, buttons[1].type)
+    }
+
+    @Test
     fun `test parse blockquote as InfoBox`() {
         val markdown = """
             ---

@@ -118,7 +118,7 @@ Follow this checklist before tagging a new release:
 - [ ] **5. Validate Native Binary Directly**: Test key CLI workflows directly with the native executable:
   ```bash
   ./build/native/nativeCompile/klaat version
-  ./build/native/nativeCompile/klaat export examples/simple-test.md -o build/native-test-out -f html
+  ./build/native/nativeCompile/klaat export examples/feature-showcase.md -o build/native-test-out -f html
   ./build/native/nativeCompile/klaat export examples/infobox-example.md -o build/native-test-out -f html
   ```
 - [ ] **6. Version Verification**: Check that version numbers in `gradle/libs.versions.toml` and documentation (`README.md`, `DEVELOPMENT.md`) are aligned.

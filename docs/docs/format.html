@@ -279,7 +279,7 @@ team: DevRel</code></pre>
                     <li><strong>Frontmatter Block:</strong> Must sit at the very beginning of the document enclosed inside triple dashes (<code>---</code>) as YAML fields.</li>
                     <li><strong>Codelab Title:</strong> Must be a Heading 1 (e.g. <code># Title</code>) directly following the YAML frontmatter.</li>
                     <li><strong>Steps Headers:</strong> Each step is denoted by a Heading 2 (e.g. <code>## Step Title</code>).</li>
-                    <li><strong>Step Duration:</strong> Directly beneath each Heading 2 step title, specify the expected time required using <code>Duration: MM</code> (where MM is in minutes).</li>
+                    <li><strong>Step Duration:</strong> Directly beneath each Heading 2 step title, specify the expected time required using <code>Duration: MM</code> (minutes), <code>Duration: HH:MM:SS</code> / <code>MM:SS</code> (e.g. <code>Duration: 0:01:30</code>), or <code>Duration: 0:00:00 (ignore)</code> to exclude the step from the remaining total countdown.</li>
                 </ul>
 
                 <h3>Complete Markdown Example</h3>
@@ -472,18 +472,30 @@ fun main() = println("Hello!")
             <!-- Action Buttons -->
             <section id="elem-buttons" class="docs-section">
                 <h1>Action Buttons</h1>
-                <p>A link becomes a call-to-action pill button <strong>only</strong> when accompanied by a button tag attribute. Klaat supports both solid primary and outlined secondary button variants:</p>
+                <p>A link becomes a call-to-action pill button <strong>only</strong> when accompanied by a button tag attribute. Standalone links without button tags remain standard inline links. Klaat supports solid primary, outlined secondary variants, and custom Material Symbol icons:</p>
+                <ul>
+                    <li><code>{.buttonPrimary}</code> (or shorthand <code>{.button}</code>): Renders a solid accent-filled pill button.</li>
+                    <li><code>{.buttonSecondary}</code>: Renders a sleek outlined accent button.</li>
+                    <li><code>icon=&lt;name&gt;</code>: Custom Material Symbol icon attribute (e.g. <code>{.buttonPrimary icon=play_arrow}</code> or <code>{.buttonSecondary icon="launch"}</code>).</li>
+                    <li><strong>Automatic Download Icon:</strong> Links whose text or URL references "download" or file extensions (<code>.zip</code>, <code>.tar.gz</code>) automatically display the download icon if no custom icon is specified.</li>
+                </ul>
                 <div class="code-container">
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
-                    <pre><code class="language-markdown"># Primary Solid Button (Default)
-[Download Starter Kit](https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip){.buttonPrimary}
+                    <pre><code class="language-markdown"># Primary Solid Button with Custom Icon
+[Explore Live Demo](../demo/index.html){.buttonPrimary icon=play_arrow}
 
-# Secondary Outlined Button
-[Explore Live Demo](../demo/index.html){.buttonSecondary}</code></pre>
+# Secondary Outlined Button with Email Icon
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
+
+# Automatic Download Detection (on .zip or download links)
+[Download Sample Archive](https://example.com/archive.zip){.buttonPrimary}
+
+# Standard Inline Link (no button tag)
+Visit the [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).</code></pre>
                 </div>
                 <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0;">
-                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="https://github.com/kartikarora/klaat/archive/refs/heads/develop.zip" target="_blank"><span class="material-symbols-outlined">download</span>Download Starter Kit</a>
-                    <a class="klaat-button klaat-button--secondary" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
+                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
+                    <a class="klaat-button klaat-button--secondary" href="mailto:dev&#64;kartikarora&#46;me"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
                 </div>
             </section>
 

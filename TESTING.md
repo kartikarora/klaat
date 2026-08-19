@@ -93,9 +93,10 @@ Tests the local preview server:
 
 The `examples/` directory contains sample codelabs used for testing and validation:
 
-- `simple-test.md` - Minimal codelab for quick tests
-- `demo-tutorial.md` - Comprehensive example with multiple features
+- `feature-showcase.md` - Complete interactive showcase featuring all Klaat capabilities
 - `comprehensive-example.md` - Full-featured codelab demonstrating all supported elements
+- `infobox-example.md` - Callout and alert box variants
+- `images-example.md` - Embedded local and remote images
 
 ### Test Resources
 

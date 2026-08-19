@@ -178,11 +178,12 @@ class MarkdownRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val tag = when (node.type) {
-            is me.kartikarora.klaat.core.ButtonType.Primary -> "{.buttonPrimary}"
-            is me.kartikarora.klaat.core.ButtonType.Secondary -> "{.buttonSecondary}"
+        val tagBase = when (node.type) {
+            is me.kartikarora.klaat.core.ButtonType.Primary -> ".buttonPrimary"
+            is me.kartikarora.klaat.core.ButtonType.Secondary -> ".buttonSecondary"
         }
-        return "[${node.text}](${node.url})$tag"
+        val iconAttr = if (node.icon != null) " icon=${node.icon}" else ""
+        return "[${node.text}](${node.url}){$tagBase$iconAttr}"
     }
 
     private fun renderSurvey(node: Node.Survey): String {

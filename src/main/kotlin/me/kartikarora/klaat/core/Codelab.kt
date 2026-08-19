@@ -54,7 +54,8 @@ sealed class Node {
         val url: String,
         val text: String,
         val type: ButtonType = ButtonType.Primary,
-        val download: Boolean = false
+        val download: Boolean = false,
+        val icon: String? = null
     ) : Node()
     data class Survey(val question: String, val options: List<String>) : Node()
     data class FAQ(val links: List<Link>) : Node()

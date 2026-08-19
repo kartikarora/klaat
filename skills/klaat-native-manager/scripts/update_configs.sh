@@ -32,7 +32,6 @@ done
 mkdir -p build/agent-test-output
 
 echo "📝 Running export (Markdown to HTML)..."
-./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f html"
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f html"
 ./gradlew -Pagent run --args="export examples/comprehensive-example.md -o build/agent-test-output -f html"
 ./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f html"
@@ -41,11 +40,10 @@ echo "📝 Running demo command (extract & export)..."
 ./gradlew -Pagent run --args="demo --no-serve -o build/agent-test-output"
 
 echo "📝 Running export (Markdown to MD)..."
-./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f md"
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f md"
+./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f md"
 
 echo "📝 Running export (Markdown to Offline)..."
-./gradlew -Pagent run --args="export examples/simple-test.md -o build/agent-test-output -f offline"
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f offline"
 ./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f offline"
 
@@ -66,7 +64,7 @@ echo "📝 Running invalid export (non-existent file)..."
 ./gradlew -Pagent run --args="export non_existent_file.md" || true
 
 echo "📝 Running invalid export (invalid format)..."
-./gradlew -Pagent run --args="export examples/simple-test.md -f invalid_format" || true
+./gradlew -Pagent run --args="export examples/feature-showcase.md -f invalid_format" || true
 
 echo "📝 Running install-skills (project scope)..."
 ./gradlew -Pagent run --args="install-skills" || true

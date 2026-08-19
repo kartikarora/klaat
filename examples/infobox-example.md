@@ -11,7 +11,7 @@ authors: Klaat Agent
 
 ## Step 1: The "Special" Infobox
 
-Duration: 1
+Duration: 0:01:00
 
 This step shows a "special" infobox, which is ideal for tips, notes, or supplementary information.
 
@@ -21,7 +21,7 @@ This is regular text following the infobox.
 
 ## Step 2: The "Warning" Infobox
 
-Duration: 1
+Duration: 0:01:00
 
 This step shows a "warning" infobox, which should be used for critical alerts, potential pitfalls, or cautionary advice.
 
@@ -29,15 +29,15 @@ This step shows a "warning" infobox, which should be used for critical alerts, p
 
 ## Step 3: The "Critical" Infobox
 
-Duration: 1
+Duration: 0:01:00
 
-This step shows an "critical" infobox, which is useful for highlighting mistakes, breaking changes, or things that must be avoided.
+This step shows a "critical" infobox, which is useful for highlighting mistakes, breaking changes, or things that must be avoided.
 
 > Do not hardcode credentials in your source code! {.critical}
 
 ## Step 4: The "Positive" Infobox
 
-Duration: 1
+Duration: 0:01:00
 
 This step shows a "positive" infobox, which is great for confirming correct behavior or celebrating a completed milestone.
 
@@ -45,7 +45,7 @@ This step shows a "positive" infobox, which is great for confirming correct beha
 
 ## Step 5: The Default Infobox
 
-Duration: 1
+Duration: 0:01:00 (ignore)
 
 A plain blockquote without any metadata tag renders as a default, neutral infobox.
 

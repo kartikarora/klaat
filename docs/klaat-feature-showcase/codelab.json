@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "../../",
   "mainga": "",
-  "updated": "2026-08-19T01:29:04.075Z",
+  "updated": "2026-08-19T02:09:25.811Z",
   "id": "klaat-feature-showcase",
   "duration": 21,
   "title": "Klaat Feature Showcase & Interactive Demo",
@@ -13,7 +13,7 @@
   "status": ["published"],
   "category": ["demo", "markdown", "kotlin", "tutorial"],
   "tags": ["demo", "features", "components", "markdown", "showcase", "video", "youtube"],
-  "feedback": "https://github.com/kartikarora/klaat/issues",
+  "feedback": "mailto:dev&#64;kartikarora&#46;me",
   "image": "images/klaat.png",
   "url": "klaat-feature-showcase"
 }
