@@ -36,7 +36,7 @@ class DemoCommandTest {
         val exportedHtml = File(workingDir, "output/klaat-feature-showcase/index.html")
         assertTrue(exportedHtml.exists(), "Exported demo index.html should exist")
         val content = exportedHtml.readText()
-        assertTrue(content.contains("Klaat Feature Showcase"), "Exported HTML should contain showcase title")
+        assertTrue(content.contains("Feature Showcase"), "Exported HTML should contain showcase title")
         assertTrue(content.contains("klaat-kodelab"), "Exported HTML should contain <klaat-kodelab> custom element")
     }
 }

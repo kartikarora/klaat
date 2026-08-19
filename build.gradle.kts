@@ -70,6 +70,8 @@ tasks.test {
 }
 
 tasks.named<ProcessResources>("processResources") {
+    inputs.dir(layout.projectDirectory.dir("skills"))
+    inputs.dir(layout.projectDirectory.dir("examples"))
     // Package distributable skills directly from root skills/ directory
     from(layout.projectDirectory.dir("skills")) {
         into("skills")
