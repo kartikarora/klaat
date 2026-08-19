@@ -431,12 +431,15 @@ Which command extracts the bundled demo showcase, exports it, and opens the live
 
 ```markdown
 ### Quick Knowledge Check
-Which command extracts the demo and starts preview in one step?
+
+Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?
+
 - [ ] `klaat export --preview`
 - [x] `klaat demo`
 - [ ] `klaat serve -d output`
+- [ ] `klaat preview tutorial.md`
 
-> **Correct!** `klaat demo` runs extraction, export, and preview in one step. {.positive}
+> **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
 ```
 
 ---

@@ -444,6 +444,20 @@ class HtmlRendererTest {
     }
 
     @Test
+    fun `test render survey with inline code options`() {
+        val survey = Node.Survey("Which command is best?", listOf("`klaat export`", "`klaat demo`", "Neither"))
+        val step = Step("Test", listOf(survey))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<code>klaat export</code>"))
+        assertTrue(content.contains("<code>klaat demo</code>"))
+        assertTrue(content.contains("Neither"))
+    }
+
+    @Test
     fun `test render FAQ`() {
         val faq = Node.FAQ(listOf(
             Node.Link("https://faq.com/1", "Question 1"),

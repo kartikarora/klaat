@@ -223,13 +223,30 @@ class HtmlRenderer {
         return """<a class="klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
     }
 
+    private fun renderInlineFormatting(text: String): String {
+        var result = escape(text)
+        // Convert `code` to <code>code</code>
+        result = result.replace(Regex("`([^`]+)`")) { match ->
+            "<code>${match.groupValues[1]}</code>"
+        }
+        // Convert **bold** to <strong>bold</strong>
+        result = result.replace(Regex("\\*\\*([^*]+)\\*\\*")) { match ->
+            "<strong>${match.groupValues[1]}</strong>"
+        }
+        // Convert *italic* to <em>italic</em>
+        result = result.replace(Regex("(?<!\\*)\\*([^*]+)\\*(?!\\*)")) { match ->
+            "<em>${match.groupValues[1]}</em>"
+        }
+        return result
+    }
+
     private fun renderSurvey(node: Node.Survey): String {
         val options = node.options.joinToString("\n") { option ->
-            """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${escape(option)}</label>"""
+            """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${renderInlineFormatting(option)}</label>"""
         }
         return """
 <klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
-<h4>${escape(node.question)}</h4>
+<h4>${renderInlineFormatting(node.question)}</h4>
 <div class="klaat-radio-group">
 $options
 </div>
