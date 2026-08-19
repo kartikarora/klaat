@@ -371,21 +371,22 @@ class Person(val name: String)
             <!-- Text & Typography -->
             <section id="elem-text" class="docs-section">
                 <h1>Text & Typography</h1>
-                <p>Klaat supports standard rich formatting elements:</p>
-                <ul>
-                    <li><strong>Bold:</strong> double asterisks <code>**bold text**</code></li>
-                    <li><strong>Italic:</strong> single asterisks or underscores <code>*italic text*</code> or <code>_italic_</code></li>
-                    <li><strong>Inline Code:</strong> backticks <code>`var a = 1`</code></li>
-                    <li><strong>Links:</strong> <code>[Link Title](https://example.com)</code></li>
-                    <li><strong>Action Buttons:</strong> Appending <code>{.buttonPrimary}</code>, <code>{.buttonSecondary}</code>, or <code>{.button}</code> renders an interactive pill button:
-                        <div class="code-container" style="margin-top: 10px;">
-                            <pre><code class="language-markdown">[Explore Live Demo](../demo/index.html){.buttonPrimary icon=play_arrow}</code></pre>
-                        </div>
-                        <div style="margin: var(--space-sm) 0;">
-                            <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
-                        </div>
-                    </li>
-                </ul>
+                <p>Klaat supports standard rich formatting elements including bold, italics, inline code, links, and pull quotes:</p>
+                
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-markdown">Here is **bold text**, *italic text*, and `inline code`.
+
+> "Simplicity is prerequisite for reliability." — Edsger W. Dijkstra</code></pre>
+                </div>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <p>Here is <strong>bold text</strong>, <em>italic text</em>, and <code>inline code</code>.</p>
+                    <blockquote>
+                        <p>"Simplicity is prerequisite for reliability." — Edsger W. Dijkstra</p>
+                    </blockquote>
+                </div>
             </section>
 
             <!-- Code Blocks -->
@@ -401,9 +402,13 @@ class Person(val name: String)
 fun greet(name: String) = "Hello, ${'$'}name!"
 ```</code></pre>
                 </div>
-                <div class="code-container">
-                    <pre><code class=" language-kotlin">fun greet(name: String) = "Hello, ${'$'}name!"</code></pre>
-                    <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <div class="code-container">
+                        <pre><code class=" language-kotlin">fun greet(name: String) = "Hello, ${'$'}name!"</code></pre>
+                        <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
+                    </div>
                 </div>
 
                 <h3 style="margin-top: var(--space-lg);">With Source Code Filename</h3>
@@ -415,10 +420,14 @@ fun greet(name: String) = "Hello, ${'$'}name!"
 fun main() = println("Hello!")
 ```</code></pre>
                 </div>
-                <h3>Main.kt</h3>
-                <div class="code-container">
-                    <pre><code class=" language-kotlin">fun main() = println("Hello!")</code></pre>
-                    <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <h3>Main.kt</h3>
+                    <div class="code-container">
+                        <pre><code class=" language-kotlin">fun main() = println("Hello!")</code></pre>
+                        <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
+                    </div>
                 </div>
             </section>
 
@@ -433,9 +442,12 @@ fun main() = println("Hello!")
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details. {.special}</code></pre>
                 </div>
-                <aside class="special">
-                    <p>This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details.</p>
-                </aside>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <aside class="special">
+                        <p>This is a helpful tip! Use "special" infoboxes to draw attention to non-critical details.</p>
+                    </aside>
+                </div>
 
                 <h2>Warning (Warnings/Alerts)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.warning}</code> metadata tag:</p>
@@ -443,9 +455,12 @@ fun main() = println("Hello!")
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Be careful! "Warning" infoboxes are for important information that the user must not miss. {.warning}</code></pre>
                 </div>
-                <aside class="warning">
-                    <p>Be careful! "Warning" infoboxes are for important information that the user must not miss.</p>
-                </aside>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <aside class="warning">
+                        <p>Be careful! "Warning" infoboxes are for important information that the user must not miss.</p>
+                    </aside>
+                </div>
 
                 <h2>Critical (Errors)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.critical}</code> metadata tag:</p>
@@ -453,9 +468,12 @@ fun main() = println("Hello!")
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Do not hardcode credentials in your source code! {.critical}</code></pre>
                 </div>
-                <aside class="critical">
-                    <p>Do not hardcode credentials in your source code!</p>
-                </aside>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <aside class="critical">
+                        <p>Do not hardcode credentials in your source code!</p>
+                    </aside>
+                </div>
 
                 <h2>Positive (Success)</h2>
                 <p>Created in markdown using a blockquote block containing the <code>{.positive}</code> metadata tag:</p>
@@ -463,9 +481,12 @@ fun main() = println("Hello!")
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">> Congratulations! Your application is now running successfully. {.positive}</code></pre>
                 </div>
-                <aside class="positive">
-                    <p>Congratulations! Your application is now running successfully.</p>
-                </aside>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <aside class="positive">
+                        <p>Congratulations! Your application is now running successfully.</p>
+                    </aside>
+                </div>
 
                 <h2>Default</h2>
                 <p>Created in markdown using any other blockquote block without specific metadata tags:</p>
@@ -474,9 +495,12 @@ fun main() = println("Hello!")
                     <pre><code class="language-markdown">> This is just a default aside or quote.
 > It will be styled with a neutral gray background.</code></pre>
                 </div>
-                <aside class="default">
-                    <p>This is just a default aside or quote. It will be styled with a neutral gray background.</p>
-                </aside>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <aside class="default">
+                        <p>This is just a default aside or quote. It will be styled with a neutral gray background.</p>
+                    </aside>
+                </div>
             </section>
 
             <!-- Action Buttons -->
@@ -555,12 +579,14 @@ fun main() = println("Hello!")
                 </div>
 
                 <h2>Live Visual Previews</h2>
-                <p>Here is how the button variants render in the browser:</p>
-                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0; align-items: center;">
-                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
-                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="#"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
-                    <a class="klaat-button klaat-button--secondary" href="mailto:dev&#64;kartikarora&#46;me"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
-                    <a class="klaat-button klaat-button--secondary" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">launch</span>View Documentation</a>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
+                        <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
+                        <a class="klaat-button klaat-button--primary klaat-button--colored" href="#"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
+                        <a class="klaat-button klaat-button--secondary" href="mailto:dev&#64;kartikarora&#46;me"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
+                        <a class="klaat-button klaat-button--secondary" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">launch</span>View Documentation</a>
+                    </div>
                 </div>
             </section>
 
@@ -577,14 +603,18 @@ fun main() = println("Hello!")
 - [ ] For open source libraries
 - [ ] For project internal docs</code></pre>
                 </div>
-                <klaat-kodelab-survey survey-id="survey-docs-1">
-                    <h4>How do you plan to use Klaat?</h4>
-                    <div class="klaat-radio-group">
-                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For classroom lectures</label>
-                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For open source libraries</label>
-                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For project internal docs</label>
-                    </div>
-                </klaat-kodelab-survey>
+                
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <klaat-kodelab-survey survey-id="survey-docs-1">
+                        <h4>How do you plan to use Klaat?</h4>
+                        <div class="klaat-radio-group">
+                            <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For classroom lectures</label>
+                            <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For open source libraries</label>
+                            <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For project internal docs</label>
+                        </div>
+                    </klaat-kodelab-survey>
+                </div>
 
                 <h2>Frequently Asked Questions (FAQs)</h2>
                 <p>FAQs use formatted bold queries starting with <code>Q:</code> followed by <code>A:</code> content lines:</p>
@@ -594,10 +624,14 @@ fun main() = println("Hello!")
 
 A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                 </div>
-                <h3>Frequently Asked Questions</h3>
-                <ul>
-                    <li><a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Does it run on Intel Macs?</a></li>
-                </ul>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <h3>Frequently Asked Questions</h3>
+                    <ul>
+                        <li><a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Does it run on Intel Macs?</a></li>
+                    </ul>
+                </div>
             </section>
 
             <!-- Tables -->
@@ -611,15 +645,19 @@ A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
 | `-f` | String | Output format selection. |
 | `-o` | String | Output destination. |</code></pre>
                 </div>
-                <table>
-                    <thead>
-                        <tr><th style="text-align: left;">Flag</th><th style="text-align: center;">Type</th><th style="text-align: left;">Description</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td style="text-align: left;"><code>-f</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output format selection.</td></tr>
-                        <tr><td style="text-align: left;"><code>-o</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output destination.</td></tr>
-                    </tbody>
-                </table>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <table>
+                        <thead>
+                            <tr><th style="text-align: left;">Flag</th><th style="text-align: center;">Type</th><th style="text-align: left;">Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="text-align: left;"><code>-f</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output format selection.</td></tr>
+                            <tr><td style="text-align: left;"><code>-o</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output destination.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <!-- Media -->
@@ -633,8 +671,12 @@ A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                     <pre><code class="language-markdown">![Alternative text](https://placehold.co/600x400/png)
 *Figure 1: Visual mockup design layout.*</code></pre>
                 </div>
-                <img alt="Alternative text" src="https://placehold.co/600x400/png">
-                <p><em>Figure 1: Visual mockup design layout.</em></p>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <img alt="Alternative text" src="https://placehold.co/600x400/png" style="max-width: 100%; border-radius: var(--border-radius-sm);">
+                    <p style="text-align: center; margin-top: var(--space-xs); color: var(--tertiary);"><em>Figure 1: Visual mockup design layout.</em></p>
+                </div>
 
                 <h2>YouTube Videos</h2>
                 <p>Embed direct YouTube videos using the standalone video URL inside a markdown image link structure:</p>
@@ -642,7 +684,11 @@ A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)</code></pre>
                 </div>
-                <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </section>
 
             <!-- Web Components -->
@@ -688,14 +734,17 @@ A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                 <h2>Interactive Element Preview</h2>
                 <p>Below is a live interactive <code>&lt;kodelab-survey&gt;</code> component rendered directly on this page:</p>
                 
-                <kodelab-survey survey-id="survey-component-demo">
-                    <h4>Which authoring workflow do you prefer?</h4>
-                    <div class="klaat-radio-group">
-                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Markdown (.md)</label>
-                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Google Docs (GDocs)</label>
-                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Direct HTML with Web Components</label>
-                    </div>
-                </kodelab-survey>
+                <div class="live-preview-box">
+                    <div class="live-preview-label"><span class="material-symbols-outlined">visibility</span> Live Preview (Exported HTML)</div>
+                    <kodelab-survey survey-id="survey-component-demo">
+                        <h4>Which authoring workflow do you prefer?</h4>
+                        <div class="klaat-radio-group">
+                            <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Markdown (.md)</label>
+                            <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Google Docs (GDocs)</label>
+                            <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Direct HTML with Web Components</label>
+                        </div>
+                    </kodelab-survey>
+                </div>
             </section>
 
             <!-- CDN Integration -->
