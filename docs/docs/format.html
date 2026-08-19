@@ -231,7 +231,7 @@ Final wrap-up excluded from countdown.
 </ul>
 <h3>High-Impact Blockquotes</h3>
 <p>Blockquotes feature accent borders and subtle background tinting:</p>
-<aside class="default"><p>&quot;Simplicity is prerequisite for reliability.&quot; — Edsger W. Dijkstra</p></aside>
+<aside class="default"><p>&quot;Simplicity is prerequisite for reliability.&quot; - Edsger W. Dijkstra</p></aside>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">## Text &amp; Typography Formatting
 Duration: 0:02:00
@@ -248,13 +248,13 @@ Duration: 0:02:00
     </klaat-kodelab-step>
     <klaat-kodelab-step label="Semantic Infoboxes (Alert Callouts)" duration="2">
       <p>Infoboxes (asides) highlight critical guidelines, warnings, tips, and achievements. Created using blockquotes with a trailing class tag:</p>
-<h3>Positive (Success) &amp;mdash; `{.positive}`</h3>
+<h3>Positive (Success) - `{.positive}`</h3>
 <aside class="positive"><p><strong>Success</strong>: Use positive infoboxes for milestones, successful build completions, or best practice recommendations.</p></aside>
-<h3>Special (Info / Tip) &amp;mdash; `{.special}`</h3>
+<h3>Special (Info / Tip) - `{.special}`</h3>
 <aside class="special"><p><strong>Information</strong>: Use special infoboxes for non-critical contextual notes, architecture details, or background reading.</p></aside>
-<h3>Warning (Caution) &amp;mdash; `{.warning}`</h3>
+<h3>Warning (Caution) - `{.warning}`</h3>
 <aside class="warning"><p><strong>Caution</strong>: Use warning infoboxes for breaking changes, required prerequisites, or common pitfalls.</p></aside>
-<h3>Critical (Error / Security) &amp;mdash; `{.critical}`</h3>
+<h3>Critical (Error / Security) - `{.critical}`</h3>
 <aside class="critical"><p><strong>Critical</strong>: Use critical infoboxes for security vulnerabilities, destructive operations, or data loss warnings.</p></aside>
 <h3>Default (Neutral Aside)</h3>
 <aside class="default"><p>Standard aside blockquote without a specific type tag renders with a neutral gray accent border.</p></aside>
@@ -299,54 +299,32 @@ klaat serve -d output -p 9090
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">**Exporter.kt**
-```kotlin
+\```kotlin
 package me.kartikarora.klaat.core
 class Exporter(private val targetDir: File)
+\```
 </code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
-<div class="code-container"><pre><code class="">
----
 
-## Action Buttons &amp; Interactive Links
-Duration: 0:02:00
-
-Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add `{.buttonPrimary}` (or `{.button}`) for solid buttons, `{.buttonSecondary}` for outlined buttons, and `icon=&lt;name&gt;` for custom Material Symbol icons.
-
-### Primary Action Button with Custom Icon
-
-Explore the official Klaat documentation:
-
-[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
-
----
-
-### Automatic Download Detection (Safe Demo)
-
-Links with `&quot;download&quot;` in their text or targeting archive files automatically display the download symbol without requiring a custom icon tag:
-
-[Download Sample Asset](#){.buttonPrimary}
-
----
-
-### Secondary Action Button with Custom Icon
-
-Send feedback or reach out with suggestions:
-
-[Send Feedback](mailto:dev&amp;#64;kartikarora&amp;#46;me){.buttonSecondary icon=mail}
-
----
-
-### External Navigation Links
-
-Links without button attributes remain clean inline navigation links:
-- Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
-- Explore the [CLI Man Pages](https://klaat.kartikarora.me/docs/index.html).
-
----
-
-### Source Markdown for this Step
-
-```markdown
-## Action Buttons &amp; Interactive Links
+    </klaat-kodelab-step>
+    <klaat-kodelab-step label="Action Buttons &amp; Interactive Links" duration="2">
+      <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add <code>{.buttonPrimary}</code> (or <code>{.button}</code>) for solid buttons, <code>{.buttonSecondary}</code> for outlined buttons, and <code>icon=&lt;name&gt;</code> for custom Material Symbol icons.</p>
+<h3>Primary Action Button with Custom Icon</h3>
+<p>Explore the official Klaat documentation:</p>
+<a class="klaat-button klaat-button--primary klaat-button--colored" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">menu_book</span>Read Documentation</a>
+<h3>Automatic Download Detection (Safe Demo)</h3>
+<p>Links with <code>&quot;download&quot;</code> in their text or targeting archive files automatically display the download symbol without requiring a custom icon tag:</p>
+<a class="klaat-button klaat-button--primary klaat-button--colored" href="#" target="_blank"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
+<h3>Secondary Action Button with Custom Icon</h3>
+<p>Send feedback or reach out with suggestions:</p>
+<a class="klaat-button klaat-button--secondary" href="mailto:dev&amp;#64;kartikarora&amp;#46;me" target="_blank"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
+<h3>External Navigation Links</h3>
+<p>Links without button attributes remain clean inline navigation links:</p>
+<ul>
+<li><p>Visit the official <a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Klaat Documentation</a>.</p></li>
+<li><p>Explore the <a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">CLI Man Pages</a>.</p></li>
+</ul>
+<h3>Source Markdown for this Step</h3>
+<div class="code-container"><pre><code class=" language-markdown">## Action Buttons &amp; Interactive Links
 Duration: 0:02:00
 
 # Primary solid button with custom icon:
@@ -429,13 +407,15 @@ Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index
     <klaat-kodelab-step label="Interactive Knowledge Checks (Surveys)" duration="2">
       <p>Embed interactive quizzes and knowledge checks inside any step. Options persist across reloads using <code>localStorage</code>.</p>
 <h3>Quick Knowledge Check</h3>
-<p>Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?</p>
-<ul>
-<li><p> <code>klaat export --preview</code></p></li>
-<li><p>x <code>klaat demo</code></p></li>
-<li><p> <code>klaat serve -d output</code></p></li>
-<li><p> <code>klaat preview tutorial.md</code></p></li>
-</ul>
+<klaat-kodelab-survey survey-id="survey-106962363">
+<h4>Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?</h4>
+<div class="klaat-radio-group">
+<label class="klaat-radio-label"><input type="radio" name="survey-106962363"> `klaat export --preview`</label>
+<label class="klaat-radio-label"><input type="radio" name="survey-106962363"> `klaat demo`</label>
+<label class="klaat-radio-label"><input type="radio" name="survey-106962363"> `klaat serve -d output`</label>
+<label class="klaat-radio-label"><input type="radio" name="survey-106962363"> `klaat preview tutorial.md`</label>
+</div>
+</klaat-kodelab-survey>
 <aside class="positive"><p><strong>Correct!</strong> <code>klaat demo</code>extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically.</p></aside>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">### Quick Knowledge Check
@@ -451,7 +431,7 @@ Which command extracts the demo and starts preview in one step?
     <klaat-kodelab-step label="Images &amp; Visual Assets" duration="2">
       <p>Images in Klaat are centered by default, responsive across mobile and desktop, and styled with rounded corners.</p>
 <h3>Responsive Image with Caption</h3>
-<p><img alt="Klaat Architecture &amp; Native Engine" src="../img/klaat.png"></p>
+<p><img alt="Klaat Architecture &amp; Native Engine" src="images/klaat.png"></p>
 <h3>Source Markdown for this Step</h3>
 <div class="code-container"><pre><code class=" language-markdown">## Images &amp; Visual Assets
 Duration: 0:01:30

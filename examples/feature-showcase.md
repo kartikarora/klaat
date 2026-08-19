@@ -163,7 +163,7 @@ You can emphasize text using standard Markdown constructs:
 
 Blockquotes feature accent borders and subtle background tinting:
 
-> "Simplicity is prerequisite for reliability." — Edsger W. Dijkstra
+> "Simplicity is prerequisite for reliability." - Edsger W. Dijkstra
 
 ---
 
@@ -189,25 +189,25 @@ Duration: 0:02:00
 
 Infoboxes (asides) highlight critical guidelines, warnings, tips, and achievements. Created using blockquotes with a trailing class tag:
 
-### Positive (Success) &mdash; `{.positive}`
+### Positive (Success) - `{.positive}`
 
 > **Success**: Use positive infoboxes for milestones, successful build completions, or best practice recommendations. {.positive}
 
 ---
 
-### Special (Info / Tip) &mdash; `{.special}`
+### Special (Info / Tip) - `{.special}`
 
 > **Information**: Use special infoboxes for non-critical contextual notes, architecture details, or background reading. {.special}
 
 ---
 
-### Warning (Caution) &mdash; `{.warning}`
+### Warning (Caution) - `{.warning}`
 
 > **Caution**: Use warning infoboxes for breaking changes, required prerequisites, or common pitfalls. {.warning}
 
 ---
 
-### Critical (Error / Security) &mdash; `{.critical}`
+### Critical (Error / Security) - `{.critical}`
 
 > **Critical**: Use critical infoboxes for security vulnerabilities, destructive operations, or data loss warnings. {.critical}
 
@@ -284,10 +284,10 @@ klaat serve -d output -p 9090
 
 ```markdown
 **Exporter.kt**
-```kotlin
+\```kotlin
 package me.kartikarora.klaat.core
 class Exporter(private val targetDir: File)
-```
+\```
 ```
 
 ---
@@ -448,7 +448,7 @@ Images in Klaat are centered by default, responsive across mobile and desktop, a
 
 ### Responsive Image with Caption
 
-![Klaat Architecture & Native Engine](../img/klaat.png)
+![Klaat Architecture & Native Engine](images/klaat.png)
 
 ---
 

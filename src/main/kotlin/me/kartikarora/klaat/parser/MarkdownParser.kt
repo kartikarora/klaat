@@ -257,7 +257,20 @@ class MarkdownParser {
 
                     // Parse node content and add to current step
                     val parsedNodes = parseNode(node)
-                    currentStep.addAll(parsedNodes)
+                    for (pNode in parsedNodes) {
+                        if (pNode is KlaatNode.BulletList && pNode.items.isNotEmpty() && pNode.items.all { extractCheckboxOption(it) != null }) {
+                            val options = pNode.items.map { extractCheckboxOption(it)!! }
+                            val question = if (currentStep.isNotEmpty()) extractQuestionText(currentStep.last()) else null
+                            if (question != null) {
+                                currentStep.removeAt(currentStep.lastIndex)
+                                currentStep.add(KlaatNode.Survey(question, options))
+                            } else {
+                                currentStep.add(KlaatNode.Survey("Survey", options))
+                            }
+                        } else {
+                            currentStep.add(pNode)
+                        }
+                    }
                 }
             }
 
@@ -532,6 +545,83 @@ class MarkdownParser {
         return nodes
     }
 
+    private fun extractCheckboxOption(itemNodes: List<KlaatNode>): String? {
+        val allNodes = itemNodes.asSequence().flatMap {
+            when (it) {
+                is KlaatNode.Paragraph -> it.nodes.asSequence()
+                else -> sequenceOf(it)
+            }
+        }.toList()
+
+        val firstNode = allNodes.firstOrNull() ?: return null
+
+        fun renderRemainingNodes(startIndex: Int, firstNodeRemainder: String = ""): String {
+            val sb = StringBuilder()
+            if (firstNodeRemainder.isNotEmpty()) {
+                sb.append(firstNodeRemainder)
+            }
+            for (idx in startIndex until allNodes.size) {
+                val node = allNodes[idx]
+                when (node) {
+                    is KlaatNode.Text -> if (node.code) sb.append("`").append(node.content).append("`") else sb.append(node.content)
+                    is KlaatNode.Link -> sb.append(node.text)
+                    is KlaatNode.Button -> sb.append(node.text)
+                    else -> {}
+                }
+            }
+            return sb.toString().trim()
+        }
+
+        if (firstNode is KlaatNode.Text) {
+            val text = firstNode.content.trimStart()
+            val checkboxRegex = Regex("^\\[([ xX])\\]\\s*(.*)$")
+            val match = checkboxRegex.find(text)
+            if (match != null) {
+                val remainder = match.groupValues[2]
+                val option = renderRemainingNodes(1, remainder)
+                return option.ifEmpty { remainder }.takeIf { it.isNotBlank() }
+            }
+
+            // Flexmark parsed [x] as link ref, leaving "x" or "X" as first text node
+            if (text.equals("x", ignoreCase = true) || text.startsWith("x ", ignoreCase = true)) {
+                val remainder = if (text.length > 1) text.substring(1).trimStart() else ""
+                val option = renderRemainingNodes(1, remainder)
+                return option.takeIf { it.isNotBlank() }
+            }
+
+            // Flexmark parsed [ ] as link ref, leaving whitespace/empty as first text node followed by other nodes
+            if (text.isBlank() && allNodes.size > 1) {
+                val option = renderRemainingNodes(1)
+                return option.takeIf { it.isNotBlank() }
+            }
+        } else if (firstNode is KlaatNode.Link) {
+            val linkText = firstNode.text.trim()
+            if (linkText.isBlank() || linkText.equals("x", ignoreCase = true)) {
+                val option = renderRemainingNodes(1)
+                return option.takeIf { it.isNotBlank() }
+            }
+        }
+
+        return null
+    }
+
+    private fun extractQuestionText(node: KlaatNode?): String? {
+        return when (node) {
+            is KlaatNode.Heading -> node.content.trim().takeIf { it.isNotEmpty() }
+            is KlaatNode.Paragraph -> {
+                val fullText = node.nodes.joinToString("") {
+                    when (it) {
+                        is KlaatNode.Text -> it.content
+                        is KlaatNode.Link -> it.text
+                        else -> ""
+                    }
+                }.trim()
+                fullText.takeIf { it.isNotEmpty() }
+            }
+            else -> null
+        }
+    }
+
     private fun extractTextNodes(
         node: FlexmarkNode,
         output: MutableList<KlaatNode>,
@@ -553,7 +643,8 @@ class MarkdownParser {
                     extractTextNodes(child, output, bold = bold, italic = true, code = code)
                 }
                 is Code -> {
-                    extractTextNodes(child, output, bold = bold, italic = italic, code = true)
+                    val codeContent = child.text.toString().ifEmpty { child.chars.toString().removeSurrounding("`") }
+                    output.add(KlaatNode.Text(codeContent, bold = bold, italic = italic, code = true))
                 }
                 is Link -> {
                     output.add(KlaatNode.Link(

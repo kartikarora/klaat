@@ -2,6 +2,7 @@ package me.kartikarora.klaat.parser
 
 import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
+import me.kartikarora.klaat.renderer.HtmlRenderer
 import java.io.ByteArrayInputStream
 import java.io.File
 import kotlin.test.Test
@@ -1088,5 +1089,76 @@ class MarkdownParserTest {
         assertNotNull(video)
         assertEquals("dQw4w9WgXcQ", video.videoId)
     }
+
+    @Test
+    fun `test parse survey with checkboxes and heading question`() {
+        val markdown = """
+            # Test Survey
+
+            ## Step 1
+
+            ### How do you plan to use Klaat?
+            - [ ] For classroom lectures
+            - [x] For open source libraries
+            - [ ] For project internal docs
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val step = codelab.steps.first()
+        val survey = step.content.filterIsInstance<Node.Survey>().firstOrNull()
+        assertNotNull(survey, "Survey should be parsed")
+        assertEquals("How do you plan to use Klaat?", survey.question)
+        assertEquals(listOf("For classroom lectures", "For open source libraries", "For project internal docs"), survey.options)
+    }
+
+    @Test
+    fun `test parse feature showcase survey step`() {
+        val markdown = """
+            # Test Survey
+
+            ## Interactive Knowledge Checks (Surveys)
+            Duration: 0:02:00
+
+            Embed interactive quizzes and knowledge checks inside any step. Options persist across reloads using `localStorage`.
+
+            ### Quick Knowledge Check
+
+            Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?
+
+            - [ ] `klaat export --preview`
+            - [x] `klaat demo`
+            - [ ] `klaat serve -d output`
+            - [ ] `klaat preview tutorial.md`
+
+            > **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val step = codelab.steps.first()
+        val survey = step.content.filterIsInstance<Node.Survey>().firstOrNull()
+        if (survey == null) {
+            println("STEP CONTENT: ${step.content}")
+        }
+        assertNotNull(survey, "Survey should be parsed")
+    }
+
+    @Test
+    fun `test export feature showcase to tempDir and check survey html`() {
+        val codelab = parser.parse(File("examples/feature-showcase.md"))
+        val htmlRenderer = HtmlRenderer()
+        val tempDir = kotlin.io.path.createTempDirectory().toFile()
+        htmlRenderer.render(codelab, tempDir)
+        val html = File(tempDir, "${codelab.id}/index.html").readText()
+        val startIdx = html.indexOf("Interactive Knowledge Checks")
+        val endIdx = html.indexOf("Images &amp; Visual Assets")
+        if (startIdx != -1 && endIdx != -1) {
+            println("RENDERED SURVEY HTML:\n" + html.substring(startIdx, endIdx))
+        }
+        assertTrue(html.contains("<klaat-kodelab-survey"))
+    }
 }
 }
+
+
+
+
