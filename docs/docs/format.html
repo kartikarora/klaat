@@ -481,31 +481,86 @@ fun main() = println("Hello!")
 
             <!-- Action Buttons -->
             <section id="elem-buttons" class="docs-section">
-                <h1>Action Buttons</h1>
-                <p>A link becomes a call-to-action pill button <strong>only</strong> when accompanied by a button tag attribute. Standalone links without button tags remain standard inline links. Klaat supports solid primary, outlined secondary variants, and custom Material Symbol icons:</p>
-                <ul>
-                    <li><code>{.buttonPrimary}</code> (or shorthand <code>{.button}</code>): Renders a solid accent-filled pill button.</li>
-                    <li><code>{.buttonSecondary}</code>: Renders a sleek outlined accent button.</li>
-                    <li><code>icon=&lt;name&gt;</code>: Custom Material Symbol icon attribute (e.g. <code>{.buttonPrimary icon=play_arrow}</code> or <code>{.buttonSecondary icon="launch"}</code>).</li>
-                    <li><strong>Automatic Download Icon:</strong> Links whose text or URL references "download" or file extensions (<code>.zip</code>, <code>.tar.gz</code>) automatically display the download icon if no custom icon is specified.</li>
-                </ul>
+                <h1>Action Buttons & Interactive Links</h1>
+                <p>Klaat provides built-in call-to-action button styling for links. To maintain flexibility and prevent ordinary paragraph links from unintentionally rendering as buttons, button styling requires an <strong>explicit tag attribute</strong> appended to the link in Markdown.</p>
+
+                <h2>Button Syntax & Variants</h2>
+                <table class="options-table">
+                    <thead>
+                        <tr>
+                            <th>Variant</th>
+                            <th>Markdown Syntax</th>
+                            <th>Rendered HTML Classes</th>
+                            <th>Usage Guidance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Primary Solid</strong></td>
+                            <td><code>[Title](url){.buttonPrimary}</code><br><span class="text-muted">(shorthand: <code>{.button}</code>)</span></td>
+                            <td><code>klaat-button klaat-button--primary klaat-button--colored</code></td>
+                            <td>High-emphasis solid accent button for main actions, getting started, or exploring live demos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secondary Outlined</strong></td>
+                            <td><code>[Title](url){.buttonSecondary}</code></td>
+                            <td><code>klaat-button klaat-button--secondary</code></td>
+                            <td>Medium-emphasis outlined accent button for secondary actions, feedback links, or documentation links.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custom Icon</strong></td>
+                            <td><code>[Title](url){.buttonPrimary icon=play_arrow}</code></td>
+                            <td>Includes <code>&lt;span class="material-symbols-outlined"&gt;play_arrow&lt;/span&gt;</code></td>
+                            <td>Prepends any valid Google Material Symbol Outlined icon before the button label.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Automatic Download</strong></td>
+                            <td><code>[Download Sample](#){.buttonPrimary}</code></td>
+                            <td>Includes <code>&lt;span class="material-symbols-outlined"&gt;download&lt;/span&gt;</code></td>
+                            <td>Automatically attaches the download symbol when the label contains "download" or targets <code>.zip</code>/<code>.tar.gz</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inline Link</strong></td>
+                            <td><code>[Title](url)</code> (no tag)</td>
+                            <td>Standard <code>&lt;a href="..."&gt;</code></td>
+                            <td>Renders as a clean inline hypertext link without button styling.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Custom Material Symbol Icons (<code>icon=&lt;name&gt;</code>)</h2>
+                <p>You can specify any icon from the <a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a> icon font by appending <code>icon=&lt;name&gt;</code> inside the tag block. Both unquoted and quoted values are supported:</p>
+
                 <div class="code-container">
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
-                    <pre><code class="language-markdown"># Primary Solid Button with Custom Icon
+                    <pre><code class="language-markdown"># Play arrow icon
 [Explore Live Demo](../demo/index.html){.buttonPrimary icon=play_arrow}
 
-# Secondary Outlined Button with Email Icon
+# Launch external icon
+[View Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonSecondary icon=launch}
+
+# Mail icon
 [Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
 
-# Automatic Download Detection (on .zip or download links)
-[Download Sample Archive](https://example.com/archive.zip){.buttonPrimary}
-
-# Standard Inline Link (no button tag)
-Visit the [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).</code></pre>
+# Code / Terminal icon
+[Inspect Output](#){.buttonSecondary icon=terminal}</code></pre>
                 </div>
-                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0;">
+
+                <h2>Automatic Download Detection</h2>
+                <p>When creating download links, Klaat checks if the link label includes <code>"download"</code> (case-insensitive) or if the target URL ends with <code>.zip</code> or <code>.tar.gz</code>. If detected and no explicit <code>icon=&lt;name&gt;</code> was provided, the <code>download</code> symbol is attached automatically:</p>
+
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-markdown">[Download Sample Asset](#){.buttonPrimary}</code></pre>
+                </div>
+
+                <h2>Live Visual Previews</h2>
+                <p>Here is how the button variants render in the browser:</p>
+                <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; margin: var(--space-md) 0; align-items: center;">
                     <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
+                    <a class="klaat-button klaat-button--primary klaat-button--colored" href="#"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
                     <a class="klaat-button klaat-button--secondary" href="mailto:dev&#64;kartikarora&#46;me"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
+                    <a class="klaat-button klaat-button--secondary" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">launch</span>View Documentation</a>
                 </div>
             </section>
 
