@@ -367,12 +367,12 @@ class Person(val name: String)
                     <li><strong>Italic:</strong> single asterisks or underscores <code>*italic text*</code> or <code>_italic_</code></li>
                     <li><strong>Inline Code:</strong> backticks <code>`var a = 1`</code></li>
                     <li><strong>Links:</strong> <code>[Link Title](https://example.com)</code></li>
-                    <li><strong>Download Buttons:</strong> A standard link standing alone on its own line will automatically be rendered as a prominent colored action button:
+                    <li><strong>Action Buttons:</strong> Appending <code>{.buttonPrimary}</code>, <code>{.buttonSecondary}</code>, or <code>{.button}</code> renders an interactive pill button:
                         <div class="code-container" style="margin-top: 10px;">
-                            <pre><code class="language-markdown">[Download Source Code](https://example.com/starter.zip)</code></pre>
+                            <pre><code class="language-markdown">[Explore Live Demo](../demo/index.html){.buttonPrimary icon=play_arrow}</code></pre>
                         </div>
-                        <div class="demo-output">
-                            <a href="https://example.com/starter.zip" class="demo-button"><span class="material-symbols-outlined" style="font-size: 1.2em; vertical-align: middle; margin-right: 4px;">file_download</span>Download Source Code</a>
+                        <div style="margin: var(--space-sm) 0;">
+                            <a class="klaat-button klaat-button--primary klaat-button--colored" href="../demo/index.html"><span class="material-symbols-outlined">play_arrow</span>Explore Live Demo</a>
                         </div>
                     </li>
                 </ul>
@@ -381,7 +381,7 @@ class Person(val name: String)
             <!-- Code Blocks -->
             <section id="elem-code" class="docs-section">
                 <h1>Code Blocks & Highlight</h1>
-                <p>Klaat renders language-specific syntax highlighting for code blocks using CSS classes.</p>
+                <p>Klaat renders language-specific syntax highlighting for code blocks with one-click copy buttons.</p>
 
                 <h3>Syntax Highlight Markdown</h3>
                 <p>Append the language keyword immediately following the opening triple backticks:</p>
@@ -391,12 +391,13 @@ class Person(val name: String)
 fun greet(name: String) = "Hello, ${'$'}name!"
 ```</code></pre>
                 </div>
-                <div class="demo-output">
-                    <pre class="demo-code"><code><span style="color: #cc7832">fun</span> <span style="color: #ffc66d">greet</span>(name: <span style="color: #a9b7c6">String</span>) = <span style="color: #6a8759">"Hello, ${'$'}name!"</span></code></pre>
+                <div class="code-container">
+                    <pre><code class=" language-kotlin">fun greet(name: String) = "Hello, ${'$'}name!"</code></pre>
+                    <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
                 </div>
 
                 <h3 style="margin-top: var(--space-lg);">With Source Code Filename</h3>
-                <p>If you specify a file title immediately preceding the code block in bold, Klaat renders it as a structured code folder frame:</p>
+                <p>If you specify a file title immediately preceding the code block in bold, Klaat renders it with an attached header:</p>
                 <div class="code-container">
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">**Main.kt**
@@ -404,11 +405,10 @@ fun greet(name: String) = "Hello, ${'$'}name!"
 fun main() = println("Hello!")
 ```</code></pre>
                 </div>
-                <div class="demo-output">
-                    <div class="demo-code-file">
-                        <div class="demo-code-header">Main.kt</div>
-                        <pre class="demo-code"><code><span style="color: #cc7832">fun</span> <span style="color: #ffc66d">main</span>() = println(<span style="color: #6a8759">"Hello!"</span>)</code></pre>
-                    </div>
+                <h3>Main.kt</h3>
+                <div class="code-container">
+                    <pre><code class=" language-kotlin">fun main() = println("Hello!")</code></pre>
+                    <button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button>
                 </div>
             </section>
 
@@ -512,11 +512,13 @@ Visit the [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).</
 - [ ] For open source libraries
 - [ ] For project internal docs</code></pre>
                 </div>
-                <klaat-kodelab-survey>
+                <klaat-kodelab-survey survey-id="survey-docs-1">
                     <h4>How do you plan to use Klaat?</h4>
-                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For classroom lectures</label>
-                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For open source libraries</label>
-                    <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For project internal docs</label>
+                    <div class="klaat-radio-group">
+                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For classroom lectures</label>
+                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For open source libraries</label>
+                        <label class="klaat-radio-label"><input type="radio" name="survey-docs-1"> For project internal docs</label>
+                    </div>
                 </klaat-kodelab-survey>
 
                 <h2>Frequently Asked Questions (FAQs)</h2>
@@ -525,12 +527,12 @@ Visit the [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).</
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">**Q: Does it run on Intel Macs?**
 
-A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
+A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                 </div>
-                <div class="demo-output demo-faq">
-                    <strong>Q: Does it run on Intel Macs?</strong>
-                    <p>A: No, currently only Apple Silicon ARM64 is supported.</p>
-                </div>
+                <h3>Frequently Asked Questions</h3>
+                <ul>
+                    <li><a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">Does it run on Intel Macs?</a></li>
+                </ul>
             </section>
 
             <!-- Tables -->
@@ -544,17 +546,15 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
 | `-f` | String | Output format selection. |
 | `-o` | String | Output destination. |</code></pre>
                 </div>
-                <div class="demo-output">
-                    <table class="demo-table">
-                        <thead>
-                            <tr><th style="text-align: left;">Flag</th><th style="text-align: center;">Type</th><th style="text-align: left;">Description</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td style="text-align: left;"><code>-f</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output format selection.</td></tr>
-                            <tr><td style="text-align: left;"><code>-o</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output destination.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table>
+                    <thead>
+                        <tr><th style="text-align: left;">Flag</th><th style="text-align: center;">Type</th><th style="text-align: left;">Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align: left;"><code>-f</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output format selection.</td></tr>
+                        <tr><td style="text-align: left;"><code>-o</code></td><td style="text-align: center;">String</td><td style="text-align: left;">Output destination.</td></tr>
+                    </tbody>
+                </table>
             </section>
 
             <!-- Media -->
@@ -568,10 +568,8 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                     <pre><code class="language-markdown">![Alternative text](https://placehold.co/600x400/png)
 *Figure 1: Visual mockup design layout.*</code></pre>
                 </div>
-                <figure class="demo-figure">
-                    <img alt="Alternative text" src="https://placehold.co/600x400/png">
-                    <figcaption><em>Figure 1: Visual mockup design layout.</em></figcaption>
-                </figure>
+                <img alt="Alternative text" src="https://placehold.co/600x400/png">
+                <p><em>Figure 1: Visual mockup design layout.</em></p>
 
                 <h2>YouTube Videos</h2>
                 <p>Embed direct YouTube videos using the standalone video URL inside a markdown image link structure:</p>
@@ -579,7 +577,7 @@ A: No, currently only Apple Silicon ARM64 is supported.</code></pre>
                     <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
                     <pre><code class="language-markdown">[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)</code></pre>
                 </div>
-                <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </section>
         </main>
     </div>
