@@ -44,7 +44,7 @@ The brand implements design tokens using CSS Custom Properties (Variables) that 
 ```css
 :root {
   /* Fonts */
-  --font-sans: 'Readex Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
 
   /* Color System (Light Mode default) */
@@ -134,7 +134,7 @@ button:focus-visible,
 
 ## Typography
 
-- **Sans-serif Font:** `var(--font-sans)` (`'Readex Pro', system-ui, -apple-system, sans-serif`)
+- **Sans-serif Font:** `var(--font-sans)` (`'Space Grotesk', system-ui, -apple-system, sans-serif`)
 - **Monospace Font:** `var(--font-mono)` (`'JetBrains Mono', monospace`)
 
 ### Fluid Typography Heading Tokens
