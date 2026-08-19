@@ -508,14 +508,24 @@ class KlaatKodelabSurvey extends HTMLElement {
 
 /* --- Register custom elements --------------------------------------------- */
 
-try { customElements.define('klaat-kodelab', KlaatKodelab); }
-catch (e) { console.warn('klaat-kodelab registration failed:', e); }
+const registerElement = (name, constructor) => {
+  try {
+    if (!customElements.get(name)) {
+      customElements.define(name, constructor);
+    }
+  } catch (e) {
+    console.warn(`[Klaat] Failed to register custom element <${name}>:`, e);
+  }
+};
 
-try { customElements.define('klaat-kodelab-step', KlaatKodelabStep); }
-catch (e) { console.warn('klaat-kodelab-step registration failed:', e); }
+registerElement('klaat-kodelab', KlaatKodelab);
+registerElement('kodelab-codelab', KlaatKodelab);
 
-try { customElements.define('klaat-kodelab-analytics', KlaatKodelabAnalytics); }
-catch (e) { console.warn('klaat-kodelab-analytics registration failed:', e); }
+registerElement('klaat-kodelab-step', KlaatKodelabStep);
+registerElement('kodelab-step', KlaatKodelabStep);
 
-try { customElements.define('klaat-kodelab-survey', KlaatKodelabSurvey); }
-catch (e) { console.warn('klaat-kodelab-survey registration failed:', e); }
+registerElement('klaat-kodelab-analytics', KlaatKodelabAnalytics);
+registerElement('kodelab-analytics', KlaatKodelabAnalytics);
+
+registerElement('klaat-kodelab-survey', KlaatKodelabSurvey);
+registerElement('kodelab-survey', KlaatKodelabSurvey);

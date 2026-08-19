@@ -82,9 +82,19 @@
                         <li><a href="#elem-text" class="docs-sidebar-link">Text & Typography</a></li>
                         <li><a href="#elem-code" class="docs-sidebar-link">Code Blocks</a></li>
                         <li><a href="#elem-infoboxes" class="docs-sidebar-link">Info Boxes</a></li>
+                        <li><a href="#elem-buttons" class="docs-sidebar-link">Action Buttons</a></li>
                         <li><a href="#elem-surveys" class="docs-sidebar-link">Surveys & FAQs</a></li>
                         <li><a href="#elem-tables" class="docs-sidebar-link">Tables & Columns</a></li>
                         <li><a href="#elem-media" class="docs-sidebar-link">Images & Video</a></li>
+                    </ul>
+                </div>
+
+                <!-- Group 4: Web Components & CDN -->
+                <div class="docs-sidebar-group">
+                    <div class="docs-sidebar-title">HTML & Web Components</div>
+                    <ul class="docs-sidebar-links">
+                        <li><a href="#elem-webcomponents" class="docs-sidebar-link">&lt;kodelab-*&gt; Elements</a></li>
+                        <li><a href="#elem-cdn" class="docs-sidebar-link">CDN Integration</a></li>
                     </ul>
                 </div>
             </div>
@@ -578,6 +588,143 @@ A: No, currently Apple Silicon ARM64 and Linux are supported.</code></pre>
                     <pre><code class="language-markdown">[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)</code></pre>
                 </div>
                 <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </section>
+
+            <!-- Web Components -->
+            <section id="elem-webcomponents" class="docs-section">
+                <h1>Kodelab Web Components (<code>&lt;kodelab-*&gt;</code>)</h1>
+                <p>When Klaat exports a tutorial, it produces clean HTML5 powered by custom Web Components. These components handle step navigation, drawers, timers, survey persistence, and keyboard controls automatically.</p>
+
+                <h2>Custom Element Hierarchy</h2>
+                <p>The exported document uses custom elements defined under both <code>&lt;kodelab-*&gt;</code> and <code>&lt;klaat-kodelab*&gt;</code> tags:</p>
+
+                <table class="options-table">
+                    <thead>
+                        <tr>
+                            <th>Tag Name</th>
+                            <th>Attributes</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;kodelab-codelab&gt;</code><br><span class="text-muted">(or <code>&lt;klaat-kodelab&gt;</code>)</span></td>
+                            <td><code>id</code>, <code>title</code>, <code>environment</code>, <code>feedback-link</code>, <code>codelab-gaid</code></td>
+                            <td>Root component container. Orchestrates the drawer sidebar, step progress bar, title header, countdown timers, keyboard shortcuts (arrow keys), and URL hash routing.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;kodelab-step&gt;</code><br><span class="text-muted">(or <code>&lt;klaat-kodelab-step&gt;</code>)</span></td>
+                            <td><code>label</code>, <code>duration</code>, <code>exclude-duration</code></td>
+                            <td>Encapsulates an individual step. The <code>label</code> appears in the drawer, and <code>duration</code> (minutes) feeds into the dynamic countdown clock.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;kodelab-survey&gt;</code><br><span class="text-muted">(or <code>&lt;klaat-kodelab-survey&gt;</code>)</span></td>
+                            <td><code>survey-id</code></td>
+                            <td>Interactive questionnaire block that stores chosen options into <code>localStorage</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;kodelab-analytics&gt;</code><br><span class="text-muted">(or <code>&lt;klaat-kodelab-analytics&gt;</code>)</span></td>
+                            <td><code>gaid</code></td>
+                            <td>Google Analytics tracker recording step views and tutorial completion events.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Interactive Element Preview</h2>
+                <p>Below is a live interactive <code>&lt;kodelab-survey&gt;</code> component rendered directly on this page:</p>
+                
+                <kodelab-survey survey-id="survey-component-demo">
+                    <h4>Which authoring workflow do you prefer?</h4>
+                    <div class="klaat-radio-group">
+                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Markdown (.md)</label>
+                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Google Docs (GDocs)</label>
+                        <label class="klaat-radio-label"><input type="radio" name="survey-component-demo"> Direct HTML with Web Components</label>
+                    </div>
+                </kodelab-survey>
+            </section>
+
+            <!-- CDN Integration -->
+            <section id="elem-cdn" class="docs-section">
+                <h1>CDN Integration & HTML Template</h1>
+                <p>To use <code>&lt;kodelab-*&gt;</code> custom elements in standalone HTML pages, blogs, or internal docs without running the CLI, load the official CDN assets:</p>
+
+                <h2>Required CDN Assets</h2>
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-html">&lt;!-- Brand Identity CSS (tokens, typography, colors) --&gt;
+&lt;link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css"&gt;
+
+&lt;!-- Material Symbols & Space Grotesk Font --&gt;
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"&gt;
+
+&lt;!-- Klaat Element Styles (drawer, step progress, buttons, infoboxes) --&gt;
+&lt;link rel="stylesheet" href="https://distribute.kartikarora.me/css/klaat-elements.css"&gt;
+
+&lt;!-- Brand JS --&gt;
+&lt;script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Klaat Web Components JS (defines &lt;kodelab-*&gt; and &lt;klaat-kodelab*&gt;) --&gt;
+&lt;script src="https://distribute.kartikarora.me/js/klaat-elements.js" defer&gt;&lt;/script&gt;</code></pre>
+                </div>
+
+                <h2>Complete Standalone HTML Boilerplate</h2>
+                <p>A full, copy-pasteable HTML boilerplate using the <code>&lt;kodelab-*&gt;</code> web components:</p>
+
+                <div class="code-container">
+                    <button class="copy-btn" title="Copy to clipboard"><span class="material-symbols-outlined">content_copy</span></button>
+                    <pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My Interactive Tutorial&lt;/title&gt;
+
+  &lt;!-- CDN CSS --&gt;
+  &lt;link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css"&gt;
+  &lt;link rel="stylesheet" href="https://distribute.kartikarora.me/css/klaat-elements.css"&gt;
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+  &lt;link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;kodelab-codelab id="my-tutorial" title="My Interactive Tutorial" feedback-link="mailto:dev&#64;kartikarora&#46;me"&gt;
+    &lt;kodelab-step label="Welcome &amp; Overview" duration="2"&gt;
+      &lt;h2&gt;Welcome to the tutorial!&lt;/h2&gt;
+      &lt;p&gt;This tutorial demonstrates interactive steps with &lt;code&gt;&amp;lt;kodelab-*&amp;gt;&lt;/code&gt; elements.&lt;/p&gt;
+      &lt;aside class="positive"&gt;
+        &lt;p&gt;&lt;strong&gt;Tip:&lt;/strong&gt; Use arrow keys to navigate between steps!&lt;/p&gt;
+      &lt;/aside&gt;
+      &lt;a class="klaat-button klaat-button--primary klaat-button--colored" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"&gt;
+        &lt;span class="material-symbols-outlined"&gt;menu_book&lt;/span&gt;Read Documentation
+      &lt;/a&gt;
+    &lt;/kodelab-step&gt;
+
+    &lt;kodelab-step label="Interactive Knowledge Check" duration="3"&gt;
+      &lt;h2&gt;Quick Knowledge Check&lt;/h2&gt;
+      &lt;kodelab-survey survey-id="survey-step2"&gt;
+        &lt;h4&gt;Did you find this format intuitive?&lt;/h4&gt;
+        &lt;div class="klaat-radio-group"&gt;
+          &lt;label class="klaat-radio-label"&gt;&lt;input type="radio" name="survey-step2"&gt; Very intuitive&lt;/label&gt;
+          &lt;label class="klaat-radio-label"&gt;&lt;input type="radio" name="survey-step2"&gt; Easy to use&lt;/label&gt;
+          &lt;label class="klaat-radio-label"&gt;&lt;input type="radio" name="survey-step2"&gt; Needs improvement&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/kodelab-survey&gt;
+    &lt;/kodelab-step&gt;
+
+    &lt;div slot="footer" class="kodelab-footer"&gt;
+      Tutorial powered by &lt;a href="https://klaat.kartikarora.me" target="_blank"&gt;Klaat&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/kodelab-codelab&gt;
+
+  &lt;!-- CDN JS --&gt;
+  &lt;script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js"&gt;&lt;/script&gt;
+  &lt;script src="https://distribute.kartikarora.me/js/klaat-elements.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
             </section>
         </main>
     </div>
