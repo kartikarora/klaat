@@ -133,6 +133,40 @@ Opens `http://localhost:9090` in your browser automatically.
 
 ## Commands
 
+### `help`
+
+Show usage instructions and option summaries for klaat or any subcommand.
+
+```bash
+klaat-snapshot --help
+klaat-snapshot export --help
+klaat-snapshot serve -h
+```
+
+### `version`
+
+Print the version and build metadata.
+
+```bash
+klaat-snapshot version
+```
+
+### `install-skills`
+
+Install Klaat AI codelab authoring and formatting guidelines directly into your coding agent's project or global workspace. KLAAT scans the workspace and only writes the skills to agent folders that exist (supporting over 55+ distinct coding agents, including Claude Code, Gemini CLI, Cursor, Copilot, Cline, Zed, Windsurf, etc.).
+
+```bash
+klaat-snapshot install-skills [OPTIONS]
+
+Options:
+  -g, --global      Install to the global user home directories (~/) instead of the project root
+  -h, --help        Show help
+
+Examples:
+  klaat-snapshot install-skills           # Installs locally to detected agent directories (e.g. .agents/, .claude/, .continue/)
+  klaat-snapshot install-skills -g        # Installs globally to active user agent directories (e.g. ~/.agents/, ~/.claude/)
+```
+
 ### `export`
 
 Export codelabs from Google Docs or Markdown files.
@@ -143,11 +177,12 @@ klaat-snapshot export [OPTIONS] SOURCES...
 Options:
   -f, --format TEXT       Output format (html|md|offline) [default: html]
   -o, --out TEXT          Output directory [default: .]
-  -ga TEXT                Google Analytics tracking ID [default: UA-49880327-14]
+  -ga TEXT                Google Analytics tracking ID (optional)
   -p, --prefix TEXT       URL prefix for assets [default: https://distribute.kartikarora.me]
   -css TEXT               Custom CSS stylesheet file or URL to inject
   -favicon TEXT           Custom favicon URL or file path to use
   -fonts TEXT             Google Fonts link URL to load additional font families
+  -footer TEXT            Custom footer HTML or text to display at the bottom of the codelab
   -extra TEXT             JSON string representing additional metadata to inject
   -pass_metadata TEXT     Comma-delimited list of metadata keys to preserve in output
   -auth TEXT              OAuth2 token to use for Google Docs API authentication
@@ -155,10 +190,14 @@ Options:
   -h, --help              Show help
 
 Examples:
-  klaat-snapshot export 1ABC... -o codelabs/
-  klaat-snapshot export tutorial.md -f html -o output/
-  klaat-snapshot export tutorial.md -css https://example.com/custom.css
-  klaat-snapshot export doc1 doc2 -ga UA-12345-1 -extra '{"author":"AGY"}'
+  # Export Markdown file to HTML
+  klaat-snapshot export tutorial.md
+
+  # Export Google Doc with custom output directory
+  klaat-snapshot export 1ABC-YOUR-DOC-ID -o ./output
+
+  # Export to offline bundle format
+  klaat-snapshot export -f offline tutorial.md
 ```
 
 ### `serve`
@@ -199,12 +238,26 @@ Examples:
   klaat-snapshot update codelab1 codelab2  # Update specific codelabs
 ```
 
-### `version`
+### `demo`
 
-Print the version.
+Extract the bundled showcase demo codelab into the current working directory, export it to HTML, and immediately launch the live preview server.
 
 ```bash
-klaat-snapshot version
+klaat-snapshot demo [OPTIONS]
+
+Options:
+  -addr TEXT              hostname:port to bind for preview server [default: localhost:9090]
+  -o, --out TEXT          Output directory for exported demo [default: output]
+  -f, --format TEXT       Output format (html|md|offline) [default: html]
+  -prefix TEXT            Asset prefix URL [default: https://distribute.kartikarora.me]
+  --no-browser            Don't open browser automatically
+  --no-serve              Only extract and export, do not start preview server
+  -h, --help              Show help
+
+Examples:
+  klaat-snapshot demo
+  klaat-snapshot demo --no-serve
+  klaat-snapshot demo -addr localhost:8080
 ```
 
 ## Codelab Format
@@ -255,8 +308,9 @@ Key elements:
 - **Heading 1** - Codelab steps
 - **Heading 2-4** - Section headers within steps
 - **Two-column table** (at start) - Metadata
-- **Single-cell table (green)** - Positive info boxes
-- **Single-cell table (orange)** - Warning info boxes
+- **Single-cell table (green)** - Positive info boxes / Tips
+- **Single-cell table (orange/red)** - Negative info boxes / Warnings
+- **Single-cell table (black/light gray)** - Regular info boxes / Asides
 - **Single-cell table (Courier New)** - Code blocks
 - Duration annotations in grey text
 
@@ -264,20 +318,19 @@ Key elements:
 
 ### Supported Content Types
 
-- ✅ Text formatting (bold, italic, code)
+- ✅ Text formatting (bold, italic, inline code)
 - ✅ Headers (H2, H3, H4)
 - ✅ Paragraphs
-- ✅ Code blocks with syntax highlighting
+- ✅ Code blocks with syntax highlighting, filenames, and one-click copy button
 - ✅ Command/terminal blocks
-- ✅ Info boxes (positive, negative, regular)
-- ✅ Bullet lists
-- ✅ Numbered lists
-- ✅ Images
-- ✅ YouTube videos
+- ✅ Info boxes (special/blue, positive/green, warning/amber, critical/red, default/neutral)
+- ✅ Bullet lists and numbered lists
+- ✅ Images with captions and width controls
+- ✅ YouTube videos (responsive embed)
 - ✅ IFrames
-- ✅ Links
-- ✅ Download buttons
-- ✅ Surveys
+- ✅ External and relative links
+- ✅ Action and download buttons
+- ✅ Interactive surveys
 - ✅ FAQ sections
 
 ### Metadata Fields
@@ -292,6 +345,8 @@ Key elements:
 - `tags` - Comma-separated tags
 - `authors` - Comma-separated author names
 - `duration` - Total duration in minutes
+- `favicon` - Custom favicon URL or icon path
+- `footer` - Custom footer HTML or text
 
 ## Google Docs Setup
 
@@ -466,7 +521,7 @@ The project uses GitHub Actions for CI/CD:
 
 ## Differences from Original claat
 
-Klaat is designed as a **drop-in replacement** for the original claat tool with full command-line compatibility.
+Klaat is designed as a **spiritual successor** to the original claat tool with broad command-line compatibility.
 
 ### ✅ Full Compatibility
 
@@ -506,9 +561,7 @@ All claat commands and flags work identically in klaat:
   - First run opens browser for Google authentication
 
 **Limitations:**
-- **Custom template files**: Unlike claat (which accepts Go template file paths via `-f /path/to/template.tmpl`), klaat only supports the three built-in formats: `html`, `md`, and `offline`. Custom FreeMarker templates are not supported via command-line flags.
-  - Built-in templates are located in `src/main/resources/templates/`
-  - To customize output, modify the built-in templates and rebuild klaat
+- **Custom template files**: Unlike claat (which accepts Go template file paths via `-f /path/to/template.tmpl`), klaat only supports the three built-in formats: `html`, `md`, and `offline`. Custom templates are not supported.
 
 All standard claat workflows using built-in formats are fully supported. If you have scripts or documentation using claat commands with `html`, `md`, or `offline` formats, you can replace `claat` with `klaat` without modifications.
 

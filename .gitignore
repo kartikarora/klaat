@@ -188,3 +188,15 @@ replay_pid*
 .env*
 !.env.example
 .junie
+scratch/
+
+# AI Agent workspaces & skills
+.agents/
+.gemini/
+.claude/
+.skills/
+
+# Build-time packaged resources
+
+src/main/resources/skills/
+src/main/resources/demo/

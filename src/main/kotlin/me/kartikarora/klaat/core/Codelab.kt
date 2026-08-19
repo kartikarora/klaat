@@ -22,6 +22,8 @@ data class CodelabMetadata(
     val source: String = "",
     val duration: Int = 0,
     val image: String = "",
+    val favicon: String = "",
+    val footer: String = "",
     val extraMetadata: Map<String, String> = emptyMap(),
     val theme: String = ""
 )
@@ -48,7 +50,13 @@ sealed class Node {
     data class YoutubeVideo(val videoId: String) : Node()
     data class IFrame(val src: String) : Node()
     data class Link(val url: String, val text: String) : Node()
-    data class Button(val url: String, val text: String, val download: Boolean = false) : Node()
+    data class Button(
+        val url: String,
+        val text: String,
+        val type: ButtonType = ButtonType.Primary,
+        val download: Boolean = false,
+        val icon: String? = null
+    ) : Node()
     data class Survey(val question: String, val options: List<String>) : Node()
     data class FAQ(val links: List<Link>) : Node()
     data class Table(
@@ -59,8 +67,15 @@ sealed class Node {
     ) : Node()
 }
 
+sealed interface ButtonType {
+    data object Primary : ButtonType
+    data object Secondary : ButtonType
+}
+
 enum class InfoBoxType {
-    POSITIVE,  // Green - tips, best practices
-    NEGATIVE,  // Orange - warnings, restrictions
-    REGULAR    // Default
+    POSITIVE,  // Green - tips, best practices (Google Docs) (Klaat Markdown {.positive})
+    WARNING,  // Orange - warnings, restrictions (Google Docs) (Klaat Markdown {.warning})
+    SPECIAL,   // Blue - tips, supplementary info (Klaat Markdown {.special})
+    CRITICAL,  // Red - mistakes, breaking changes (Klaat Markdown {.critical})
+    DEFAULT    // Default
 }

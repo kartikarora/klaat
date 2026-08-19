@@ -2,6 +2,7 @@ package me.kartikarora.klaat.parser
 
 import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
+import me.kartikarora.klaat.renderer.HtmlRenderer
 import java.io.ByteArrayInputStream
 import java.io.File
 import kotlin.test.Test
@@ -46,6 +47,8 @@ class MarkdownParserTest {
             tags: beginner, tutorial
             authors: John Doe, Jane Smith
             duration: 30
+            favicon: https://example.com/favicon.ico
+            footer: Custom footer text
             ---
 
             # Test Codelab
@@ -68,6 +71,8 @@ class MarkdownParserTest {
         assertEquals(listOf("beginner", "tutorial"), codelab.metadata.tags)
         assertEquals(listOf("John Doe", "Jane Smith"), codelab.metadata.authors)
         assertEquals(30, codelab.metadata.duration)
+        assertEquals("https://example.com/favicon.ico", codelab.metadata.favicon)
+        assertEquals("Custom footer text", codelab.metadata.footer)
     }
 
     @Test
@@ -571,6 +576,78 @@ class MarkdownParserTest {
     }
 
     @Test
+    fun `test duration time formats and ignore`() {
+        val markdown = """
+            # Test Duration Formats
+            
+            ## Step 1
+            Duration: 0:01:00
+            
+            ## Step 2
+            Duration: 0:02:30 (ignore)
+            
+            ## Step 3
+            Duration: 1:30
+            
+            ## Step 4
+            Duration: 5 mins
+            
+            ## Step 5
+            Duration: 0:05:00 ignore
+        """.trimIndent()
+        
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        
+        assertEquals(1, codelab.steps[0].duration)
+        assertFalse(codelab.steps[0].excludeDurationFromTotal)
+        
+        assertEquals(3, codelab.steps[1].duration)
+        assertTrue(codelab.steps[1].excludeDurationFromTotal)
+        
+        assertEquals(2, codelab.steps[2].duration)
+        assertFalse(codelab.steps[2].excludeDurationFromTotal)
+        
+        assertEquals(5, codelab.steps[3].duration)
+        assertFalse(codelab.steps[3].excludeDurationFromTotal)
+        
+        assertEquals(5, codelab.steps[4].duration)
+        assertTrue(codelab.steps[4].excludeDurationFromTotal)
+    }
+
+    @Test
+    fun `test kotlin time duration string parsing`() {
+        val markdown = """
+            # Test Duration Formats
+            
+            ## Step 1
+            Duration: 1h 30m
+            
+            ## Step 2
+            Duration: 15m (ignore)
+            
+            ## Step 3
+            Duration: 90s
+            
+            ## Step 4
+            Duration: PT10M
+        """.trimIndent()
+        
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        
+        assertEquals(90, codelab.steps[0].duration)
+        assertFalse(codelab.steps[0].excludeDurationFromTotal)
+        
+        assertEquals(15, codelab.steps[1].duration)
+        assertTrue(codelab.steps[1].excludeDurationFromTotal)
+        
+        assertEquals(2, codelab.steps[2].duration)
+        assertFalse(codelab.steps[2].excludeDurationFromTotal)
+        
+        assertEquals(10, codelab.steps[3].duration)
+        assertFalse(codelab.steps[3].excludeDurationFromTotal)
+    }
+
+    @Test
     fun `test parse comma-separated categories and tags`() {
         val markdown = """
             ---
@@ -779,4 +856,309 @@ class MarkdownParserTest {
             testFile.delete()
         }
     }
+
+    @Test
+    fun `test parse nested formatting and links`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            This is _italic containing [a link](https://example.com) inside it_ and this is **bold containing [another link](https://example.org) inside**.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val paragraph = content[0] as Node.Paragraph
+        
+        // Find links
+        val links = paragraph.nodes.filterIsInstance<Node.Link>()
+        assertEquals(2, links.size)
+        assertEquals("https://example.com", links[0].url)
+        assertEquals("a link", links[0].text)
+        assertEquals("https://example.org", links[1].url)
+        assertEquals("another link", links[1].text)
+        
+        // Ensure other parts of emphasis are parsed as Text with proper flags
+        val textNodes = paragraph.nodes.filterIsInstance<Node.Text>()
+        assertTrue(textNodes.any { it.content.contains("This is") })
+        assertTrue(textNodes.any { it.content.contains("italic containing") && it.italic })
+        assertTrue(textNodes.any { it.content.contains("bold containing") && it.bold })
+    }
+
+    @Test
+    fun `test parse nested formatting and images`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            This is **bold containing ![an image](https://example.com/img.png) inside**.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val paragraph = content[0] as Node.Paragraph
+        
+        // Find image
+        val images = paragraph.nodes.filterIsInstance<Node.Image>()
+        assertEquals(1, images.size)
+        assertEquals("https://example.com/img.png", images[0].src)
+        assertEquals("an image", images[0].alt)
+    }
+    @Test
+    fun `test parse link as Button with tag`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Download Starter Code](https://example.com/starter.zip){.buttonPrimary}
+            
+            [Browse Repo](https://example.com/repo){.buttonSecondary}
+            
+            [Default Button](https://example.com/default){.button}
+            
+            [Plain Link](https://example.com/plain)
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val buttons = content.filterIsInstance<Node.Button>()
+        assertEquals(3, buttons.size)
+        
+        assertEquals("https://example.com/starter.zip", buttons[0].url)
+        assertEquals("Download Starter Code", buttons[0].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[0].type)
+        assertTrue(buttons[0].download)
+        
+        assertEquals("https://example.com/repo", buttons[1].url)
+        assertEquals("Browse Repo", buttons[1].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Secondary, buttons[1].type)
+        assertFalse(buttons[1].download)
+        
+        assertEquals("https://example.com/default", buttons[2].url)
+        assertEquals("Default Button", buttons[2].text)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[2].type)
+
+        // Verify plain link remains a Link inside Paragraph
+        val paragraphs = content.filterIsInstance<Node.Paragraph>()
+        val plainLinkParagraph = paragraphs.firstOrNull { p -> p.nodes.any { it is Node.Link && it.url == "https://example.com/plain" } }
+        assertNotNull(plainLinkParagraph)
+    }
+
+    @Test
+    fun `test parse button with custom icon attribute`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Watch Demo](https://example.com/demo){.buttonPrimary icon=play_arrow}
+            
+            [External Docs](https://example.com/docs){.buttonSecondary icon="launch"}
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        val buttons = content.filterIsInstance<Node.Button>()
+        
+        assertEquals(2, buttons.size)
+        assertEquals("play_arrow", buttons[0].icon)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Primary, buttons[0].type)
+        assertEquals("launch", buttons[1].icon)
+        assertEquals(me.kartikarora.klaat.core.ButtonType.Secondary, buttons[1].type)
+    }
+
+    @Test
+    fun `test parse blockquote as InfoBox`() {
+        val markdown = """
+            ---
+            id: test-infobox
+            summary: test
+            ---
+            
+            # Title
+            
+            ## Step 1
+            
+            > This is a special info box. {.special}
+            
+            > This is a critical info box. {.critical}
+            
+            > This is a positive info box. {.positive}
+            
+            > This is a warning info box. {.warning}
+            
+            > Just a regular blockquote.
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val infoBoxes = content.filterIsInstance<Node.InfoBox>()
+        assertEquals(5, infoBoxes.size)
+        
+        assertEquals(InfoBoxType.SPECIAL, infoBoxes[0].type)
+        assertEquals(InfoBoxType.CRITICAL, infoBoxes[1].type)
+        assertEquals(InfoBoxType.POSITIVE, infoBoxes[2].type)
+        assertEquals(InfoBoxType.WARNING, infoBoxes[3].type)
+        assertEquals(InfoBoxType.DEFAULT, infoBoxes[4].type)
+        assertTrue(infoBoxes[0].nodes.isNotEmpty())
+    }
+
+    @Test
+    fun `test parse nested flow in list`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            * Item 1
+              * Nested bullet
+              ```kotlin
+              fun main() {}
+              ```
+            * Item 2
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val list = content.filterIsInstance<Node.BulletList>().firstOrNull()
+        assertNotNull(list)
+        assertEquals(2, list.items.size)
+        
+        val firstItemNodes = list.items[0]
+        val nestedList = firstItemNodes.filterIsInstance<Node.BulletList>().firstOrNull()
+        val nestedCodeBlock = firstItemNodes.filterIsInstance<Node.CodeBlock>().firstOrNull()
+        
+        assertNotNull(nestedList)
+        assertNotNull(nestedCodeBlock)
+    @Test
+    fun `test parse youtube video from link`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            [Watch this video](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
+    }
+
+    @Test
+    fun `test parse youtube video from video tag`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            <video id="dQw4w9WgXcQ"></video>
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
+    }
+
+    @Test
+    fun `test parse youtube video from iframe tag`() {
+        val markdown = """
+            # Title
+            
+            ## Step 1
+            
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="560" height="315"></iframe>
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val content = codelab.steps[0].content
+        
+        val video = content.filterIsInstance<Node.YoutubeVideo>().firstOrNull()
+        assertNotNull(video)
+        assertEquals("dQw4w9WgXcQ", video.videoId)
+    }
+
+    @Test
+    fun `test parse survey with checkboxes and heading question`() {
+        val markdown = """
+            # Test Survey
+
+            ## Step 1
+
+            ### How do you plan to use Klaat?
+            - [ ] For classroom lectures
+            - [x] For open source libraries
+            - [ ] For project internal docs
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val step = codelab.steps.first()
+        val survey = step.content.filterIsInstance<Node.Survey>().firstOrNull()
+        assertNotNull(survey, "Survey should be parsed")
+        assertEquals("How do you plan to use Klaat?", survey.question)
+        assertEquals(listOf("For classroom lectures", "For open source libraries", "For project internal docs"), survey.options)
+    }
+
+    @Test
+    fun `test parse feature showcase survey step`() {
+        val markdown = """
+            # Test Survey
+
+            ## Interactive Knowledge Checks (Surveys)
+            Duration: 0:02:00
+
+            Embed interactive quizzes and knowledge checks inside any step. Options persist across reloads using `localStorage`.
+
+            ### Quick Knowledge Check
+
+            Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?
+
+            - [ ] `klaat export --preview`
+            - [x] `klaat demo`
+            - [ ] `klaat serve -d output`
+            - [ ] `klaat preview tutorial.md`
+
+            > **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val step = codelab.steps.first()
+        val survey = step.content.filterIsInstance<Node.Survey>().firstOrNull()
+        if (survey == null) {
+            println("STEP CONTENT: ${step.content}")
+        }
+        assertNotNull(survey, "Survey should be parsed")
+    }
+
+    @Test
+    fun `test export feature showcase to tempDir and check survey html`() {
+        val codelab = parser.parse(File("examples/feature-showcase.md"))
+        val htmlRenderer = HtmlRenderer()
+        val tempDir = kotlin.io.path.createTempDirectory().toFile()
+        htmlRenderer.render(codelab, tempDir)
+        val html = File(tempDir, "${codelab.id}/index.html").readText()
+        val startIdx = html.indexOf("Interactive Knowledge Checks")
+        val endIdx = html.indexOf("Images &amp; Visual Assets")
+        if (startIdx != -1 && endIdx != -1) {
+            println("RENDERED SURVEY HTML:\n" + html.substring(startIdx, endIdx))
+        }
+        assertTrue(html.contains("<klaat-kodelab-survey"))
+    }
 }
+}
+
+
+
+

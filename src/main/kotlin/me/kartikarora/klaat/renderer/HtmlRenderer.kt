@@ -7,6 +7,7 @@ import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
 import java.io.File
 import java.io.StringWriter
+import java.time.Instant
 
 /**
  * Renders a Codelab to HTML format matching the original claat output exactly
@@ -20,21 +21,35 @@ class HtmlRenderer {
         logTemplateExceptions = false
     }
 
-    fun render(codelab: Codelab, outputDir: File, ga: String? = null, prefix: String? = null, environment: String = "web", customCss: String? = null, favicon: String? = null, googleFonts: String? = null) {
+    companion object {
+        const val DEFAULT_FOOTER = """Codelab generated using <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a> - A tool made by <a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a>"""
+    }
+
+    fun render(
+        codelab: Codelab,
+        outputDir: File,
+        ga: String? = null,
+        prefix: String? = null,
+        environment: String = "web",
+        customCss: String? = null,
+        favicon: String? = null,
+        googleFonts: String? = null,
+        footer: String? = null
+    ) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
 
-        // Determine asset prefixes
+        // Determine asset prefixes - always use CDN URL by default unless a prefix is provided
         val (jsPrefix, cssPrefix) = when {
-            !prefix.isNullOrEmpty() -> {
-                // Use custom prefix - assume separate js/css paths
-                Pair("$prefix/js", "$prefix/css")
+            prefix != null -> {
+                val trimmed = prefix.trimEnd('/')
+                if (trimmed.isEmpty()) {
+                    Pair("js", "css")
+                } else {
+                    Pair("$trimmed/js", "$trimmed/css")
+                }
             }
-            else -> {
-                // Copy assets locally and use relative path
-                copyAssets(outputDir, customCss)
-                Pair("../codelab-elements", "../codelab-elements")
-            }
+            else -> Pair("https://distribute.kartikarora.me/js", "https://distribute.kartikarora.me/css")
         }
 
         val isCustomCssUrl = customCss?.let { it.startsWith("http://") || it.startsWith("https://") } ?: false
@@ -42,7 +57,7 @@ class HtmlRenderer {
 
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts, footer))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -51,43 +66,23 @@ class HtmlRenderer {
         println("✓ Exported: ${codelab.id}")
     }
 
-
-    private fun copyAssets(outputDir: File, customCss: String? = null) {
-        val assetsDir = File(outputDir, "codelab-elements")
-        if (assetsDir.exists() && customCss == null) return // Already copied
-
-        assetsDir.mkdirs()
-
-        // Copy assets from resources
-        val assetFiles = listOf(
-            "codelab-elements.css",
-            "codelab-elements.js",
-            "custom-elements.min.js",
-            "native-shim.js",
-            "prettify.js",
-            "klaat-bridge.js"
-        )
-
-        val customCssFile = customCss?.let { File(it) }
-
-        assetFiles.forEach { filename ->
-            val destFile = File(assetsDir, filename)
-            if (!destFile.exists()) {
-                val resource = javaClass.getResourceAsStream("/assets/$filename")
-                if (resource != null) {
-                    destFile.writeBytes(resource.readBytes())
-                }
-            }
+    private fun renderIndexHtml(
+        codelab: Codelab,
+        ga: String?,
+        jsPrefix: String,
+        cssPrefix: String,
+        customCssUrl: String?,
+        favicon: String?,
+        googleFonts: String?,
+        footer: String?
+    ): String {
+        val effectiveFooter = when {
+            !footer.isNullOrBlank() -> footer
+            codelab.metadata.footer.isNotBlank() -> codelab.metadata.footer
+            else -> DEFAULT_FOOTER
         }
 
-        // Copy custom CSS if provided and it's a local file
-        if (customCssFile != null && customCssFile.exists()) {
-            customCssFile.copyTo(File(assetsDir, customCssFile.name), overwrite = true)
-        }
-    }
-
-    private fun renderIndexHtml(codelab: Codelab, ga: String?, jsPrefix: String, cssPrefix: String, customCssUrl: String?, favicon: String?, googleFonts: String?): String {
-        val template = freemarkerConfig.getTemplate("codelab.html")
+        val template = freemarkerConfig.getTemplate("kodelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
             "id" to codelab.id,
@@ -98,7 +93,8 @@ class HtmlRenderer {
             "jsPrefix" to jsPrefix,
             "cssPrefix" to cssPrefix,
             "customCssUrl" to (customCssUrl ?: ""),
-            "favicon" to (favicon ?: ""),
+            "favicon" to (if (!favicon.isNullOrBlank()) favicon else codelab.metadata.favicon),
+            "footer" to effectiveFooter,
             "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
             "timestamp" to System.currentTimeMillis().toString(),
@@ -107,6 +103,7 @@ class HtmlRenderer {
                     "title" to step.title,
                     "duration" to step.duration,
                     "hasDuration" to (step.duration != null),
+                    "excludeDuration" to step.excludeDurationFromTotal,
                     "content" to renderStepContent(step.content)
                 )
             }
@@ -130,7 +127,17 @@ class HtmlRenderer {
         return when (node) {
             is Node.Text -> renderText(node)
             is Node.Heading -> renderHeading(node)
-            is Node.Paragraph -> "<p>${renderNodes(node.nodes)}</p>"
+            is Node.Paragraph -> {
+                val isImageWithCaption = node.nodes.count { it is Node.Image } == 1 &&
+                        node.nodes.all { it is Node.Image || (it is Node.Text && (it.italic || it.content.isBlank())) }
+                if (isImageWithCaption && node.nodes.any { it is Node.Text && it.italic }) {
+                    val imageNode = node.nodes.first { it is Node.Image }
+                    val captionNodes = node.nodes.filter { it != imageNode && (it is Node.Text && it.content.isNotBlank()) }
+                    "<figure>\n${renderNode(imageNode)}\n<figcaption>${renderNodes(captionNodes)}</figcaption>\n</figure>"
+                } else {
+                    "<p>${renderNodes(node.nodes)}</p>"
+                }
+            }
             is Node.CodeBlock -> renderCodeBlock(node)
             is Node.CommandBlock -> """<pre class="devsite-terminal"><code>${escape(node.commands)}</code></pre>"""
             is Node.InfoBox -> renderInfoBox(node)
@@ -183,14 +190,16 @@ class HtmlRenderer {
         val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
         val codeContent = escape(node.code)
 
-        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-icons">content_copy</span><span>Copy</span></button></div>"""
+        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
         val cssClass = when (node.type) {
+            InfoBoxType.SPECIAL -> "special"
+            InfoBoxType.WARNING -> "warning"
             InfoBoxType.POSITIVE -> "positive"
-            InfoBoxType.NEGATIVE -> "negative"
-            InfoBoxType.REGULAR -> "special"
+            InfoBoxType.CRITICAL -> "critical"
+            else -> "default"
         }
         return """<aside class="$cssClass">${renderNodes(node.nodes)}</aside>"""
     }
@@ -202,21 +211,46 @@ class HtmlRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val downloadIcon = if (node.download) """<iron-icon icon="file-download"></iron-icon>""" else ""
-        return """<paper-button class="colored" raised>$downloadIcon<a href="${escape(node.url)}">${escape(node.text)}</a></paper-button>"""
+        val iconSpan = when {
+            node.icon != null -> """<span class="material-symbols-outlined">${escape(node.icon)}</span>"""
+            node.download -> """<span class="material-symbols-outlined">download</span>"""
+            else -> ""
+        }
+        val typeClass = when (node.type) {
+            is me.kartikarora.klaat.core.ButtonType.Primary -> "klaat-button--primary klaat-button--colored"
+            is me.kartikarora.klaat.core.ButtonType.Secondary -> "klaat-button--secondary"
+        }
+        return """<a class="klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
+    }
+
+    private fun renderInlineFormatting(text: String): String {
+        var result = escape(text)
+        // Convert `code` to <code>code</code>
+        result = result.replace(Regex("`([^`]+)`")) { match ->
+            "<code>${match.groupValues[1]}</code>"
+        }
+        // Convert **bold** to <strong>bold</strong>
+        result = result.replace(Regex("\\*\\*([^*]+)\\*\\*")) { match ->
+            "<strong>${match.groupValues[1]}</strong>"
+        }
+        // Convert *italic* to <em>italic</em>
+        result = result.replace(Regex("(?<!\\*)\\*([^*]+)\\*(?!\\*)")) { match ->
+            "<em>${match.groupValues[1]}</em>"
+        }
+        return result
     }
 
     private fun renderSurvey(node: Node.Survey): String {
         val options = node.options.joinToString("\n") { option ->
-            """<paper-radio-button>${escape(option)}</paper-radio-button>"""
+            """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${renderInlineFormatting(option)}</label>"""
         }
         return """
-<google-codelab-survey survey-id="survey-${node.question.hashCode()}">
-<h4>${escape(node.question)}</h4>
-<paper-radio-group>
+<klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
+<h4>${renderInlineFormatting(node.question)}</h4>
+<div class="klaat-radio-group">
 $options
-</paper-radio-group>
-</google-codelab-survey>""".trimIndent()
+</div>
+</klaat-kodelab-survey>""".trimIndent()
     }
 
     private fun renderFAQ(node: Node.FAQ): String {
@@ -260,7 +294,7 @@ $options
             appendLine("""  "format": "html",""")
             appendLine("""  "prefix": "../../",""")
             appendLine("""  "mainga": "${codelab.metadata.analyticsAccount}",""")
-            appendLine("""  "updated": "${java.time.Instant.ofEpochMilli(codelab.lastUpdated)}",""")
+            appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
             appendLine("""  "duration": ${codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }},""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")

@@ -60,7 +60,7 @@ class ServeCommandTest {
     @Test
     @Timeout(value = 15, unit = TimeUnit.SECONDS)
     fun `test serve command starts server and serves files`() {
-        val port = 9091 // Use non-default port to avoid conflicts
+        val port = java.net.ServerSocket(0).use { it.localPort }
         val host = "localhost"
         
         // Start server in a separate thread with timeout

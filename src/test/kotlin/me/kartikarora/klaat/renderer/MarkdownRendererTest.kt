@@ -242,8 +242,8 @@ class MarkdownRendererTest {
     @Test
     fun `test render info boxes`() {
         val positive = Node.InfoBox(InfoBoxType.POSITIVE, listOf(Node.Text("Tip")))
-        val negative = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
-        val regular = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+        val negative = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
+        val regular = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
 
         val step = Step("Test", listOf(positive, negative, regular))
         val codelab = Codelab("test", "Title", steps = listOf(step))
@@ -253,7 +253,7 @@ class MarkdownRendererTest {
         val content = File(tempDir, "test/index.md").readText()
         assertTrue(content.contains("✅ **Note:**"))
         assertTrue(content.contains("⚠️ **Note:**"))
-        assertTrue(content.contains("ℹ️ **Note:**"))
+        assertTrue(content.contains("> Info"))
     }
 
     @Test
@@ -327,14 +327,26 @@ class MarkdownRendererTest {
 
     @Test
     fun `test render button with download`() {
-        val button = Node.Button("https://download.com/file", "Download", download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.Primary, download = true)
         val step = Step("Test", listOf(button))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.md").readText()
-        assertTrue(content.contains("[⬇️ Download](https://download.com/file)"))
+        assertTrue(content.contains("[Download](https://download.com/file){.buttonPrimary}"))
+    }
+
+    @Test
+    fun `test render button with custom icon`() {
+        val button = Node.Button("https://example.com/play", "Watch Demo", type = me.kartikarora.klaat.core.ButtonType.Secondary, icon = "play_arrow")
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.md").readText()
+        assertTrue(content.contains("[Watch Demo](https://example.com/play){.buttonSecondary icon=play_arrow}"))
     }
 
     @Test

@@ -13,13 +13,37 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.Document
 import com.vladsch.flexmark.util.data.MutableDataSet
+import me.kartikarora.klaat.core.ButtonType
 import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
+import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Step
 import java.io.File
 import java.io.InputStream
+import kotlin.math.ceil
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 import com.vladsch.flexmark.util.ast.Node as FlexmarkNode
-import me.kartikarora.klaat.core.Node as CodelabNode
+import me.kartikarora.klaat.core.Node as KlaatNode
+import com.vladsch.flexmark.ast.Paragraph
+import com.vladsch.flexmark.ast.BlockQuote
+import com.vladsch.flexmark.ast.Heading
+import com.vladsch.flexmark.ast.BulletList
+import com.vladsch.flexmark.ast.BulletListItem
+import com.vladsch.flexmark.ast.OrderedList
+import com.vladsch.flexmark.ast.OrderedListItem
+import com.vladsch.flexmark.ast.FencedCodeBlock
+import com.vladsch.flexmark.ast.IndentedCodeBlock
+import com.vladsch.flexmark.ast.Image
+import com.vladsch.flexmark.ast.HtmlBlock
+import com.vladsch.flexmark.ast.HtmlInline
+import com.vladsch.flexmark.ast.Text
+import com.vladsch.flexmark.ast.StrongEmphasis
+import com.vladsch.flexmark.ast.Emphasis
+import com.vladsch.flexmark.ast.Code
+import com.vladsch.flexmark.ast.Link
 
 /**
  * Parser for Markdown-based codelabs following the Google Codelabs format
@@ -71,11 +95,11 @@ class MarkdownParser {
                 .flatMap { it.content.asSequence() }
                 .flatMap { node ->
                     when (node) {
-                        is CodelabNode.Image -> sequenceOf(node)
-                        is CodelabNode.Paragraph -> node.nodes.filterIsInstance<CodelabNode.Image>().asSequence()
-                        is CodelabNode.InfoBox -> node.nodes.filterIsInstance<CodelabNode.Image>().asSequence()
-                        is CodelabNode.BulletList -> node.items.flatten().filterIsInstance<CodelabNode.Image>().asSequence()
-                        is CodelabNode.NumberedList -> node.items.flatten().filterIsInstance<CodelabNode.Image>().asSequence()
+                        is KlaatNode.Image -> sequenceOf(node)
+                        is KlaatNode.Paragraph -> node.nodes.filterIsInstance<KlaatNode.Image>().asSequence()
+                        is KlaatNode.InfoBox -> node.nodes.filterIsInstance<KlaatNode.Image>().asSequence()
+                        is KlaatNode.BulletList -> node.items.flatten().filterIsInstance<KlaatNode.Image>().asSequence()
+                        is KlaatNode.NumberedList -> node.items.flatten().filterIsInstance<KlaatNode.Image>().asSequence()
                         else -> emptySequence()
                     }
                 }
@@ -103,7 +127,7 @@ class MarkdownParser {
         val standardFields = setOf(
             "summary", "id", "categories", "environments", "status",
             "feedback_link", "analytics_account", "tags", "authors",
-            "source", "duration", "theme"
+            "source", "duration", "theme", "favicon", "footer"
         )
 
         // Collect extra metadata fields that are in passMetadata but not in standard fields
@@ -130,6 +154,8 @@ class MarkdownParser {
             theme = data["theme"]?.firstOrNull() ?: "",
             duration = data["duration"]?.firstOrNull()?.toIntOrNull() ?: 0,
             image = "",
+            favicon = data["favicon"]?.firstOrNull() ?: "",
+            footer = data["footer"]?.firstOrNull() ?: "",
             extraMetadata = extraMetadata
         )
     }
@@ -164,7 +190,7 @@ class MarkdownParser {
         var node: FlexmarkNode? = document.firstChild
 
         while (node != null) {
-            if (node is com.vladsch.flexmark.ast.Heading && node.level == 1) {
+            if (node is Heading && node.level == 1) {
                 title = node.text.toString()
                 break
             }
@@ -176,7 +202,7 @@ class MarkdownParser {
 
     private fun extractSteps(document: Document): List<Step> {
         val steps = mutableListOf<Step>()
-        var currentStep: MutableList<CodelabNode>? = null
+        var currentStep: MutableList<KlaatNode>? = null
         var currentStepTitle = ""
         var currentStepDuration: Int? = null
         var currentStepExcludeDuration = false
@@ -189,11 +215,11 @@ class MarkdownParser {
 
         while (node != null) {
             when {
-                node is com.vladsch.flexmark.ast.Heading && node.level == 1 -> {
+                node is Heading && node.level == 1 -> {
                     foundTitle = true
                     skipUntilFirstH2 = true
                 }
-                node is com.vladsch.flexmark.ast.Heading && node.level == 2 -> {
+                node is Heading && node.level == 2 -> {
                     // Save previous step if exists
                     if (currentStep != null && currentStepTitle.isNotEmpty()) {
                         steps.add(Step(
@@ -216,12 +242,12 @@ class MarkdownParser {
                 }
                 !skipUntilFirstH2 && currentStep != null -> {
                     // Check if this is a Duration paragraph
-                    if (skipNextIfDuration && node is com.vladsch.flexmark.ast.Paragraph) {
+                    if (skipNextIfDuration && node is Paragraph) {
                         val text = node.chars.toString().trim()
-                        val durationMatch = Regex("^Duration:\\s*(\\d+)(?:\\s+(?:\\(ignore\\)|ignore))?", RegexOption.IGNORE_CASE).find(text)
-                        if (durationMatch != null) {
-                            currentStepDuration = durationMatch.groupValues[1].toIntOrNull()
-                            currentStepExcludeDuration = text.contains("ignore", ignoreCase = true)
+                        val durationResult = parseDurationString(text)
+                        if (durationResult != null) {
+                            currentStepDuration = durationResult.first
+                            currentStepExcludeDuration = durationResult.second
                             skipNextIfDuration = false
                             node = node.next
                             continue
@@ -231,7 +257,20 @@ class MarkdownParser {
 
                     // Parse node content and add to current step
                     val parsedNodes = parseNode(node)
-                    currentStep.addAll(parsedNodes)
+                    for (pNode in parsedNodes) {
+                        if (pNode is KlaatNode.BulletList && pNode.items.isNotEmpty() && pNode.items.all { extractCheckboxOption(it) != null }) {
+                            val options = pNode.items.map { extractCheckboxOption(it)!! }
+                            val question = if (currentStep.isNotEmpty()) extractQuestionText(currentStep.last()) else null
+                            if (question != null) {
+                                currentStep.removeAt(currentStep.lastIndex)
+                                currentStep.add(KlaatNode.Survey(question, options))
+                            } else {
+                                currentStep.add(KlaatNode.Survey("Survey", options))
+                            }
+                        } else {
+                            currentStep.add(pNode)
+                        }
+                    }
                 }
             }
 
@@ -252,73 +291,202 @@ class MarkdownParser {
         return steps
     }
 
-    private fun parseNode(node: FlexmarkNode): List<CodelabNode> {
-        val nodes = mutableListOf<CodelabNode>()
+    private fun parseNode(node: FlexmarkNode): List<KlaatNode> {
+        val nodes = mutableListOf<KlaatNode>()
         
         when (node) {
-            is com.vladsch.flexmark.ast.Paragraph -> {
-                val textNodes = mutableListOf<CodelabNode>()
+            is Paragraph -> {
+                val textNodes = mutableListOf<KlaatNode>()
                 extractTextNodes(node, textNodes)
-                if (textNodes.isNotEmpty()) {
-                    nodes.add(CodelabNode.Paragraph(textNodes))
+                
+                // Process textNodes to convert links followed by {.buttonPrimary}, {.buttonSecondary}, or {.button} into Buttons
+                val processedNodes = mutableListOf<KlaatNode>()
+                var i = 0
+                val buttonTagRegex = Regex("^\\{\\.(buttonPrimary|buttonSecondary|button)(?:\\s+icon=[\"']?([a-zA-Z0-9_-]+)[\"']?)?\\}(.*)$", RegexOption.IGNORE_CASE)
+
+                while (i < textNodes.size) {
+                    val current = textNodes[i]
+                    if (current is KlaatNode.Link && i + 1 < textNodes.size) {
+                        val next = textNodes[i + 1]
+                        if (next is KlaatNode.Text) {
+                            val match = buttonTagRegex.find(next.content.trimStart())
+                            if (match != null) {
+                                val tagType = match.groupValues[1].lowercase()
+                                val buttonType = if (tagType == "buttonsecondary") ButtonType.Secondary else ButtonType.Primary
+                                val customIcon = match.groupValues[2].takeIf { it.isNotEmpty() }
+                                val remainder = match.groupValues[3]
+                                val isDownload = current.text.contains("download", ignoreCase = true) ||
+                                        current.url.endsWith(".zip", ignoreCase = true) ||
+                                        current.url.endsWith(".tar.gz", ignoreCase = true)
+
+                                processedNodes.add(
+                                    KlaatNode.Button(
+                                        url = current.url,
+                                        text = current.text,
+                                        type = buttonType,
+                                        download = isDownload,
+                                        icon = customIcon
+                                    )
+                                )
+
+                                if (remainder.isNotEmpty()) {
+                                    processedNodes.add(
+                                        KlaatNode.Text(
+                                            remainder,
+                                            bold = next.bold,
+                                            italic = next.italic,
+                                            code = next.code
+                                        )
+                                    )
+                                }
+                                i += 2
+                                continue
+                            }
+                        }
+                    }
+                    processedNodes.add(current)
+                    i++
+                }
+
+                val nonWhitespaceNodes = processedNodes.filter { 
+                    it !is KlaatNode.Text || it.content.trim().isNotEmpty() 
+                }
+                
+                val youtubeRegex = Regex("^(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]{11})")
+                if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Link) {
+                    val link = nonWhitespaceNodes.first() as KlaatNode.Link
+                    val match = youtubeRegex.find(link.url)
+                    if (match != null) {
+                        nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
+                    } else {
+                        nodes.add(KlaatNode.Paragraph(processedNodes))
+                    }
+                } else if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Button) {
+                    nodes.add(nonWhitespaceNodes.first())
+                } else if (nonWhitespaceNodes.size == 1 && nonWhitespaceNodes.first() is KlaatNode.Text) {
+                    val text = (nonWhitespaceNodes.first() as KlaatNode.Text).content.trim()
+                    val match = youtubeRegex.find(text)
+                    if (match != null) {
+                        nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
+                    } else if (processedNodes.isNotEmpty()) {
+                        nodes.add(KlaatNode.Paragraph(processedNodes))
+                    }
+                } else if (processedNodes.isNotEmpty()) {
+                    nodes.add(KlaatNode.Paragraph(processedNodes))
                 }
             }
-            is com.vladsch.flexmark.ast.Heading -> {
+            is BlockQuote -> {
+                val childNodes = mutableListOf<KlaatNode>()
+                var bChild = node.firstChild
+                while (bChild != null) {
+                    childNodes.addAll(parseNode(bChild))
+                    bChild = bChild.next
+                }
+                
+                // Determine InfoBox type based on metadata attributes
+                var type = InfoBoxType.DEFAULT
+                
+                fun cleanMetadata(nodes: MutableList<KlaatNode>) {
+                    for (i in 0 until nodes.size) {
+                        val node = nodes[i]
+                        if (node is KlaatNode.Paragraph) {
+                            val pNodes = node.nodes.toMutableList()
+                            cleanMetadata(pNodes)
+                            nodes[i] = KlaatNode.Paragraph(pNodes)
+                        } else if (node is KlaatNode.Text) {
+                            val content = node.content
+                            if (content.contains("{.special}")) {
+                                type = InfoBoxType.SPECIAL
+                                nodes[i] = node.copy(content = content.replace("{.special}", "").trim())
+                            } else if (content.contains("{.warning}")) {
+                                type = InfoBoxType.WARNING
+                                nodes[i] = node.copy(content = content.replace("{.warning}", "").trim())
+                            } else if (content.contains("{.critical}")) {
+                                type = InfoBoxType.CRITICAL
+                                nodes[i] = node.copy(content = content.replace("{.critical}", "").trim())
+                            } else if (content.contains("{.positive}")) {
+                                type = InfoBoxType.POSITIVE
+                                nodes[i] = node.copy(content = content.replace("{.positive}", "").trim())
+                            }
+                        }
+                    }
+                }
+                
+                cleanMetadata(childNodes)
+                nodes.add(KlaatNode.InfoBox(type, childNodes))
+            }
+            is Heading -> {
                 if (node.level >= 2) {
-                    nodes.add(CodelabNode.Heading(
+                    nodes.add(KlaatNode.Heading(
                         level = node.level,
                         content = node.text.toString()
                     ))
                 }
             }
-            is com.vladsch.flexmark.ast.BulletList -> {
-                val items = mutableListOf<List<CodelabNode>>()
+            is BulletList -> {
+                val items = mutableListOf<List<KlaatNode>>()
                 var listItem: FlexmarkNode? = node.firstChild
                 while (listItem != null) {
-                    if (listItem is com.vladsch.flexmark.ast.BulletListItem) {
-                        val itemNodes = mutableListOf<CodelabNode>()
-                        extractTextNodes(listItem, itemNodes)
+                    if (listItem is BulletListItem) {
+                        val itemNodes = mutableListOf<KlaatNode>()
+                        var itemChild = listItem.firstChild
+                        while (itemChild != null) {
+                            itemNodes.addAll(parseNode(itemChild))
+                            itemChild = itemChild.next
+                        }
                         items.add(itemNodes)
                     }
                     listItem = listItem.next
                 }
-                nodes.add(CodelabNode.BulletList(items))
+                nodes.add(KlaatNode.BulletList(items))
             }
-            is com.vladsch.flexmark.ast.OrderedList -> {
-                val items = mutableListOf<List<CodelabNode>>()
+            is OrderedList -> {
+                val items = mutableListOf<List<KlaatNode>>()
                 var listItem: FlexmarkNode? = node.firstChild
                 while (listItem != null) {
-                    if (listItem is com.vladsch.flexmark.ast.OrderedListItem) {
-                        val itemNodes = mutableListOf<CodelabNode>()
-                        extractTextNodes(listItem, itemNodes)
+                    if (listItem is OrderedListItem) {
+                        val itemNodes = mutableListOf<KlaatNode>()
+                        var itemChild = listItem.firstChild
+                        while (itemChild != null) {
+                            itemNodes.addAll(parseNode(itemChild))
+                            itemChild = itemChild.next
+                        }
                         items.add(itemNodes)
                     }
                     listItem = listItem.next
                 }
-                nodes.add(CodelabNode.NumberedList(items, start = node.startNumber))
+                nodes.add(KlaatNode.NumberedList(items, start = node.startNumber))
             }
-            is com.vladsch.flexmark.ast.FencedCodeBlock -> {
-                nodes.add(CodelabNode.CodeBlock(
+            is FencedCodeBlock -> {
+                nodes.add(KlaatNode.CodeBlock(
                     code = node.contentChars.toString(),
                     language = node.info.toString()
                 ))
             }
-            is com.vladsch.flexmark.ast.IndentedCodeBlock -> {
-                nodes.add(CodelabNode.CodeBlock(
+            is IndentedCodeBlock -> {
+                nodes.add(KlaatNode.CodeBlock(
                     code = node.contentChars.toString()
                 ))
             }
-            is com.vladsch.flexmark.ast.Image -> {
+            is Image -> {
                 val url = node.url.toString()
-                nodes.add(CodelabNode.Image(
+                nodes.add(KlaatNode.Image(
                     src = url,
                     alt = node.text.toString()
                 ))
             }
+            is HtmlBlock -> {
+                val html = node.chars.toString()
+                parseHtmlForMedia(html, nodes)
+            }
+            is HtmlInline -> {
+                val html = node.chars.toString()
+                parseHtmlForMedia(html, nodes)
+            }
             is TableBlock -> {
-                val header = mutableListOf<List<CodelabNode>>()
+                val header = mutableListOf<List<KlaatNode>>()
                 val alignments = mutableListOf<String?>()
-                val rows = mutableListOf<List<List<CodelabNode>>>()
+                val rows = mutableListOf<List<List<KlaatNode>>>()
 
                 var child = node.firstChild
                 while (child != null) {
@@ -330,7 +498,7 @@ class MarkdownParser {
                                     var cell = row.firstChild
                                     while (cell != null) {
                                         if (cell is TableCell) {
-                                            val cellNodes = mutableListOf<CodelabNode>()
+                                            val cellNodes = mutableListOf<KlaatNode>()
                                             extractTextNodes(cell, cellNodes)
                                             header.add(cellNodes)
                                             // Capture column alignment from the header cell
@@ -352,11 +520,11 @@ class MarkdownParser {
                             var row = child.firstChild
                             while (row != null) {
                                 if (row is TableRow) {
-                                    val rowCells = mutableListOf<List<CodelabNode>>()
+                                    val rowCells = mutableListOf<List<KlaatNode>>()
                                     var cell = row.firstChild
                                     while (cell != null) {
                                         if (cell is TableCell) {
-                                            val cellNodes = mutableListOf<CodelabNode>()
+                                            val cellNodes = mutableListOf<KlaatNode>()
                                             extractTextNodes(cell, cellNodes)
                                             rowCells.add(cellNodes)
                                         }
@@ -370,50 +538,194 @@ class MarkdownParser {
                     }
                     child = child.next
                 }
-                nodes.add(CodelabNode.Table(header, rows, alignments))
+                nodes.add(KlaatNode.Table(header, rows, alignments))
             }
         }
         
         return nodes
     }
 
-    private fun extractTextNodes(node: FlexmarkNode, output: MutableList<CodelabNode>) {
+    private fun extractCheckboxOption(itemNodes: List<KlaatNode>): String? {
+        val allNodes = itemNodes.asSequence().flatMap {
+            when (it) {
+                is KlaatNode.Paragraph -> it.nodes.asSequence()
+                else -> sequenceOf(it)
+            }
+        }.toList()
+
+        val firstNode = allNodes.firstOrNull() ?: return null
+
+        fun renderRemainingNodes(startIndex: Int, firstNodeRemainder: String = ""): String {
+            val sb = StringBuilder()
+            if (firstNodeRemainder.isNotEmpty()) {
+                sb.append(firstNodeRemainder)
+            }
+            for (idx in startIndex until allNodes.size) {
+                val node = allNodes[idx]
+                when (node) {
+                    is KlaatNode.Text -> if (node.code) sb.append("`").append(node.content).append("`") else sb.append(node.content)
+                    is KlaatNode.Link -> sb.append(node.text)
+                    is KlaatNode.Button -> sb.append(node.text)
+                    else -> {}
+                }
+            }
+            return sb.toString().trim()
+        }
+
+        if (firstNode is KlaatNode.Text) {
+            val text = firstNode.content.trimStart()
+            val checkboxRegex = Regex("^\\[([ xX])\\]\\s*(.*)$")
+            val match = checkboxRegex.find(text)
+            if (match != null) {
+                val remainder = match.groupValues[2]
+                val option = renderRemainingNodes(1, remainder)
+                return option.ifEmpty { remainder }.takeIf { it.isNotBlank() }
+            }
+
+            // Flexmark parsed [x] as link ref, leaving "x" or "X" as first text node
+            if (text.equals("x", ignoreCase = true) || text.startsWith("x ", ignoreCase = true)) {
+                val remainder = if (text.length > 1) text.substring(1).trimStart() else ""
+                val option = renderRemainingNodes(1, remainder)
+                return option.takeIf { it.isNotBlank() }
+            }
+
+            // Flexmark parsed [ ] as link ref, leaving whitespace/empty as first text node followed by other nodes
+            if (text.isBlank() && allNodes.size > 1) {
+                val option = renderRemainingNodes(1)
+                return option.takeIf { it.isNotBlank() }
+            }
+        } else if (firstNode is KlaatNode.Link) {
+            val linkText = firstNode.text.trim()
+            if (linkText.isBlank() || linkText.equals("x", ignoreCase = true)) {
+                val option = renderRemainingNodes(1)
+                return option.takeIf { it.isNotBlank() }
+            }
+        }
+
+        return null
+    }
+
+    private fun extractQuestionText(node: KlaatNode?): String? {
+        return when (node) {
+            is KlaatNode.Heading -> node.content.trim().takeIf { it.isNotEmpty() }
+            is KlaatNode.Paragraph -> {
+                val fullText = node.nodes.joinToString("") {
+                    when (it) {
+                        is KlaatNode.Text -> it.content
+                        is KlaatNode.Link -> it.text
+                        else -> ""
+                    }
+                }.trim()
+                fullText.takeIf { it.isNotEmpty() }
+            }
+            else -> null
+        }
+    }
+
+    private fun extractTextNodes(
+        node: FlexmarkNode,
+        output: MutableList<KlaatNode>,
+        bold: Boolean = false,
+        italic: Boolean = false,
+        code: Boolean = false
+    ) {
         var child: FlexmarkNode? = node.firstChild
         
         while (child != null) {
             when (child) {
-                is com.vladsch.flexmark.ast.Text -> {
-                    output.add(CodelabNode.Text(child.chars.toString()))
+                is Text -> {
+                    output.add(KlaatNode.Text(child.chars.toString(), bold = bold, italic = italic, code = code))
                 }
-                is com.vladsch.flexmark.ast.StrongEmphasis -> {
-                    val text = child.text.toString()
-                    output.add(CodelabNode.Text(text, bold = true))
+                is StrongEmphasis -> {
+                    extractTextNodes(child, output, bold = true, italic = italic, code = code)
                 }
-                is com.vladsch.flexmark.ast.Emphasis -> {
-                    val text = child.text.toString()
-                    output.add(CodelabNode.Text(text, italic = true))
+                is Emphasis -> {
+                    extractTextNodes(child, output, bold = bold, italic = true, code = code)
                 }
-                is com.vladsch.flexmark.ast.Code -> {
-                    output.add(CodelabNode.Text(child.text.toString(), code = true))
+                is Code -> {
+                    val codeContent = child.text.toString().ifEmpty { child.chars.toString().removeSurrounding("`") }
+                    output.add(KlaatNode.Text(codeContent, bold = bold, italic = italic, code = true))
                 }
-                is com.vladsch.flexmark.ast.Link -> {
-                    output.add(CodelabNode.Link(
+                is Link -> {
+                    output.add(KlaatNode.Link(
                         url = child.url.toString(),
                         text = child.text.toString()
                     ))
                 }
-                is com.vladsch.flexmark.ast.Image -> {
-                    output.add(CodelabNode.Image(
+                is Image -> {
+                    output.add(KlaatNode.Image(
                         src = child.url.toString(),
                         alt = child.text.toString()
                     ))
                 }
                 else -> {
-                    // Recursively extract from nested nodes
-                    extractTextNodes(child, output)
+                    extractTextNodes(child, output, bold, italic, code)
                 }
             }
             child = child.next
         }
+    }
+
+    private fun parseHtmlForMedia(html: String, nodes: MutableList<KlaatNode>) {
+        val videoRegex = Regex("<video\\s+[^>]*id=[\"']([a-zA-Z0-9_-]{11})[\"'][^>]*>(?:<\\/video>)?", RegexOption.IGNORE_CASE)
+        var match = videoRegex.find(html)
+        if (match != null) {
+            nodes.add(KlaatNode.YoutubeVideo(match.groupValues[1]))
+            return
+        }
+
+        val iframeRegex = Regex("<iframe\\s+[^>]*src=[\"']([^\"']+)[\"'][^>]*>(?:<\\/iframe>)?", RegexOption.IGNORE_CASE)
+        match = iframeRegex.find(html)
+        if (match != null) {
+            val src = match.groupValues[1]
+            val ytMatch = Regex("youtube\\.com\\/embed\\/([a-zA-Z0-9_-]{11})").find(src)
+            if (ytMatch != null) {
+                nodes.add(KlaatNode.YoutubeVideo(ytMatch.groupValues[1]))
+            } else {
+                nodes.add(KlaatNode.IFrame(src))
+            }
+            return
+        }
+    }
+
+    private fun parseDurationString(text: String): Pair<Int?, Boolean>? {
+        val trimmed = text.trim()
+        if (!trimmed.startsWith("Duration:", ignoreCase = true)) return null
+
+        val afterPrefix = trimmed.substring(9).trim()
+        val isIgnore = afterPrefix.contains("ignore", ignoreCase = true)
+        val cleanStr = afterPrefix
+            .replace(Regex("(?i)\\s*\\(ignore\\)|\\s*ignore"), "")
+            .replace(Regex("(?i)\\s*minutes?|\\s*mins?"), "")
+            .trim()
+
+        val durationMinutes: Int? = when {
+            cleanStr.contains(":") -> {
+                val parts = cleanStr.split(":")
+                when (parts.size) {
+                    3 -> {
+                        val h = parts[0].toLongOrNull()?.hours ?: Duration.ZERO
+                        val m = parts[1].toLongOrNull()?.minutes ?: Duration.ZERO
+                        val s = parts[2].toLongOrNull()?.seconds ?: Duration.ZERO
+                        val totalSecs = (h + m + s).inWholeSeconds
+                        ceil(totalSecs / 60.0).toInt()
+                    }
+                    2 -> {
+                        val m = parts[0].toLongOrNull()?.minutes ?: Duration.ZERO
+                        val s = parts[1].toLongOrNull()?.seconds ?: Duration.ZERO
+                        val totalSecs = (m + s).inWholeSeconds
+                        ceil(totalSecs / 60.0).toInt()
+                    }
+                    else -> null
+                }
+            }
+            else -> {
+                cleanStr.toIntOrNull() ?: Duration.parseOrNull(cleanStr)?.let {
+                    ceil(it.inWholeSeconds / 60.0).toInt()
+                }
+            }
+        }
+
+        return Pair(durationMinutes, isIgnore)
     }
 }

@@ -6,14 +6,14 @@ environments: Web, Kiosk
 status: Published
 authors: Klaat Team
 tags: example, demo, testing, comprehensive
-feedback_link: https://github.com/yourusername/klaat/issues
+feedback_link: https://github.com/kartikarora/klaat/issues
 analytics_account: UA-XXXXX-Y
 ---
 
 # Comprehensive Codelab Example
 
 ## Introduction
-Duration: 2
+Duration: 0:01:30 (ignore)
 
 Welcome! This codelab demonstrates **all features** supported by Klaat.
 
@@ -170,68 +170,51 @@ Duration: 3
 ![Klaat New Logo](images/klaat_new.png)
 
 ## Positive Info Boxes
-Duration: 2
+Duration: 0:02:00
 
 Here's a positive info box for tips and best practices:
 
-> **Note:** This is a tip!
-> 
-> Use positive info boxes to highlight:
-> * Best practices
-> * Pro tips
-> * Time-saving shortcuts
-> * Success indicators
+> **Note:** This is a tip! Use positive info boxes to highlight best practices, pro tips, time-saving shortcuts, and success indicators. {.positive}
 
-> **Pro Tip:** You can nest formatting inside info boxes:
-> * **Bold text**
-> * `Code snippets`
-> * [Links](https://example.com)
+> **Pro Tip:** You can nest formatting inside info boxes: **bold text**, `code snippets`, and [links](https://example.com). {.special}
 
-## Negative Info Boxes
-Duration: 2
+## Warning & Critical Info Boxes
+Duration: 0:02:00
 
-Here's a negative info box for warnings:
+Here are info boxes for cautionary advice and critical notices:
 
-> **Warning:** Pay attention to this!
-> 
-> Use negative info boxes for:
-> * Warnings about common mistakes
-> * Breaking changes
-> * Security considerations
-> * Prerequisites
+> **Warning:** Pay attention to common mistakes, breaking changes, and prerequisites. {.warning}
 
-> **Caution:** Make sure you complete the previous steps before proceeding.
+> **Critical:** Make sure you complete the previous steps before proceeding to avoid data loss. {.critical}
 
 ## Links and References
-Duration: 2
+Duration: 0:02:00
 
 ### Basic Links
 
-Learn more at the [official documentation](https://github.com/googlecodelabs/tools).
+Learn more at the [official documentation](https://klaat.kartikarora.me/docs/index.html).
 
 ### Multiple Links
 
 Check out these resources:
-* [Google Codelabs](https://codelabs.developers.google.com/)
+* [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html)
 * [Markdown Guide](https://www.markdownguide.org/)
-* [Klaat Repository](https://github.com/yourusername/klaat)
+* [Klaat Repository](https://github.com/kartikarora/klaat)
 
 ### Inline Links
 
 You can read more about this in the [API documentation](https://example.com/api) or check the [troubleshooting guide](https://example.com/troubleshooting).
 
-## Download Buttons
-Duration: 1
+## Action Buttons
+Duration: 0:01:30
 
-You can download the starter project:
+Explore the documentation:
 
-[Download Starter Code](https://github.com/yourusername/klaat/archive/main.zip)
+[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
 
-Or clone the repository:
+Send feedback or reach out with suggestions:
 
-```bash
-git clone https://github.com/yourusername/klaat.git
-```
+[Send Feedback](mailto:dev&#64;kartikarora&#46;me){.buttonSecondary icon=mail}
 
 ## Tables
 Duration: 2
@@ -421,7 +404,7 @@ Congratulations! You've explored all Klaat features:
 * ✅ Step organization
 
 ## Next Steps
-Duration: 1
+Duration: 0:01:00 (ignore)
 
 Now that you understand all features, you can:
 
@@ -436,15 +419,15 @@ Now that you understand all features, you can:
 ### Contribute
 
 Help improve Klaat:
-* Report bugs on [GitHub](https://github.com/yourusername/klaat/issues)
+* Report bugs on [GitHub](https://github.com/kartikarora/klaat/issues)
 * Submit pull requests
 * Share your codelabs
 * Improve documentation
 
 ### Learn More
 
-* [Klaat Documentation](https://github.com/yourusername/klaat/README.md)
-* [Codelab Format Guide](https://github.com/googlecodelabs/tools/FORMAT-GUIDE.md)
-* [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+* [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html)
+* [Format Guide](https://klaat.kartikarora.me/docs/format.html)
+* [Klaat Repository](https://github.com/kartikarora/klaat)
 
 Thank you for completing this comprehensive example! 🎉

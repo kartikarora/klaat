@@ -136,6 +136,15 @@ jobs:
           checksum-file: ${{ steps.checksums.outputs.checksum-file }}
           version-pattern: ${{ steps.version.outputs.version }}
 
+      - name: Upload CDN Assets to R2
+        uses: ./.github/actions/upload-cdn-assets
+        with:
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          r2-bucket-name: ${{ secrets.R2_BUCKET_NAME || 'distribute-cdn' }}
+          cloudflare-zone-id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          cdn-url: ${{ steps.cdn.outputs.url }}
+
       - name: Update Homebrew stable tap
         uses: ./.github/actions/update-stable-tap
         with:

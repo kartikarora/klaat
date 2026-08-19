@@ -21,7 +21,9 @@ repositories {
 }
 
 // Build variant configuration
-val buildVariant = project.findProperty("buildVariant")?.toString() ?: "dev"
+val isReleaseTask = gradle.startParameter.taskNames.any { it.equals("buildRelease", ignoreCase = true) || it.equals("nativeRelease", ignoreCase = true) }
+val isCi = System.getenv("CI") == "true"
+val buildVariant = if (isReleaseTask || isCi) "Release" else (project.findProperty("buildVariant")?.toString() ?: "dev")
 val isDevBuild = buildVariant == "dev"
 val isSnapshot = System.getenv("IS_SNAPSHOT") == "true"
 // VERSION_NAME is calculated entirely in CI and passed as environment variable
@@ -67,15 +69,47 @@ tasks.test {
     })
 }
 
+tasks.named<ProcessResources>("processResources") {
+    inputs.dir(layout.projectDirectory.dir("skills"))
+    inputs.dir(layout.projectDirectory.dir("examples"))
+    // Package distributable skills directly from root skills/ directory
+    from(layout.projectDirectory.dir("skills")) {
+        into("skills")
+        include("klaat-cli/**", "klaat-markdown-author/**", "klaat-gdocs-author/**")
+    }
+    // Package demo assets directly from examples/
+    from(layout.projectDirectory.dir("examples")) {
+        into("demo")
+        include("feature-showcase.md", "images/klaat.png")
+    }
+}
+
 application {
     mainClass.set("me.kartikarora.klaat.MainKt")
     // Set different application name based on build variant
     applicationName = if (isSnapshot) "klaat-snapshot" else if (isDevBuild) "klaat-dev" else "klaat"
+    applicationDefaultJvmArgs = listOf(
+        "-Dio.netty.noUnsafe=true",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-opens=java.base/java.nio=ALL-UNNAMED",
+        "--add-opens=java.base/sun.misc=ALL-UNNAMED"
+    )
 }
 
-// Generate BuildConfig.kt with build variant info
+tasks.named<JavaExec>("run") {
+    jvmArgs(
+        "-Dio.netty.noUnsafe=true",
+        "--enable-native-access=ALL-UNNAMED",
+        "--add-opens=java.base/java.nio=ALL-UNNAMED",
+        "--add-opens=java.base/sun.misc=ALL-UNNAMED"
+    )
+}
+
 val generateBuildConfig by tasks.registering {
     val outputDir = layout.buildDirectory.dir("generated/source/buildConfig")
+    inputs.property("versionName", versionName)
+    inputs.property("buildVariant", buildVariant)
+    inputs.property("isSnapshot", isSnapshot)
     outputs.dir(outputDir)
 
     doLast {
@@ -114,18 +148,12 @@ tasks.register("buildDev") {
     group = "build"
     description = "Build the development variant (JVM)"
     dependsOn("installDist")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "dev"
-    }
 }
 
-tasks.register("buildProd") {
+tasks.register("buildRelease") {
     group = "build"
-    description = "Build the production variant (JVM)"
+    description = "Build the release variant (JVM)"
     dependsOn("installDist")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "prod"
-    }
 }
 
 // Native build tasks
@@ -133,18 +161,12 @@ tasks.register("nativeDev") {
     group = "build"
     description = "Build development native binary"
     dependsOn("nativeCompile")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "dev"
-    }
 }
 
-tasks.register("nativeProd") {
+tasks.register("nativeRelease") {
     group = "build"
-    description = "Build production native binary"
+    description = "Build release native binary"
     dependsOn("nativeCompile")
-    doFirst {
-        extensions.extraProperties["buildVariant"] = "prod"
-    }
 }
 
 // Quick run tasks
@@ -182,9 +204,10 @@ graalvmNative {
             buildArgs.add("--no-fallback")
             buildArgs.add("-H:+ReportExceptionStackTraces")
             buildArgs.add("--enable-url-protocols=http,https")
+            buildArgs.add("--enable-native-access=ALL-UNNAMED")
 
             // Required for reflection used by libraries
-            buildArgs.add("--initialize-at-build-time=kotlin,kotlinx,org.slf4j,ch.qos.logback,com.vladsch.flexmark")
+            buildArgs.add("--initialize-at-build-time=kotlin,kotlinx,org.slf4j,ch.qos.logback,com.vladsch.flexmark,org.xml.sax")
             buildArgs.add("--initialize-at-run-time=io.ktor,io.netty,org.eclipse.jetty")
 
             // Native image configs will be auto-discovered from META-INF/native-image/

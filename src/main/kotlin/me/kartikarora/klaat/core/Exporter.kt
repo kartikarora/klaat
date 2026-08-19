@@ -44,7 +44,8 @@ class Exporter(private val docsService: Docs?) {
         extraMetadata: Map<String, String> = emptyMap(),
         customCss: String? = null,
         favicon: String? = null,
-        googleFonts: String? = null
+        googleFonts: String? = null,
+        footer: String? = null
     ) {
         val codelab = when {
             source.endsWith(".md") -> {
@@ -92,9 +93,9 @@ class Exporter(private val docsService: Docs?) {
         val finalCodelab = ImageDownloader.processImages(updatedCodelab, outputDir)
 
         when (format.lowercase()) {
-            "html" -> htmlRenderer.render(finalCodelab, outputDir, gaId, prefix, environment, customCss, favicon, googleFonts)
+            "html" -> htmlRenderer.render(finalCodelab, outputDir, gaId, prefix, environment, customCss, favicon, googleFonts, footer)
             "md", "markdown" -> markdownRenderer.render(finalCodelab, outputDir, environment)
-            "offline" -> offlineRenderer.render(finalCodelab, outputDir, gaId, prefix, environment, customCss, favicon, googleFonts)
+            "offline" -> offlineRenderer.render(finalCodelab, outputDir, gaId, prefix, environment, customCss, favicon, googleFonts, footer)
             else -> {
                 println("✗ Error: Unsupported format: $format. Use 'html', 'md', or 'offline'")
             }

@@ -7,6 +7,7 @@ import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.CodelabMetadata
 import me.kartikarora.klaat.core.Node
 import me.kartikarora.klaat.core.Step
+import com.google.api.services.docs.v1.model.Table
 
 /**
  * Parser for Google Docs-based codelabs
@@ -109,7 +110,7 @@ class GoogleDocParser {
         return Pair(metadata, steps)
     }
 
-    private fun parseMetadataTable(table: com.google.api.services.docs.v1.model.Table, metadataMap: MutableMap<String, String>) {
+    private fun parseMetadataTable(table: Table, metadataMap: MutableMap<String, String>) {
         table.tableRows?.forEach { row ->
             val cells = row.tableCells ?: return@forEach
             if (cells.size >= 2) {
@@ -199,7 +200,7 @@ class GoogleDocParser {
         val standardFields = setOf(
             "summary", "url", "category", "environment", "status",
             "feedback link", "feedback_link", "analytics account", "analytics_account",
-            "tags", "authors", "source", "duration", "theme"
+            "tags", "authors", "source", "duration", "theme", "favicon", "footer"
         )
 
         // Collect extra metadata fields that are in passMetadata but not in standard fields
@@ -225,6 +226,8 @@ class GoogleDocParser {
             theme = map["theme"] ?: "",
             duration = map["duration"]?.toIntOrNull() ?: 0,
             image = "",
+            favicon = map["favicon"] ?: "",
+            footer = map["footer"] ?: "",
             extraMetadata = extraMetadata
         )
     }

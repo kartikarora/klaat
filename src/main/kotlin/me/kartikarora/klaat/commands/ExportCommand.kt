@@ -45,7 +45,7 @@ class ExportCommand : CliktCommand("export") {
     private val ga by option(
         "-ga",
         help = "Global Google Analytics tracking ID"
-    ).default("UA-49880327-14")
+    )
 
     private val outDir by option(
         "-o",
@@ -60,7 +60,7 @@ class ExportCommand : CliktCommand("export") {
     private val prefix by option(
         "-prefix",
         help = "URL prefix for assets"
-    ).default("https://distribute.kartikarora.me")
+    )
 
     private val customCss by option(
         "-css",
@@ -75,6 +75,11 @@ class ExportCommand : CliktCommand("export") {
     private val fonts by option(
         "-fonts",
         help = "Google Fonts URL to load additional fonts (e.g. https://fonts.googleapis.com/css2?family=Inter)"
+    )
+
+    private val footer by option(
+        "-footer",
+        help = "Custom footer HTML or text to display at the bottom of the codelab"
     )
 
     override fun run() {
@@ -117,13 +122,19 @@ class ExportCommand : CliktCommand("export") {
 
         val exporter = Exporter(docsService)
 
+        val effectivePrefix = when {
+            prefix != null -> prefix
+            format.lowercase() == "html" -> "https://distribute.kartikarora.me"
+            else -> null
+        }
+
         TablePrinter.printExportConfigTable(
             targets.size,
             format,
             outDir,
             environment,
             ga,
-            prefix,
+            effectivePrefix ?: "(local bundle)",
             extraMetadata,
             passMetadata,
             auth
@@ -135,7 +146,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, prefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts)
+                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts, footer)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")

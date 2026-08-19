@@ -70,7 +70,7 @@ GraalVM needs to know about reflection, resources, and JNI usage. We have an aut
 
 ```bash
 # Run the automated tracing and config merging script
-./.gemini/skills/graalvm-native-agent/scripts/run-agent.sh
+bash skills/klaat-native-manager/scripts/update_configs.sh
 ```
 
 This runs `version`, `help`, `export`, `update`, and `serve` commands on the local JVM distribution using the agent's `config-merge-dir` option to safely accumulate reflections into `src/main/resources/META-INF/native-image/`.

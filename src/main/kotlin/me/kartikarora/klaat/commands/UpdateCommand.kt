@@ -44,7 +44,7 @@ class UpdateCommand : CliktCommand("update") {
     private val ga by option(
         "-ga",
         help = "Global Google Analytics tracking ID"
-    ).default("UA-49880327-14")
+    )
 
     private val outDir by option(
         "-o",
@@ -84,18 +84,37 @@ class UpdateCommand : CliktCommand("update") {
         TablePrinter.printUpdateInfoTable(codelabDirs.size, passMetadata)
         echo()
 
-        // Initialize Google Docs client
-        val docsService = try {
-            echo("🔑 Initializing Google Docs client...")
-            GoogleDocsClient().getDocsService()
-        } catch (e: Exception) {
-            echo("⚠️  Warning: Could not initialize Google Docs client")
-            echo("   Only markdown-based codelabs will be updated")
+        val gson = Gson()
+
+        // Check if any codelab needs Google Docs client
+        val needsDocsClient = codelabDirs.any { codelabDir ->
+            try {
+                val metadataFile = File(codelabDir, "codelab.json")
+                if (metadataFile.exists()) {
+                    val metadata = gson.fromJson(metadataFile.readText(), JsonObject::class.java)
+                    val source = metadata.get("source")?.asString
+                    source != null && !source.endsWith(".md") && !File(source).exists()
+                } else false
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        // Initialize Google Docs client if needed
+        val docsService = if (needsDocsClient) {
+            try {
+                echo("🔑 Initializing Google Docs client...")
+                GoogleDocsClient().getDocsService()
+            } catch (e: Exception) {
+                echo("⚠️  Warning: Could not initialize Google Docs client")
+                echo("   Only markdown-based codelabs will be updated")
+                null
+            }
+        } else {
             null
         }
 
         val exporter = Exporter(docsService)
-        val gson = Gson()
 
         var successCount = 0
         var failureCount = 0

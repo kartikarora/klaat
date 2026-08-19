@@ -8,10 +8,20 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.4.0.css">
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.4.0.js" defer></script>
+    <!-- Brand Identity CSS -->
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
+    <!-- Brand CDN JS -->
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
+
     
     <style>
         * {

@@ -4,6 +4,7 @@ import me.kartikarora.klaat.core.Codelab
 import me.kartikarora.klaat.core.InfoBoxType
 import me.kartikarora.klaat.core.Node
 import java.io.File
+import java.time.Instant
 
 /**
  * Renders a Codelab to Markdown format
@@ -135,10 +136,15 @@ class MarkdownRenderer {
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
+        if (node.type == InfoBoxType.DEFAULT) {
+            val content = renderStepContent(node.nodes)
+            return content.split("\n").joinToString("\n") { "> $it" }
+        }
         val prefix = when (node.type) {
+            InfoBoxType.SPECIAL -> "💡"
+            InfoBoxType.WARNING -> "⚠️"
             InfoBoxType.POSITIVE -> "✅"
-            InfoBoxType.NEGATIVE -> "⚠️"
-            InfoBoxType.REGULAR -> "ℹ️"
+            InfoBoxType.CRITICAL -> "❌"
         }
         return "$prefix **Note:** ${renderStepContent(node.nodes)}"
     }
@@ -172,8 +178,12 @@ class MarkdownRenderer {
     }
 
     private fun renderButton(node: Node.Button): String {
-        val icon = if (node.download) "⬇️ " else ""
-        return "[$icon${node.text}](${node.url})"
+        val tagBase = when (node.type) {
+            is me.kartikarora.klaat.core.ButtonType.Primary -> ".buttonPrimary"
+            is me.kartikarora.klaat.core.ButtonType.Secondary -> ".buttonSecondary"
+        }
+        val iconAttr = if (node.icon != null) " icon=${node.icon}" else ""
+        return "[${node.text}](${node.url}){$tagBase$iconAttr}"
     }
 
     private fun renderSurvey(node: Node.Survey): String {
@@ -223,7 +233,7 @@ class MarkdownRenderer {
             appendLine("""  "format": "md",""")
             appendLine("""  "prefix": "../../",""")
             appendLine("""  "mainga": "",""")
-            appendLine("""  "updated": "${java.time.Instant.ofEpochMilli(codelab.lastUpdated)}",""")
+            appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")

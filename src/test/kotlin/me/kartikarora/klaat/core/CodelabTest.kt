@@ -148,12 +148,12 @@ class CodelabTest {
     @Test
     fun `test Node InfoBox types`() {
         val positive = Node.InfoBox(InfoBoxType.POSITIVE, listOf(Node.Text("Tip")))
-        val negative = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
-        val regular = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+        val negative = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
+        val regular = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
 
         assertEquals(InfoBoxType.POSITIVE, positive.type)
-        assertEquals(InfoBoxType.NEGATIVE, negative.type)
-        assertEquals(InfoBoxType.REGULAR, regular.type)
+        assertEquals(InfoBoxType.WARNING, negative.type)
+        assertEquals(InfoBoxType.DEFAULT, regular.type)
     }
 
     @Test
@@ -211,10 +211,12 @@ class CodelabTest {
 
     @Test
     fun `test Node Button`() {
-        val button = Node.Button("https://download.com/file", "Download", download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = ButtonType.Primary, download = true, icon = "file_download")
         assertEquals("https://download.com/file", button.url)
         assertEquals("Download", button.text)
+        assertEquals(ButtonType.Primary, button.type)
         assertEquals(true, button.download)
+        assertEquals("file_download", button.icon)
     }
 
     @Test

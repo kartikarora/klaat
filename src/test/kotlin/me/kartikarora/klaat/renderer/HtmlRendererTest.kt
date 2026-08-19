@@ -244,20 +244,8 @@ class HtmlRendererTest {
     }
 
     @Test
-    fun `test render negative info box`() {
-        val infoBox = Node.InfoBox(InfoBoxType.NEGATIVE, listOf(Node.Text("Warning")))
-        val step = Step("Test", listOf(infoBox))
-        val codelab = Codelab("test", "Title", steps = listOf(step))
-
-        renderer.render(codelab, tempDir)
-
-        val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<aside class=\"negative\">"))
-    }
-
-    @Test
-    fun `test render regular info box`() {
-        val infoBox = Node.InfoBox(InfoBoxType.REGULAR, listOf(Node.Text("Info")))
+    fun `test render special info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.SPECIAL, listOf(Node.Text("Tip")))
         val step = Step("Test", listOf(infoBox))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
@@ -265,6 +253,42 @@ class HtmlRendererTest {
 
         val content = File(tempDir, "test/index.html").readText()
         assertTrue(content.contains("<aside class=\"special\">"))
+    }
+
+    @Test
+    fun `test render critical info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.CRITICAL, listOf(Node.Text("Alert")))
+        val step = Step("Test", listOf(infoBox))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<aside class=\"critical\">"))
+    }
+
+    @Test
+    fun `test render warning info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.WARNING, listOf(Node.Text("Warning")))
+        val step = Step("Test", listOf(infoBox))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<aside class=\"warning\">"))
+    }
+
+    @Test
+    fun `test render regular info box`() {
+        val infoBox = Node.InfoBox(InfoBoxType.DEFAULT, listOf(Node.Text("Info")))
+        val step = Step("Test", listOf(infoBox))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<aside class=\"default\">Info</aside>"))
     }
 
     @Test
@@ -361,16 +385,46 @@ class HtmlRendererTest {
 
     @Test
     fun `test render button with download`() {
-        val button = Node.Button("https://download.com/file", "Download", download = true)
+        val button = Node.Button("https://download.com/file", "Download", type = me.kartikarora.klaat.core.ButtonType.Primary, download = true)
         val step = Step("Test", listOf(button))
         val codelab = Codelab("test", "Title", steps = listOf(step))
 
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("paper-button"))
-        assertTrue(content.contains("file-download"))
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--primary"))
+        assertTrue(content.contains("download"))
         assertTrue(content.contains("Download"))
+    }
+
+    @Test
+    fun `test render secondary button`() {
+        val button = Node.Button("https://example.com/secondary", "Secondary Action", type = me.kartikarora.klaat.core.ButtonType.Secondary)
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--secondary"))
+        assertTrue(content.contains("Secondary Action"))
+    }
+
+    @Test
+    fun `test render button with custom icon`() {
+        val button = Node.Button("https://example.com/watch", "Watch Video", type = me.kartikarora.klaat.core.ButtonType.Primary, icon = "play_arrow")
+        val step = Step("Test", listOf(button))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("klaat-button"))
+        assertTrue(content.contains("klaat-button--primary"))
+        assertTrue(content.contains("play_arrow"))
+        assertTrue(content.contains("Watch Video"))
     }
 
     @Test
@@ -382,11 +436,25 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("google-codelab-survey"))
+        assertTrue(content.contains("klaat-kodelab-survey"))
         assertTrue(content.contains("What do you think?"))
-        assertTrue(content.contains("paper-radio-button"))
+        assertTrue(content.contains("klaat-radio-label"))
         assertTrue(content.contains("Great"))
         assertTrue(content.contains("Good"))
+    }
+
+    @Test
+    fun `test render survey with inline code options`() {
+        val survey = Node.Survey("Which command is best?", listOf("`klaat export`", "`klaat demo`", "Neither"))
+        val step = Step("Test", listOf(survey))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<code>klaat export</code>"))
+        assertTrue(content.contains("<code>klaat demo</code>"))
+        assertTrue(content.contains("Neither"))
     }
 
     @Test
@@ -571,7 +639,7 @@ class HtmlRendererTest {
         val content = File(tempDir, "test/index.html").readText()
         assertTrue(content.contains("<div class=\"code-container\">"))
         assertTrue(content.contains("<button type=\"button\" class=\"copy-button\""))
-        assertTrue(content.contains("<span class=\"material-icons\">content_copy</span>"))
+        assertTrue(content.contains("<span class=\"material-symbols-outlined\">content_copy</span>"))
         assertTrue(content.contains("<span>Copy</span>"))
         assertTrue(content.contains("copyToClipboard(this)"))
     }
@@ -654,6 +722,118 @@ class HtmlRendererTest {
         assertFalse(content.contains("<th>None</th>").not()) // th for "None" exists without style
     }
 
+    @Test
+    fun `test render default brand fonts includes Space Grotesk`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("family=Space+Grotesk"))
+    }
+
+    @Test
+    fun `test render HTML format uses CDN urls and does not create codelab-elements`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("https://distribute.kartikarora.me/css/klaat-elements.css"))
+        assertTrue(content.contains("https://distribute.kartikarora.me/js/klaat-elements.js"))
+
+        val elementsDir = File(tempDir, "codelab-elements")
+        assertFalse(elementsDir.exists())
+    }
+
+    @Test
+    fun `test render offline format bundles css and js into codelab subdirectories`() {
+        val codelab = createSimpleCodlab()
+        val offlineRenderer = OfflineRenderer()
+        offlineRenderer.render(codelab, tempDir)
+
+        val codelabDir = File(tempDir, codelab.id)
+        val cssFile = File(codelabDir, "css/klaat-elements.css")
+        val jsFile = File(codelabDir, "js/klaat-elements.js")
+        val bridgeFile = File(codelabDir, "js/klaat-bridge.js")
+        val brandCssFile = File(codelabDir, "css/kartikarora.1.7.0.css")
+        val brandJsFile = File(codelabDir, "js/kartikarora.1.7.0.js")
+
+        assertTrue(cssFile.exists(), "css/klaat-elements.css should exist in codelab folder")
+        assertTrue(jsFile.exists(), "js/klaat-elements.js should exist in codelab folder")
+        assertTrue(bridgeFile.exists(), "js/klaat-bridge.js should exist in codelab folder")
+        assertTrue(brandCssFile.exists(), "css/kartikarora.1.7.0.css should exist in codelab folder")
+        assertTrue(brandJsFile.exists(), "js/kartikarora.1.7.0.js should exist in codelab folder")
+
+        val indexHtml = File(codelabDir, "index.html").readText()
+        assertTrue(indexHtml.contains("""href="css/klaat-elements.css""""))
+        assertTrue(indexHtml.contains("""src="js/klaat-elements.js""""))
+        assertTrue(indexHtml.contains("""href="css/kartikarora.1.7.0.css""""))
+        assertTrue(indexHtml.contains("""src="js/kartikarora.1.7.0.js""""))
+    }
+
+    @Test
+    fun `test render HTML includes default brand favicons when no custom favicon provided`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon32.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon16.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon180.png""""))
+        assertTrue(indexHtml.contains("""href="https://kartikarora.me/img/icon192.png""""))
+    }
+
+    @Test
+    fun `test render HTML includes custom favicon when provided via parameter or metadata`() {
+        val codelabWithMetadata = Codelab(
+            id = "custom-favicon-codelab",
+            title = "Custom Favicon Codelab",
+            metadata = CodelabMetadata(favicon = "https://example.com/meta-fav.ico"),
+            steps = listOf(Step("Step 1", listOf(Node.Text("Hello"))))
+        )
+        renderer.render(codelabWithMetadata, tempDir)
+
+        val indexHtml = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""<link rel="icon" href="https://example.com/meta-fav.ico">"""))
+        assertFalse(indexHtml.contains("""href="https://kartikarora.me/img/icon32.png""""))
+
+        // CLI parameter overrides metadata
+        renderer.render(codelabWithMetadata, tempDir, favicon = "https://example.com/cli-fav.ico")
+        val indexHtmlOverridden = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtmlOverridden.contains("""<link rel="icon" href="https://example.com/cli-fav.ico">"""))
+    }
+
+    @Test
+    fun `test render HTML includes default footer when no custom footer provided`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir)
+
+        val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(indexHtml.contains("""slot="footer""""))
+        assertTrue(indexHtml.contains("kodelab-footer"))
+        assertTrue(indexHtml.contains("Codelab generated using"))
+        assertTrue(indexHtml.contains("""<a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a>"""))
+        assertTrue(indexHtml.contains("""<a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a>"""))
+    }
+
+    @Test
+    fun `test render HTML includes custom footer when provided via parameter or metadata`() {
+        val codelabWithMetadata = Codelab(
+            id = "custom-footer-codelab",
+            title = "Custom Footer Codelab",
+            metadata = CodelabMetadata(footer = "Custom Metadata Footer"),
+            steps = listOf(Step("Step 1", listOf(Node.Text("Hello"))))
+        )
+        renderer.render(codelabWithMetadata, tempDir)
+
+        val indexHtml = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtml.contains("Custom Metadata Footer"))
+
+        // CLI parameter overrides metadata
+        renderer.render(codelabWithMetadata, tempDir, footer = "Custom CLI Footer")
+        val indexHtmlOverridden = File(tempDir, "${codelabWithMetadata.id}/index.html").readText()
+        assertTrue(indexHtmlOverridden.contains("Custom CLI Footer"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",
@@ -664,3 +844,4 @@ class HtmlRendererTest {
         )
     }
 }
+

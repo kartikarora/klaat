@@ -85,12 +85,12 @@ class ServeDirectoryListingTemplateTest {
             assertTrue(content.contains("material-symbols-outlined"), "Should have material symbols class")
             assertTrue(content.contains("folder"), "Should contain folder symbol")
             assertTrue(content.contains("description"), "Should contain description (file) symbol")
-            assertTrue(content.contains("Readex") && content.contains("Pro"), "Should use Readex Pro font")
+            assertTrue(content.contains("Space") && content.contains("Grotesk"), "Should use Space Grotesk font")
             assertTrue(content.contains("hero"), "Should have hero section")
             assertTrue(content.contains("nav"), "Should have nav section")
             assertTrue(content.contains("listing-card"), "Should have listing card")
-            assertTrue(content.contains("kartikarora.1.4.0.css"), "Should use kartikarora CSS framework")
-            assertTrue(content.contains("kartikarora.1.4.0.js"), "Should use kartikarora JS framework")
+            assertTrue(content.contains("kartikarora.1.7.0.css"), "Should use kartikarora CSS framework")
+            assertTrue(content.contains("kartikarora.1.7.0.js"), "Should use kartikarora JS framework")
 
         } finally {
             serverThread?.interrupt()

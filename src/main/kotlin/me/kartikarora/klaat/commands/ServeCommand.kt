@@ -18,6 +18,10 @@ import java.io.File
 import java.io.StringWriter
 import java.text.SimpleDateFormat
 import java.util.Date
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.LoggerContext
+import org.slf4j.LoggerFactory
+import java.net.BindException
 
 /**
  * Command to serve codelabs locally for preview
@@ -46,6 +50,9 @@ class ServeCommand : CliktCommand("serve") {
     }
 
     override fun run() {
+        // Suppress Netty DEBUG logs programmatically (logback.xml may not apply correctly in native image)
+        (LoggerFactory.getILoggerFactory() as? LoggerContext)?.getLogger("io.netty")?.level = Level.WARN
+
         val directory = File(dir).absoluteFile
         if (!directory.exists() || !directory.isDirectory) {
             echo("✗ Error: Directory not found: ${directory.absolutePath}")
@@ -106,7 +113,7 @@ class ServeCommand : CliktCommand("serve") {
                     }
                 }
             }.start(wait = true)
-        } catch (e: java.net.BindException) {
+        } catch (e: BindException) {
             echo("✗ Error: Could not bind to $addr. Address already in use.")
             echo("  Try using a different port with -addr <host>:<port>")
         }
