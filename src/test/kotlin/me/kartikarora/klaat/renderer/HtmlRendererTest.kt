@@ -645,6 +645,19 @@ class HtmlRendererTest {
     }
 
     @Test
+    fun `test render code block with quotes and contractions in comments`() {
+        val code = "// ❌ User hears \"button\", they don't know what it does\nfun test() {}"
+        val codeBlock = Node.CodeBlock(code, "kotlin")
+        val step = Step("Test", listOf(codeBlock))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<code class=\" language-kotlin\">// ❌ User hears &quot;button&quot;, they don&#39;t know what it does\nfun test() {}</code>"))
+    }
+
+    @Test
     fun `test render table basic structure`() {
         val table = Node.Table(
             header = listOf(
