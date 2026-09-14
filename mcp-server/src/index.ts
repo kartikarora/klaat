@@ -185,7 +185,7 @@ async function handleMcpRequest(req: JsonRpcRequest, session: string, env: Env):
         },
         serverInfo: {
           name: "klaat-mcp-server",
-          version: "2.0.0"
+          version: "2.0.1"
         }
       }
     };
@@ -733,7 +733,7 @@ Welcome to the tutorial! Here is a tip to help you:
 Add the following dependency to your build file:
 
 \`\`\`kotlin
-implementation("me.kartikarora.klaat:core:2.0.0")
+implementation("me.kartikarora.klaat:core:2.0.1")
 \`\`\`
 
 ## Step 2: Running the Command

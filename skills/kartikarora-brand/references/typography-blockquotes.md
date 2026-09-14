@@ -3,7 +3,7 @@
 The `@kartikarora` brand features a bold typographic identity with strict rules for headings, body text, and high-impact pull quotes.
 
 ## Fonts
-- **Sans-serif:** `var(--font-sans)` (Space Grotesk)
+- **Sans-serif:** `var(--font-sans)` (Albert Sans)
 - **Monospace:** `var(--font-mono)` (JetBrains Mono)
 
 ## Heading Ratios

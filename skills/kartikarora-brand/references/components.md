@@ -41,6 +41,7 @@ Syntax highlighting is automated for `<pre><code class="language-*">` blocks.
 ### Supported Languages
 - JavaScript/JS (`language-js`)
 - Kotlin (`language-kotlin`)
+- Swift (`language-swift`)
 - Python (`language-python`)
 - CSS (`language-css`)
 - Bash/Shell (`language-bash`, `language-sh`, `language-shell`)
