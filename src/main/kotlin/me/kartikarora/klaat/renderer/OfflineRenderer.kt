@@ -69,9 +69,9 @@ class OfflineRenderer {
             File(jsDir, "klaat-bridge.js").writeBytes(bridgeResource.readBytes())
         }
 
-        // Copy or fetch brand assets (kartikarora.1.7.0.css / js) for offline consumption
-        copyOrDownloadAsset("https://distribute.kartikarora.me/css/kartikarora.1.7.0.css", "/assets/kartikarora.1.7.0.css", File(cssDir, "kartikarora.1.7.0.css"))
-        copyOrDownloadAsset("https://distribute.kartikarora.me/js/kartikarora.1.7.0.js", "/assets/kartikarora.1.7.0.js", File(jsDir, "kartikarora.1.7.0.js"))
+        // Copy or fetch brand assets (kartikarora.1.8.0.css / js) for offline consumption
+        copyOrDownloadAsset("https://distribute.kartikarora.me/css/kartikarora.1.8.0.css", "/assets/kartikarora.1.8.0.css", File(cssDir, "kartikarora.1.8.0.css"))
+        copyOrDownloadAsset("https://distribute.kartikarora.me/js/kartikarora.1.8.0.js", "/assets/kartikarora.1.8.0.js", File(jsDir, "kartikarora.1.8.0.js"))
 
         // Copy custom CSS if provided and it's a local file
         val customCssFile = customCss?.let { File(it) }

@@ -645,6 +645,19 @@ class HtmlRendererTest {
     }
 
     @Test
+    fun `test render code block with quotes and contractions in comments`() {
+        val code = "// ❌ User hears \"button\", they don't know what it does\nfun test() {}"
+        val codeBlock = Node.CodeBlock(code, "kotlin")
+        val step = Step("Test", listOf(codeBlock))
+        val codelab = Codelab("test", "Title", steps = listOf(step))
+
+        renderer.render(codelab, tempDir)
+
+        val content = File(tempDir, "test/index.html").readText()
+        assertTrue(content.contains("<code class=\" language-kotlin\">// ❌ User hears &quot;button&quot;, they don&#39;t know what it does\nfun test() {}</code>"))
+    }
+
+    @Test
     fun `test render table basic structure`() {
         val table = Node.Table(
             header = listOf(
@@ -723,12 +736,12 @@ class HtmlRendererTest {
     }
 
     @Test
-    fun `test render default brand fonts includes Space Grotesk`() {
+    fun `test render default brand fonts includes Albert Sans`() {
         val codelab = createSimpleCodlab()
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "${codelab.id}/index.html").readText()
-        assertTrue(content.contains("family=Space+Grotesk"))
+        assertTrue(content.contains("family=Albert+Sans"))
     }
 
     @Test
@@ -754,20 +767,20 @@ class HtmlRendererTest {
         val cssFile = File(codelabDir, "css/klaat-elements.css")
         val jsFile = File(codelabDir, "js/klaat-elements.js")
         val bridgeFile = File(codelabDir, "js/klaat-bridge.js")
-        val brandCssFile = File(codelabDir, "css/kartikarora.1.7.0.css")
-        val brandJsFile = File(codelabDir, "js/kartikarora.1.7.0.js")
+        val brandCssFile = File(codelabDir, "css/kartikarora.1.8.0.css")
+        val brandJsFile = File(codelabDir, "js/kartikarora.1.8.0.js")
 
         assertTrue(cssFile.exists(), "css/klaat-elements.css should exist in codelab folder")
         assertTrue(jsFile.exists(), "js/klaat-elements.js should exist in codelab folder")
         assertTrue(bridgeFile.exists(), "js/klaat-bridge.js should exist in codelab folder")
-        assertTrue(brandCssFile.exists(), "css/kartikarora.1.7.0.css should exist in codelab folder")
-        assertTrue(brandJsFile.exists(), "js/kartikarora.1.7.0.js should exist in codelab folder")
+        assertTrue(brandCssFile.exists(), "css/kartikarora.1.8.0.css should exist in codelab folder")
+        assertTrue(brandJsFile.exists(), "js/kartikarora.1.8.0.js should exist in codelab folder")
 
         val indexHtml = File(codelabDir, "index.html").readText()
         assertTrue(indexHtml.contains("""href="css/klaat-elements.css""""))
         assertTrue(indexHtml.contains("""src="js/klaat-elements.js""""))
-        assertTrue(indexHtml.contains("""href="css/kartikarora.1.7.0.css""""))
-        assertTrue(indexHtml.contains("""src="js/kartikarora.1.7.0.js""""))
+        assertTrue(indexHtml.contains("""href="css/kartikarora.1.8.0.css""""))
+        assertTrue(indexHtml.contains("""src="js/kartikarora.1.8.0.js""""))
     }
 
     @Test

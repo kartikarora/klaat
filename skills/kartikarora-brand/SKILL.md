@@ -1,8 +1,8 @@
 ---
 name: kartikarora-brand
 description: Implements the @kartikarora brand design system. Use when building or styling web pages, components, or documents that must adhere to @kartikarora's visual identity, including layout, colors, typography (like high-impact blockquotes), and interactive elements using the brand CDN.
-version: 1.7.0
-last-updated: 2026-08-15
+version: 1.8.0
+last-updated: 2026-09-08
 maintained-by: Kartik Arora (@kartikarora)
 ---
 
@@ -18,6 +18,7 @@ This guide defines the **mandatory** standards for implementing the @kartikarora
 4.  **SEMANTIC CLASSES:** Use the predefined brand classes (`.btn-primary`, `.tabs`, `.step-number`, etc.) instead of creating new ones.
 5.  **NO OVERRIDES:** Avoid overriding brand styles unless specifically requested by the user for a unique project-specific need.
 6.  **SYSTEM COLOR SCHEME:** Always respect the browser/OS `prefers-color-scheme`. Never implement a custom theme toggle, `data-theme` attribute, or local storage theme persistence.
+7.  **SYNCHRONIZE COMPOSE THEME:** Any update to brand colors, tokens, or palette definitions in this skill MUST immediately and automatically be synchronized with the [`kartikarora-compose-theme`](../kartikarora-compose-theme/SKILL.md) skill (`references/Color.kt`, `references/Theme.kt`, and `SKILL.md`).
 
 ## 📦 Mandatory CDN Assets
 
@@ -31,7 +32,7 @@ Include these in the `<head>` of every project. **Do not attempt to bundle or co
 <!-- Required Fonts & Icons -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 ```
 
 ### JavaScript
@@ -72,7 +73,7 @@ You can validate local web assets against brand design constraints using this No
 ❌ **Bundling Local Files:** Do not copy `kartikarora.css` or `kartikarora.js` into your project's local file system. Use the CDN links.
 ❌ **Hardcoded Hex Codes:** Do not use hex codes like `#0066cc`. Use `var(--accent)`.
 ❌ **Custom Button/Tab CSS/JS:** Do not write custom selectors or event listeners for components that are already implemented natively.
-❌ **Redundant Fonts:** Do not import your own fonts if the brand fonts (`Space Grotesk`, `JetBrains Mono`) are already available via the CDN.
+❌ **Redundant Fonts:** Do not import your own fonts if the brand fonts (`Albert Sans`, `JetBrains Mono`) are already available via the CDN.
 ❌ **Manual Theme Toggling:** Do not implement custom theme switchers or write to `localStorage` to save theme preferences.
 
 ## 🤖 AI Agent Implementation Checklist
@@ -88,3 +89,4 @@ Before finishing any branded implementation, verify the following:
 - [ ] **Material Symbols:** Are icons used in buttons where appropriate, and do they use the `.material-symbols-outlined` class?
 - [ ] **Code Block Language:** Do all code blocks have the correct `language-*` class for syntax highlighting?
 - [ ] **Responsive Design:** Have you verified the layout works on mobile and uses the brand's responsive spacing tokens?
+- [ ] **Compose Theme Sync:** If brand color tokens or palette definitions were modified, have `kartikarora-compose-theme` and its Kotlin references been updated in lockstep?
