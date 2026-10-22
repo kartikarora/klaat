@@ -50,6 +50,8 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(libs.mockk)
+    testImplementation(libs.ktor.client.core)
+    testImplementation(libs.ktor.client.cio)
 }
 
 kotlin {
@@ -240,6 +242,22 @@ tasks.register("printClasspath") {
     doLast {
         println(sourceSets.main.get().runtimeClasspath.asPath)
     }
+}
+
+tasks.register<JavaExec>("evalSkills") {
+    group = "verification"
+    description = "Evaluates AI agent skills autonomous invocation and adherence against Klaat compiler using live Gemini API"
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.kartikarora.klaat.evals.SkillEvalRunnerKt")
+
+    systemProperty("klaat.eval.docs.path", layout.projectDirectory.file("docs/docs/skills.html").asFile.absolutePath)
+    systemProperty("klaat.eval.dataset.path", layout.projectDirectory.file("evals/dataset.json").asFile.absolutePath)
+    systemProperty("klaat.eval.report.path", layout.buildDirectory.file("reports/evals/eval-report.json").get().asFile.absolutePath)
+
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
+    })
 }
 
 // Print build info

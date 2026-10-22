@@ -1,0 +1,82 @@
+[
+  {
+    "id": "explicit-coroutine-workshop",
+    "category": "explicit-tutorial",
+    "tier": "easy",
+    "prompt": "Create a 3-step Klaat codelab on Kotlin Coroutines for our team workshop. Include an introduction, a step on structured concurrency with code, and a best practices step with tips and warnings.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "explicit-git-conversion",
+    "category": "explicit-conversion",
+    "tier": "easy",
+    "prompt": "Format this technical guide on Git branching strategies into a Klaat codelab document so I can export it to HTML. Ensure all steps have estimated durations and include a positive tip on clean commit history.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "implicit-ktor-tutorial",
+    "category": "implicit-tutorial",
+    "tier": "medium",
+    "prompt": "Help me write a step-by-step hands-on tutorial for building a REST API in Ktor. I need estimated reading times for each step, and clear callout alerts for security tips and pitfalls.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "implicit-compose-state",
+    "category": "implicit-tutorial",
+    "tier": "medium",
+    "prompt": "I need an interactive multi-step coding guide on Jetpack Compose state hoisting. It should have step titles, time estimates per step, and highlight common state anti-patterns in warning boxes.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "multi-step-duration-consistency",
+    "category": "edge-case-adherence",
+    "tier": "hard",
+    "prompt": "Write a 5-step interactive workshop tutorial on SQL migrations with Flyway. Make sure every single step has a realistic duration estimate, and include a critical alert box about data loss on step 3.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "rich-elements-survey",
+    "category": "edge-case-adherence",
+    "tier": "hard",
+    "prompt": "Create a Klaat codelab on unit testing with MockK. Include code blocks with file names, a positive tip, and a multiple-choice survey question at the end to quiz the reader.",
+    "expectedSkill": "klaat-markdown-author",
+    "isPositive": true
+  },
+  {
+    "id": "distractor-contributing-guide",
+    "category": "hard-distractor",
+    "tier": "medium",
+    "prompt": "Write a step-by-step guide in a CONTRIBUTING.md file on how to contribute to our open-source repo (cloning, branch naming, running tests, and PR conventions).",
+    "expectedSkill": null,
+    "isPositive": false
+  },
+  {
+    "id": "distractor-blog-post",
+    "category": "hard-distractor",
+    "tier": "medium",
+    "prompt": "Write a technical blog post walking through how garbage collection works in the JVM step-by-step. Use standard Markdown formatting with headings and code blocks.",
+    "expectedSkill": null,
+    "isPositive": false
+  },
+  {
+    "id": "distractor-deployment-runbook",
+    "category": "hard-distractor",
+    "tier": "hard",
+    "prompt": "Create a step-by-step production deployment checklist and runbook in markdown with estimated duration per phase and warnings before running database migrations.",
+    "expectedSkill": null,
+    "isPositive": false
+  },
+  {
+    "id": "distractor-readme",
+    "category": "easy-distractor",
+    "tier": "easy",
+    "prompt": "Write a standard README.md file for a Kotlin Multiplatform networking library explaining installation, Gradle coordinates, and a quick snippet.",
+    "expectedSkill": null,
+    "isPositive": false
+  }
+]

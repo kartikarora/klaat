@@ -87,6 +87,29 @@ Tests the local preview server:
 
 **Note:** Serve tests use background threads and HTTP clients to verify server behavior, with proper timeout handling and cleanup.
 
+### 4. AI Agent Skills Evaluation (`evalSkills`)
+
+Evaluates the autonomous invocation, triggering sensitivity, and compilation adherence of packaged AI agent skills (e.g. `klaat-markdown-author`) using deterministic compiler ground truth:
+
+```bash
+# Run evaluation benchmark (reads configuration and API key from evals.properties)
+./gradlew evalSkills
+```
+
+**Configuration via `evals.properties`:**
+The Gemini API key and evaluation settings are strictly configured via an `evals.properties` file in the project root:
+```properties
+geminiKey=your_gemini_api_key
+model=gemini-3.8-flash
+updateDocs=true
+```
+*(Note: `evals.properties` is included in `.gitignore` so secrets are never committed).*
+
+**What it tests:**
+- **Autonomous Trigger Recall:** Verifies whether an LLM agent inspecting the skill catalog decides to issue a `read_skill` tool call when given a relevant tutorial authoring request.
+- **False-Positive Resistance:** Verifies whether the agent avoids triggering on unrelated distractor prompts (e.g. general READMEs, blog posts).
+- **Deterministic Compiler Validation:** Passes agent markdown output directly into `MarkdownParser` to ensure YAML frontmatter, step durations, and callout nodes parse without errors.
+
 ## Test Fixtures
 
 ### Example Codelabs

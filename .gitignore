@@ -46,6 +46,7 @@ bin/
 
 # Local configuration
 local.properties
+evals.properties
 tokens/
 
 # Google OAuth credentials
