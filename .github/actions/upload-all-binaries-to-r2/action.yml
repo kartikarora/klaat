@@ -65,7 +65,7 @@ runs:
 
         # Upload all binaries
         for artifact_dir in ${ARTIFACTS_PATH}/klaat-*; do
-          for binary in ${artifact_dir}/klaat-*-${VERSION_PATTERN}; do
+          for binary in ${artifact_dir}/klaat-*-${VERSION_PATTERN}*; do
             if [ -f "$binary" ]; then
               echo "📦 Uploading $(basename $binary)..."
               rclone --config=rclone.conf copy $binary r2:${R2_BUCKET_NAME}/${DESTINATION_PATH}

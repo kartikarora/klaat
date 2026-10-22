@@ -17,6 +17,47 @@ class MarkdownParserTest {
     private val parser = MarkdownParser()
 
     @Test
+    fun `test flexmark reference image`() {
+        val md = """
+            # Test
+            
+            ## Step 1
+            
+            ![alt text][image1]
+            
+            [image1]: <https://example.com/pic.png>
+        """.trimIndent()
+        val doc = parser.parse(ByteArrayInputStream(md.toByteArray()))
+        val images = doc.steps.flatMap { it.content }.flatMap { node ->
+            when (node) {
+                is Node.Image -> listOf(node)
+                is Node.Paragraph -> node.nodes.filterIsInstance<Node.Image>()
+                else -> emptyList()
+            }
+        }
+        assertEquals(1, images.size)
+        assertEquals("https://example.com/pic.png", images[0].src)
+        assertEquals("alt text", images[0].alt)
+    }
+
+    @Test
+    fun `test parse large base64 data URI without stack overflow`() {
+        val file = File("examples/gemini-reusme-reviewer.md")
+        val codelab = parser.parse(file)
+        assertNotNull(codelab)
+        assertTrue(codelab.steps.isNotEmpty())
+        val images = codelab.steps.flatMap { it.content }.flatMap { node ->
+            when (node) {
+                is Node.Image -> listOf(node)
+                is Node.Paragraph -> node.nodes.filterIsInstance<Node.Image>()
+                else -> emptyList()
+            }
+        }
+        assertTrue(images.isNotEmpty())
+        assertTrue(images.any { it.src.startsWith("data:image/") })
+    }
+
+    @Test
     fun `test parse simple markdown with title and one step`() {
         val markdown = """
             # My Codelab

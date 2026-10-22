@@ -80,8 +80,8 @@ If you introduce a specific feature (e.g. Google Docs OAuth flow, new template r
 
 Once metadata configurations are updated, compile and test the native binary:
 
-### Development Native Build (Quick Mode `-Ob`)
-Fast compilation optimized for local iteration:
+### Development Native Build (Quick Mode `-Ob` with Debug Symbols)
+Fast compilation optimized for local iteration, enabling debug symbols (`debug = true`) and quick build mode (`-Ob`):
 ```bash
 ./gradlew nativeDev
 # or
@@ -89,7 +89,7 @@ Fast compilation optimized for local iteration:
 ```
 
 ### Production Release Native Build (Optimized)
-Fully optimized release binary:
+Fully optimized release binary (`debug = false`, full optimization, `-H:+PreserveFrameInformation`, and external symbol table generation via `-H:+CreateImageSymbolFile`):
 ```bash
 ./gradlew nativeRelease
 ```

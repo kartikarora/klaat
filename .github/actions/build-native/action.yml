@@ -45,6 +45,9 @@ runs:
         # Move and rename binary based on platform
         BINARY_NAME="${BINARY_BASE}-${{ inputs.platform }}-${{ inputs.version }}"
         cp build/native/nativeCompile/${BINARY_BASE} ${BINARY_NAME}
+        if [ -f "build/native/nativeCompile/${BINARY_BASE}.sym" ]; then
+          cp build/native/nativeCompile/${BINARY_BASE}.sym ${BINARY_NAME}.sym
+        fi
 
         echo "binary-name=${BINARY_NAME}" >> $GITHUB_OUTPUT
 

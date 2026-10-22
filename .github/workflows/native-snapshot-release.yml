@@ -87,7 +87,7 @@ jobs:
         with:
           name: ${{ steps.build.outputs.binary-name }}
           path: |
-            ${{ steps.build.outputs.binary-name }}
+            ${{ steps.build.outputs.binary-name }}*
             checksums-${{ steps.version.outputs.version }}.txt
           retention-days: 1
 

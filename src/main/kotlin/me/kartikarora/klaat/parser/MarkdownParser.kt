@@ -37,6 +37,7 @@ import com.vladsch.flexmark.ast.OrderedListItem
 import com.vladsch.flexmark.ast.FencedCodeBlock
 import com.vladsch.flexmark.ast.IndentedCodeBlock
 import com.vladsch.flexmark.ast.Image
+import com.vladsch.flexmark.ast.ImageRef
 import com.vladsch.flexmark.ast.HtmlBlock
 import com.vladsch.flexmark.ast.HtmlInline
 import com.vladsch.flexmark.ast.Text
@@ -44,6 +45,7 @@ import com.vladsch.flexmark.ast.StrongEmphasis
 import com.vladsch.flexmark.ast.Emphasis
 import com.vladsch.flexmark.ast.Code
 import com.vladsch.flexmark.ast.Link
+import com.vladsch.flexmark.ast.LinkRef
 
 /**
  * Parser for Markdown-based codelabs following the Google Codelabs format
@@ -76,11 +78,116 @@ class MarkdownParser {
         return parseContent(content, passMetadata, sourcePath)
     }
 
+    private val dataUriRegex = Regex("""data:[a-zA-Z0-9.+-]+/[^>)"'\s]+""")
+
+    private fun preprocessDataUris(content: String): Pair<String, Map<String, String>> {
+        if (!content.contains("data:")) {
+            return Pair(content, emptyMap())
+        }
+
+        val placeholders = mutableMapOf<String, String>()
+        var counter = 0
+        val replaced = dataUriRegex.replace(content) { matchResult ->
+            val placeholder = "klaat-data-uri-placeholder-${counter++}"
+            placeholders[placeholder] = matchResult.value
+            placeholder
+        }
+        return Pair(replaced, placeholders)
+    }
+
+    private fun restoreString(str: String, placeholders: Map<String, String>): String {
+        if (placeholders.isEmpty() || !str.contains("klaat-data-uri-placeholder-")) {
+            return str
+        }
+        val direct = placeholders[str]
+        if (direct != null) {
+            return direct
+        }
+        var result = str
+        for ((placeholder, original) in placeholders) {
+            if (result.contains(placeholder)) {
+                result = result.replace(placeholder, original)
+            }
+        }
+        return result
+    }
+
+    private fun restoreNodes(nodes: List<KlaatNode>, placeholders: Map<String, String>): List<KlaatNode> {
+        if (placeholders.isEmpty()) return nodes
+        return nodes.map { node -> restoreNode(node, placeholders) }
+    }
+
+    private fun restoreNode(node: KlaatNode, placeholders: Map<String, String>): KlaatNode {
+        return when (node) {
+            is KlaatNode.Image -> node.copy(
+                src = restoreString(node.src, placeholders),
+                alt = restoreString(node.alt, placeholders)
+            )
+            is KlaatNode.Text -> node.copy(
+                content = restoreString(node.content, placeholders)
+            )
+            is KlaatNode.Heading -> node.copy(
+                content = restoreString(node.content, placeholders)
+            )
+            is KlaatNode.Paragraph -> node.copy(
+                nodes = restoreNodes(node.nodes, placeholders)
+            )
+            is KlaatNode.InfoBox -> node.copy(
+                nodes = restoreNodes(node.nodes, placeholders)
+            )
+            is KlaatNode.BulletList -> node.copy(
+                items = node.items.map { restoreNodes(it, placeholders) }
+            )
+            is KlaatNode.NumberedList -> node.copy(
+                items = node.items.map { restoreNodes(it, placeholders) }
+            )
+            is KlaatNode.Table -> node.copy(
+                header = node.header.map { cell -> restoreNodes(cell, placeholders) },
+                rows = node.rows.map { row -> row.map { cell -> restoreNodes(cell, placeholders) } }
+            )
+            is KlaatNode.Link -> node.copy(
+                url = restoreString(node.url, placeholders),
+                text = restoreString(node.text, placeholders)
+            )
+            is KlaatNode.Button -> node.copy(
+                url = restoreString(node.url, placeholders),
+                text = restoreString(node.text, placeholders)
+            )
+            is KlaatNode.IFrame -> node.copy(
+                src = restoreString(node.src, placeholders)
+            )
+            is KlaatNode.Survey -> node.copy(
+                question = restoreString(node.question, placeholders),
+                options = node.options.map { restoreString(it, placeholders) }
+            )
+            else -> node
+        }
+    }
+
+    private fun restoreDataUris(codelab: Codelab, placeholders: Map<String, String>): Codelab {
+        if (placeholders.isEmpty()) return codelab
+
+        val updatedMetadata = codelab.metadata.copy(
+            image = restoreString(codelab.metadata.image, placeholders),
+            extraMetadata = codelab.metadata.extraMetadata.mapValues { restoreString(it.value, placeholders) }
+        )
+
+        val updatedSteps = codelab.steps.map { step ->
+            step.copy(content = restoreNodes(step.content, placeholders))
+        }
+
+        return codelab.copy(
+            metadata = updatedMetadata,
+            steps = updatedSteps
+        )
+    }
+
     private fun parseContent(content: String, passMetadata: Set<String>, sourcePath: String?): Codelab {
-        val document = parser.parse(content)
+        val (processedContent, placeholders) = preprocessDataUris(content)
+        val document = parser.parse(processedContent)
 
         // Extract YAML frontmatter
-        val metadata = extractMetadata(document, content, passMetadata, sourcePath)
+        val metadata = extractMetadata(document, processedContent, passMetadata, sourcePath)
 
         // Extract steps (H2 headings)
         val steps = extractSteps(document)
@@ -109,13 +216,15 @@ class MarkdownParser {
             }
         }
 
-        return Codelab(
+        val codelab = Codelab(
             id = id,
             title = extractTitle(document),
             summary = metadata.summary,
             steps = steps,
             metadata = finalMetadata
         )
+
+        return restoreDataUris(codelab, placeholders)
     }
 
     private fun extractMetadata(document: Document, content: String, passMetadata: Set<String>, sourcePath: String?): CodelabMetadata {
@@ -475,6 +584,14 @@ class MarkdownParser {
                     alt = node.text.toString()
                 ))
             }
+            is ImageRef -> {
+                val ref = node.getReferenceNode(node.document)
+                val url = ref?.url?.toString() ?: ""
+                nodes.add(KlaatNode.Image(
+                    src = url,
+                    alt = node.text.toString()
+                ))
+            }
             is HtmlBlock -> {
                 val html = node.chars.toString()
                 parseHtmlForMedia(html, nodes)
@@ -652,9 +769,25 @@ class MarkdownParser {
                         text = child.text.toString()
                     ))
                 }
+                is LinkRef -> {
+                    val ref = child.getReferenceNode(child.document)
+                    val url = ref?.url?.toString() ?: ""
+                    output.add(KlaatNode.Link(
+                        url = url,
+                        text = child.text.toString()
+                    ))
+                }
                 is Image -> {
                     output.add(KlaatNode.Image(
                         src = child.url.toString(),
+                        alt = child.text.toString()
+                    ))
+                }
+                is ImageRef -> {
+                    val ref = child.getReferenceNode(child.document)
+                    val url = ref?.url?.toString() ?: ""
+                    output.add(KlaatNode.Image(
+                        src = url,
                         alt = child.text.toString()
                     ))
                 }

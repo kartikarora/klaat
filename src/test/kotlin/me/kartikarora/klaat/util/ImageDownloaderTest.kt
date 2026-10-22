@@ -106,4 +106,31 @@ class ImageDownloaderTest {
         val posterFile = File(outputDir, "image-test/${processedCodelab.metadata.image}")
         assertTrue(posterFile.exists(), "Downloaded image should exist")
     }
+
+    @Test
+    fun `test data URI image is preserved without downloading or copying`() {
+        val dataUri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+        val codelab = Codelab(
+            id = "data-uri-test",
+            title = "Data URI Test",
+            steps = listOf(
+                Step(
+                    title = "Step 1",
+                    content = listOf(
+                        Node.Image(src = dataUri, alt = "Data URI Image")
+                    )
+                )
+            ),
+            metadata = CodelabMetadata(
+                source = File(sourceDir, "test.md").absolutePath,
+                image = dataUri
+            )
+        )
+        File(sourceDir, "test.md").writeText("# Test")
+
+        val processedCodelab = ImageDownloader.processImages(codelab, outputDir)
+        val imageNode = processedCodelab.steps[0].content[0] as Node.Image
+        assertEquals(dataUri, imageNode.src)
+        assertEquals(dataUri, processedCodelab.metadata.image)
+    }
 }

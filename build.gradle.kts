@@ -203,8 +203,13 @@ graalvmNative {
 
             buildArgs.add("--no-fallback")
             buildArgs.add("-H:+ReportExceptionStackTraces")
+            buildArgs.add("-H:+PreserveFrameInformation")
+            buildArgs.add("-H:+CreateImageSymbolFile")
             buildArgs.add("--enable-url-protocols=http,https")
             buildArgs.add("--enable-native-access=ALL-UNNAMED")
+
+            // Debug symbols only enabled for dev builds (not for production)
+            debug.set(isDevBuild)
 
             // Required for reflection used by libraries
             buildArgs.add("--initialize-at-build-time=kotlin,kotlinx,org.slf4j,ch.qos.logback,com.vladsch.flexmark,org.xml.sax")

@@ -30,7 +30,9 @@ object ImageDownloader {
         var updatedMetadata = codelab.metadata
         if (codelab.metadata.image.isNotEmpty()) {
             val posterUrl = codelab.metadata.image
-            if (posterUrl.startsWith("http://") || posterUrl.startsWith("https://")) {
+            if (posterUrl.startsWith("data:")) {
+                // Inline data URI - do not download or copy as local file
+            } else if (posterUrl.startsWith("http://") || posterUrl.startsWith("https://")) {
                 val localPosterPath = downloadImage(posterUrl, imagesDir)
                 if (localPosterPath != null) {
                     updatedMetadata = updatedMetadata.copy(image = "images/$localPosterPath")
@@ -53,7 +55,9 @@ object ImageDownloader {
             when (node) {
                 is Node.Image -> {
                     val src = node.src
-                    if (src.startsWith("http://") || src.startsWith("https://")) {
+                    if (src.startsWith("data:")) {
+                        node
+                    } else if (src.startsWith("http://") || src.startsWith("https://")) {
                         // Download remote image
                         val localName = downloadImage(src, imagesDir)
                         if (localName != null) {
@@ -88,12 +92,18 @@ object ImageDownloader {
     }
 
     private fun downloadImage(urlStr: String, imagesDir: File): String? {
+        var connection: java.net.URLConnection? = null
         return try {
             val url = URL(urlStr)
-            val connection = url.openConnection()
-            connection.connect()
-            
-            val contentType = connection.contentType ?: ""
+            val conn = url.openConnection().apply {
+                connectTimeout = 15000
+                readTimeout = 30000
+                setRequestProperty("User-Agent", "Klaat/2.0")
+            }
+            connection = conn
+            conn.connect()
+
+            val contentType = conn.contentType ?: ""
             val extension = when {
                 contentType.contains("image/png") -> "png"
                 contentType.contains("image/jpeg") -> "jpg"
@@ -105,11 +115,11 @@ object ImageDownloader {
                 urlStr.contains(".svg") -> "svg"
                 else -> "png" // Default to png
             }
-            
+
             val fileName = "${UUID.randomUUID()}.$extension"
             val targetFile = File(imagesDir, fileName)
-            
-            url.openStream().use { input ->
+
+            conn.getInputStream().use { input ->
                 targetFile.outputStream().use { output ->
                     input.copyTo(output)
                 }
@@ -118,6 +128,10 @@ object ImageDownloader {
         } catch (e: Exception) {
             println("⚠️  Failed to download image $urlStr: ${e.message}")
             null
+        } finally {
+            if (connection is java.net.HttpURLConnection) {
+                connection.disconnect()
+            }
         }
     }
 }
