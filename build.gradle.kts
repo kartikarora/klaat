@@ -203,8 +203,6 @@ graalvmNative {
 
             buildArgs.add("--no-fallback")
             buildArgs.add("-H:+ReportExceptionStackTraces")
-            buildArgs.add("-H:+PreserveFrameInformation")
-            buildArgs.add("-H:+CreateImageSymbolFile")
             buildArgs.add("--enable-url-protocols=http,https")
             buildArgs.add("--enable-native-access=ALL-UNNAMED")
 

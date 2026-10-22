@@ -89,7 +89,7 @@ Fast compilation optimized for local iteration, enabling debug symbols (`debug =
 ```
 
 ### Production Release Native Build (Optimized)
-Fully optimized release binary (`debug = false`, full optimization, `-H:+PreserveFrameInformation`, and external symbol table generation via `-H:+CreateImageSymbolFile`):
+Fully optimized release binary (`debug = false` and full AOT optimization):
 ```bash
 ./gradlew nativeRelease
 ```
