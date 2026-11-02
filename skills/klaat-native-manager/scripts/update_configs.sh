@@ -47,6 +47,14 @@ echo "📝 Running export (Markdown to Offline)..."
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f offline"
 ./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f offline"
 
+# 4. Google Docs Exports (from examples/README.md)
+# Document IDs:
+# - Comprehensive Example: 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM
+# - Image Example: 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg
+echo "📝 Running export for Google Docs examples (from examples/README.md)..."
+./gradlew -Pagent run --args="export 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM -o build/agent-test-output -f html" || true
+./gradlew -Pagent run --args="export 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg -o build/agent-test-output -f html" || true
+
 # Serve command needs to be run and then stopped cleanly
 echo "🌐 Running serve command (briefly)..."
 # Use a custom port to avoid conflicts
@@ -81,11 +89,16 @@ echo "📝 Running update (no arguments)..."
 echo "📝 Running update (non-existent folder)..."
 ./gradlew -Pagent run --args="update non_existent_folder" || true
 
-# 5. Copy metadata to resources
+# 5. Trace Google Docs authentication lifecycles (no token, expired token refresh, deleted/corrupted token)
+echo "🔑 Running Google Docs authentication tests under agent to capture OAuth & Token reflection..."
+./gradlew -Pagent test --tests me.kartikarora.klaat.core.GoogleDocsClientAuthTest
+
+# 6. Copy metadata to resources
 echo "📂 Copying agent metadata to resources..."
 ./gradlew metadataCopy --task run
+./gradlew metadataCopy --task test
 
-# 6. Clean up temporary agent lock files
+# 7. Clean up temporary agent lock files
 find src/main/resources/META-INF/native-image/ -name "*.lock" -type f -delete 2>/dev/null || true
 
 echo "✨ Native image configurations updated in src/main/resources/META-INF/native-image/"

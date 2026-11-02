@@ -53,25 +53,37 @@ bash skills/klaat-native-manager/scripts/update_configs.sh
 1. **Builds JVM Distribution**: Compiles `buildDev` to generate the latest binaries.
 2. **Dynamic Subcommand Discovery**: Scans `klaat-dev --help` to dynamically discover and trace help screens for all subcommands (`export`, `serve`, `update`, `install-skills`, `version`, etc.).
 3. **Format Coverage**: Runs exports for Markdown to HTML, Markdown, and Offline formats across test codelabs.
-4. **Server Lifecycle Tracing**: Spawns `klaat serve` on a custom port for 10 seconds to trace Ktor/Netty event loops and network reflection, then cleanly shuts it down.
-5. **Error & Fallback Handling**: Exercises invalid arguments, missing files, and unrecognised flags to capture exception-handling reflection paths.
-6. **Metadata Copy**: Executes `./gradlew metadataCopy --task run` to merge and persist all configurations to `src/main/resources/META-INF/native-image/`.
+4. **Google Docs Examples**: Traces exports of the official Google Docs examples documented in `examples/README.md`:
+   - Comprehensive Example (`1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM`)
+   - Image Example (`1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg`)
+5. **Server Lifecycle Tracing**: Spawns `klaat serve` on a custom port for 10 seconds to trace Ktor/Netty event loops and network reflection, then cleanly shuts it down.
+6. **Error & Fallback Handling**: Exercises invalid arguments, missing files, and unrecognised flags to capture exception-handling reflection paths.
+7. **Authentication & Token Lifecycle Tracing**: Executes tests covering:
+   - Scenario 1: No token present (initial OAuth flow initiation)
+   - Scenario 2: Expired token refresh (re-authentication via `TokenResponse` dynamic reflection deserialization)
+   - Scenario 3: Corrupted or deleted tokens (graceful self-healing and token file cleanup)
+8. **Metadata Copy**: Executes `./gradlew metadataCopy --task run` and `./gradlew metadataCopy --task test` to merge and persist all configurations to `src/main/resources/META-INF/native-image/`.
 
 ---
 
 ## 4. Manual Tracing Workflow (Targeted Runs)
 
-If you introduce a specific feature (e.g. Google Docs OAuth flow, new template rendering engine, or custom CLI flag), you can manually run targeted tracing sessions:
+If you introduce a specific feature (e.g. Google Docs OAuth flow, new template rendering engine, or custom CLI flag), you can manually run targeted tracing sessions using the examples from `examples/README.md`:
 
 ```bash
-# 1. Run target command under tracing agent
-./gradlew -Pagent run --args="export <target-doc-id> -f html"
+# 1. Run target command under tracing agent using examples from examples/README.md
+# Comprehensive Example (Google Docs):
+./gradlew -Pagent run --args="export 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM -o build/agent-test-output -f html"
+
+# Image Example (Google Docs):
+./gradlew -Pagent run --args="export 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg -o build/agent-test-output -f html"
 
 # 2. Trace server on a specific port
 ./gradlew -Pagent run --args="serve -d examples -addr localhost:9876 --no-browser"
 
 # 3. Copy captured metadata to resources
 ./gradlew metadataCopy --task run
+./gradlew metadataCopy --task test
 ```
 
 ---

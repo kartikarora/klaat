@@ -144,6 +144,10 @@
       "type": "com.google.api.client.auth.oauth2.TokenResponse",
       "methods": [
         {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
           "name": "setAccessToken",
           "parameterTypes": [
             "java.lang.String"

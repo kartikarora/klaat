@@ -19,14 +19,25 @@ import java.io.IOException
 import java.awt.Desktop
 import java.net.URI
 
-class GoogleDocsClient {
+class GoogleDocsClient(
+    val tokensDirectoryPath: String = System.getProperty("user.home") + "/.klaat/tokens",
+    val credentialsFilePath: String? = null
+) {
     private val jsonFactory = GsonFactory.getDefaultInstance()
-    private val tokensDirectoryPath = System.getProperty("user.home") + "/.klaat/tokens"
     private val scopes = listOf(DocsScopes.DOCUMENTS_READONLY)
 
-    private fun getCredentials(httpTransport: HttpTransport, retryCount: Int = 0): Credential {
-        // Try to load credentials from bundled resource first, then fall back to file
-        val clientSecrets = try {
+    internal fun loadClientSecrets(): GoogleClientSecrets {
+        return try {
+            // If explicit credentials file path provided, try that first
+            if (credentialsFilePath != null) {
+                val explicitFile = File(credentialsFilePath)
+                if (explicitFile.exists() && explicitFile.isFile) {
+                    return FileReader(explicitFile).use { reader ->
+                        GoogleClientSecrets.load(jsonFactory, reader)
+                    }
+                }
+            }
+
             // Try to load from bundled resource in classpath
             val resourceStream = GoogleDocsClient::class.java.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
             if (resourceStream != null) {
@@ -49,7 +60,21 @@ class GoogleDocsClient {
         } catch (e: Exception) {
             throw Exception("Unable to start authentication service. Please try again later.", e)
         }
+    }
 
+    internal fun buildFlow(httpTransport: HttpTransport): GoogleAuthorizationCodeFlow {
+        val clientSecrets = loadClientSecrets()
+        val tokensDir = File(tokensDirectoryPath)
+        return GoogleAuthorizationCodeFlow.Builder(
+            httpTransport, jsonFactory, clientSecrets, scopes
+        )
+            .setDataStoreFactory(FileDataStoreFactory(tokensDir))
+            .setAccessType("offline")
+            .build()
+    }
+
+    internal fun getCredentials(httpTransport: HttpTransport, retryCount: Int = 0): Credential {
+        val clientSecrets = loadClientSecrets()
         val tokensDir = File(tokensDirectoryPath)
         val flow = try {
             GoogleAuthorizationCodeFlow.Builder(
