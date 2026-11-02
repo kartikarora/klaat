@@ -668,7 +668,10 @@
             "com.google.api.services.docs.v1.model.OptionalColor"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Body",
@@ -683,7 +686,10 @@
             "java.util.List"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Bullet",
@@ -710,7 +716,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Color",
@@ -725,7 +734,10 @@
             "com.google.api.services.docs.v1.model.RgbColor"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CropProperties",
@@ -746,7 +758,10 @@
             "java.lang.Float"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Dimension",
@@ -767,7 +782,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Document",
@@ -830,7 +848,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DocumentFormat",
@@ -845,7 +866,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DocumentStyle",
@@ -920,7 +944,10 @@
             "java.lang.Boolean"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedObject",
@@ -971,7 +998,10 @@
             "com.google.api.services.docs.v1.model.Size"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedObjectBorder",
@@ -1004,7 +1034,10 @@
             "com.google.api.services.docs.v1.model.Dimension"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.HorizontalRule",
@@ -1019,7 +1052,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ImageProperties",
@@ -1046,7 +1082,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InlineObject",
@@ -1067,7 +1106,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InlineObjectElement",
@@ -1088,7 +1130,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InlineObjectProperties",
@@ -1103,7 +1148,10 @@
             "com.google.api.services.docs.v1.model.EmbeddedObject"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Link",
@@ -1124,7 +1172,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.List",
@@ -1139,7 +1190,10 @@
             "com.google.api.services.docs.v1.model.ListProperties"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ListProperties",
@@ -1154,7 +1208,10 @@
             "java.util.List"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedStyle",
@@ -1181,7 +1238,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedStyles",
@@ -1196,7 +1256,10 @@
             "java.util.List"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NestingLevel",
@@ -1253,7 +1316,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ObjectReferences",
@@ -1262,7 +1328,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.OptionalColor",
@@ -1277,7 +1346,10 @@
             "com.google.api.services.docs.v1.model.Color"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Paragraph",
@@ -1304,7 +1376,10 @@
             "com.google.api.services.docs.v1.model.ParagraphStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ParagraphBorder",
@@ -1337,7 +1412,10 @@
             "com.google.api.services.docs.v1.model.Dimension"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ParagraphElement",
@@ -1376,7 +1454,10 @@
             "com.google.api.services.docs.v1.model.TextRun"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ParagraphStyle",
@@ -1511,7 +1592,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.RgbColor",
@@ -1538,7 +1622,10 @@
             "java.lang.Float"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SectionBreak",
@@ -1553,7 +1640,10 @@
             "com.google.api.services.docs.v1.model.SectionStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SectionColumnProperties",
@@ -1562,7 +1652,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SectionStyle",
@@ -1589,7 +1682,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Shading",
@@ -1604,7 +1700,10 @@
             "com.google.api.services.docs.v1.model.OptionalColor"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Size",
@@ -1625,7 +1724,10 @@
             "com.google.api.services.docs.v1.model.Dimension"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.StructuralElement",
@@ -1670,7 +1772,10 @@
             "com.google.api.services.docs.v1.model.TableOfContents"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedTableCellStyle",
@@ -1679,7 +1784,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedTableRowStyle",
@@ -1688,7 +1796,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedTextStyle",
@@ -1697,7 +1808,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Table",
@@ -1730,7 +1844,10 @@
             "com.google.api.services.docs.v1.model.TableStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableCell",
@@ -1763,7 +1880,10 @@
             "com.google.api.services.docs.v1.model.TableCellStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableCellStyle",
@@ -1820,7 +1940,10 @@
             "java.lang.Integer"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableColumnProperties",
@@ -1841,7 +1964,10 @@
             "java.lang.String"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableOfContents",
@@ -1856,7 +1982,10 @@
             "java.util.List"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableRow",
@@ -1889,7 +2018,10 @@
             "com.google.api.services.docs.v1.model.TableRowStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableRowStyle",
@@ -1904,7 +2036,10 @@
             "com.google.api.services.docs.v1.model.Dimension"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableStyle",
@@ -1919,7 +2054,10 @@
             "java.util.List"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TextRun",
@@ -1940,7 +2078,10 @@
             "com.google.api.services.docs.v1.model.TextStyle"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TextStyle",
@@ -2015,7 +2156,10 @@
             "com.google.api.services.docs.v1.model.WeightedFontFamily"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.WeightedFontFamily",
@@ -2036,7 +2180,10 @@
             "java.lang.Integer"
           ]
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.gson.internal.bind.JavaTimeTypeAdapters",
@@ -4042,7 +4189,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.AddDocumentTabResponse",
@@ -4051,7 +4201,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.AutoText",
@@ -4060,7 +4213,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.BackgroundSuggestionState",
@@ -4069,7 +4225,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.BatchUpdateDocumentRequest",
@@ -4078,7 +4237,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.BatchUpdateDocumentResponse",
@@ -4087,7 +4249,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.BookmarkLink",
@@ -4096,7 +4261,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.BulletSuggestionState",
@@ -4105,7 +4273,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ColumnBreak",
@@ -4114,7 +4285,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateFooterRequest",
@@ -4123,7 +4297,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateFooterResponse",
@@ -4132,7 +4309,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateFootnoteRequest",
@@ -4141,7 +4321,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateFootnoteResponse",
@@ -4150,7 +4333,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateHeaderRequest",
@@ -4159,7 +4345,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateHeaderResponse",
@@ -4168,7 +4357,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateNamedRangeRequest",
@@ -4177,7 +4369,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateNamedRangeResponse",
@@ -4186,7 +4381,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateParagraphBulletsRequest",
@@ -4195,7 +4393,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CropPropertiesSuggestionState",
@@ -4204,7 +4405,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DateElement",
@@ -4213,7 +4417,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DateElementProperties",
@@ -4222,7 +4429,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DateElementPropertiesSuggestionState",
@@ -4231,7 +4441,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteContentRangeRequest",
@@ -4240,7 +4453,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteFooterRequest",
@@ -4249,7 +4465,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteHeaderRequest",
@@ -4258,7 +4477,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteNamedRangeRequest",
@@ -4267,7 +4489,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteParagraphBulletsRequest",
@@ -4276,7 +4501,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeletePositionedObjectRequest",
@@ -4285,7 +4513,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteTabRequest",
@@ -4294,7 +4525,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteTableColumnRequest",
@@ -4303,7 +4537,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteTableRowRequest",
@@ -4312,7 +4549,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DocumentStyleSuggestionState",
@@ -4321,7 +4561,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DocumentTab",
@@ -4330,7 +4573,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedDrawingProperties",
@@ -4339,7 +4585,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedDrawingPropertiesSuggestionState",
@@ -4348,7 +4597,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedObjectBorderSuggestionState",
@@ -4357,7 +4609,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EmbeddedObjectSuggestionState",
@@ -4366,7 +4621,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.EndOfSegmentLocation",
@@ -4375,7 +4633,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Equation",
@@ -4384,7 +4645,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Footer",
@@ -4393,7 +4657,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Footnote",
@@ -4402,7 +4669,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.FootnoteReference",
@@ -4411,7 +4681,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Header",
@@ -4420,7 +4693,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.HeadingLink",
@@ -4429,7 +4705,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ImagePropertiesSuggestionState",
@@ -4438,7 +4717,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InlineObjectPropertiesSuggestionState",
@@ -4447,7 +4729,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertDateRequest",
@@ -4456,7 +4741,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertInlineImageRequest",
@@ -4465,7 +4753,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertInlineImageResponse",
@@ -4474,7 +4765,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertInlineSheetsChartResponse",
@@ -4483,7 +4777,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertPageBreakRequest",
@@ -4492,7 +4789,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertPersonRequest",
@@ -4501,7 +4801,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertRichLinkRequest",
@@ -4510,7 +4813,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertSectionBreakRequest",
@@ -4519,7 +4825,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertTableColumnRequest",
@@ -4528,7 +4837,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertTableRequest",
@@ -4537,7 +4849,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertTableRowRequest",
@@ -4546,7 +4861,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertTextRequest",
@@ -4555,7 +4873,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.LinkedContentReference",
@@ -4564,7 +4885,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.LinkedContentReferenceSuggestionState",
@@ -4573,7 +4897,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ListPropertiesSuggestionState",
@@ -4582,7 +4909,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Location",
@@ -4591,7 +4921,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.MergeTableCellsRequest",
@@ -4600,7 +4933,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedRange",
@@ -4609,7 +4945,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedRanges",
@@ -4618,7 +4957,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedStyleSuggestionState",
@@ -4627,7 +4969,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NamedStylesSuggestionState",
@@ -4636,7 +4981,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.NestingLevelSuggestionState",
@@ -4645,7 +4993,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PageBreak",
@@ -4654,7 +5005,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ParagraphStyleSuggestionState",
@@ -4663,7 +5017,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Person",
@@ -4672,7 +5029,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PersonProperties",
@@ -4681,7 +5041,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PinTableHeaderRowsRequest",
@@ -4690,7 +5053,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PositionedObject",
@@ -4699,7 +5065,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PositionedObjectPositioning",
@@ -4708,7 +5077,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PositionedObjectPositioningSuggestionState",
@@ -4717,7 +5089,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PositionedObjectProperties",
@@ -4726,7 +5101,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PositionedObjectPropertiesSuggestionState",
@@ -4735,7 +5113,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Range",
@@ -4744,7 +5125,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ReplaceAllTextRequest",
@@ -4753,7 +5137,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ReplaceAllTextResponse",
@@ -4762,7 +5149,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ReplaceImageRequest",
@@ -4771,7 +5161,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ReplaceNamedRangeContentRequest",
@@ -4780,7 +5173,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Request",
@@ -4789,7 +5185,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Response",
@@ -4798,7 +5197,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.RichLink",
@@ -4807,7 +5209,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.RichLinkProperties",
@@ -4816,7 +5221,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.ShadingSuggestionState",
@@ -4825,7 +5233,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SheetsChartReference",
@@ -4834,7 +5245,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SheetsChartReferenceSuggestionState",
@@ -4843,7 +5257,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SizeSuggestionState",
@@ -4852,7 +5269,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SubstringMatchCriteria",
@@ -4861,7 +5281,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedBullet",
@@ -4870,7 +5293,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedDateElementProperties",
@@ -4879,7 +5305,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedDocumentStyle",
@@ -4888,7 +5317,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedInlineObjectProperties",
@@ -4897,7 +5329,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedListProperties",
@@ -4906,7 +5341,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedNamedStyles",
@@ -4915,7 +5353,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedParagraphStyle",
@@ -4924,7 +5365,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedPositionedObjectProperties",
@@ -4933,7 +5377,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Tab",
@@ -4942,7 +5389,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TabProperties",
@@ -4951,7 +5401,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TabStop",
@@ -4960,7 +5413,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableCellBorder",
@@ -4969,7 +5425,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableCellLocation",
@@ -4978,7 +5437,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableCellStyleSuggestionState",
@@ -4987,7 +5449,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableRange",
@@ -4996,7 +5461,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TableRowStyleSuggestionState",
@@ -5005,7 +5473,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TabsCriteria",
@@ -5014,7 +5485,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.TextStyleSuggestionState",
@@ -5023,7 +5497,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UnmergeTableCellsRequest",
@@ -5032,7 +5509,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateDocumentStyleRequest",
@@ -5041,7 +5521,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateDocumentTabPropertiesRequest",
@@ -5050,7 +5533,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateNamedStyleRequest",
@@ -5059,7 +5545,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateParagraphStyleRequest",
@@ -5068,7 +5557,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateSectionStyleRequest",
@@ -5077,7 +5569,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateTableCellStyleRequest",
@@ -5086,7 +5581,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateTableColumnPropertiesRequest",
@@ -5095,7 +5593,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateTableRowStyleRequest",
@@ -5104,7 +5605,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateTextStyleRequest",
@@ -5113,7 +5617,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.WriteControl",
@@ -5122,7 +5629,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.AcceptSuggestionRequest",
@@ -5131,7 +5641,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.AddCommentReplyRequest",
@@ -5140,7 +5653,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.AddCommentReplyResponse",
@@ -5149,7 +5665,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CommentAnchor",
@@ -5158,7 +5677,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CommentThread",
@@ -5167,7 +5689,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateDropdownDefinitionRequest",
@@ -5176,7 +5701,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.CreateDropdownDefinitionResponse",
@@ -5185,7 +5713,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteCommentReplyRequest",
@@ -5194,7 +5725,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteCommentRequest",
@@ -5203,7 +5737,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteDropdownDefinitionRequest",
@@ -5212,7 +5749,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DeleteSuggestionRequest",
@@ -5221,7 +5761,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Dropdown",
@@ -5230,7 +5773,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownDefinition",
@@ -5239,7 +5785,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownDefinitionProperties",
@@ -5248,7 +5797,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownDefinitionPropertiesSuggestionState",
@@ -5257,7 +5809,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownOption",
@@ -5266,7 +5821,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownProperties",
@@ -5275,7 +5833,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.DropdownPropertiesSuggestionState",
@@ -5284,7 +5845,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertCommentRequest",
@@ -5293,7 +5857,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertCommentResponse",
@@ -5302,7 +5869,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertDropdownRequest",
@@ -5311,7 +5881,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.InsertDropdownResponse",
@@ -5320,7 +5893,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.Post",
@@ -5329,7 +5905,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.PostAuthor",
@@ -5338,7 +5917,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.RejectSuggestionRequest",
@@ -5347,7 +5929,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedDropdownDefinitionProperties",
@@ -5356,7 +5941,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestedDropdownProperties",
@@ -5365,7 +5953,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestionResponse",
@@ -5374,7 +5965,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.SuggestionThread",
@@ -5383,7 +5977,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateCommentPostRequest",
@@ -5392,7 +5989,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateDropdownDefinitionPropertiesRequest",
@@ -5401,7 +6001,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     },
     {
       "type": "com.google.api.services.docs.v1.model.UpdateDropdownPropertiesRequest",
@@ -5410,7 +6013,10 @@
           "name": "<init>",
           "parameterTypes": []
         }
-      ]
+      ],
+      "allDeclaredMethods": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredFields": true
     }
   ],
   "foreign": {
