@@ -46,3 +46,4 @@ For detailed instructions, flags, and examples for each command, please read the
 - [Serve Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/serve-command.md): `skills/klaat-cli/references/serve-command.md`
 - [Update Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/update-command.md): `skills/klaat-cli/references/update-command.md`
 - [Demo Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/demo-command.md): `skills/klaat-cli/references/demo-command.md`
+- [Completion Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/completion-command.md): `skills/klaat-cli/references/completion-command.md`

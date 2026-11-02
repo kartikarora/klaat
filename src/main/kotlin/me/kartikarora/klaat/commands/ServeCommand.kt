@@ -1,5 +1,6 @@
 package me.kartikarora.klaat.commands
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
@@ -34,7 +35,8 @@ class ServeCommand : CliktCommand("serve") {
 
     private val dir by option(
         "-d", "--dir",
-        help = "Directory to serve"
+        help = "Directory to serve",
+        completionCandidates = CompletionCandidates.Path
     ).default(".")
 
     private val noBrowser by option(

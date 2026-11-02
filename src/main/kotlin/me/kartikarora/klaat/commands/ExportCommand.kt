@@ -1,5 +1,6 @@
 package me.kartikarora.klaat.commands
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
@@ -19,7 +20,8 @@ import java.io.File
  */
 class ExportCommand : CliktCommand("export") {
     private val targets by argument(
-        help = "Google Doc IDs or Markdown file paths to export"
+        help = "Google Doc IDs or Markdown file paths to export",
+        completionCandidates = CompletionCandidates.Path
     ).multiple(required = true)
 
     private val auth by option(
@@ -29,7 +31,8 @@ class ExportCommand : CliktCommand("export") {
 
     private val environment by option(
         "-e",
-        help = "Environment to use for the codelab"
+        help = "Environment to use for the codelab",
+        completionCandidates = CompletionCandidates.Fixed("web", "kiosk")
     ).default("web")
 
     private val extra by option(
@@ -49,7 +52,8 @@ class ExportCommand : CliktCommand("export") {
 
     private val outDir by option(
         "-o",
-        help = "Output directory"
+        help = "Output directory",
+        completionCandidates = CompletionCandidates.Path
     ).default(".")
 
     private val passMetadata by option(

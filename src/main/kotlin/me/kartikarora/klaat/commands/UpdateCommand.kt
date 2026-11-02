@@ -1,11 +1,13 @@
 package me.kartikarora.klaat.commands
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.choice
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import me.kartikarora.klaat.core.Exporter
@@ -18,7 +20,8 @@ import java.io.File
  */
 class UpdateCommand : CliktCommand("update") {
     private val paths by argument(
-        help = "Directories or codelab IDs to update (default: current directory)"
+        help = "Directories or codelab IDs to update (default: current directory)",
+        completionCandidates = CompletionCandidates.Path
     ).multiple()
 
     private val auth by option(
@@ -28,7 +31,8 @@ class UpdateCommand : CliktCommand("update") {
 
     private val environment by option(
         "-e",
-        help = "Environment to use for the codelab"
+        help = "Environment to use for the codelab",
+        completionCandidates = CompletionCandidates.Fixed("web", "kiosk")
     ).default("web")
 
     private val extra by option(
@@ -39,7 +43,7 @@ class UpdateCommand : CliktCommand("update") {
     private val format by option(
         "-f",
         help = "Output format"
-    )
+    ).choice("html", "md", "offline")
 
     private val ga by option(
         "-ga",
@@ -48,7 +52,8 @@ class UpdateCommand : CliktCommand("update") {
 
     private val outDir by option(
         "-o",
-        help = "Output directory"
+        help = "Output directory",
+        completionCandidates = CompletionCandidates.Path
     )
 
     private val passMetadata by option(

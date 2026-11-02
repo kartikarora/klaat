@@ -1,5 +1,6 @@
 package me.kartikarora.klaat
 
+import com.github.ajalt.clikt.completion.CompletionCommand
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
@@ -12,19 +13,29 @@ import me.kartikarora.klaat.commands.UpdateCommand
 import me.kartikarora.klaat.commands.VersionCommand
 import me.kartikarora.klaat.util.TablePrinter
 
-class Klaat : CliktCommand("""
+class Klaat : CliktCommand(name = BuildConfig.BINARY_NAME) {
+    override fun help(context: com.github.ajalt.clikt.core.Context): String = """
     ${BuildConfig.BINARY_NAME} - Kodelabs As A Thing
 
     A spiritual successor to claat written in Kotlin.
     Generate codelabs from Google Docs or Markdown files.
     """.trimIndent()
-) {
+
     override fun run() = Unit
 }
 
 fun main(args: Array<String>) {
     val klaat = Klaat()
-        .subcommands(ExportCommand(), DemoCommand(), HelpCommand(), ServeCommand(), UpdateCommand(), VersionCommand(), InstallSkillsCommand())
+        .subcommands(
+            ExportCommand(),
+            DemoCommand(),
+            HelpCommand(),
+            ServeCommand(),
+            UpdateCommand(),
+            VersionCommand(),
+            InstallSkillsCommand(),
+            CompletionCommand(name = "completion")
+        )
     if (args.isEmpty()) {
         TablePrinter.printInfoTable()
         println(klaat.getFormattedHelp())

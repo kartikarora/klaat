@@ -339,4 +339,18 @@ class EndToEndTest {
         val content = indexFile.readText()
         assertTrue(content.contains("kiosk") || content.contains("environment"), "Should reference environment")
     }
+
+    @Test
+    fun `test completion command generates shell completions`() {
+        val originalOut = System.out
+        val outputStream = java.io.ByteArrayOutputStream()
+        System.setOut(java.io.PrintStream(outputStream))
+        try {
+            main(arrayOf("completion", "zsh"))
+            val output = outputStream.toString()
+            assertTrue(output.contains("compdef") || output.contains("klaat"), "Should generate zsh completion script")
+        } finally {
+            System.setOut(originalOut)
+        }
+    }
 }

@@ -260,6 +260,32 @@ Examples:
   klaat-snapshot demo -addr localhost:8080
 ```
 
+### `completion`
+
+Generate shell completion scripts for Bash, Zsh, or Fish.
+
+```bash
+klaat completion <bash|zsh|fish>
+```
+
+#### Setup
+
+- **Zsh**:
+  ```zsh
+  # Add to ~/.zshrc:
+  eval "$(klaat completion zsh)"
+  ```
+- **Bash**:
+  ```bash
+  # Add to ~/.bashrc:
+  eval "$(klaat completion bash)"
+  ```
+- **Fish**:
+  ```fish
+  # Add to ~/.config/fish/completions/klaat.fish:
+  klaat completion fish > ~/.config/fish/completions/klaat.fish
+  ```
+
 ## Codelab Format
 
 ### Markdown Format

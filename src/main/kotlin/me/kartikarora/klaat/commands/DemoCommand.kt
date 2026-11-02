@@ -1,5 +1,6 @@
 package me.kartikarora.klaat.commands
 
+import com.github.ajalt.clikt.completion.CompletionCandidates
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.parse
 import com.github.ajalt.clikt.parameters.options.default
@@ -26,7 +27,8 @@ class DemoCommand(
 
     private val outDir by option(
         "-o", "--out",
-        help = "Output directory for exported demo"
+        help = "Output directory for exported demo",
+        completionCandidates = CompletionCandidates.Path
     ).default("output")
 
     private val format by option(
