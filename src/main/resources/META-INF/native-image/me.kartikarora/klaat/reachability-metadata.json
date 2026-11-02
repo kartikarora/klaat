@@ -604,6 +604,9 @@
       "type": "com.google.api.services.docs.v1.Docs$Documents$Get",
       "fields": [
         {
+          "name": "commentsViewMode"
+        },
+        {
           "name": "documentId"
         },
         {
