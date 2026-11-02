@@ -51,9 +51,20 @@ echo "📝 Running export (Markdown to Offline)..."
 # Document IDs:
 # - Comprehensive Example: 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM
 # - Image Example: 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg
-echo "📝 Running export for Google Docs examples (from examples/README.md)..."
-./gradlew -Pagent run --args="export 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM -o build/agent-test-output -f html" || true
-./gradlew -Pagent run --args="export 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg -o build/agent-test-output -f html" || true
+echo "📝 Checking credentials and running export for Google Docs examples (from examples/README.md)..."
+if [ ! -f "gcp_credentials.json" ] && [ ! -f "src/main/resources/credentials/gcp_credentials.json" ]; then
+    echo "⚠️  gcp_credentials.json not found in project root or src/main/resources/credentials/."
+    echo "   To trace Google Docs exports directly, please provide gcp_credentials.json."
+    echo "   Proceeding with other tracing steps..."
+fi
+
+# Run export for Google Docs under tracing agent
+./gradlew -Pagent run --args="export 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM -o build/agent-test-output -f html" || {
+    echo "⚠️  Google Docs export for 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM encountered an issue (token missing or auth prompt required)."
+}
+./gradlew -Pagent run --args="export 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg -o build/agent-test-output -f html" || {
+    echo "⚠️  Google Docs export for 1vH7gJRjdDge7c8T-_FHKzUB6SBBk2Xy3Qd-oAdMG_xg encountered an issue (token missing or auth prompt required)."
+}
 
 # Serve command needs to be run and then stopped cleanly
 echo "🌐 Running serve command (briefly)..."
