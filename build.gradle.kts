@@ -72,6 +72,7 @@ tasks.test {
 }
 
 tasks.named<ProcessResources>("processResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     inputs.dir(layout.projectDirectory.dir("skills"))
     inputs.dir(layout.projectDirectory.dir("examples"))
     // Package distributable skills directly from root skills/ directory
