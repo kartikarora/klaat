@@ -35,24 +35,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css">
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.8.0.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.8.0.js" defer></script>
 </head>
 <body>
-    <nav class="nav">
+        <nav class="nav">
         <div class="nav-container">
             <a href="/" class="nav-brand">Klaat</a>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
                 <span class="material-symbols-outlined">menu</span>
             </button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="demo/index.html" class="nav-link">Live Demo</a></li>
-                <li><a href="#download" class="nav-link">Download</a></li>
-                <li><a href="#quickstart" class="nav-link">Quick Start</a></li>
-                <li><a href="docs/index.html" class="nav-link">Documentation</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="/#features" class="nav-link">Features</a></li>
+                <li><a href="/demo/" class="nav-link">Live Demo</a></li>
+                <li><a href="/#download" class="nav-link">Download</a></li>
+                <li><a href="/#quickstart" class="nav-link">Quick Start</a></li>
+                <li><a href="/docs/" class="nav-link">Documentation</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
             </ul>
         </div>
     </nav>
@@ -354,12 +354,15 @@ sudo mv <span class="release-binary-filename">klaat-macos-arm64-VERSION</span> /
         </section>
     </main>
 
-    <footer class="footer">
+        <footer class="footer">
         <div class="container">
             <p>
                 Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
             </p>
             <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
+                <a href="/" style="color: inherit; text-decoration: underline;">Home</a> | 
+                <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="/terms" style="color: inherit; text-decoration: underline;">Terms of Service</a><br>
                 Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
                 &copy; 2026 Kartik Arora
             </p>

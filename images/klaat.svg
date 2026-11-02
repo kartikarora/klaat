@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="klaat-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6523CF"/>
+      <stop offset="30%" stop-color="#883DA9"/>
+      <stop offset="60%" stop-color="#B45787"/>
+      <stop offset="85%" stop-color="#DD6651"/>
+      <stop offset="100%" stop-color="#F97621"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M 191.0,165.0 L 409.0,165.0 L 409.0,434.0 L 595.0,165.0 L 833.0,165.0 L 593.0,512.0 L 833.0,859.0 L 593.0,859.0 L 409.0,590.0 L 409.0,859.0 L 191.0,859.0 Z"
+        fill="url(#klaat-gradient)" />
+</svg>

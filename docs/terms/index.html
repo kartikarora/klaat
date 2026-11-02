@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Klaat</title>
+    <meta name="description" content="Terms of Service for Klaat (Kodelabs As A Thing). Terms governing the use of Klaat CLI and web services.">
+    <meta name="author" content="Kartik Arora">
+    <meta name="theme-color" content="#0066cc">
+    <link rel="canonical" href="https://klaat.kartikarora.me/terms">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://klaat.kartikarora.me/terms">
+    <meta property="og:title" content="Terms of Service - Klaat">
+    <meta property="og:description" content="Terms of Service for Klaat - Terms governing the use of Klaat CLI and web services.">
+    <meta property="og:image" content="https://klaat.kartikarora.me/images/klaat.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.8.0.css">
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.8.0.js" defer></script>
+    <style>
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(70px + var(--space-xl)) var(--space-md) var(--space-xl);
+        }
+        .legal-content h1 {
+            font-size: 2.25rem;
+            margin-bottom: var(--space-sm);
+        }
+        .legal-content .last-updated {
+            color: var(--text-muted);
+            margin-bottom: var(--space-xl);
+            font-size: 0.95rem;
+        }
+        .legal-content h2 {
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--space-xs);
+        }
+        .legal-content h3 {
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-xs);
+        }
+        .legal-content p, .legal-content li {
+            line-height: 1.7;
+            margin-bottom: var(--space-sm);
+        }
+        .legal-content ul {
+            padding-left: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+    </style>
+</head>
+<body>
+        <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Klaat</a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/#features" class="nav-link">Features</a></li>
+                <li><a href="/demo/" class="nav-link">Live Demo</a></li>
+                <li><a href="/#download" class="nav-link">Download</a></li>
+                <li><a href="/#quickstart" class="nav-link">Quick Start</a></li>
+                <li><a href="/docs/" class="nav-link">Documentation</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="legal-content">
+        <h1>Terms of Service</h1>
+        <p class="last-updated"><strong>Last Updated:</strong> 2 November 2026</p>
+
+        <p>These Terms of Service ("Terms") govern your download, installation, and use of <strong>Klaat</strong> ("the Application", "Software", or "CLI") and related websites and services at <a href="https://klaat.kartikarora.me">https://klaat.kartikarora.me</a>.</p>
+
+        <p>By accessing or using Klaat, you agree to be bound by these Terms. If you do not agree to these Terms, you must not use or install the Application.</p>
+
+        <h2>1. Description of Service</h2>
+        <p>Klaat is an independent developer command-line utility designed to export technical documentation and tutorials authored in Google Docs into interactive, structured Codelabs (HTML and Markdown). All core document operations and transformations occur locally on your machine.</p>
+
+        <h2>2. Authorised Use and Google Account Integration</h2>
+        <p>To export documents directly from Google Docs, Klaat interacts with Google APIs using OAuth 2.0 authentication.</p>
+        <ul>
+            <li><strong>Authorisation:</strong> You are responsible for granting permissions via Google Identity Services using your Google account.</li>
+            <li><strong>Account Responsibilities:</strong> You are solely responsible for maintaining the confidentiality of your credentials and controlling access to your workstation and local tokens directory (<code>~/.klaat/tokens/</code>).</li>
+            <li><strong>Permissions &amp; Content:</strong> You represent and warrant that you hold all necessary rights, licences, and permissions to access and convert any Google Documents you process with Klaat.</li>
+        </ul>
+
+        <h2>3. Acceptable Use Policy</h2>
+        <p>When using Klaat, you agree not to:</p>
+        <ul>
+            <li>Attempt to circumvent, disable, or tamper with any authentication, security features, or rate limits enforced by Google APIs or Klaat.</li>
+            <li>Use Klaat to extract or process content in violation of third-party intellectual property rights, confidentiality obligations, or applicable privacy laws.</li>
+            <li>Use Klaat in any manner that breaches the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a> or Google’s Terms of Service.</li>
+        </ul>
+
+        <h2>4. Intellectual Property</h2>
+        <ul>
+            <li><strong>Your Content:</strong> You retain full ownership of all documents, text, code snippets, assets, and exported Codelabs processed through Klaat. We claim no ownership, copyright, or licence over your input or output content.</li>
+            <li><strong>The Application:</strong> All copyright, trademarks, design elements, and intellectual property rights in Klaat (excluding third-party libraries and Google's upstream materials) remain the property of Kartik Arora.</li>
+        </ul>
+
+        <h2>5. Privacy</h2>
+        <p>Your use of Klaat is also governed by our <a href="/privacy">Privacy Policy</a>, which outlines our collection, handling, and protection of data in accordance with the <em>Privacy Act 1988 (Cth)</em> and the Australian Privacy Principles.</p>
+
+        <h2>6. Disclaimers and Australian Consumer Law</h2>
+        <p>Under the <strong>Australian Consumer Law</strong> (contained in Schedule 2 of the <em>Competition and Consumer Act 2010 (Cth)</em>), certain statutory guarantees and consumer rights cannot be excluded, restricted, or modified ("Non-excludable Guarantees"). Nothing in these Terms excludes, restricts, or modifies any Non-excludable Guarantees.</p>
+        <p>Subject to Non-excludable Guarantees:</p>
+        <ul>
+            <li>Klaat is provided on an <strong>"as is"</strong> and <strong>"as available"</strong> basis without warranties of any kind, whether express or implied.</li>
+            <li>We do not warrant that Klaat will be completely error-free, uninterrupted, or fully compatible with every future change made by Google to the Google Docs API or document formats.</li>
+        </ul>
+
+        <h2>7. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law (including the <em>Competition and Consumer Act 2010 (Cth)</em>):</p>
+        <ul>
+            <li>Neither Kartik Arora nor any contributors will be liable for any indirect, incidental, special, consequential, or punitive damages, or loss of profits, data, or business opportunities arising out of or in connection with your use of or inability to use Klaat.</li>
+            <li>Where liability cannot be completely excluded under consumer protection laws, our aggregate liability is limited, at our discretion, to the resupply of the service or the cost of having the service resupplied.</li>
+        </ul>
+
+        <h2>8. Third-Party Services</h2>
+        <p>Klaat depends on third-party services, primarily Google Cloud APIs. We are not responsible for any downtime, outages, service deprecations, or policy changes implemented by Google or any other third-party provider.</p>
+
+        <h2>9. Governing Law and Jurisdiction</h2>
+        <p>These Terms are governed by and construed in accordance with the laws in force in the <strong>State of Victoria, Australia</strong>. You agree to submit to the non-exclusive jurisdiction of the courts of Victoria and the Commonwealth of Australia in relation to any dispute arising out of or connected with these Terms.</p>
+
+        <h2>10. Variations to These Terms</h2>
+        <p>We reserve the right to revise or modify these Terms at any time. Any updated Terms will be published on our website with an updated "Last Updated" date. Your continued use of Klaat following the publication of revised Terms constitutes your acceptance of those changes.</p>
+
+        <h2>11. Contact Details</h2>
+        <p>If you have any questions or enquiries regarding these Terms, please contact:</p>
+        <ul>
+            <li><strong>Entity / Maintainer:</strong> Kartik Arora</li>
+            <li><strong>Website:</strong> <a href="https://klaat.kartikarora.me">https://klaat.kartikarora.me</a></li>
+            <li><strong>Email:</strong> <a href="mailto:dev@kartikarora.me">dev@kartikarora.me</a></li>
+            <li><strong>Location:</strong> Victoria, Australia</li>
+        </ul>
+    </main>
+
+        <footer class="footer">
+        <div class="container">
+            <p>
+                Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
+            </p>
+            <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
+                <a href="/" style="color: inherit; text-decoration: underline;">Home</a> | 
+                <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="/terms" style="color: inherit; text-decoration: underline;">Terms of Service</a><br>
+                Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
+                &copy; 2026 Kartik Arora
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

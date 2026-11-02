@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Klaat</title>
+    <meta name="description" content="Privacy Policy for Klaat (Kodelabs As A Thing). Learn how your data and Google Docs API access are handled.">
+    <meta name="author" content="Kartik Arora">
+    <meta name="theme-color" content="#0066cc">
+    <link rel="canonical" href="https://klaat.kartikarora.me/privacy">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://klaat.kartikarora.me/privacy">
+    <meta property="og:title" content="Privacy Policy - Klaat">
+    <meta property="og:description" content="Privacy Policy for Klaat - Learn how your data and Google Docs API access are handled.">
+    <meta property="og:image" content="https://klaat.kartikarora.me/images/klaat.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.1.8.0.css">
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://distribute.kartikarora.me/js/kartikarora.1.8.0.js" defer></script>
+    <style>
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(70px + var(--space-xl)) var(--space-md) var(--space-xl);
+        }
+        .legal-content h1 {
+            font-size: 2.25rem;
+            margin-bottom: var(--space-sm);
+        }
+        .legal-content .last-updated {
+            color: var(--text-muted);
+            margin-bottom: var(--space-xl);
+            font-size: 0.95rem;
+        }
+        .legal-content h2 {
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--space-xs);
+        }
+        .legal-content h3 {
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-xs);
+        }
+        .legal-content p, .legal-content li {
+            line-height: 1.7;
+            margin-bottom: var(--space-sm);
+        }
+        .legal-content ul {
+            padding-left: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+        .callout-box {
+            background: var(--bg-secondary, #f8f9fa);
+            border-left: 4px solid var(--primary, #0066cc);
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+        <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Klaat</a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/#features" class="nav-link">Features</a></li>
+                <li><a href="/demo/" class="nav-link">Live Demo</a></li>
+                <li><a href="/#download" class="nav-link">Download</a></li>
+                <li><a href="/#quickstart" class="nav-link">Quick Start</a></li>
+                <li><a href="/docs/" class="nav-link">Documentation</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="legal-content">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated"><strong>Last Updated:</strong> 2 November 2026</p>
+
+        <p>This Privacy Policy sets out how <strong>Klaat</strong> ("we", "us", "our", or "the Application") collects, handles, stores, and protects personal information and user data when you use the Klaat command-line interface (CLI) and related services at <a href="https://klaat.kartikarora.me">https://klaat.kartikarora.me</a>.</p>
+
+        <p>We are committed to protecting your privacy in accordance with the <strong>Privacy Act 1988 (Cth)</strong>, the <strong>Australian Privacy Principles (APPs)</strong>, and applicable Google API policies.</p>
+
+        <p>Klaat is an independent developer utility designed to export technical documentation and tutorials authored in Google Docs into interactive, structured Codelabs (HTML and Markdown).</p>
+
+        <h2>1. Information We Access and Collect</h2>
+        <p>Klaat interacts with Google APIs strictly when you explicitly invoke commands requiring Google Docs data (such as <code>klaat export &lt;document-id&gt;</code>).</p>
+
+        <h3>A. Google User Data</h3>
+        <p>When you authorise Klaat using your Google account, the application requests access to the following sensitive scope:</p>
+        <ul>
+            <li><code>https://www.googleapis.com/auth/documents.readonly</code></li>
+        </ul>
+        <p>Through this scope, Klaat accesses:</p>
+        <ul>
+            <li><strong>Document Metadata &amp; Content:</strong> Document titles, structural body text, headings, formatting styles, tables, and embedded media elements solely for the specific document IDs you nominate in your command.</li>
+            <li><strong>OAuth Authentication Credentials:</strong> Short-lived OAuth access tokens and refresh tokens issued by Google Identity Services to authorise local requests on your behalf.</li>
+        </ul>
+
+        <h3>B. Information We Do Not Collect</h3>
+        <ul>
+            <li>We <strong>do not</strong> collect personal identifiers such as your full name, phone number, residential address, or billing details.</li>
+            <li>We <strong>do not</strong> access, browse, or read any documents or files within your Google Drive or Google Docs that you have not explicitly specified.</li>
+            <li>We <strong>do not</strong> track your browsing behaviour across external websites, compile behavioral profiles, or log telemetry to remote tracking services.</li>
+        </ul>
+
+        <h2>2. How We Use Google User Data</h2>
+        <p>Klaat processes Google Docs data solely to perform real-time, user-directed actions initiated from your local command line:</p>
+        <ul>
+            <li>Reading the specified Google Document structure, text, and formatting.</li>
+            <li>Parsing and transforming that structure into local HTML, Markdown, or offline codelab packages on your workstation.</li>
+        </ul>
+
+        <div class="callout-box">
+            <strong>Klaat does not use your data for:</strong>
+            <ul>
+                <li>Serving targeted advertisements or marketing materials.</li>
+                <li>User profiling, market research, or data aggregation.</li>
+                <li>Training artificial intelligence (AI) or machine learning (ML) models.</li>
+            </ul>
+        </div>
+
+        <h2>3. Storage, Security, and Cross-Border Disclosure</h2>
+        <p>Klaat operates as a client-side command-line utility:</p>
+        <ul>
+            <li><strong>Local Storage Only:</strong> OAuth credentials, access tokens, and refresh tokens are stored exclusively on your local workstation in your user directory (<code>~/.klaat/tokens/</code>).</li>
+            <li><strong>No Remote Transmission:</strong> The text, structure, and media retrieved from Google Docs are parsed entirely in memory and written as output files directly to your local file system. Neither your document content nor your authentication tokens are ever transmitted to, hosted on, or processed by any external or remote Klaat servers.</li>
+            <li><strong>Cross-Border Disclosure:</strong> Because Klaat does not transmit your personal data to remote servers or third-party cloud infrastructure operated by us, no cross-border disclosure of personal information occurs on our part under APP 8.</li>
+            <li><strong>Token Revocation &amp; Deletion:</strong> You can permanently remove your locally cached credentials at any time by deleting the <code>~/.klaat/tokens/</code> directory on your machine or by revoking access directly via your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Google Account Permissions</a>.</li>
+        </ul>
+
+        <h2>4. Disclosure to Third Parties</h2>
+        <p>We <strong>do not</strong> sell, rent, commercialise, trade, or otherwise disclose your Google user data or personal information to third parties. All communication authenticated via Google APIs occurs directly and securely between your local device and Google's infrastructure.</p>
+
+        <h2>5. Google API Services User Data Policy Compliance</h2>
+        <p>Klaat's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the <strong>Limited Use</strong> requirements.</p>
+
+        <h2>6. Access, Correction, and Enquiries under Australian Privacy Law</h2>
+        <p>Under the Australian Privacy Principles, you have rights to seek access to and correction of any personal information held about you. Because Klaat operates client-side and retains no centrally stored personal records or document contents, your data remains directly within your local custody and your Google account.</p>
+        <p>If you have any questions, concerns, or complaints regarding this Privacy Policy or our compliance with the Australian Privacy Principles, please contact us at:</p>
+        <ul>
+            <li><strong>Entity / Maintainer:</strong> Kartik Arora</li>
+            <li><strong>Website:</strong> <a href="https://klaat.kartikarora.me">https://klaat.kartikarora.me</a></li>
+            <li><strong>Email:</strong> <a href="mailto:dev@kartikarora.me">dev@kartikarora.me</a></li>
+            <li><strong>Jurisdiction:</strong> Victoria, Australia</li>
+        </ul>
+        <p>If you are unsatisfied with our response to a privacy complaint, you may refer the matter to the <strong>Office of the Australian Information Commissioner (OAIC)</strong> at <a href="https://www.oaic.gov.au" target="_blank" rel="noopener noreferrer">www.oaic.gov.au</a>.</p>
+
+        <h2>7. Variations to This Policy</h2>
+        <p>We may update this Privacy Policy periodically to reflect changes in our practices, technology, or legal requirements. Any updated version will be published at this location with a revised "Last Updated" date.</p>
+    </main>
+
+        <footer class="footer">
+        <div class="container">
+            <p>
+                Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
+            </p>
+            <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
+                <a href="/" style="color: inherit; text-decoration: underline;">Home</a> | 
+                <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
+                <a href="/terms" style="color: inherit; text-decoration: underline;">Terms of Service</a><br>
+                Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
+                &copy; 2026 Kartik Arora
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
