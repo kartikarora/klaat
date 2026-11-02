@@ -23,6 +23,7 @@ class KlaatSnapshot < Formula
     end
 
     bin.install Dir["klaat-*"].first => "klaat-snapshot"
+    generate_completions_from_executable(bin/"klaat-snapshot", "completion")
   end
 
   test do

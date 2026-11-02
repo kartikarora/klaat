@@ -23,6 +23,7 @@ class Klaat < Formula
     end
 
     bin.install Dir["klaat-*"].first => "klaat"
+    generate_completions_from_executable(bin/"klaat", "completion")
   end
 
   test do
