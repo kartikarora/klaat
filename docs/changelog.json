@@ -1,0 +1,275 @@
+{
+  "releases": [
+    {
+      "version": "2.0.1",
+      "date": "2026-09-14",
+      "type": "release",
+      "title": "Release 2.0.1",
+      "description": "Maintenance and dependency update release with brand system modernization and quote parser enhancements.",
+      "changes": [
+        {
+          "type": "feat",
+          "text": "Upgrade to @kartikarora/brand 1.8.0 design system across all web components and docs"
+        },
+        {
+          "type": "fix",
+          "text": "Prevent regression for code comments containing quotes and contractions"
+        },
+        {
+          "type": "chore",
+          "text": "Bump Gradle dependencies and library versions to latest stable"
+        }
+      ],
+      "downloads": {
+        "macos_arm64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.1/klaat-macos-arm64-2.0.1",
+        "linux_arm64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.1/klaat-linux-arm64-2.0.1",
+        "linux_x64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.1/klaat-linux-x64-2.0.1"
+      }
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-08-19",
+      "type": "release",
+      "title": "Release 2.0.0 - Major Overhaul & Web Components",
+      "description": "Major release introducing native Klaat Web Components (<klaat-codelab>, <klaat-step>), interactive button elements, duration calculation using kotlin.time, and comprehensive Format Guide codelabs.",
+      "changes": [
+        {
+          "type": "feat",
+          "text": "Native Klaat web components (<klaat-codelab>, <klaat-step>, action buttons) with CDN delivery"
+        },
+        {
+          "type": "feat",
+          "text": "Action Buttons syntax (.buttonPrimary, .buttonSecondary, .button) with custom icon support"
+        },
+        {
+          "type": "feat",
+          "text": "Interactive codelab showcase and format guide preview directly inside browser"
+        },
+        {
+          "type": "refactor",
+          "text": "Modernize duration parsing with kotlin.time.Duration API and remaining time calculation"
+        },
+        {
+          "type": "fix",
+          "text": "Fix survey inline code formatting and button step fence rendering"
+        }
+      ],
+      "downloads": {
+        "macos_arm64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.0/klaat-macos-arm64-2.0.0",
+        "linux_arm64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.0/klaat-linux-arm64-2.0.0",
+        "linux_x64": "https://distribute.kartikarora.me/bin/klaat/release/2.0.0/klaat-linux-x64-2.0.0"
+      }
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-07-21",
+      "type": "release",
+      "title": "Release 1.0.0 - Initial Production Release",
+      "description": "Initial general availability release of Klaat - a modern Kotlin-based spiritual successor to claat for compiling Google Docs and Markdown tutorials to interactive codelabs.",
+      "changes": [
+        {
+          "type": "feat",
+          "text": "Complete Google Docs and Markdown tutorial parsing pipeline"
+        },
+        {
+          "type": "feat",
+          "text": "Export to HTML, Markdown, and self-contained Offline bundles"
+        },
+        {
+          "type": "feat",
+          "text": "Embedded local Ktor preview server with live reloading and auto-launching browser"
+        },
+        {
+          "type": "feat",
+          "text": "GraalVM native image binaries for macOS (Apple Silicon) and Linux (x64, ARM64)"
+        },
+        {
+          "type": "feat",
+          "text": "AI agent skill suite (klaat-cli, klaat-markdown-author, klaat-gdocs-author, klaat-native-manager)"
+        }
+      ],
+      "downloads": {
+        "macos_arm64": "https://distribute.kartikarora.me/bin/klaat/release/1.0.0/klaat-macos-arm64-1.0.0",
+        "linux_arm64": "https://distribute.kartikarora.me/bin/klaat/release/1.0.0/klaat-linux-arm64-1.0.0",
+        "linux_x64": "https://distribute.kartikarora.me/bin/klaat/release/1.0.0/klaat-linux-x64-1.0.0"
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "tag": "2.1.0.46-802d7100",
+      "date": "2026-11-03",
+      "sha": "802d7100",
+      "msg": "fix(brew): ensure binary has executable permissions before running completion generation",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.45-ec4a5649",
+      "date": "2026-11-02",
+      "sha": "ec4a5649",
+      "msg": "feat(brew): add automatic shell completion generation to Homebrew formulas",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.44-bd0cfd4e",
+      "date": "2026-11-02",
+      "sha": "bd0cfd4e",
+      "msg": "feat(cli): add completion command and argument completion candidates",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.43-63624aae",
+      "date": "2026-11-02",
+      "sha": "63624aae",
+      "msg": "fix(native): enable complete reflection access for all Google Docs model classes",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.42-f5171060",
+      "date": "2026-11-02",
+      "sha": "f5171060",
+      "msg": "fix(native): register default constructor reflection for all Google Docs model classes",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.41-b17006e9",
+      "date": "2026-11-02",
+      "sha": "b17006e9",
+      "msg": "fix(native): register commentsViewMode reflection field on Docs$Documents$Get",
+      "body": ""
+    },
+    {
+      "tag": "2.1.0.40-1cb93ca2",
+      "date": "2026-11-02",
+      "sha": "1cb93ca2",
+      "msg": "fix(native): register TokenResponse reflection and trace Google Docs auth lifecycle",
+      "body": "- Register default constructor for com.google.api.client.auth.oauth2.TokenResponse in reachability metadata\n- Add GoogleDocsClientAuthTest covering no token, token expired (refresh), and corrupted/deleted token scenarios\n- Update update_configs.sh and klaat-native-manager to trace documented Google Docs examples and auth lifecycle tests"
+    },
+    {
+      "tag": "2.1.0.39-9062ea4a",
+      "date": "2026-10-22",
+      "sha": "9062ea4a",
+      "msg": "fix(build): remove unsupported GraalVM 25 SubstrateVM flags",
+      "body": ""
+    },
+    {
+      "tag": "2.0.0.37-b12beda8",
+      "date": "2026-08-19",
+      "sha": "b12beda8",
+      "msg": "chore: sync export metadata",
+      "body": ""
+    },
+    {
+      "tag": "2.0.0.36-96f9efb3",
+      "date": "2026-08-19",
+      "sha": "96f9efb3",
+      "msg": "build: track skills and examples inputs on processResources and update demo test title check",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.35-2b20dfc5",
+      "date": "2026-08-18",
+      "sha": "2b20dfc5",
+      "msg": "build: update native-image metadata and verify native compilation",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.34-a5b0725e",
+      "date": "2026-08-18",
+      "sha": "a5b0725e",
+      "msg": "feat: add in-step source markdown snippets and update feature showcase demo",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.33-2235c4da",
+      "date": "2026-08-17",
+      "sha": "2235c4da",
+      "msg": "CSS has moved",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.31-fa7d3cad",
+      "date": "2026-08-14",
+      "sha": "fa7d3cad",
+      "msg": "feat(skills,styles): unify native manager skill and update custom infobox styles",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.30-948ded73",
+      "date": "2026-08-14",
+      "sha": "948ded73",
+      "msg": "infoboxes updates",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.29-44d4bd21",
+      "date": "2026-08-12",
+      "sha": "44d4bd21",
+      "msg": "aside success",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.28-705f2a0d",
+      "date": "2026-08-03",
+      "sha": "705f2a0d",
+      "msg": "refactor: replace remaining inline fully qualified classes with proper imports",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.27-449fbf0b",
+      "date": "2026-08-03",
+      "sha": "449fbf0b",
+      "msg": "chore: update native image configurations for recent changes",
+      "body": ""
+    },
+    {
+      "tag": "1.2.0.26-7fe31ad0",
+      "date": "2026-07-31",
+      "sha": "7fe31ad0",
+      "msg": "Bump version to 1.2.0 across project config, MCP server, and skills command",
+      "body": ""
+    },
+    {
+      "tag": "1.1.0.25-b7055c17",
+      "date": "2026-07-31",
+      "sha": "b7055c17",
+      "msg": "docs: remove manual download section and replace overview blockquote with paragraph",
+      "body": ""
+    },
+    {
+      "tag": "0.4.0.24-12c70992",
+      "date": "2026-07-17",
+      "sha": "12c70992",
+      "msg": "chore: update GitHub Actions workflows and custom actions to use the latest versions (checkout@v7, download-artifact@v8, setup-gradle@v6)",
+      "body": ""
+    },
+    {
+      "tag": "0.3.0.23-9cb4ff8f",
+      "date": "2026-05-04",
+      "sha": "9cb4ff8f",
+      "msg": "build fix attempt",
+      "body": ""
+    },
+    {
+      "tag": "0.2.0.20-2aa8c697",
+      "date": "2026-03-20",
+      "sha": "2aa8c697",
+      "msg": "bash update",
+      "body": ""
+    },
+    {
+      "tag": "0.1.0.18-5fa238b8",
+      "date": "2026-03-12",
+      "sha": "5fa238b8",
+      "msg": "workflow updates",
+      "body": ""
+    },
+    {
+      "tag": "0.1.0.16-818b1f4c",
+      "date": "2026-03-03",
+      "sha": "818b1f4c",
+      "msg": "some improvements",
+      "body": ""
+    }
+  ]
+}
