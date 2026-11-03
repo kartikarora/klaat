@@ -245,6 +245,19 @@ tasks.register("printClasspath") {
     }
 }
 
+tasks.register<JavaExec>("serveDocs") {
+    group = "application"
+    description = "Serves the documentation site locally from docs/ using Klaat preview server"
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("me.kartikarora.klaat.MainKt")
+    args = listOf("serve", "-d", layout.projectDirectory.dir("docs").asFile.absolutePath)
+
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
+    })
+}
+
 tasks.register<JavaExec>("evalSkills") {
     group = "verification"
     description = "Evaluates AI agent skills autonomous invocation and adherence against Klaat compiler using live Gemini API"
