@@ -89,8 +89,8 @@ class ServeDirectoryListingTemplateTest {
             assertTrue(content.contains("hero"), "Should have hero section")
             assertTrue(content.contains("nav"), "Should have nav section")
             assertTrue(content.contains("listing-card"), "Should have listing card")
-            assertTrue(content.contains("kartikarora.1.8.0.css"), "Should use kartikarora CSS framework")
-            assertTrue(content.contains("kartikarora.1.8.0.js"), "Should use kartikarora JS framework")
+            assertTrue(content.contains("kartikarora.2.0.0.css"), "Should use kartikarora CSS framework")
+            assertTrue(content.contains("kartikarora.2.0.0.js"), "Should use kartikarora JS framework")
 
         } finally {
             serverThread?.interrupt()
