@@ -18,12 +18,11 @@ Snapshot releases happen automatically on every push to `develop`:
 
 2. Binaries are standalone executables (no JRE required)
 3. Uploaded to Cloudflare R2 CDN at: `snapshots/{hash}/`
-4. `homebrew-klaat-snapshots` tap is automatically updated
+4. `homebrew-tap` repository is automatically updated with the latest formula (`Formula/klaat-snapshot.rb`)
 
 Users can install snapshots on macOS or Linux via:
 ```bash
-brew tap kartikarora/klaat-snapshots
-brew install klaat-snapshot
+brew install kartikarora/tap/klaat-snapshot
 ```
 
 Or download directly from CDN and run (no Java needed).
@@ -89,7 +88,7 @@ For automated releases, configure these secrets in your repository:
 - `CDN_URL`: Your CDN URL (e.g., `https://cdn.yourdomain.com`)
 
 ### GitHub Tokens
-- `TAP_GITHUB_TOKEN`: Personal Access Token with `repo` scope for pushing to both `homebrew-klaat` (stable releases) and `homebrew-klaat-snapshots` (snapshots)
+- `TAP_GITHUB_TOKEN`: Personal Access Token with `repo` scope for pushing to `kartikarora/homebrew-tap` (updating `klaat.rb` and `klaat-snapshot.rb`)
 
 ### Build Configuration
 - `GOOGLE_CREDENTIALS_JSON`: Complete Google OAuth 2.0 credentials JSON (embedded in native binaries at build time)

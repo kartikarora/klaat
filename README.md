@@ -23,17 +23,19 @@
 
 ### Homebrew (Recommended for macOS & Linux)
 
-```bash
-brew tap kartikarora/klaat
-brew install klaat
-```
-
-Get snapshot builds (latest from develop):
+Install the stable release:
 
 ```bash
-brew tap kartikarora/klaat-snapshots
-brew install klaat-snapshot
+brew install kartikarora/tap/klaat
 ```
+
+Or install snapshot builds (latest from develop):
+
+```bash
+brew install kartikarora/tap/klaat-snapshot
+```
+
+> **Note:** The dedicated taps `kartikarora/klaat` (`homebrew-klaat`) and `kartikarora/klaat-snapshots` (`homebrew-klaat-snapshots`) have been deprecated and archived. All formulas are now unified under `kartikarora/tap` (`homebrew-tap`).
 
 ### Download Binary
 

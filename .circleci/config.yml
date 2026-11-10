@@ -298,7 +298,7 @@ jobs:
             fi
             
             # Clone tap repository
-            git clone "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" tap
+            git clone "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-tap.git" tap
             cd tap
             
             # Create Formula directory if it doesn't exist
@@ -317,8 +317,8 @@ jobs:
             
             # Commit and push using the token-authenticated URL
             git add Formula/klaat-snapshot.rb
-            git commit -m "Update snapshot to ${VERSION} (via CircleCI)"
-            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat-snapshots.git" main
+            git commit -m "klaat-snapshot ${VERSION} (via CircleCI)"
+            git push "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/kartikarora/homebrew-tap.git" main
 
   create_github_snapshot_release:
     parameters:
@@ -365,7 +365,7 @@ jobs:
             CDN_URL=$(echo "${CDN_URL}" | sed 's:/*$::')
             
             # Create release notes
-            cat > release-notes.md \<< EOF
+            cat > release-notes.md << EOF
             # Klaat Snapshot ${VERSION}
             
             **⚠️ This is a pre-release snapshot build from the develop branch.**
@@ -374,8 +374,7 @@ jobs:
             
             ### Homebrew (macOS & Linux)
             \`\`\`bash
-            brew tap kartikarora/klaat-snapshots
-            brew install klaat-snapshot
+            brew install kartikarora/tap/klaat-snapshot
             \`\`\`
             
             ### Manual Download

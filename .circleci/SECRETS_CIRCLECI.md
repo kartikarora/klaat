@@ -47,7 +47,7 @@ This document lists all the environment variables that need to be configured in 
     - **Classic PAT**: `repo` scope (Full control of private repositories).
     - **Fine-Grained PAT**: 
         - **Repository access**: "Only select repositories"
-        - **Repositories**: `klaat` (main repo) AND `homebrew-klaat-snapshots` (tap repo)
+        - **Repositories**: `klaat` (main repo) AND `homebrew-tap` (tap repo)
         - **Permissions**: `Contents: Read & Write` (needed to push tags and update formulas).
 - **Example**: `ghp_abc123def456ghi789jkl012mno345pqr678stu`
 
@@ -76,7 +76,7 @@ This document lists all the environment variables that need to be configured in 
 ## Verification Checklist
 
 Before triggering a snapshot release, ensure:
-- [ ] `TAP_GITHUB_TOKEN` has write access to BOTH the `klaat` repository and the `homebrew-klaat-snapshots` repository.
+- [ ] `TAP_GITHUB_TOKEN` has write access to BOTH the `klaat` repository and the `homebrew-tap` repository.
 - [ ] R2 API Token has "Object Read & Write" permissions.
 - [ ] All 7 variables are added to CircleCI Project Settings.
 - [ ] `GOOGLE_CREDENTIALS_JSON` contains valid OAuth 2.0 credentials.

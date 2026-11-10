@@ -1,5 +1,5 @@
 name: 'Update Stable Tap'
-description: 'Updates the homebrew-klaat tap with the latest stable version'
+description: 'Updates the kartikarora/homebrew-tap tap with the latest stable version'
 
 inputs:
   version:
@@ -23,7 +23,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
-        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/kartikarora/homebrew-klaat.git tap
+        git clone https://x-access-token:${GITHUB_TOKEN}@github.com/kartikarora/homebrew-tap.git tap
 
     - name: Update formula
       shell: bash
@@ -59,7 +59,7 @@ runs:
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add Formula/klaat.rb
-        git commit -m "Update stable release to ${VERSION}"
+        git commit -m "klaat ${VERSION}"
         git push
 
     - name: Output tap info
@@ -67,8 +67,7 @@ runs:
       env:
         VERSION: ${{ inputs.version }}
       run: |
-        echo "✅ Updated homebrew-klaat tap to ${VERSION}"
+        echo "✅ Updated kartikarora/homebrew-tap tap to ${VERSION}"
         echo ""
         echo "Users can install with:"
-        echo "  brew tap kartikarora/klaat"
-        echo "  brew install klaat"
+        echo "  brew install kartikarora/tap/klaat"

@@ -45,8 +45,7 @@ runs:
 
         ### Homebrew (macOS & Linux)
         \`\`\`bash
-        brew tap kartikarora/klaat-snapshots
-        brew install klaat-snapshot
+        brew install kartikarora/tap/klaat-snapshot
         \`\`\`
 
         ### Manual Download

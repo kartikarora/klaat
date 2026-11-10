@@ -13,14 +13,12 @@ This skill instructs AI agents on how to use the `klaat` binary. **This skill is
 Before running `klaat`, verify if it is installed. If it is not installed, install it using Homebrew:
 
 ```bash
-brew tap kartikarora/klaat
-brew install klaat
+brew install kartikarora/tap/klaat
 ```
 
 If you specifically need the snapshot version:
 ```bash
-brew tap kartikarora/klaat-snapshots
-brew install klaat-snapshot
+brew install kartikarora/tap/klaat-snapshot
 ```
 
 ## Running the Binary

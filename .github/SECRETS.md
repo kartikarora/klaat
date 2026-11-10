@@ -62,16 +62,16 @@ This document lists all the secrets that need to be configured in the GitHub rep
 ### GitHub Personal Access Tokens
 
 #### `TAP_GITHUB_TOKEN`
-- **Description**: Personal Access Token for pushing to `homebrew-klaat-snapshots` tap repository
+- **Description**: Personal Access Token for pushing to `homebrew-tap` repository
 - **Required Scopes**: `repo` (Full control of private repositories)
 - **How to get**:
   1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
   2. Generate new token (classic)
-  3. Name: `Klaat Snapshot Tap Token`
+  3. Name: `Klaat Tap Token`
   4. Select scope: `repo`
   5. Generate and copy the token
 - **Example**: `ghp_abc123def456ghi789jkl012mno345pqr678stu`
-- **Note**: This token needs write access to `kartikarora/homebrew-klaat-snapshots`
+- **Note**: This token needs write access to `kartikarora/homebrew-tap`
 
 #### `HOMEBREW_GITHUB_TOKEN`
 - **Description**: Personal Access Token for creating PRs to `Homebrew/homebrew-core`
@@ -155,7 +155,7 @@ After adding all secrets, verify:
   - `GOOGLE_CREDENTIALS_JSON`
   - `CLOUDFLARE_API_TOKEN`
   - `CLOUDFLARE_ACCOUNT_ID`
-- [ ] `TAP_GITHUB_TOKEN` has write access to `homebrew-klaat-snapshots` repo
+- [ ] `TAP_GITHUB_TOKEN` has write access to `homebrew-tap` repo
 - [ ] `HOMEBREW_GITHUB_TOKEN` has correct scopes (`repo` + `workflow`)
 - [ ] R2 bucket is created and API token has proper permissions
 - [ ] CDN URL is configured and publicly accessible
@@ -170,12 +170,12 @@ To test if secrets are properly configured:
 1. **Test Snapshot Build**: Push to `develop` branch
    - Should build native binaries
    - Upload to R2
-   - Update `homebrew-klaat-snapshots` tap
+   - Update `homebrew-tap` tap (`Formula/klaat-snapshot.rb`)
 
 2. **Test Stable Release**:
    - Update version in `build.gradle.kts`
    - Merge to `main`
-   - Should build, upload to R2, create GitHub release, and submit PR to homebrew-core
+   - Should build, upload to R2, update `homebrew-tap` tap (`Formula/klaat.rb`), create GitHub release, and submit PR to homebrew-core
 
 ---
 
@@ -204,7 +204,7 @@ To test if secrets are properly configured:
 
 ### Homebrew tap update fails
 - Ensure `TAP_GITHUB_TOKEN` has write access
-- Verify `homebrew-klaat-snapshots` repository exists
+- Verify `homebrew-tap` repository exists
 - Check repository name matches workflow configuration
 
 ### Homebrew Core PR fails
