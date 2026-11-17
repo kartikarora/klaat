@@ -501,6 +501,23 @@ class HtmlRendererTest {
     }
 
     @Test
+    fun `test totalSteps in codelab JSON with multiple steps and empty steps`() {
+        // Test empty steps
+        val emptyCodelab = Codelab("empty-test", "Empty", steps = emptyList())
+        renderer.render(emptyCodelab, tempDir)
+        val emptyJson = File(tempDir, "empty-test/codelab.json").readText()
+        assertTrue(emptyJson.contains("\"totalSteps\": 0"), "Empty codelab should have totalSteps: 0")
+
+        // Test multiple steps
+        val multiSteps = (1..5).map { Step("Step $it", listOf(Node.Text("Content $it")), duration = it) }
+        val multiCodelab = Codelab("multi-test", "Multi", steps = multiSteps)
+        renderer.render(multiCodelab, tempDir)
+        val multiJson = File(tempDir, "multi-test/codelab.json").readText()
+        assertTrue(multiJson.contains("\"totalSteps\": 5"), "Multi-step codelab should have totalSteps: 5")
+        assertTrue(multiJson.contains("\"duration\": 15"), "Duration should sum step durations (1+2+3+4+5=15)")
+    }
+
+    @Test
     fun `test JSON escaping for special characters`() {
         val metadata = CodelabMetadata(summary = "Line1\nLine2\t\"Quote\"")
         val codelab = Codelab("test", "Title", steps = emptyList(), metadata = metadata)

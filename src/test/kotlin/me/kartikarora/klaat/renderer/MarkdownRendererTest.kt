@@ -402,6 +402,17 @@ class MarkdownRendererTest {
     }
 
     @Test
+    fun `test totalSteps in markdown codelab JSON with multiple steps`() {
+        val steps = (1..7).map { Step("Step $it", listOf(Node.Text("Content $it")), duration = 2) }
+        val codelab = Codelab("multi-md-test", "Title", steps = steps)
+
+        renderer.render(codelab, tempDir)
+
+        val jsonContent = File(tempDir, "multi-md-test/codelab.json").readText()
+        assertTrue(jsonContent.contains("\"totalSteps\": 7"), "Multi-step markdown codelab should have totalSteps: 7")
+    }
+
+    @Test
     fun `test JSON escaping`() {
         val metadata = CodelabMetadata(summary = "Quote: \"Hello\"")
         val codelab = Codelab("test", "Title with \"quotes\"", steps = emptyList(), metadata = metadata)
