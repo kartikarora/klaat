@@ -28,6 +28,9 @@ All notable changes to Klaat will be documented in this file and rendered on the
 
 ## Snapshots (Development & Pre-release)
 
+### [2.1.0.47-6a3be6f9] - 2026-11-09
+- **feat**: Upgrade to `@kartikarora/brand` 2.0.0 design system and migrate templates, offline exporter, and element stylesheets to versioned assets.
+
 ### [2.1.0.46-802d7100] - 2026-11-03
 - **fix(brew)**: Ensure binary has executable permissions before running completion generation in Homebrew formulas.
 

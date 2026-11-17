@@ -235,6 +235,7 @@ class MarkdownRenderer {
             appendLine("""  "mainga": "",""")
             appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
+            appendLine("""  "totalSteps": ${codelab.steps.size},""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")

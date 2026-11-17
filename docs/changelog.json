@@ -97,6 +97,13 @@
   ],
   "snapshots": [
     {
+      "tag": "2.1.0.47-6a3be6f9",
+      "date": "2026-11-09",
+      "sha": "6a3be6f9",
+      "msg": "feat: upgrade to @kartikarora/brand 2.0.0 and use versioned assets",
+      "body": "Upgrade to @kartikarora/brand 2.0.0 design system across all web components, templates, offline export bundles, and element stylesheets."
+    },
+    {
       "tag": "2.1.0.46-802d7100",
       "date": "2026-11-03",
       "sha": "802d7100",

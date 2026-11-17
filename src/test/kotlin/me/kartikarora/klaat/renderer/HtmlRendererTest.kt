@@ -495,6 +495,7 @@ class HtmlRendererTest {
         assertTrue(jsonContent.contains("\"title\": \"Title\""))
         assertTrue(jsonContent.contains("\"summary\": \"Test Summary\""))
         assertTrue(jsonContent.contains("\"duration\": 5"))
+        assertTrue(jsonContent.contains("\"totalSteps\": 1"))
         assertTrue(jsonContent.contains("\"feedback\": \"https://feedback.com\""))
         assertTrue(jsonContent.contains("\"mainga\": \"UA-12345\""))
     }

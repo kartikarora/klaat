@@ -297,6 +297,7 @@ $options
             appendLine("""  "updated": "${Instant.ofEpochMilli(codelab.lastUpdated)}",""")
             appendLine("""  "id": "${escapeJson(codelab.id)}",""")
             appendLine("""  "duration": ${codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }},""")
+            appendLine("""  "totalSteps": ${codelab.steps.size},""")
             appendLine("""  "title": "${escapeJson(codelab.title)}",""")
             appendLine("""  "summary": "${escapeJson(codelab.summary)}",""")
             appendLine("""  "source": "${escapeJson(codelab.metadata.source)}",""")

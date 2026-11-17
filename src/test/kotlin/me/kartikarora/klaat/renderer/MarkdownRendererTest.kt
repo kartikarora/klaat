@@ -396,6 +396,7 @@ class MarkdownRendererTest {
         assertTrue(jsonContent.contains("\"id\": \"test\""))
         assertTrue(jsonContent.contains("\"title\": \"Title\""))
         assertTrue(jsonContent.contains("\"summary\": \"Summary\""))
+        assertTrue(jsonContent.contains("\"totalSteps\": 0"))
         assertTrue(jsonContent.contains("\"category\": [\"Android\"]"))
         assertTrue(jsonContent.contains("\"authors\": [\"Author\"]"))
     }

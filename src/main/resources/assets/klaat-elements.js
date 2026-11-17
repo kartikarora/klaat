@@ -448,7 +448,66 @@ class KlaatKodelab extends HTMLElement {
       .replace(/"/g, '&quot;');
   }
 
+  // -- Public Metadata API ---------------------------------------------------
+
   get steps() { return this._steps; }
+
+  get totalSteps() {
+    return this._steps.length;
+  }
+
+  getTotalSteps() {
+    return this.totalSteps;
+  }
+
+  get totalDuration() {
+    return this._steps.reduce((sum, step) => {
+      const isExcluded = step.hasAttribute('exclude-duration') || step.hasAttribute('exclude_duration') || step.hasAttribute('ignore-duration');
+      if (isExcluded) return sum;
+      const d = parseInt(step.getAttribute('duration'), 10);
+      return sum + (isNaN(d) ? (step.duration || 0) : d);
+    }, 0);
+  }
+
+  getTotalDuration() {
+    return this.totalDuration;
+  }
+
+  get currentStep() {
+    return this._currentStep >= 0 ? this._currentStep : 0;
+  }
+
+  getCurrentStep() {
+    return this.currentStep;
+  }
+
+  get progressPercent() {
+    if (this._steps.length === 0) return 0;
+    return (this.currentStep / this._steps.length) * 100;
+  }
+
+  getProgressPercent() {
+    return this.progressPercent;
+  }
+
+  get remainingTime() {
+    if (this._steps.length === 0) return 0;
+    let remainingMins = 0;
+    const startIndex = Math.max(0, this.currentStep);
+    for (let s = startIndex; s < this._steps.length; s++) {
+      const step = this._steps[s];
+      const isExcluded = step.hasAttribute('exclude-duration') || step.hasAttribute('exclude_duration') || step.hasAttribute('ignore-duration');
+      if (!isExcluded) {
+        const d = parseInt(step.getAttribute('duration'), 10);
+        remainingMins += isNaN(d) ? (step.duration || 0) : d;
+      }
+    }
+    return remainingMins;
+  }
+
+  getRemainingTime() {
+    return this.remainingTime;
+  }
 }
 
 /* --- KlaatKodelabSurvey --------------------------------------------------- */
