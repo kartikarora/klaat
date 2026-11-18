@@ -1,5 +1,5 @@
 [versions]
-klaat = "2.1.0"
+klaat = "2.2.0"
 kotlin = "2.4.21"
 clikt = "5.1.0"
 google-api-client = "2.9.2"
