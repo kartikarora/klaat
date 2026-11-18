@@ -28,6 +28,11 @@ All notable changes to Klaat will be documented in this file and rendered on the
 
 ## Snapshots (Development & Pre-release)
 
+### [2.2.0.49-ebcf5fe5] - 2026-11-18
+- **feat**: Bump base version to 2.2.0.
+- **feat**: Support backticks and inline code formatting (`<code>`) inside headings across Markdown parser, HTML renderer, and Markdown renderer.
+- **feat**: Expose `totalSteps` in `codelab.json` and provide JavaScript metadata API on `<klaat-kodelab>` (`totalSteps`, `totalDuration`, `currentStep`, `progressPercent`, `remainingTime`).
+
 ### [2.1.0.47-6a3be6f9] - 2026-11-09
 - **feat**: Upgrade to `@kartikarora/brand` 2.0.0 design system and migrate templates, offline exporter, and element stylesheets to versioned assets.
 
