@@ -865,6 +865,46 @@ class HtmlRendererTest {
         assertTrue(indexHtmlOverridden.contains("Custom CLI Footer"))
     }
 
+    @Test
+    fun `test render headings with inline code formatting`() {
+        val codelab = Codelab(
+            id = "heading-code-test",
+            title = "Heading Code Test",
+            steps = listOf(
+                Step(
+                    "Step 1",
+                    listOf(
+                        Node.Heading(
+                            level = 3,
+                            content = "Configure `MainActivity` class",
+                            nodes = listOf(
+                                Node.Text("Configure "),
+                                Node.Text("MainActivity", code = true),
+                                Node.Text(" class")
+                            )
+                        ),
+                        Node.Heading(
+                            level = 4,
+                            content = "Documentation",
+                            link = "https://example.com/docs",
+                            nodes = listOf(
+                                Node.Text("Read "),
+                                Node.Text("API", code = true),
+                                Node.Text(" docs")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        renderer.render(codelab, tempDir)
+        val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
+
+        assertTrue(indexHtml.contains("<h3>Configure <code>MainActivity</code> class</h3>"))
+        assertTrue(indexHtml.contains("""<h4><a href="https://example.com/docs" target="_blank">Read <code>API</code> docs</a></h4>"""))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

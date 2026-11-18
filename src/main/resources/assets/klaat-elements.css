@@ -484,6 +484,17 @@ klaat-kodelab-step code {
   font-size: 0.9em;
 }
 
+klaat-kodelab-step .instructions h1 code,
+klaat-kodelab-step .instructions h2 code,
+klaat-kodelab-step .instructions h3 code,
+klaat-kodelab-step .instructions h4 code,
+klaat-kodelab-step .instructions h5 code,
+klaat-kodelab-step .instructions h6 code {
+  font-size: 0.85em;
+  font-weight: 600;
+  vertical-align: baseline;
+}
+
 klaat-kodelab-step pre {
   display: block;
   background-color: var(--bg-alt);

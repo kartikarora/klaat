@@ -171,10 +171,11 @@ class HtmlRenderer {
 
     private fun renderHeading(node: Node.Heading): String {
         val tag = "h${node.level}"
+        val contentHtml = if (node.nodes.isNotEmpty()) renderNodes(node.nodes) else escape(node.content)
         return if (node.link != null) {
-            """<$tag><a href="${escape(node.link)}" target="_blank">${escape(node.content)}</a></$tag>"""
+            """<$tag><a href="${escape(node.link)}" target="_blank">$contentHtml</a></$tag>"""
         } else {
-            "<$tag>${escape(node.content)}</$tag>"
+            "<$tag>$contentHtml</$tag>"
         }
     }
 

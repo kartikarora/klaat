@@ -108,10 +108,11 @@ class MarkdownRenderer {
 
     private fun renderHeading(node: Node.Heading): String {
         val hashes = "#".repeat(node.level)
+        val contentText = if (node.nodes.isNotEmpty()) renderStepContent(node.nodes).trim() else node.content
         return if (node.link != null) {
-            "$hashes [${ node.content}](${node.link})"
+            "$hashes [$contentText](${node.link})"
         } else {
-            "$hashes ${node.content}"
+            "$hashes $contentText"
         }
     }
 

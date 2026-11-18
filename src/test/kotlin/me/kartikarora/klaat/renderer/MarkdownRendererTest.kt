@@ -537,6 +537,45 @@ class MarkdownRendererTest {
         assertTrue(content.contains("| Kotlin | 2.0 | Stable |"))
     }
 
+    @Test
+    fun `test render headings with inline code formatting`() {
+        val codelab = Codelab(
+            id = "heading-code-md-test",
+            title = "Heading Code MD Test",
+            steps = listOf(
+                Step(
+                    "Step 1",
+                    listOf(
+                        Node.Heading(
+                            level = 3,
+                            content = "Fallback Content",
+                            nodes = listOf(
+                                Node.Text("Use "),
+                                Node.Text("MyService", code = true),
+                                Node.Text(" here")
+                            )
+                        ),
+                        Node.Heading(
+                            level = 4,
+                            content = "Link Heading",
+                            link = "https://example.com",
+                            nodes = listOf(
+                                Node.Text("Visit "),
+                                Node.Text("Doc", code = true)
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        renderer.render(codelab, tempDir)
+        val indexMd = File(tempDir, "${codelab.id}/index.md").readText()
+
+        assertTrue(indexMd.contains("### Use `MyService` here"))
+        assertTrue(indexMd.contains("#### [Visit `Doc`](https://example.com)"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

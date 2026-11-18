@@ -1197,6 +1197,40 @@ class MarkdownParserTest {
         }
         assertTrue(html.contains("<klaat-kodelab-survey"))
     }
+
+    @Test
+    fun `test parse headings with inline code and formatting`() {
+        val markdown = """
+            # Codelab Title
+
+            ## Step 1
+
+            ### Use `MyClass` in Kotlin
+
+            #### Run `gradle build` with **bold** and *italic*
+        """.trimIndent()
+
+        val codelab = parser.parse(ByteArrayInputStream(markdown.toByteArray()))
+        val step = codelab.steps.first()
+        val headings = step.content.filterIsInstance<Node.Heading>()
+
+        assertEquals(2, headings.size)
+
+        val h3 = headings[0]
+        assertEquals(3, h3.level)
+        assertEquals("Use `MyClass` in Kotlin", h3.content)
+        assertTrue(h3.nodes.isNotEmpty())
+        assertEquals(3, h3.nodes.size)
+        assertEquals(Node.Text("Use "), h3.nodes[0])
+        assertEquals(Node.Text("MyClass", code = true), h3.nodes[1])
+        assertEquals(Node.Text(" in Kotlin"), h3.nodes[2])
+
+        val h4 = headings[1]
+        assertEquals(4, h4.level)
+        assertTrue(h4.nodes.any { it is Node.Text && it.code && it.content == "gradle build" })
+        assertTrue(h4.nodes.any { it is Node.Text && it.bold && it.content == "bold" })
+        assertTrue(h4.nodes.any { it is Node.Text && it.italic && it.content == "italic" })
+    }
 }
 }
 

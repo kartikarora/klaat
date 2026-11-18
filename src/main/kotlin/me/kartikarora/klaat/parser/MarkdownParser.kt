@@ -127,7 +127,8 @@ class MarkdownParser {
                 content = restoreString(node.content, placeholders)
             )
             is KlaatNode.Heading -> node.copy(
-                content = restoreString(node.content, placeholders)
+                content = restoreString(node.content, placeholders),
+                nodes = restoreNodes(node.nodes, placeholders)
             )
             is KlaatNode.Paragraph -> node.copy(
                 nodes = restoreNodes(node.nodes, placeholders)
@@ -526,9 +527,12 @@ class MarkdownParser {
             }
             is Heading -> {
                 if (node.level >= 2) {
+                    val headingNodes = mutableListOf<KlaatNode>()
+                    extractTextNodes(node, headingNodes)
                     nodes.add(KlaatNode.Heading(
                         level = node.level,
-                        content = node.text.toString()
+                        content = node.text.toString(),
+                        nodes = headingNodes
                     ))
                 }
             }

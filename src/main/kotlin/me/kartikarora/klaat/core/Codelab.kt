@@ -39,7 +39,7 @@ data class Step(
 
 sealed class Node {
     data class Text(val content: String, val bold: Boolean = false, val italic: Boolean = false, val code: Boolean = false) : Node()
-    data class Heading(val level: Int, val content: String, val link: String? = null) : Node()
+    data class Heading(val level: Int, val content: String, val link: String? = null, val nodes: List<Node> = emptyList()) : Node()
     data class Paragraph(val nodes: List<Node>) : Node()
     data class CodeBlock(val code: String, val language: String = "", val filename: String? = null, val githubLink: String? = null) : Node()
     data class CommandBlock(val commands: String) : Node()
