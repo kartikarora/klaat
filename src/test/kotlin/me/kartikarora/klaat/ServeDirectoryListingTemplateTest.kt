@@ -85,7 +85,7 @@ class ServeDirectoryListingTemplateTest {
             assertTrue(content.contains("material-symbols-outlined"), "Should have material symbols class")
             assertTrue(content.contains("folder"), "Should contain folder symbol")
             assertTrue(content.contains("description"), "Should contain description (file) symbol")
-            assertTrue(content.contains("Albert") && content.contains("Sans"), "Should use Albert Sans font")
+            assertTrue(content.contains("Chivo"), "Should use Chivo font")
             assertTrue(content.contains("hero"), "Should have hero section")
             assertTrue(content.contains("nav"), "Should have nav section")
             assertTrue(content.contains("listing-card"), "Should have listing card")

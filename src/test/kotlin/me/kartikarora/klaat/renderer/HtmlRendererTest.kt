@@ -754,12 +754,12 @@ class HtmlRendererTest {
     }
 
     @Test
-    fun `test render default brand fonts includes Albert Sans`() {
+    fun `test render default brand fonts includes Chivo`() {
         val codelab = createSimpleCodlab()
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "${codelab.id}/index.html").readText()
-        assertTrue(content.contains("family=Albert+Sans"))
+        assertTrue(content.contains("family=Chivo"))
     }
 
     @Test

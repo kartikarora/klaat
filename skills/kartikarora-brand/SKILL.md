@@ -29,10 +29,16 @@ These 10 rules bind every output in every harness. None are waivable.
    - No floating emoji circles masquerading as feature icons.
    - No fake metric counters or invented statistics.
    - No tracked uppercase pill tags (`FEATURE`, `UPDATE`). Tags and badges are sentence-case or lowercase in body/mono font.
-7. **Typographic Discipline:**
-   - Maximum 2 font families: **Albert Sans** (Display & Body) + **JetBrains Mono** (Code, telemetry, tabular numbers).
+7. **Typographic Discipline & Tokyo Punch:**
+   - Display & Body Typography: **Chivo** (`wght@300..900`, 900 for bold display headlines with `-0.03em` to `-0.04em` tracking, 400/500 for crisp editorial body text).
+   - Code, CLI & Telemetry: **JetBrains Mono** (`wght@400..800`) permanently locked with `font-variant-numeric: tabular-nums`.
    - `text-wrap: balance` on all headings (`h1`–`h3`); `text-wrap: pretty` on all body paragraphs.
    - Never an accented or italicized single word in a roman headline.
+   - Legacy: Albert Sans is retired in favor of Chivo.
+   - **Solid Block Shadows (The Tokyo Punch):** Cards, primary buttons, and highlight frames use solid, unblurred block offset shadows (e.g. `4px 4px 0px var(--color-rule-strong)` / `6px 6px 0px var(--accent)`). Never mushy, low-contrast diffuse drop shadows.
+   - **Kinetic Diagonal Hover:** Interactive cards and buttons hover with a crisp diagonal translation (`transform: translate(-2px, -2px)`) while expanding the solid block shadow.
+   - **Headline Highlighting (`.tokyo-highlight`):** Focal headline terms are anchored with `.tokyo-highlight` (laser cyan background with a solid caution yellow block shadow).
+   - **Contrast Punch Cards (`.tokyo-card-contrast`):** Highlighting key compilers/systems with a secondary caution yellow accent border and hover shadow.
 8. **Visible Fold Budget:** The hero headline, single-sentence summary, and primary action must be fully visible within 1280×800 without scrolling. Word density capped at ~80 words per screen view.
 9. **Media Layout Stability:** All `<img>`, `<video>`, and canvases must specify explicit `width`, `height`, and `aspect-ratio` to guarantee zero Cumulative Layout Shift (CLS).
 10. **Compose Parity:** Any color, token, or design concept introduced in CSS must map directly to its Jetpack Compose counterpart in [`kartikarora-compose-theme`](../kartikarora-compose-theme/SKILL.md).
@@ -44,16 +50,16 @@ These 10 rules bind every output in every harness. None are waivable.
 Include these in the `<head>` of every HTML document. **Do not attempt to bundle or copy these files locally.**
 
 ```html
-<!-- Brand Identity CSS (v2.0) -->
-<link href="https://distribute.kartikarora.me/css/kartikarora.css" rel="stylesheet">
+<!-- Brand Identity CSS (v2.0.0 Explicit Versioned Asset) -->
+<link href="https://distribute.kartikarora.me/css/kartikarora-v2.0.0.css" rel="stylesheet">
 
-<!-- Required Fonts & Icons -->
+<!-- Required Fonts & Icons: Chivo (Display & Body), JetBrains Mono (Code) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-<!-- Brand Interaction & A11y JS -->
-<script src="https://distribute.kartikarora.me/js/kartikarora.js" defer></script>
+<!-- Brand Interaction & A11y JS (v2.0.0 Explicit Versioned Asset) -->
+<script src="https://distribute.kartikarora.me/js/kartikarora-v2.0.0.js" defer></script>
 ```
 
 ---

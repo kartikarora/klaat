@@ -4,22 +4,29 @@ This guide provides step-by-step instructions and automated tooling for migratin
 
 ---
 
-## 🌟 What's New in v2.0.0
+## 🌟 What's New in v2.0.0 (Tokyo Neo-Brutalist Electric Aesthetic)
 
-1. **Option 03 Minimalist Artifact Studio (Dark-First Experience):**
-   - Signature pitch-black canvas (`#000000`) with bone-white text (`#F0F4F8`) and electric indigo signal accents (`#818CF8`).
-   - Retains full light-mode fidelity (`#FFFFFF` paper canvas with `#0066CC` Precision Cobalt).
-2. **Semantic Token Names:**
-   - Standardized CSS tokens (`--color-paper`, `--color-ink`, `--color-signal`, `--color-rule`, `--radius-md`).
+1. **Tokyo Neo-Brutalist Color Architecture:**
+   - **Akihabara Laser Cyan (`--color-signal`):** `#00f0ff` (dark canvas) and `#0084c7` (high-contrast light canvas).
+   - **Caution Yellow Secondary Pop (`--color-signal-secondary`):** `#ffe600` (dark) and `#e6b800` (light). High-contrast electric accent for badges, highlights, and status tags.
+   - **Deep Space Obsidian Surfaces (Dark):** `#070a10` canvas, `#121824` cards, and `#04060a` sunken terminals.
+   - **Architectural Concrete / White Surfaces (Light):** `#ffffff` canvas, `#f4f6fa` elevated wells, and `#0a111c` deep ink.
+2. **Distinctive Typography Standards:**
+   - **Chivo (`wght@300..900`):** Authoritative, heavy industrial grotesque powering both display headlines (Black 900 with `-0.04em` tracking) and editorial body prose (300/400/500). Replaces legacy Albert Sans.
+   - **JetBrains Mono (`wght@400..800`):** Permanently locked monospace face for code blocks, CLI snippets, telemetry, and technical tags (`--font-mono`).
+3. **The Tokyo Visual Punch (Hardened Shadows & Micro-Kinetic Physics):**
+   - **Solid Offset Block Shadows:** Replaces soft blurred drop shadows with crisp `2px 2px 0px`, `4px 4px 0px`, or `6px 6px 0px` solid unblurred block shadows.
+   - **Kinetic Diagonal Hover:** Cards and buttons spring diagonally with `transform: translate(-2px, -2px)` on hover while expanding their solid block shadow (`6px 6px 0px var(--accent)`).
+   - **Headline Highlighting (`.tokyo-highlight`):** Focal headline phrases receive high-visibility laser cyan backgrounding with a caution yellow drop-shadow offset.
+   - **Designated Contrast Punch Cards (`.tokyo-card-contrast`):** One designated artifact per section punches through with caution yellow tag borders and active hover glow.
+   - **Sunken CLI Terminals (`.tokyo-cli-pill`):** Commands and terminal inputs rendered in obsidian sunken wells with 4px signal left-borders.
+4. **Semantic Token Names:**
+   - Standardized CSS tokens (`--color-paper`, `--color-ink`, `--color-signal`, `--color-signal-secondary`, `--color-rule`, `--radius-md`).
    - Legacy short aliases (`--bg`, `--primary`, `--accent`, `--border`) remain fully supported in `:root` for backward compatibility.
-3. **Typography Standard:**
-   - **Albert Sans** for Display & Body.
-   - **JetBrains Mono** with `font-variant-numeric: tabular-nums` for code blocks, CLI snippets, and telemetry data.
-   - `-0.03em` tracking on display hero headlines.
-4. **Native Multiplatform Parity:**
-   - **Jetpack Compose / Compose Multiplatform:** Material 3 semantic color mapping in [`Color.kt`](../../kartikarora-compose-theme/references/Color.kt).
-   - **Apple SwiftUI:** Native semantic tokens with dynamic `UIColor`/`NSColor` light/dark support in [`Color.swift`](../../kartikarora-swiftui/references/Color.swift).
-5. **Hallmark-Grade Floor Standards:**
+5. **Native Multiplatform Parity:**
+   - **Jetpack Compose / Compose Multiplatform:** Material 3 semantic color mapping in [`Color.kt`](../../kartikarora-compose-theme/references/Color.kt) with `LightSignalSecondary` and `DarkSignalSecondary`.
+   - **Apple SwiftUI:** Native semantic tokens with dynamic `UIColor`/`NSColor` light/dark support in [`Color.swift`](../../kartikarora-swiftui/references/Color.swift) with `Color.brand.signalSecondary`.
+6. **Hallmark-Grade Floor Standards:**
    - `overflow-x: clip` (never `hidden`).
    - Instant `:focus-visible` outlines.
    - Zero catch-all transitions (`transition: all` is prohibited; use specific properties or `var(--transition)`).
@@ -28,19 +35,20 @@ This guide provides step-by-step instructions and automated tooling for migratin
 
 ## 🔄 Token Mapping Reference
 
-| 1.8.0 Token / Property | 2.0.0 Semantic Token | Light Mode Hex | Dark Mode (Studio) Hex | Notes |
+| 1.8.0 Token / Property | 2.0.0 Semantic Token | Light Mode Hex | Dark Mode (Tokyo) Hex | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `var(--bg)` | `var(--color-paper)` | `#FFFFFF` | `#000000` | Canvas base background |
-| `var(--bg-alt)` | `var(--color-paper-alt)` | `#F6F8FA` | `#0A0A0A` | Elevated surfaces / wells |
-| `var(--card)` | `var(--color-card)` | `#FFFFFF` | `#0A0A0A` | Card backgrounds |
-| `var(--primary)` | `var(--color-ink)` | `#0D1117` | `#F0F4F8` | Primary display & body text |
-| `var(--secondary)` | `var(--color-ink-muted)` | `#57606A` | `#8C9BA5` | Secondary text & subtitles |
-| `var(--tertiary)` / `var(--muted)` | `var(--color-ink-faint)` | `#8D96A0` | `#8C9BA5` | Subtle / tertiary text |
-| `var(--accent)` | `var(--color-signal)` | `#0066CC` | `#818CF8` | Interactive signal accent |
-| `var(--accent-hover)` | `var(--color-signal-hover)` | `#0052A3` | `#A5B4FC` | Hover / pressed state |
-| `var(--border)` | `var(--color-rule)` | `rgba(31,35,40,0.12)` | `rgba(255,255,255,0.08)` | Hairline dividers |
-| `var(--border-radius)` | `var(--radius-md)` | `12px` | `12px` | Standard corner radius |
-| `var(--border-radius-sm)` | `var(--radius-sm)` | `6px` | `6px` | Tag / input radius |
+| `var(--bg)` | `var(--color-paper)` | `#FFFFFF` | `#070A10` | Canvas base background |
+| `var(--bg-alt)` | `var(--color-paper-alt)` | `#F4F6FA` | `#0D121C` | Elevated surfaces / wells |
+| `var(--card)` | `var(--color-card)` | `#FFFFFF` | `#121824` | Card backgrounds |
+| `var(--primary)` | `var(--color-ink)` | `#0A111C` | `#F0F6FC` | Primary display & body text |
+| `var(--secondary)` | `var(--color-ink-muted)` | `#49586E` | `#8A9BB4` | Secondary text & subtitles |
+| `var(--tertiary)` / `var(--muted)` | `var(--color-ink-faint)` | `#7F90A6` | `#4E5F7A` | Subtle / tertiary text |
+| `var(--accent)` | `var(--color-signal)` | `#0084C7` | `#00F0FF` | Primary interactive signal (Akihabara Cyan) |
+| `var(--accent-hover)` | `var(--color-signal-hover)` | `#009CEB` | `#33F3FF` | Primary hover state |
+| *(new)* | `var(--color-signal-secondary)` | `#E6B800` | `#FFE600` | High-contrast secondary pop (Caution Yellow) |
+| `var(--border)` | `var(--color-rule)` | `#CDD8E6` | `#1A2436` | Hairline dividers |
+| `var(--border-radius)` | `var(--radius-md)` | `6px` | `6px` | Standard corner radius |
+| `var(--border-radius-sm)` | `var(--radius-sm)` | `4px` | `4px` | Tag / input radius |
 
 ---
 
