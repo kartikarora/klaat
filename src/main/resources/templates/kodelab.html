@@ -1,14 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta charset="UTF-8">
   <title>${title?html}</title>
 
-  <!-- Brand Identity CSS (provides all CSS tokens + light/dark mode) -->
+  <!-- Brand Identity CSS (v2.0.0 — provides all tokens, typography, buttons, cards, syntax, light/dark mode) -->
   <link rel="stylesheet" href="${cssPrefix}/kartikarora.2.0.0.css">
 
-  <!-- Brand Fonts -->
+  <!-- Brand Fonts: Chivo (Display & Body) + JetBrains Mono (Code & UI Chrome) + Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <#if googleFonts?has_content>
@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   </#if>
 
-  <!-- Brand Interaction JS -->
+  <!-- Brand Interaction & Syntax Highlighting JS (v2.0.0) -->
   <script src="${jsPrefix}/kartikarora.2.0.0.js" defer></script>
 
   <#if favicon?has_content>
@@ -30,25 +30,879 @@
   <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
   </#if>
 
-  <!-- Klaat element styles (layout + component tokens, built on brand CSS vars) -->
-  <link rel="stylesheet" href="${cssPrefix}/klaat-elements.css">
   <#if customCssUrl?has_content>
   <link rel="stylesheet" href="${customCssUrl}">
   <script src="${jsPrefix}/klaat-bridge.js?timestamp=${timestamp}"></script>
   </#if>
-</head>
 
-<body>
+  <!-- Codelab Shell Layout (100% built on kartikarora.2.0.0.css tokens & classes) -->
+  <style>
+    html, body {
+      overflow-x: clip;
+    }
+
+    body.studio-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* --- Sticky Studio Header Bar ----------------------------------------- */
+    .codelab-nav-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-width: 0;
+    }
+
+    .codelab-nav-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-shrink: 0;
+    }
+
+    .codelab-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      text-decoration: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 var(--color-rule-strong);
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-icon-btn:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+      text-decoration: none;
+    }
+
+    .codelab-icon-btn .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    #menu {
+      display: none;
+    }
+
+    .codelab-title-text {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+
+    .codelab-time-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-paper-alt);
+      color: var(--color-ink);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .codelab-time-pill .material-symbols-outlined {
+      font-size: 15px;
+      color: var(--color-signal);
+    }
+
+    /* --- Codelab Two-Column Shell ----------------------------------------- */
+    .codelab-shell {
+      flex: 1 0 auto;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+      display: grid;
+      grid-template-columns: 296px minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    /* --- Left Step Navigation Sidebar ------------------------------------- */
+    .codelab-drawer {
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 112px);
+      display: flex;
+      flex-direction: column;
+      background: var(--color-paper-alt);
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+      overflow: hidden;
+    }
+
+    .codelab-drawer-header {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-rule);
+      background: var(--color-card);
+    }
+
+    .codelab-drawer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-ink-muted);
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .codelab-progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--color-paper-sunken);
+      border: 1px solid var(--color-rule-strong);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .codelab-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--color-signal);
+      transition: width 0.2s var(--ease-standard);
+    }
+
+    .codelab-steps-scroll {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: var(--space-sm);
+    }
+
+    .codelab-steps-nav {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .codelab-step-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-card);
+      color: var(--color-ink-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.35;
+      transition: transform 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-step-link:hover {
+      border-color: var(--color-signal);
+      color: var(--color-ink);
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 0 var(--color-signal);
+      text-decoration: none;
+    }
+
+    .codelab-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 5px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-paper-alt);
+      color: var(--color-ink-muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .codelab-step-item[data-completed="true"] .codelab-step-num {
+      background: var(--color-signal);
+      border-color: var(--color-rule-strong);
+      color: var(--color-signal-ink);
+    }
+
+    .codelab-step-item[data-selected="true"] .codelab-step-link {
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      font-weight: 700;
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-step-item[data-selected="true"] .codelab-step-num {
+      background: var(--color-signal-secondary);
+      border-color: var(--color-rule-strong);
+      color: var(--color-signal-secondary-ink);
+    }
+
+    .codelab-drawer-footer {
+      padding: var(--space-sm) var(--space-md);
+      border-top: 1px solid var(--color-rule);
+      background: var(--color-card);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+    }
+
+    .codelab-feedback-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-signal);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .codelab-feedback-link:hover {
+      color: var(--color-signal-hover);
+      text-decoration: underline;
+    }
+
+    .codelab-feedback-link .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    /* --- Main Step Content Stage ------------------------------------------ */
+    .codelab-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .codelab-step {
+      display: none;
+    }
+
+    .codelab-step[data-selected="true"] {
+      display: flex;
+      animation: codelabStepIn 0.2s var(--ease-standard);
+    }
+
+    /* Keep reading card rock-solid without jumping on hover */
+    .codelab-step.tokyo-card:hover {
+      transform: none;
+      border-color: var(--color-rule-strong);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    @keyframes codelabStepIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .codelab-step-header {
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-lg);
+      border-bottom: 2px solid var(--color-rule);
+    }
+
+    .codelab-step-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-sm);
+    }
+
+    .codelab-step-duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-ink-muted);
+      font-weight: 600;
+    }
+
+    .codelab-step-duration .material-symbols-outlined {
+      font-size: 15px;
+    }
+
+    .codelab-step-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--color-ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    /* --- Editorial Prose inside Step Card --------------------------------- */
+    .codelab-step-body {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-ink);
+    }
+
+    .codelab-step-body > *:first-child {
+      margin-top: 0;
+    }
+
+    .codelab-step-body > *:last-child {
+      margin-bottom: 0;
+    }
+
+    .codelab-step-body h2,
+    .codelab-step-body h3,
+    .codelab-step-body h4 {
+      color: var(--color-ink);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      margin: var(--space-lg) 0 var(--space-xs);
+    }
+
+    .codelab-step-body h2 { font-size: 1.45rem; }
+    .codelab-step-body h3 { font-size: 1.18rem; }
+    .codelab-step-body h4 { font-size: 1.02rem; }
+
+    .codelab-step-body p {
+      margin: 0 0 var(--space-md);
+      text-wrap: pretty;
+    }
+
+    .codelab-step-body ul,
+    .codelab-step-body ol {
+      margin: 0 0 var(--space-md);
+      padding-left: 1.4rem;
+    }
+
+    .codelab-step-body li {
+      margin-bottom: 6px;
+    }
+
+    .codelab-step-body a:not(.btn) {
+      color: var(--color-signal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .codelab-step-body a:not(.btn):hover {
+      color: var(--color-signal-hover);
+    }
+
+    .codelab-step-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: var(--space-md) 0;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    .codelab-step-body figure {
+      margin: var(--space-md) 0;
+    }
+
+    .codelab-step-body figcaption {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-ink-muted);
+      margin-top: 8px;
+    }
+
+    .codelab-step-body code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--color-paper-alt);
+      border: 1px solid var(--color-rule);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--color-ink);
+    }
+
+    /* --- Code Blocks (Paired with kartikarora.2.0.0.js highlighter) ------- */
+    .codelab-step-body .code-container {
+      position: relative;
+      margin: var(--space-md) 0;
+      border: 2px solid var(--color-rule-strong);
+      border-left: 4px solid var(--color-signal);
+      border-radius: var(--radius-sm);
+      background: var(--color-paper-alt);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+      overflow: hidden;
+    }
+
+    .codelab-step-body .code-container .highlight {
+      margin: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .codelab-step-body .code-container pre {
+      margin: 0;
+      padding: 46px var(--space-md) var(--space-md);
+      overflow-x: auto;
+      background: transparent;
+      border: none;
+      line-height: 1.55;
+    }
+
+    .codelab-step-body .code-container pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: 0.86rem;
+    }
+
+    .codelab-step-body .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--color-rule-strong);
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-step-body .copy-button:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-step-body .copy-button .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    .codelab-step-body pre.devsite-terminal {
+      display: block;
+      width: 100%;
+      margin: var(--space-md) 0;
+      padding: var(--space-sm) var(--space-md);
+      overflow-x: auto;
+      border: 2px solid var(--color-rule-strong);
+      border-left: 4px solid var(--color-signal);
+      background: var(--color-paper-sunken);
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+    }
+
+    .codelab-step-body pre.devsite-terminal code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      white-space: pre;
+    }
+
+    /* --- Callout Asides (Tokyo Neo-Brutalist Alerts) ---------------------- */
+    .codelab-step-body aside {
+      margin: var(--space-md) 0;
+      padding: var(--space-sm) var(--space-md);
+      border: 2px solid var(--color-rule-strong);
+      border-left-width: 6px;
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+      color: var(--color-ink);
+    }
+
+    .codelab-step-body aside > *:first-child { margin-top: 0; }
+    .codelab-step-body aside > *:last-child { margin-bottom: 0; }
+
+    .codelab-step-body aside.special {
+      border-left-color: var(--color-signal);
+      background: color-mix(in srgb, var(--color-signal) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.positive {
+      border-left-color: var(--color-success);
+      background: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.warning {
+      border-left-color: var(--color-signal-secondary);
+      background: color-mix(in srgb, var(--color-signal-secondary) 14%, var(--color-card));
+    }
+
+    .codelab-step-body aside.critical {
+      border-left-color: var(--color-danger);
+      background: color-mix(in srgb, var(--color-danger) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.default {
+      border-left-color: var(--color-ink-muted);
+      background: var(--color-paper-alt);
+    }
+
+    /* --- Buttons inside Step Content (use brand .btn directly) ------------ */
+    .codelab-step-body .klaat-button {
+      margin: var(--space-xs) var(--space-xs) var(--space-xs) 0;
+    }
+
+    .codelab-step-body .klaat-button .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    /* --- Tables ----------------------------------------------------------- */
+    .codelab-step-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-md) 0;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--color-card);
+    }
+
+    .codelab-step-body th,
+    .codelab-step-body td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-rule);
+      text-align: left;
+    }
+
+    .codelab-step-body th {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--color-paper-alt);
+      color: var(--color-ink);
+      border-bottom: 2px solid var(--color-rule-strong);
+    }
+
+    .codelab-step-body tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- Interactive Survey ----------------------------------------------- */
+    .klaat-survey {
+      margin: var(--space-md) 0;
+      padding: var(--space-md);
+      background: var(--color-paper-alt);
+      border: 2px solid var(--color-rule-strong);
+      border-left: 6px solid var(--color-signal-secondary);
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+    }
+
+    .klaat-survey h4 {
+      margin: 0 0 var(--space-sm) !important;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--color-ink);
+    }
+
+    .klaat-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .klaat-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-card);
+      cursor: pointer;
+      font-size: 0.94rem;
+      color: var(--color-ink);
+      transition: border-color 0.2s var(--ease-standard);
+    }
+
+    .klaat-radio-label:hover {
+      border-color: var(--color-signal);
+    }
+
+    .klaat-radio-label input[type="radio"] {
+      accent-color: var(--color-signal);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* --- Embedded Media --------------------------------------------------- */
+    .codelab-step-body iframe.youtube-video,
+    .codelab-step-body iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      margin: var(--space-md) 0;
+    }
+
+    /* --- Step Navigation Controls (uses brand .btn classes) --------------- */
+    .codelab-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-xs);
+    }
+
+    .codelab-controls [hidden] {
+      display: none !important;
+    }
+
+    .codelab-controls #previous-step[data-disappear="true"] {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .codelab-controls .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    /* --- Mobile Drawer Backdrop ------------------------------------------- */
+    .codelab-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 10, 16, 0.55);
+      z-index: 1050;
+    }
+
+    body.drawer-open .codelab-backdrop {
+      display: block;
+    }
+
+    /* --- Focus Visible & Reduced Motion ----------------------------------- */
+    .codelab-icon-btn:focus-visible,
+    .codelab-step-link:focus-visible,
+    .copy-button:focus-visible,
+    .codelab-feedback-link:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+      transition: none;
+    }
+
+    @media (max-width: 900px) {
+      #menu {
+        display: inline-flex;
+      }
+
+      .codelab-shell {
+        grid-template-columns: 1fr;
+        padding: var(--space-md) var(--space-sm) var(--space-xl);
+      }
+
+      .codelab-drawer {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        bottom: 0;
+        width: min(300px, 85vw);
+        max-height: calc(100vh - 64px);
+        z-index: 1100;
+        border-radius: 0;
+        border-left: none;
+        transform: translateX(-105%);
+        transition: transform 0.2s var(--ease-standard);
+      }
+
+      body.drawer-open .codelab-drawer {
+        transform: translateX(0);
+      }
+
+      .codelab-step.tokyo-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="studio-body"
+      id="codelab-app"
+      data-codelab-id="${id?html}"
+      data-codelab-title="${title?html}"
+      data-environment="${environment?html}"
+      data-feedback-link="${feedbackLink?html}"
+      <#if globalGA?has_content>data-gaid="${globalGA?html}"</#if>
+      <#if codelabGA?has_content>data-codelab-gaid="${codelabGA?html}"</#if>>
+
+  <!-- Sticky Studio Top Bar (matching kartikarora.me/brand-demo) -->
+  <header class="studio-nav">
+    <div class="studio-container" style="max-width: 1280px;">
+      <div class="studio-nav-inner">
+        <div class="codelab-nav-left">
+          <a id="arrow-back" href="../" class="codelab-icon-btn" title="Back" aria-label="Back">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </a>
+          <button type="button" id="menu" class="codelab-icon-btn" title="Toggle steps" aria-label="Toggle steps" aria-expanded="false">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <h1 class="codelab-title-text">${title?html}</h1>
+        </div>
+        <div class="codelab-nav-right">
+          <span id="time-remaining" class="codelab-time-pill"<#if totalDuration == 0> style="display: none;"</#if>>
+            <span class="material-symbols-outlined">schedule</span>
+            <span id="time-remaining-label"><#if totalDuration gt 0>${totalDuration} min remaining</#if></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="codelab-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
+
+  <!-- Two-Column Studio Workspace -->
+  <div class="codelab-shell">
+    <!-- Left Step Drawer -->
+    <aside id="drawer" class="codelab-drawer" aria-label="Codelab steps">
+      <div class="codelab-drawer-header">
+        <div class="codelab-drawer-meta">
+          <span id="step-progress-label">STEP 1 / ${steps?size}</span>
+          <#if totalDuration gt 0>
+          <span id="total-time">${totalDuration} min total</span>
+          </#if>
+        </div>
+        <div class="codelab-progress-track" aria-hidden="true">
+          <div class="codelab-progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="codelab-steps-scroll">
+        <ol class="codelab-steps-nav" id="steps-nav">
+<#list steps as step>
+          <li class="codelab-step-item" data-step-index="${step?index}"<#if step?index == 0> data-selected="true" data-completed="true"</#if>>
+            <a href="#${step?index}" class="codelab-step-link"<#if step?index == 0> aria-current="step"</#if>>
+              <span class="codelab-step-num">${(step?index + 1)?string("00")}</span>
+              <span>${step.title?html}</span>
+            </a>
+          </li>
+</#list>
+        </ol>
+      </div>
+
+      <#if feedbackLink?has_content>
+      <div class="codelab-drawer-footer">
+        <a id="feedback-link" class="codelab-feedback-link" href="${feedbackLink?html}" target="_blank" rel="noopener noreferrer">
+          <span class="material-symbols-outlined">bug_report</span>
+          <span>Report a mistake</span>
+        </a>
+      </div>
+      </#if>
+    </aside>
+
+    <!-- Main Step Content + Stepper Controls -->
+    <main id="main" class="codelab-main">
+      <div id="steps">
+<#list steps as step>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="${step?index}"
+                 data-label="${step.title?html}"
+                 <#if step.hasDuration>data-duration="${step.duration}"</#if>
+                 <#if step.excludeDuration>data-exclude-duration="true"</#if>
+                 <#if step?index == 0>data-selected="true"</#if>>
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP ${(step?index + 1)?string("00")} / ${steps?size?string("00")}</span>
+              <#if step.hasDuration && step.duration gt 0 && !step.excludeDuration>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                ${step.duration} min
+              </span>
+              </#if>
+            </div>
+            <h2 class="codelab-step-title">${step?index + 1}. ${step.title?html}</h2>
+          </header>
+          <div class="codelab-step-body">
+            ${step.content}
+          </div>
+        </section>
+</#list>
+      </div>
+
+      <nav class="codelab-controls" id="controls" aria-label="Step navigation">
+        <a id="previous-step" href="#" class="btn btn-outline" data-disappear="true">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span>Back</span>
+        </a>
+        <div>
+          <a id="next-step" href="#" class="btn btn-primary"<#if steps?size lte 1> hidden</#if>>
+            <span>Next</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+          <a id="done" href="#" class="btn btn-secondary"<#if steps?size gt 1> hidden</#if>>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Done</span>
+          </a>
+        </div>
+      </nav>
+    </main>
+  </div>
+
+  <!-- Studio Footer (matching kartikarora.me/brand-demo) -->
+  <footer class="studio-footer">
+    <div class="studio-container" style="max-width: 1280px;">
+      <div class="studio-footer-inner">
+        <#if footer?has_content>
+        <div class="kodelab-footer">${footer}</div>
+        </#if>
+        <span>&copy; 2026 Kartik Arora</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Self-Contained Codelab Runtime (zero custom elements, zero external CDN dependencies) -->
   <script>
     function copyToClipboard(button) {
-      const container = button.parentElement;
+      const container = button.closest('.code-container') || button.parentElement;
       const code = container.querySelector('code').innerText;
-      
+
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(code).then(() => {
           updateButtonText(button);
-        }).catch(err => {
-          console.error('Failed to copy: ', err);
+        }).catch(() => {
           fallbackCopy(code, button);
         });
       } else {
@@ -57,11 +911,11 @@
     }
 
     function fallbackCopy(text, button) {
-      const textArea = document.createElement("textarea");
+      const textArea = document.createElement('textarea');
       textArea.value = text;
-      textArea.style.position = "fixed";
-      textArea.style.left = "-9999px";
-      textArea.style.top = "0";
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '0';
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
@@ -69,41 +923,277 @@
         document.execCommand('copy');
         updateButtonText(button);
       } catch (err) {
-        console.error('Fallback copy failed: ', err);
+        console.error('Fallback copy failed:', err);
       }
       document.body.removeChild(textArea);
     }
 
     function updateButtonText(button) {
       const textSpan = button.querySelector('span:last-child');
+      if (!textSpan) return;
       const originalText = textSpan.textContent;
       textSpan.textContent = 'Copied!';
       setTimeout(() => {
         textSpan.textContent = originalText;
       }, 2000);
     }
+
+    (function () {
+      'use strict';
+
+      // Prevent kartikarora.2.0.0.js from injecting a duplicate copy button inside .code-container
+      document.querySelectorAll('.code-container pre').forEach((pre) => {
+        pre.setAttribute('data-copy-ready', 'true');
+      });
+
+      const app = document.getElementById('codelab-app') || document.body;
+      const storage = (() => {
+        try { return window.localStorage; } catch (_) { return null; }
+      })();
+
+      function createCodelabController(stepEls) {
+        const controller = {
+          _steps: Array.from(stepEls || []),
+          _currentStep: 0,
+
+          get steps() { return this._steps; },
+          get totalSteps() { return this._steps.length; },
+          getTotalSteps() { return this.totalSteps; },
+
+          get totalDuration() {
+            return this._steps.reduce((sum, step) => {
+              if (step.getAttribute('data-exclude-duration') === 'true') return sum;
+              const d = parseInt(step.getAttribute('data-duration'), 10);
+              return sum + (isNaN(d) ? 0 : d);
+            }, 0);
+          },
+          getTotalDuration() { return this.totalDuration; },
+
+          get currentStep() { return this._currentStep >= 0 ? this._currentStep : 0; },
+          getCurrentStep() { return this.currentStep; },
+
+          get progressPercent() {
+            if (this._steps.length === 0) return 0;
+            return (this.currentStep / this._steps.length) * 100;
+          },
+          getProgressPercent() { return this.progressPercent; },
+
+          get remainingTime() {
+            if (this._steps.length === 0) return 0;
+            let mins = 0;
+            const start = Math.max(0, this.currentStep);
+            for (let i = start; i < this._steps.length; i++) {
+              const step = this._steps[i];
+              if (step.getAttribute('data-exclude-duration') === 'true') continue;
+              const d = parseInt(step.getAttribute('data-duration'), 10);
+              mins += isNaN(d) ? 0 : d;
+            }
+            return mins;
+          },
+          getRemainingTime() { return this.remainingTime; },
+
+          selectStep(index, isInit) {
+            if (this._steps.length === 0) return;
+            index = Math.max(0, Math.min(index, this._steps.length - 1));
+            if (isNaN(index)) index = 0;
+
+            const prev = this._currentStep;
+            this._currentStep = index;
+
+            this._steps.forEach((step, i) => {
+              if (i === index) {
+                step.setAttribute('data-selected', 'true');
+              } else {
+                step.removeAttribute('data-selected');
+              }
+            });
+
+            const navItems = document.querySelectorAll('#steps-nav .codelab-step-item');
+            navItems.forEach((li, i) => {
+              const link = li.querySelector('a');
+              if (i <= index) li.setAttribute('data-completed', 'true'); else li.removeAttribute('data-completed');
+              if (i === index) {
+                li.setAttribute('data-selected', 'true');
+                if (link) link.setAttribute('aria-current', 'step');
+              } else {
+                li.removeAttribute('data-selected');
+                if (link) link.removeAttribute('aria-current');
+              }
+            });
+
+            // Progress label & bar
+            const progressLabel = document.getElementById('step-progress-label');
+            if (progressLabel) {
+              progressLabel.textContent = 'STEP ' + (index + 1) + ' / ' + this._steps.length;
+            }
+            const progressFill = document.getElementById('progress-fill');
+            if (progressFill) {
+              const pct = this._steps.length > 0 ? ((index + 1) / this._steps.length) * 100 : 0;
+              progressFill.style.width = pct + '%';
+            }
+
+            // Remaining time
+            const rem = this.remainingTime;
+            const timePill = document.getElementById('time-remaining');
+            const timeLabel = document.getElementById('time-remaining-label');
+            if (timePill) {
+              if (rem > 0) {
+                timePill.style.display = 'inline-flex';
+                if (timeLabel) timeLabel.textContent = rem + ' min remaining';
+              } else {
+                timePill.style.display = 'none';
+              }
+            }
+
+            // Stepper buttons
+            const prevBtn = document.getElementById('previous-step');
+            const nextBtn = document.getElementById('next-step');
+            const doneBtn = document.getElementById('done');
+            if (prevBtn) {
+              if (index === 0) prevBtn.setAttribute('data-disappear', 'true');
+              else prevBtn.removeAttribute('data-disappear');
+            }
+            if (index === this._steps.length - 1) {
+              if (nextBtn) nextBtn.setAttribute('hidden', '');
+              if (doneBtn) doneBtn.removeAttribute('hidden');
+            } else {
+              if (nextBtn) nextBtn.removeAttribute('hidden');
+              if (doneBtn) doneBtn.setAttribute('hidden', '');
+            }
+
+            // Close mobile drawer & scroll to top smoothly on step change
+            document.body.classList.remove('drawer-open');
+            const menuBtn = document.getElementById('menu');
+            if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+            if (!isInit && typeof window.scrollTo === 'function') {
+              window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+
+            // Sync URL hash & localStorage progress
+            if (location.hash !== '#' + index) {
+              history.replaceState(null, '', '#' + index);
+            }
+            const id = app.getAttribute('data-codelab-id') || '';
+            if (storage && id) {
+              storage.setItem('progress_' + id, String(index));
+            }
+
+            // Optional analytics
+            const stepLabel = this._steps[index]?.getAttribute('data-label') || '';
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'page_view', { page_title: stepLabel, page_location: location.pathname + '#' + index });
+              if (!isInit && prev !== index) {
+                window.gtag('event', 'navigate', { event_category: 'codelab', event_label: stepLabel, value: index });
+              }
+            }
+          }
+        };
+        return controller;
+      }
+
+      const steps = document.querySelectorAll('#steps .codelab-step');
+      const controller = createCodelabController(steps);
+      window.klaatCodelab = controller;
+      window.createKlaatCodelabController = createCodelabController;
+
+      // Bind sidebar step clicks
+      document.querySelectorAll('#steps-nav .codelab-step-link').forEach((link, idx) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          controller.selectStep(idx);
+        });
+      });
+
+      // Bind navigation buttons
+      document.getElementById('previous-step')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        controller.selectStep(controller.currentStep - 1);
+      });
+
+      document.getElementById('next-step')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        controller.selectStep(controller.currentStep + 1);
+      });
+
+      document.getElementById('done')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'complete', { event_category: 'codelab', event_label: app.getAttribute('data-codelab-title') || '' });
+        }
+        const backHref = document.getElementById('arrow-back')?.getAttribute('href');
+        if (backHref) window.location.href = backHref;
+      });
+
+      // Back arrow smart history
+      document.getElementById('arrow-back')?.addEventListener('click', (e) => {
+        if (window.history.length > 1 && document.referrer) {
+          try {
+            const refUrl = new URL(document.referrer);
+            if (refUrl.origin === location.origin && refUrl.pathname !== location.pathname) {
+              e.preventDefault();
+              window.history.back();
+            }
+          } catch (_) {}
+        }
+      });
+
+      // Mobile drawer toggle
+      const menuBtn = document.getElementById('menu');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const toggleDrawer = (open) => {
+        const next = typeof open === 'boolean' ? open : !document.body.classList.contains('drawer-open');
+        document.body.classList.toggle('drawer-open', next);
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', String(next));
+      };
+      menuBtn?.addEventListener('click', () => toggleDrawer());
+      backdrop?.addEventListener('click', () => toggleDrawer(false));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) {
+          toggleDrawer(false);
+        }
+      });
+
+      // Hash navigation
+      window.addEventListener('hashchange', () => {
+        const hash = parseInt(location.hash.substring(1), 10);
+        if (!isNaN(hash)) controller.selectStep(hash);
+      });
+
+      // Survey radio persistence
+      document.querySelectorAll('.klaat-survey[data-survey-id]').forEach((surveyEl) => {
+        const surveyId = surveyEl.getAttribute('data-survey-id') || '';
+        const loadSaved = () => {
+          if (!storage || !surveyId) return {};
+          try { return JSON.parse(storage.getItem(surveyId) || '{}'); } catch (_) { return {}; }
+        };
+        const saved = loadSaved();
+        surveyEl.querySelectorAll('input[type="radio"]').forEach((input) => {
+          const name = input.getAttribute('name') || '';
+          const labelText = (input.closest('label')?.textContent || '').trim();
+          if (saved[name] && labelText.includes(saved[name])) {
+            input.checked = true;
+          }
+          input.addEventListener('change', () => {
+            if (!storage || !surveyId) return;
+            const data = loadSaved();
+            data[name] = labelText;
+            storage.setItem(surveyId, JSON.stringify(data));
+          });
+        });
+      });
+
+      // Initial step from URL hash or localStorage
+      const id = app.getAttribute('data-codelab-id') || '';
+      const savedStep = storage && id ? storage.getItem('progress_' + id) : null;
+      const hashStep = location.hash ? parseInt(location.hash.substring(1), 10) : NaN;
+      let startStep = 0;
+      if (!isNaN(hashStep) && hashStep >= 0) {
+        startStep = hashStep;
+      } else if (savedStep && savedStep !== '0') {
+        startStep = parseInt(savedStep, 10) || 0;
+      }
+      controller.selectStep(startStep, true);
+    })();
   </script>
-
-  <#if globalGA?has_content>
-  <klaat-kodelab-analytics gaid="${globalGA}"></klaat-kodelab-analytics>
-  </#if>
-  <klaat-kodelab <#if codelabGA?has_content>codelab-gaid="${codelabGA}"</#if>
-                  id="${id?html}"
-                  title="${title?html}"
-                  environment="${environment}"
-                  feedback-link="${feedbackLink}">
-<#list steps as step>
-    <klaat-kodelab-step label="${step.title?html}"<#if step.hasDuration> duration="${step.duration}"</#if><#if step.excludeDuration> exclude-duration</#if>>
-      ${step.content}
-    </klaat-kodelab-step>
-</#list>
-    <#if footer?has_content>
-    <div slot="footer" class="kodelab-footer">${footer}</div>
-    </#if>
-  </klaat-kodelab>
-
-  <!-- Klaat custom elements (replaces google's codelab-elements.js) -->
-  <script src="${jsPrefix}/klaat-elements.js"></script>
-
 </body>
 </html>

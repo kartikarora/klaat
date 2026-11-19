@@ -4,255 +4,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index of /${path} - Klaat</title>
-    
-    <!-- Google Fonts -->
+
+    <!-- Brand CSS (v2.0.0) -->
+    <link href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css" rel="stylesheet">
+
+    <!-- Google Fonts: Chivo, JetBrains Mono & Material Symbols -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-    
-    <!-- Brand Identity CSS -->
-    <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css">
-    
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
     <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
 
-    <!-- Brand CDN JS -->
+    <!-- Brand JS (v2.0.0) -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
 
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        html, body {
+            overflow-x: clip;
         }
 
-        body {
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            color: var(--primary);
-            background: var(--bg);
+        body.studio-body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        .hero {
-            padding-top: calc(70px + var(--space-3xl));
-            padding-bottom: var(--space-3xl);
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-alt);
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                padding-top: calc(60px + var(--space-lg));
-            }
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: var(--space-xs);
-            letter-spacing: -1px;
-            color: var(--primary);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--secondary);
-        }
-
-        .container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 var(--space-md) var(--space-3xl);
+        main.studio-stage {
+            flex: 1 0 auto;
+            padding: var(--space-2xl) 0 var(--space-3xl);
         }
 
         .breadcrumb {
-            margin: var(--space-xl) 0 var(--space-md);
-            font-size: 16px;
-            color: var(--secondary);
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: var(--space-xs);
+            gap: 8px;
+            margin-bottom: var(--space-lg);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--color-ink-muted);
         }
 
         .breadcrumb a {
-            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-rule);
+            background: var(--color-card);
+            color: var(--color-ink);
             text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px dashed var(--accent);
-            transition: all var(--transition);
+            font-weight: 700;
+            transition: border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
         }
 
         .breadcrumb a:hover {
-            color: var(--accent-hover);
-            border-bottom-color: transparent;
+            border-color: var(--color-signal);
+            color: var(--color-signal);
         }
 
         .listing-card {
-            background: var(--card);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border);
+            padding: 0 !important;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all var(--transition);
         }
 
-        .listing-card:hover {
-            box-shadow: var(--shadow);
-            border-color: var(--accent);
+        .listing-card.tokyo-card:hover {
+            transform: none;
+            border-color: var(--color-rule-strong);
+            box-shadow: 4px 4px 0 var(--color-rule-strong);
         }
 
-        table {
+        .listing-card table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        th, td {
+        .listing-card th,
+        .listing-card td {
             text-align: left;
             padding: var(--space-md) var(--space-lg);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--color-rule);
         }
 
-        th {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--tertiary);
-            background: var(--bg-alt);
+        .listing-card th {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            font-weight: 700;
+            color: var(--color-ink);
+            background: var(--color-paper-alt);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.08em;
+            border-bottom: 2px solid var(--color-rule-strong);
         }
 
-        tr:last-child td {
+        .listing-card tr:last-child td {
             border-bottom: none;
         }
 
-        tr:hover {
-            background-color: var(--bg-alt);
+        .listing-card tbody tr {
+            transition: background-color 0.2s var(--ease-standard);
+        }
+
+        .listing-card tbody tr:hover {
+            background-color: var(--color-paper-alt);
         }
 
         .name-col {
             display: flex;
             align-items: center;
-            gap: var(--space-xs);
+            gap: var(--space-sm);
         }
 
         .icon {
-            font-size: 24px;
-            color: var(--accent);
+            font-size: 22px;
+            color: var(--color-signal);
         }
 
         .name-col a {
-            color: var(--primary);
+            color: var(--color-ink);
             text-decoration: none;
-            font-weight: 500;
-            transition: color var(--transition);
+            font-weight: 700;
+            transition: color 0.2s var(--ease-standard);
         }
 
         .name-col a:hover {
-            color: var(--accent);
+            color: var(--color-signal);
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
 
         .size-col, .date-col {
             font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--secondary);
+            font-size: var(--text-xs);
+            color: var(--color-ink-muted);
+            font-variant-numeric: tabular-nums;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.25rem; }
-            .hero p { font-size: 1.15rem; }
-            th, td { padding: var(--space-sm) var(--space-md); }
+            .listing-card th, .listing-card td { padding: var(--space-sm) var(--space-md); }
             .date-col { display: none; }
         }
     </style>
 </head>
-<body>
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="/" class="nav-brand">Klaat</a>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="container" style="padding-bottom: 0;">
-            <h1>Index of /${path}</h1>
-            <p>Generated by Klaat Codelab Server</p>
+<body class="studio-body">
+    <!-- Studio Header (matching kartikarora.me/brand-demo) -->
+    <header class="studio-nav nav">
+        <div class="studio-container">
+            <div class="studio-nav-inner">
+                <a href="/" class="studio-wordmark">Klaat</a>
+                <div class="studio-nav-center">Local Preview Server &middot; Tokyo v2.0</div>
+                <nav class="studio-nav-links">
+                    <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener noreferrer" class="studio-link">Docs</a>
+                    <a href="https://kartikarora.me" target="_blank" rel="noopener noreferrer" class="studio-link">kartikarora.me</a>
+                </nav>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <div class="breadcrumb">
-            <span class="material-symbols-outlined" style="font-size: 20px; color: var(--accent);">home</span>
-            <a href="/">root</a> / 
-            <#assign current = "">
-            <#list path?split("/") as part>
-                <#if part != "">
-                    <#assign current = current + part + "/">
-                    <a href="/${current}">${part}</a> /
-                </#if>
-            </#list>
-        </div>
+    <main class="studio-stage">
+        <div class="studio-container">
+            <!-- Studio Hero (matching kartikarora.me/brand-demo) -->
+            <header class="studio-hero hero" style="margin-bottom: var(--space-xl);">
+                <div class="studio-pill-row">
+                    <span class="badge badge-secondary">v2.0.0</span>
+                    <span class="studio-location">Local Development Server</span>
+                </div>
+                <h1 class="studio-headline">
+                    Index of <span class="tokyo-highlight">/${path}</span>
+                </h1>
+                <p class="studio-bio" style="margin-bottom: 0;">
+                    Generated by Klaat Codelab Server. Select a codelab directory below to launch the interactive tutorial.
+                </p>
+            </header>
 
-        <div class="listing-card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th class="date-col">Last Modified</th>
-                        <th class="size-col">Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <#if path != "">
-                        <tr>
-                            <td>
-                                <div class="name-col">
-                                    <span class="material-symbols-outlined icon">folder_open</span>
-                                    <a href="..">.. (Parent Directory)</a>
-                                </div>
-                            </td>
-                            <td class="date-col">-</td>
-                            <td class="size-col">-</td>
-                        </tr>
-                    </#if>
-                    <#list items as item>
-                        <tr>
-                            <td>
-                                <div class="name-col">
-                                    <span class="material-symbols-outlined icon">
-                                        ${item.isDirectory?string("folder", "description")}
-                                    </span>
-                                    <a href="${item.name}${item.isDirectory?string("/", "")}">${item.name}</a>
-                                </div>
-                            </td>
-                            <td class="date-col">${item.lastModified}</td>
-                            <td class="size-col">${item.size}</td>
-                        </tr>
+            <div class="breadcrumb">
+                <a href="/">
+                    <span class="material-symbols-outlined" style="font-size: 16px; color: var(--color-signal);">home</span>
+                    <span>root</span>
+                </a>
+                <#if path?has_content>
+                    <#assign parts = path?split("/")>
+                    <#assign currentPath = "">
+                    <#list parts as part>
+                        <#if part?has_content>
+                            <#assign currentPath = currentPath + "/" + part>
+                            <span>/</span>
+                            <a href="${currentPath}/">${part}</a>
+                        </#if>
                     </#list>
-                </tbody>
-            </table>
+                </#if>
+            </div>
+
+            <div class="tokyo-card listing-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="date-col">Last Modified</th>
+                            <th class="size-col">Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <#if path?has_content>
+                            <tr>
+                                <td>
+                                    <div class="name-col">
+                                        <span class="material-symbols-outlined icon">arrow_upward</span>
+                                        <a href="../">..</a>
+                                    </div>
+                                </td>
+                                <td class="date-col">-</td>
+                                <td class="size-col">-</td>
+                            </tr>
+                        </#if>
+                        <#list items as item>
+                            <tr>
+                                <td>
+                                    <div class="name-col">
+                                        <span class="material-symbols-outlined icon">
+                                            ${item.isDirectory?string("folder", "description")}
+                                        </span>
+                                        <a href="${item.name}${item.isDirectory?string("/", "")}">${item.name}</a>
+                                    </div>
+                                </td>
+                                <td class="date-col">${item.lastModified}</td>
+                                <td class="size-col">${item.size}</td>
+                            </tr>
+                        </#list>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container" style="padding-bottom: 0;">
-            <p>
-                Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
-            </p>
-            <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
-                Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
-                &copy; 2026 Kartik Arora
-            </p>
+    <!-- Studio Footer (matching kartikarora.me/brand-demo) -->
+    <footer class="studio-footer">
+        <div class="studio-container">
+            <div class="studio-footer-inner">
+                <span>&copy; 2026 Kartik Arora</span>
+                <span>Made with Kotlin &amp; GraalVM &middot; <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer" class="studio-link">Buy me a coffee</a></span>
+            </div>
         </div>
     </footer>
 </body>

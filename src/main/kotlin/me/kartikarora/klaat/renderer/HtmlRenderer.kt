@@ -82,6 +82,7 @@ class HtmlRenderer {
             else -> DEFAULT_FOOTER
         }
 
+        val totalDuration = codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }
         val template = freemarkerConfig.getTemplate("kodelab.html")
         val dataModel = mapOf(
             "title" to codelab.title,
@@ -98,10 +99,11 @@ class HtmlRenderer {
             "googleFonts" to (googleFonts ?: ""),
             "theme" to codelab.metadata.theme,
             "timestamp" to System.currentTimeMillis().toString(),
+            "totalDuration" to totalDuration,
             "steps" to codelab.steps.map { step ->
                 mapOf(
                     "title" to step.title,
-                    "duration" to step.duration,
+                    "duration" to (step.duration ?: 0),
                     "hasDuration" to (step.duration != null),
                     "excludeDuration" to step.excludeDurationFromTotal,
                     "content" to renderStepContent(step.content)
@@ -139,7 +141,7 @@ class HtmlRenderer {
                 }
             }
             is Node.CodeBlock -> renderCodeBlock(node)
-            is Node.CommandBlock -> """<pre class="devsite-terminal"><code>${escape(node.commands)}</code></pre>"""
+            is Node.CommandBlock -> """<pre class="devsite-terminal tokyo-cli-pill"><code>${escape(node.commands)}</code></pre>"""
             is Node.InfoBox -> renderInfoBox(node)
             is Node.BulletList -> "<ul>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ul>"
             is Node.NumberedList -> {
@@ -218,10 +220,10 @@ class HtmlRenderer {
             else -> ""
         }
         val typeClass = when (node.type) {
-            is me.kartikarora.klaat.core.ButtonType.Primary -> "klaat-button--primary klaat-button--colored"
-            is me.kartikarora.klaat.core.ButtonType.Secondary -> "klaat-button--secondary"
+            is me.kartikarora.klaat.core.ButtonType.Primary -> "btn-primary klaat-button--primary klaat-button--colored"
+            is me.kartikarora.klaat.core.ButtonType.Secondary -> "btn-outline klaat-button--secondary"
         }
-        return """<a class="klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
+        return """<a class="btn klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
     }
 
     private fun renderInlineFormatting(text: String): String {
@@ -246,12 +248,12 @@ class HtmlRenderer {
             """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${renderInlineFormatting(option)}</label>"""
         }
         return """
-<klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
+<div class="klaat-survey" data-survey-id="survey-${node.question.hashCode()}">
 <h4>${renderInlineFormatting(node.question)}</h4>
 <div class="klaat-radio-group">
 $options
 </div>
-</klaat-kodelab-survey>""".trimIndent()
+</div>""".trimIndent()
     }
 
     private fun renderFAQ(node: Node.FAQ): String {

@@ -8,7 +8,7 @@
     <meta name="author" content="Kartik Arora">
     
     <!-- Brand Identity CSS -->
-    <link href="https://distribute.kartikarora.me/css/kartikarora.1.8.0.css" rel="stylesheet">
+    <link href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css" rel="stylesheet">
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
@@ -29,7 +29,7 @@
     <script src="https://distribute.kartikarora.me/js/klaat-elements.js" defer></script>
     
     <!-- Brand CDN JS -->
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.8.0.js" defer></script>
+    <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
 </head>
 <body>
     <nav class="nav">
@@ -704,8 +704,8 @@ You are done!</code></pre>
             <section id="format-redirect" class="docs-section">
                 <h1>Codelab Format Guide</h1>
                 <p>The syntax schema, YAML frontmatter, Google Docs visual mappings, and supported rich elements are documented on a dedicated format guide page.</p>
-                <div class="card" style="padding: var(--space-lg); border: 1px solid var(--border); border-radius: var(--border-radius); background: var(--card); margin-top: var(--space-md); text-align: center;">
-                    <span class="material-symbols-outlined" style="font-size: 3rem; color: var(--accent); margin-bottom: var(--space-sm);">menu_book</span>
+                <div class="card" style="padding: var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-md); background: var(--color-card); margin-top: var(--space-md); text-align: center;">
+                    <span class="material-symbols-outlined" style="font-size: 3rem; color: var(--color-signal); margin-bottom: var(--space-sm);">menu_book</span>
                     <h3>Looking for the Formatting Rules?</h3>
                     <p>Read about frontmatter structure, code blocks, info alerts, checks, surveys, tables, video embeds, and Google Doc mappings.</p>
                     <a href="format.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: var(--space-xs); margin-top: var(--space-sm);">
@@ -815,7 +815,7 @@ You are done!</code></pre>
                     navigator.clipboard.writeText(code.textContent.trim()).then(() => {
                         const icon = btn.querySelector('.material-symbols-outlined');
                         icon.textContent = 'check';
-                        btn.style.color = 'var(--accent)';
+                        btn.style.color = 'var(--color-signal)';
                         setTimeout(() => {
                             icon.textContent = 'content_copy';
                             btn.style.color = '';

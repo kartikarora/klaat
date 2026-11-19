@@ -4,8 +4,8 @@ import me.kartikarora.klaat.core.Codelab
 import java.io.File
 
 /**
- * Renders a Codelab to offline HTML format using the modern <klaat-kodelab> component suite,
- * bundling all CSS and JS assets locally into /css and /js directories.
+ * Renders a Codelab to offline HTML format, bundling the brand CSS/JS and
+ * custom-CSS bridge assets locally into /css and /js directories.
  */
 class OfflineRenderer {
 
@@ -53,17 +53,7 @@ class OfflineRenderer {
         cssDir.mkdirs()
         jsDir.mkdirs()
 
-        // Copy Klaat assets from resources
-        val cssResource = javaClass.getResourceAsStream("/assets/klaat-elements.css")
-        if (cssResource != null) {
-            File(cssDir, "klaat-elements.css").writeBytes(cssResource.readBytes())
-        }
-
-        val jsResource = javaClass.getResourceAsStream("/assets/klaat-elements.js")
-        if (jsResource != null) {
-            File(jsDir, "klaat-elements.js").writeBytes(jsResource.readBytes())
-        }
-
+        // Copy Klaat bridge asset from resources (used when customCssUrl is set)
         val bridgeResource = javaClass.getResourceAsStream("/assets/klaat-bridge.js")
         if (bridgeResource != null) {
             File(jsDir, "klaat-bridge.js").writeBytes(bridgeResource.readBytes())

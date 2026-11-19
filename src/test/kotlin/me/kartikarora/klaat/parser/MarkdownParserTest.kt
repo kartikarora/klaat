@@ -1195,7 +1195,7 @@ class MarkdownParserTest {
         if (startIdx != -1 && endIdx != -1) {
             println("RENDERED SURVEY HTML:\n" + html.substring(startIdx, endIdx))
         }
-        assertTrue(html.contains("<klaat-kodelab-survey"))
+        assertTrue(html.contains("""class="klaat-survey""""))
     }
 
     @Test

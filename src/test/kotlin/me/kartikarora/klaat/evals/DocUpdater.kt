@@ -76,7 +76,7 @@ object DocUpdater {
     <meta name="author" content="Kartik Arora">
     
     <!-- Brand Identity CSS -->
-    <link href="https://distribute.kartikarora.me/css/kartikarora.1.7.0.css" rel="stylesheet">
+    <link href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css" rel="stylesheet">
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
@@ -93,7 +93,7 @@ object DocUpdater {
     <link href="style.css" rel="stylesheet">
     
     <!-- Brand CDN JS -->
-    <script src="https://distribute.kartikarora.me/js/kartikarora.1.7.0.js" defer></script>
+    <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
 </head>
 <body>
     <nav class="nav">

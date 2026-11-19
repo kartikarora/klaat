@@ -37,6 +37,8 @@ class DemoCommandTest {
         assertTrue(exportedHtml.exists(), "Exported demo index.html should exist")
         val content = exportedHtml.readText()
         assertTrue(content.contains("Feature Showcase"), "Exported HTML should contain showcase title")
-        assertTrue(content.contains("klaat-kodelab"), "Exported HTML should contain <klaat-kodelab> custom element")
+        assertTrue(content.contains("studio-body"), "Exported HTML should use brand studio-body layout")
+        assertTrue(content.contains("codelab-step"), "Exported HTML should contain semantic codelab-step sections")
+        assertTrue(content.contains("kartikarora.2.0.0.css"), "Exported HTML should load brand 2.0.0 CSS")
     }
 }

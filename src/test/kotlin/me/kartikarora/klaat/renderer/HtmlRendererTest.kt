@@ -436,7 +436,8 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("klaat-kodelab-survey"))
+        assertTrue(content.contains("klaat-survey"))
+        assertTrue(content.contains("data-survey-id="))
         assertTrue(content.contains("What do you think?"))
         assertTrue(content.contains("klaat-radio-label"))
         assertTrue(content.contains("Great"))
@@ -763,40 +764,41 @@ class HtmlRendererTest {
     }
 
     @Test
-    fun `test render HTML format uses CDN urls and does not create codelab-elements`() {
+    fun `test render HTML format uses brand 2_0_0 CDN urls without klaat-elements`() {
         val codelab = createSimpleCodlab()
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "${codelab.id}/index.html").readText()
-        assertTrue(content.contains("https://distribute.kartikarora.me/css/klaat-elements.css"))
-        assertTrue(content.contains("https://distribute.kartikarora.me/js/klaat-elements.js"))
+        assertTrue(content.contains("https://distribute.kartikarora.me/css/kartikarora.2.0.0.css"))
+        assertTrue(content.contains("https://distribute.kartikarora.me/js/kartikarora.2.0.0.js"))
+        assertFalse(content.contains("klaat-elements.css"))
+        assertFalse(content.contains("klaat-elements.js"))
+        assertFalse(content.contains("<klaat-kodelab"))
 
         val elementsDir = File(tempDir, "codelab-elements")
         assertFalse(elementsDir.exists())
     }
 
     @Test
-    fun `test render offline format bundles css and js into codelab subdirectories`() {
+    fun `test render offline format bundles brand css and js into codelab subdirectories`() {
         val codelab = createSimpleCodlab()
         val offlineRenderer = OfflineRenderer()
         offlineRenderer.render(codelab, tempDir)
 
         val codelabDir = File(tempDir, codelab.id)
-        val cssFile = File(codelabDir, "css/klaat-elements.css")
-        val jsFile = File(codelabDir, "js/klaat-elements.js")
         val bridgeFile = File(codelabDir, "js/klaat-bridge.js")
         val brandCssFile = File(codelabDir, "css/kartikarora.2.0.0.css")
         val brandJsFile = File(codelabDir, "js/kartikarora.2.0.0.js")
 
-        assertTrue(cssFile.exists(), "css/klaat-elements.css should exist in codelab folder")
-        assertTrue(jsFile.exists(), "js/klaat-elements.js should exist in codelab folder")
         assertTrue(bridgeFile.exists(), "js/klaat-bridge.js should exist in codelab folder")
         assertTrue(brandCssFile.exists(), "css/kartikarora.2.0.0.css should exist in codelab folder")
         assertTrue(brandJsFile.exists(), "js/kartikarora.2.0.0.js should exist in codelab folder")
+        assertFalse(File(codelabDir, "css/klaat-elements.css").exists(), "klaat-elements.css should no longer be bundled")
+        assertFalse(File(codelabDir, "js/klaat-elements.js").exists(), "klaat-elements.js should no longer be bundled")
 
         val indexHtml = File(codelabDir, "index.html").readText()
-        assertTrue(indexHtml.contains("""href="css/klaat-elements.css""""))
-        assertTrue(indexHtml.contains("""src="js/klaat-elements.js""""))
+        assertFalse(indexHtml.contains("klaat-elements.css"))
+        assertFalse(indexHtml.contains("klaat-elements.js"))
         assertTrue(indexHtml.contains("""href="css/kartikarora.2.0.0.css""""))
         assertTrue(indexHtml.contains("""src="js/kartikarora.2.0.0.js""""))
     }
@@ -839,7 +841,7 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val indexHtml = File(tempDir, "${codelab.id}/index.html").readText()
-        assertTrue(indexHtml.contains("""slot="footer""""))
+        assertTrue(indexHtml.contains("studio-footer"))
         assertTrue(indexHtml.contains("kodelab-footer"))
         assertTrue(indexHtml.contains("Codelab generated using"))
         assertTrue(indexHtml.contains("""<a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a>"""))

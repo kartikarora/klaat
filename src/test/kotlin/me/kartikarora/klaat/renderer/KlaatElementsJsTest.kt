@@ -1,8 +1,13 @@
 package me.kartikarora.klaat.renderer
 
+import me.kartikarora.klaat.core.Codelab
+import me.kartikarora.klaat.core.Node
+import me.kartikarora.klaat.core.Step
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIf
+import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import java.nio.file.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -22,9 +27,27 @@ class KlaatElementsJsTest {
 
     @Test
     @EnabledIf("isNodeAvailable")
-    fun `test klaat-elements js metadata API`() {
+    fun `test inline codelab runtime metadata API`(@TempDir tempDir: Path) {
+        val codelab = Codelab(
+            id = "runtime-test",
+            title = "Runtime Test",
+            steps = listOf(Step("Intro", listOf(Node.Text("Hello")), duration = 5))
+        )
+        HtmlRenderer().render(codelab, tempDir.toFile())
+        val html = File(tempDir.toFile(), "runtime-test/index.html").readText()
+
+        // Extract the inline runtime <script> block
+        val scriptMatch = Regex("""<script>\s*([\s\S]*?)</script>""").find(html)
+        assertTrue(scriptMatch != null, "Rendered HTML should contain inline runtime script")
+        val runtimeScript = scriptMatch.groupValues[1]
+        val scriptFile = File(tempDir.toFile(), "runtime.js")
+        scriptFile.writeText(runtimeScript)
+
         val testScript = """
-            let definedClasses = {};
+            const fs = require('fs');
+            const vm = require('vm');
+            const assert = require('assert');
+
             class MockStorage {
               constructor() { this.store = {}; }
               getItem(k) { return this.store[k] || null; }
@@ -32,121 +55,103 @@ class KlaatElementsJsTest {
             }
 
             class MockElement {
-              constructor(tag) {
-                this.tagName = (tag || 'DIV').toUpperCase();
-                this.attrs = {};
-                this.children = [];
-                this.innerHTML = '';
+              constructor(attrs = {}) {
+                this.attrs = { ...attrs };
                 this.style = {};
+                this.classList = { add() {}, remove() {}, toggle() {}, contains() { return false; } };
               }
-              getAttribute(n) { return this.attrs[n] || null; }
+              getAttribute(n) { return n in this.attrs ? this.attrs[n] : null; }
               setAttribute(n, v) { this.attrs[n] = String(v); }
               removeAttribute(n) { delete this.attrs[n]; }
               hasAttribute(n) { return n in this.attrs; }
-              querySelectorAll(sel) {
-                if (sel === 'klaat-kodelab-step') return this.children.filter(c => c.tagName === 'KLAAT-KODELAB-STEP');
-                return [];
-              }
-              querySelector(sel) { return null; }
-              appendChild(c) { this.children.push(c); return c; }
-              dispatchEvent() {}
+              addEventListener() {}
+              querySelector() { return null; }
+              querySelectorAll() { return []; }
             }
 
+            const mockWindow = {
+              localStorage: new MockStorage(),
+              addEventListener: () => {},
+              history: { length: 1, back: () => {}, replaceState: () => {} },
+              location: { hash: '', pathname: '/test', origin: 'http://localhost' },
+              scrollTo: () => {}
+            };
+
             const sandbox = {
-              window: { localStorage: new MockStorage() },
-              location: { hash: '', pathname: '/test' },
-              history: { replaceState: () => {} },
-              CustomEvent: class { constructor(n, opt) { this.name = n; this.detail = opt?.detail; } },
+              window: mockWindow,
+              location: mockWindow.location,
+              history: mockWindow.history,
               document: {
-                body: {
-                  addEventListener: () => {},
-                  dispatchEvent: () => {},
-                  removeAttribute: () => {}
-                }
-              },
-              HTMLElement: MockElement,
-              customElements: {
-                get: (n) => definedClasses[n] || null,
-                define: (n, cls) => { definedClasses[n] = cls; }
+                body: new MockElement(),
+                referrer: '',
+                getElementById: () => null,
+                querySelectorAll: () => [],
+                addEventListener: () => {}
               },
               console: console,
               parseInt: parseInt,
               isNaN: isNaN,
               Math: Math,
               Array: Array,
-              String: String
+              String: String,
+              setTimeout: setTimeout
             };
 
-            const fs = require('fs');
-            const vm = require('vm');
-            const assert = require('assert');
-            const code = fs.readFileSync('src/main/resources/assets/klaat-elements.js', 'utf8');
+            const code = fs.readFileSync(${"\""}${scriptFile.absolutePath.replace("\\", "\\\\")}${"\""}, 'utf8');
             const context = vm.createContext(sandbox);
             vm.runInContext(code, context);
 
-            const KlaatKodelab = definedClasses['klaat-kodelab'];
-            const KlaatKodelabStep = definedClasses['klaat-kodelab-step'];
-            const codelab = new KlaatKodelab();
+            const createController = mockWindow.createKlaatCodelabController;
+            assert.strictEqual(typeof createController, 'function', 'createKlaatCodelabController should be exported');
 
             // 1. Initial / empty state
-            assert.strictEqual(codelab.totalSteps, 0);
-            assert.strictEqual(codelab.getTotalSteps(), 0);
-            assert.strictEqual(codelab.totalDuration, 0);
-            assert.strictEqual(codelab.getTotalDuration(), 0);
-            assert.strictEqual(codelab.currentStep, 0);
-            assert.strictEqual(codelab.getCurrentStep(), 0);
-            assert.strictEqual(codelab.progressPercent, 0);
-            assert.strictEqual(codelab.getProgressPercent(), 0);
-            assert.strictEqual(codelab.remainingTime, 0);
-            assert.strictEqual(codelab.getRemainingTime(), 0);
+            const empty = createController([]);
+            assert.strictEqual(empty.totalSteps, 0);
+            assert.strictEqual(empty.getTotalSteps(), 0);
+            assert.strictEqual(empty.totalDuration, 0);
+            assert.strictEqual(empty.getTotalDuration(), 0);
+            assert.strictEqual(empty.currentStep, 0);
+            assert.strictEqual(empty.getCurrentStep(), 0);
+            assert.strictEqual(empty.progressPercent, 0);
+            assert.strictEqual(empty.getProgressPercent(), 0);
+            assert.strictEqual(empty.remainingTime, 0);
+            assert.strictEqual(empty.getRemainingTime(), 0);
 
-            // 2. Add multiple steps with durations and excluded duration
-            const s1 = new KlaatKodelabStep(); s1.setAttribute('duration', '5');
-            const s2 = new KlaatKodelabStep(); s2.setAttribute('duration', '10');
-            const s3 = new KlaatKodelabStep(); s3.setAttribute('duration', '15');
-            const s4 = new KlaatKodelabStep(); s4.setAttribute('duration', '20'); s4.setAttribute('exclude-duration', '');
+            // 2. Multiple steps with durations and excluded duration
+            const s1 = new MockElement({ 'data-duration': '5', 'data-label': 'Step 1' });
+            const s2 = new MockElement({ 'data-duration': '10', 'data-label': 'Step 2' });
+            const s3 = new MockElement({ 'data-duration': '15', 'data-label': 'Step 3' });
+            const s4 = new MockElement({ 'data-duration': '20', 'data-exclude-duration': 'true', 'data-label': 'Step 4' });
 
-            codelab._steps = [s1, s2, s3, s4];
+            const ctrl = createController([s1, s2, s3, s4]);
 
             // At step 0
-            codelab._currentStep = 0;
-            assert.strictEqual(codelab.totalSteps, 4);
-            assert.strictEqual(codelab.getTotalSteps(), 4);
-            assert.strictEqual(codelab.totalDuration, 30);
-            assert.strictEqual(codelab.getTotalDuration(), 30);
-            assert.strictEqual(codelab.currentStep, 0);
-            assert.strictEqual(codelab.getCurrentStep(), 0);
-            assert.strictEqual(codelab.progressPercent, 0);
-            assert.strictEqual(codelab.getProgressPercent(), 0);
-            assert.strictEqual(codelab.remainingTime, 30);
-            assert.strictEqual(codelab.getRemainingTime(), 30);
+            ctrl.selectStep(0, true);
+            assert.strictEqual(ctrl.totalSteps, 4);
+            assert.strictEqual(ctrl.getTotalSteps(), 4);
+            assert.strictEqual(ctrl.totalDuration, 30);
+            assert.strictEqual(ctrl.getTotalDuration(), 30);
+            assert.strictEqual(ctrl.currentStep, 0);
+            assert.strictEqual(ctrl.progressPercent, 0);
+            assert.strictEqual(ctrl.remainingTime, 30);
 
             // At step 1
-            codelab._currentStep = 1;
-            assert.strictEqual(codelab.currentStep, 1);
-            assert.strictEqual(codelab.getCurrentStep(), 1);
-            assert.strictEqual(codelab.progressPercent, 25);
-            assert.strictEqual(codelab.getProgressPercent(), 25);
-            assert.strictEqual(codelab.remainingTime, 25);
-            assert.strictEqual(codelab.getRemainingTime(), 25);
+            ctrl.selectStep(1);
+            assert.strictEqual(ctrl.currentStep, 1);
+            assert.strictEqual(ctrl.progressPercent, 25);
+            assert.strictEqual(ctrl.remainingTime, 25);
 
             // At step 2
-            codelab._currentStep = 2;
-            assert.strictEqual(codelab.currentStep, 2);
-            assert.strictEqual(codelab.getCurrentStep(), 2);
-            assert.strictEqual(codelab.progressPercent, 50);
-            assert.strictEqual(codelab.getProgressPercent(), 50);
-            assert.strictEqual(codelab.remainingTime, 15);
-            assert.strictEqual(codelab.getRemainingTime(), 15);
+            ctrl.selectStep(2);
+            assert.strictEqual(ctrl.currentStep, 2);
+            assert.strictEqual(ctrl.progressPercent, 50);
+            assert.strictEqual(ctrl.remainingTime, 15);
 
-            // At step 3 (last step, duration excluded)
-            codelab._currentStep = 3;
-            assert.strictEqual(codelab.currentStep, 3);
-            assert.strictEqual(codelab.getCurrentStep(), 3);
-            assert.strictEqual(codelab.progressPercent, 75);
-            assert.strictEqual(codelab.getProgressPercent(), 75);
-            assert.strictEqual(codelab.remainingTime, 0);
-            assert.strictEqual(codelab.getRemainingTime(), 0);
+            // At step 3 (duration excluded)
+            ctrl.selectStep(3);
+            assert.strictEqual(ctrl.currentStep, 3);
+            assert.strictEqual(ctrl.progressPercent, 75);
+            assert.strictEqual(ctrl.remainingTime, 0);
 
             console.log('SUCCESS');
         """.trimIndent()
