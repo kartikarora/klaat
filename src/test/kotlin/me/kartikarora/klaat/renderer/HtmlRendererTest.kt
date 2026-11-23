@@ -949,6 +949,47 @@ class HtmlRendererTest {
         assertTrue(indexHtml.contains("<klaat-kodelab"))
     }
 
+    @Test
+    fun `test render code block includes language label in modern mode and omits in legacy mode`() {
+        val codelab = Codelab(
+            id = "code-lang-test",
+            title = "Code Language Label Test",
+            steps = listOf(
+                Step(
+                    "Code Examples",
+                    listOf(
+                        Node.CodeBlock(code = "fun main() {}", language = "kotlin"),
+                        Node.CodeBlock(code = "plain text", language = ""),
+                        Node.CodeBlock(code = "# Title", language = "markdown:examples/demo.md")
+                    )
+                )
+            )
+        )
+
+        renderer.render(codelab, tempDir, legacy = false)
+        val modernHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(modernHtml.contains("""<span class="code-lang">kotlin</span>"""))
+        assertTrue(modernHtml.contains("""<span class="code-lang">markdown</span>"""))
+        assertFalse(modernHtml.contains("""<span class="code-lang"></span>"""))
+
+        renderer.render(codelab, tempDir, legacy = true)
+        val legacyHtml = File(tempDir, "${codelab.id}/index.html").readText()
+        assertFalse(legacyHtml.contains("""class="code-lang""""))
+    }
+
+    @Test
+    fun `test render HTML defines neo brutalist stepper buttons and border strong token`() {
+        val codelab = createSimpleCodlab()
+        renderer.render(codelab, tempDir, legacy = false)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("--border-strong: var(--color-rule-strong);"))
+        assertTrue(content.contains(".codelab-controls #previous-step"))
+        assertTrue(content.contains(".codelab-controls #next-step"))
+        assertTrue(content.contains("box-shadow: 4px 4px 0 var(--color-rule-strong);"))
+        assertTrue(content.contains("box-shadow: 6px 6px 0 var(--color-signal-secondary);"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

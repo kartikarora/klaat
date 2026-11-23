@@ -37,6 +37,10 @@
 
   <!-- Codelab Shell Layout (100% built on kartikarora.2.0.0.css tokens & classes) -->
   <style>
+    :root {
+      --border-strong: var(--color-rule-strong);
+    }
+
     html, body {
       overflow-x: clip;
     }
@@ -483,6 +487,25 @@
       font-size: 0.86rem;
     }
 
+    .codelab-step-body .code-lang {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-paper-sunken);
+      color: var(--color-ink-muted);
+      line-height: 1.2;
+      pointer-events: none;
+      user-select: none;
+    }
+
     .codelab-step-body .copy-button {
       position: absolute;
       top: 10px;
@@ -694,6 +717,70 @@
 
     .codelab-controls .material-symbols-outlined {
       font-size: 18px;
+    }
+
+    .codelab-controls .btn {
+      width: auto;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform var(--dur-micro, 120ms) var(--ease-standard), box-shadow var(--dur-micro, 120ms) var(--ease-standard), background-color var(--dur-micro, 120ms) var(--ease-standard), border-color var(--dur-micro, 120ms) var(--ease-standard), color var(--dur-micro, 120ms) var(--ease-standard);
+    }
+
+    .codelab-controls #previous-step {
+      background: var(--color-card);
+      color: var(--color-ink);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    .codelab-controls #previous-step:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal);
+    }
+
+    .codelab-controls #previous-step:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal);
+    }
+
+    .codelab-controls #next-step {
+      background: var(--color-signal);
+      color: var(--color-signal-ink);
+      box-shadow: 4px 4px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #next-step:hover {
+      background: var(--color-signal-hover);
+      color: var(--color-signal-ink);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #next-step:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #done {
+      background: var(--color-signal-secondary);
+      color: var(--color-signal-secondary-ink);
+      box-shadow: 4px 4px 0 var(--color-signal);
+    }
+
+    .codelab-controls #done:hover {
+      background: var(--color-signal-secondary-hover);
+      color: var(--color-signal-secondary-ink);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal);
+    }
+
+    .codelab-controls #done:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal);
     }
 
     /* --- Mobile Drawer Backdrop ------------------------------------------- */

@@ -143,7 +143,7 @@ class HtmlRenderer {
                     "<p>${renderNodes(node.nodes, legacy)}</p>"
                 }
             }
-            is Node.CodeBlock -> renderCodeBlock(node)
+            is Node.CodeBlock -> renderCodeBlock(node, legacy)
             is Node.CommandBlock -> {
                 val cliClass = if (legacy) "devsite-terminal" else "devsite-terminal tokyo-cli-pill"
                 """<pre class="$cliClass"><code>${escape(node.commands)}</code></pre>"""
@@ -187,7 +187,7 @@ class HtmlRenderer {
         }
     }
 
-    private fun renderCodeBlock(node: Node.CodeBlock): String {
+    private fun renderCodeBlock(node: Node.CodeBlock, legacy: Boolean = false): String {
         val header = if (node.filename != null) {
             if (node.githubLink != null) {
                 """<h3><a href="${escape(node.githubLink)}" target="_blank">${escape(node.filename)}</a></h3>"""
@@ -197,9 +197,11 @@ class HtmlRenderer {
         } else ""
 
         val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
+        val displayLang = if (node.language.isNotBlank()) node.language.substringBefore(":").trim() else ""
+        val langBadge = if (!legacy && displayLang.isNotEmpty()) """<span class="code-lang">${escape(displayLang)}</span>""" else ""
         val codeContent = escape(node.code)
 
-        return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
+        return """$header<div class="code-container">$langBadge<pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {
