@@ -7,6 +7,7 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import java.nio.file.Path
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -123,6 +124,30 @@ class EndToEndTest {
         assertTrue(content.contains("Step 2: Advanced Features"), "Should contain step 2 title")
         assertTrue(content.contains("Step 3: Conclusion"), "Should contain step 3 title")
         assertTrue(content.contains("Hello, World!"), "Should contain code content")
+    }
+
+    @Test
+    fun `test export markdown to HTML with legacy flag`() {
+        val args = arrayOf(
+            "export",
+            "--legacy",
+            testMarkdownFile.absolutePath,
+            "-o", outputDir.absolutePath,
+            "-f", "html"
+        )
+
+        main(args)
+
+        val codelabDir = outputDir.resolve("test-codelab-id")
+        assertTrue(codelabDir.exists(), "Codelab directory should exist")
+        val indexFile = codelabDir.resolve("index.html")
+        assertTrue(indexFile.exists(), "index.html should exist")
+
+        val content = indexFile.readText()
+        assertTrue(content.contains("<klaat-kodelab"), "Should use <klaat-kodelab> custom element")
+        assertTrue(content.contains("klaat-elements.js"), "Should reference klaat-elements.js")
+        assertTrue(content.contains("klaat-elements.css"), "Should reference klaat-elements.css")
+        assertFalse(content.contains("studio-body"), "Should not use modern studio-body shell")
     }
 
     @Test

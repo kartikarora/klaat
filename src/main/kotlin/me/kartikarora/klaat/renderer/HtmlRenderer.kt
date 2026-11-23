@@ -34,7 +34,8 @@ class HtmlRenderer {
         customCss: String? = null,
         favicon: String? = null,
         googleFonts: String? = null,
-        footer: String? = null
+        footer: String? = null,
+        legacy: Boolean = false
     ) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
@@ -57,7 +58,7 @@ class HtmlRenderer {
 
         // Create index.html using FreeMarker template
         val indexHtml = codelabDir.resolve("index.html")
-        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts, footer))
+        indexHtml.writeText(renderIndexHtml(codelab, ga, jsPrefix, cssPrefix, customCssUrl, favicon, googleFonts, footer, legacy))
 
         // Write codelab.json metadata
         val metadataFile = codelabDir.resolve("codelab.json")
@@ -74,7 +75,8 @@ class HtmlRenderer {
         customCssUrl: String?,
         favicon: String?,
         googleFonts: String?,
-        footer: String?
+        footer: String?,
+        legacy: Boolean = false
     ): String {
         val effectiveFooter = when {
             !footer.isNullOrBlank() -> footer
@@ -83,7 +85,8 @@ class HtmlRenderer {
         }
 
         val totalDuration = codelab.steps.sumOf { if (it.excludeDurationFromTotal) 0 else (it.duration ?: 0) }
-        val template = freemarkerConfig.getTemplate("kodelab.html")
+        val templateName = if (legacy) "kodelab_legacy.html" else "kodelab.html"
+        val template = freemarkerConfig.getTemplate(templateName)
         val dataModel = mapOf(
             "title" to codelab.title,
             "id" to codelab.id,
@@ -106,7 +109,7 @@ class HtmlRenderer {
                     "duration" to (step.duration ?: 0),
                     "hasDuration" to (step.duration != null),
                     "excludeDuration" to step.excludeDurationFromTotal,
-                    "content" to renderStepContent(step.content)
+                    "content" to renderStepContent(step.content, legacy)
                 )
             }
         )
@@ -116,16 +119,16 @@ class HtmlRenderer {
         return writer.toString()
     }
 
-    private fun renderStepContent(nodes: List<Node>): String {
+    private fun renderStepContent(nodes: List<Node>, legacy: Boolean = false): String {
         return buildString {
             nodes.forEach { node ->
-                append(renderNode(node))
+                append(renderNode(node, legacy))
                 append("\n")
             }
         }
     }
 
-    private fun renderNode(node: Node): String {
+    private fun renderNode(node: Node, legacy: Boolean = false): String {
         return when (node) {
             is Node.Text -> renderText(node)
             is Node.Heading -> renderHeading(node)
@@ -135,32 +138,35 @@ class HtmlRenderer {
                 if (isImageWithCaption && node.nodes.any { it is Node.Text && it.italic }) {
                     val imageNode = node.nodes.first { it is Node.Image }
                     val captionNodes = node.nodes.filter { it != imageNode && (it is Node.Text && it.content.isNotBlank()) }
-                    "<figure>\n${renderNode(imageNode)}\n<figcaption>${renderNodes(captionNodes)}</figcaption>\n</figure>"
+                    "<figure>\n${renderNode(imageNode, legacy)}\n<figcaption>${renderNodes(captionNodes, legacy)}</figcaption>\n</figure>"
                 } else {
-                    "<p>${renderNodes(node.nodes)}</p>"
+                    "<p>${renderNodes(node.nodes, legacy)}</p>"
                 }
             }
             is Node.CodeBlock -> renderCodeBlock(node)
-            is Node.CommandBlock -> """<pre class="devsite-terminal tokyo-cli-pill"><code>${escape(node.commands)}</code></pre>"""
+            is Node.CommandBlock -> {
+                val cliClass = if (legacy) "devsite-terminal" else "devsite-terminal tokyo-cli-pill"
+                """<pre class="$cliClass"><code>${escape(node.commands)}</code></pre>"""
+            }
             is Node.InfoBox -> renderInfoBox(node)
-            is Node.BulletList -> "<ul>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ul>"
+            is Node.BulletList -> "<ul>\n${node.items.joinToString("\n") { "<li>${renderNodes(it, legacy)}</li>" }}\n</ul>"
             is Node.NumberedList -> {
                 val startAttr = if (node.start > 1) """ start="${node.start}"""" else ""
-                "<ol$startAttr>\n${node.items.joinToString("\n") { "<li>${renderNodes(it)}</li>" }}\n</ol>"
+                "<ol$startAttr>\n${node.items.joinToString("\n") { "<li>${renderNodes(it, legacy)}</li>" }}\n</ol>"
             }
             is Node.Image -> renderImage(node)
             is Node.YoutubeVideo -> """<iframe class="youtube-video" src="https://www.youtube.com/embed/${node.videoId}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>"""
             is Node.IFrame -> """<iframe src="${escape(node.src)}"></iframe>"""
             is Node.Link -> """<a href="${escape(node.url)}" target="_blank">${escape(node.text)}</a>"""
-            is Node.Button -> renderButton(node)
-            is Node.Survey -> renderSurvey(node)
+            is Node.Button -> renderButton(node, legacy)
+            is Node.Survey -> renderSurvey(node, legacy)
             is Node.FAQ -> renderFAQ(node)
-            is Node.Table -> renderTable(node)
+            is Node.Table -> renderTable(node, legacy)
         }
     }
 
-    private fun renderNodes(nodes: List<Node>): String {
-        return nodes.joinToString("") { renderNode(it) }
+    private fun renderNodes(nodes: List<Node>, legacy: Boolean = false): String {
+        return nodes.joinToString("") { renderNode(it, legacy) }
     }
 
     private fun renderText(node: Node.Text): String {
@@ -213,17 +219,25 @@ class HtmlRenderer {
         return """<img$alt$style src="${escape(node.src)}">"""
     }
 
-    private fun renderButton(node: Node.Button): String {
+    private fun renderButton(node: Node.Button, legacy: Boolean = false): String {
         val iconSpan = when {
             node.icon != null -> """<span class="material-symbols-outlined">${escape(node.icon)}</span>"""
             node.download -> """<span class="material-symbols-outlined">download</span>"""
             else -> ""
         }
-        val typeClass = when (node.type) {
-            is me.kartikarora.klaat.core.ButtonType.Primary -> "btn-primary klaat-button--primary klaat-button--colored"
-            is me.kartikarora.klaat.core.ButtonType.Secondary -> "btn-outline klaat-button--secondary"
+        val typeClass = if (legacy) {
+            when (node.type) {
+                is me.kartikarora.klaat.core.ButtonType.Primary -> "klaat-button--primary klaat-button--colored"
+                is me.kartikarora.klaat.core.ButtonType.Secondary -> "klaat-button--secondary"
+            }
+        } else {
+            when (node.type) {
+                is me.kartikarora.klaat.core.ButtonType.Primary -> "btn-primary klaat-button--primary klaat-button--colored"
+                is me.kartikarora.klaat.core.ButtonType.Secondary -> "btn-outline klaat-button--secondary"
+            }
         }
-        return """<a class="btn klaat-button $typeClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
+        val buttonClass = if (legacy) "klaat-button $typeClass" else "btn klaat-button $typeClass"
+        return """<a class="$buttonClass" href="${escape(node.url)}" target="_blank">$iconSpan${escape(node.text)}</a>"""
     }
 
     private fun renderInlineFormatting(text: String): String {
@@ -243,17 +257,27 @@ class HtmlRenderer {
         return result
     }
 
-    private fun renderSurvey(node: Node.Survey): String {
+    private fun renderSurvey(node: Node.Survey, legacy: Boolean = false): String {
         val options = node.options.joinToString("\n") { option ->
             """<label class="klaat-radio-label"><input type="radio" name="survey-${node.question.hashCode()}"> ${renderInlineFormatting(option)}</label>"""
         }
-        return """
+        return if (legacy) {
+            """
+<klaat-kodelab-survey survey-id="survey-${node.question.hashCode()}">
+<h4>${renderInlineFormatting(node.question)}</h4>
+<div class="klaat-radio-group">
+$options
+</div>
+</klaat-kodelab-survey>""".trimIndent()
+        } else {
+            """
 <div class="klaat-survey" data-survey-id="survey-${node.question.hashCode()}">
 <h4>${renderInlineFormatting(node.question)}</h4>
 <div class="klaat-radio-group">
 $options
 </div>
 </div>""".trimIndent()
+        }
     }
 
     private fun renderFAQ(node: Node.FAQ): String {
@@ -263,7 +287,7 @@ $options
         return """<h3>Frequently Asked Questions</h3><ul>$links</ul>"""
     }
     
-    private fun renderTable(node: Node.Table): String {
+    private fun renderTable(node: Node.Table, legacy: Boolean = false): String {
         return buildString {
             append("<table>\n")
             if (node.header.isNotEmpty()) {
@@ -271,7 +295,7 @@ $options
                 node.header.forEachIndexed { colIdx, cell ->
                     val align = node.alignments.getOrNull(colIdx)
                     val style = if (align != null) """ style="text-align: $align"""" else ""
-                    append("<th$style>${renderNodes(cell)}</th>")
+                    append("<th$style>${renderNodes(cell, legacy)}</th>")
                 }
                 append("\n</tr>\n</thead>\n")
             }
@@ -281,7 +305,7 @@ $options
                 row.forEachIndexed { colIdx, cell ->
                     val align = node.alignments.getOrNull(colIdx)
                     val style = if (align != null) """ style="text-align: $align"""" else ""
-                    append("<td$style>${renderNodes(cell)}</td>")
+                    append("<td$style>${renderNodes(cell, legacy)}</td>")
                 }
                 append("\n</tr>\n")
             }

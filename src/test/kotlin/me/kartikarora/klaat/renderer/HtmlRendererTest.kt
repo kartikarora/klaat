@@ -907,6 +907,48 @@ class HtmlRendererTest {
         assertTrue(indexHtml.contains("""<h4><a href="https://example.com/docs" target="_blank">Read <code>API</code> docs</a></h4>"""))
     }
 
+    @Test
+    fun `test render HTML format with legacy flag uses klaat-elements`() {
+        val codelab = Codelab(
+            id = "legacy-test",
+            title = "Legacy Test Codelab",
+            steps = listOf(
+                Step("Introduction", listOf(
+                    Node.Text("Welcome"),
+                    Node.Survey("What is your level?", listOf("Beginner", "Expert")),
+                    Node.CommandBlock("echo hello")
+                ), duration = 5)
+            )
+        )
+        renderer.render(codelab, tempDir, legacy = true)
+
+        val content = File(tempDir, "${codelab.id}/index.html").readText()
+        assertTrue(content.contains("https://distribute.kartikarora.me/css/klaat-elements.css"))
+        assertTrue(content.contains("https://distribute.kartikarora.me/js/klaat-elements.js"))
+        assertTrue(content.contains("<klaat-kodelab"))
+        assertTrue(content.contains("<klaat-kodelab-step"))
+        assertTrue(content.contains("<klaat-kodelab-survey"))
+        assertFalse(content.contains("studio-body"))
+    }
+
+    @Test
+    fun `test render offline format with legacy flag bundles klaat-elements`() {
+        val codelab = createSimpleCodlab()
+        val offlineRenderer = OfflineRenderer()
+        offlineRenderer.render(codelab, tempDir, legacy = true)
+
+        val codelabDir = File(tempDir, codelab.id)
+        val legacyCssFile = File(codelabDir, "css/klaat-elements.css")
+        val legacyJsFile = File(codelabDir, "js/klaat-elements.js")
+        assertTrue(legacyCssFile.exists(), "klaat-elements.css should be bundled in legacy offline mode")
+        assertTrue(legacyJsFile.exists(), "klaat-elements.js should be bundled in legacy offline mode")
+
+        val indexHtml = File(codelabDir, "index.html").readText()
+        assertTrue(indexHtml.contains("""href="css/klaat-elements.css""""))
+        assertTrue(indexHtml.contains("""src="js/klaat-elements.js""""))
+        assertTrue(indexHtml.contains("<klaat-kodelab"))
+    }
+
     private fun createSimpleCodlab(): Codelab {
         return Codelab(
             id = "simple-test",

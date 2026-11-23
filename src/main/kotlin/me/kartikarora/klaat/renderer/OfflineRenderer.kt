@@ -20,7 +20,8 @@ class OfflineRenderer {
         customCss: String? = null,
         favicon: String? = null,
         googleFonts: String? = null,
-        footer: String? = null
+        footer: String? = null,
+        legacy: Boolean = false
     ) {
         val codelabDir = File(outputDir, codelab.id)
         codelabDir.mkdirs()
@@ -29,11 +30,11 @@ class OfflineRenderer {
         val effectivePrefix = if (!prefix.isNullOrEmpty()) {
             prefix
         } else {
-            copyAssets(codelabDir, customCss)
+            copyAssets(codelabDir, customCss, legacy)
             ""
         }
 
-        // Render using the modern HTML renderer with local or specified prefix
+        // Render using the HTML renderer with local or specified prefix
         htmlRenderer.render(
             codelab = codelab,
             outputDir = outputDir,
@@ -43,11 +44,12 @@ class OfflineRenderer {
             customCss = customCss,
             favicon = favicon,
             googleFonts = googleFonts,
-            footer = footer
+            footer = footer,
+            legacy = legacy
         )
     }
 
-    private fun copyAssets(codelabDir: File, customCss: String? = null) {
+    private fun copyAssets(codelabDir: File, customCss: String? = null, legacy: Boolean = false) {
         val cssDir = File(codelabDir, "css")
         val jsDir = File(codelabDir, "js")
         cssDir.mkdirs()
@@ -57,6 +59,17 @@ class OfflineRenderer {
         val bridgeResource = javaClass.getResourceAsStream("/assets/klaat-bridge.js")
         if (bridgeResource != null) {
             File(jsDir, "klaat-bridge.js").writeBytes(bridgeResource.readBytes())
+        }
+
+        if (legacy) {
+            val legacyCss = javaClass.getResourceAsStream("/assets/klaat-elements.css")
+            if (legacyCss != null) {
+                File(cssDir, "klaat-elements.css").writeBytes(legacyCss.readBytes())
+            }
+            val legacyJs = javaClass.getResourceAsStream("/assets/klaat-elements.js")
+            if (legacyJs != null) {
+                File(jsDir, "klaat-elements.js").writeBytes(legacyJs.readBytes())
+            }
         }
 
         // Copy or fetch brand assets (kartikarora.2.0.0.css / js) for offline consumption

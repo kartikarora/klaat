@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
 import com.google.gson.Gson
@@ -86,6 +87,11 @@ class ExportCommand : CliktCommand("export") {
         help = "Custom footer HTML or text to display at the bottom of the codelab"
     )
 
+    private val legacy by option(
+        "--legacy", "-legacy",
+        help = "Use legacy klaat-elements custom elements export instead of modern brand UI"
+    ).flag(default = false)
+
     override fun run() {
         // Parse extra metadata if provided
         val extraMetadata = if (!extra.isNullOrBlank()) {
@@ -150,7 +156,7 @@ class ExportCommand : CliktCommand("export") {
 
         targets.forEach { target ->
             try {
-                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts, footer)
+                exporter.export(target, outDir, format, ga, effectivePrefix, environment, passMetadataSet, extraMetadata, customCss, favicon, fonts, footer, legacy)
                 successCount++
             } catch (e: Exception) {
                 echo("✗ Failed to export '$target': ${e.message}")
