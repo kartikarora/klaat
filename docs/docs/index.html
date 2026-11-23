@@ -466,6 +466,12 @@ You are done!</code></pre>
                                         <td><code>web</code></td>
                                         <td>Target environment filter (e.g. <code>web</code>, <code>kiosk</code>).</td>
                                     </tr>
+                                    <tr>
+                                        <td><code>--legacy, -legacy</code></td>
+                                        <td>Flag</td>
+                                        <td><code>false</code></td>
+                                        <td>Export using legacy <code>klaat-elements</code> Web Components (<klaat-kodelab>) instead of modern @kartikarora Brand Studio UI.</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -474,10 +480,31 @@ You are done!</code></pre>
                     <div class="man-section">
                         <div class="man-section-title">EXAMPLES</div>
                         <div class="man-content font-mono" style="font-size: 0.9rem;">
-                            <p>Export a local Markdown file into HTML:</p>
+                            <p>Export a local Markdown file into HTML (modern Brand Studio UI by default):</p>
                             <pre><code class="language-bash">klaat export tutorial.md -o build/codelabs/</code></pre>
+                            <p style="margin-top: 10px;">Export using legacy <code>klaat-elements</code> Web Components:</p>
+                            <pre><code class="language-bash">klaat export --legacy tutorial.md -o build/codelabs/</code></pre>
                             <p style="margin-top: 10px;">Export a Google Doc using custom CSS styles:</p>
                             <pre><code class="language-bash">klaat export 1sK...J6g -o build/ -css https://example.com/custom.css</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="man-section">
+                        <div class="man-section-title">OUTPUT COMPARISON</div>
+                        <div class="man-content">
+                            <p style="margin-bottom: 1rem;">Compare modern Brand Studio UI vs legacy <code>klaat-elements</code> output rendering below:</p>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                                <div>
+                                    <h4 style="margin-bottom: 0.5rem; font-weight: 700;">Modern Brand UI (Default)</h4>
+                                    <p style="font-size: 0.85rem; color: var(--color-ink-muted, #555); margin-bottom: 0.5rem;"><code>klaat export tutorial.md</code></p>
+                                    <img src="images/export-modern-preview.png" alt="Modern Brand Studio Codelab Export Preview" style="width: 100%; border-radius: 6px; border: 1px solid var(--border, #ccc); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                </div>
+                                <div>
+                                    <h4 style="margin-bottom: 0.5rem; font-weight: 700;">Legacy klaat-elements (--legacy)</h4>
+                                    <p style="font-size: 0.85rem; color: var(--color-ink-muted, #555); margin-bottom: 0.5rem;"><code>klaat export --legacy tutorial.md</code></p>
+                                    <img src="images/export-legacy-preview.png" alt="Legacy klaat-elements Codelab Export Preview" style="width: 100%; border-radius: 6px; border: 1px solid var(--border, #ccc); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

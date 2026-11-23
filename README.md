@@ -189,11 +189,15 @@ Options:
   -pass_metadata TEXT     Comma-delimited list of metadata keys to preserve in output
   -auth TEXT              OAuth2 token to use for Google Docs API authentication
   -e TEXT                 Codelab environment filter [default: web]
+  --legacy                Export using legacy klaat-elements custom elements (<klaat-kodelab>)
   -h, --help              Show help
 
 Examples:
-  # Export Markdown file to HTML
+  # Export Markdown file to HTML (modern Brand Studio UI)
   klaat-snapshot export tutorial.md
+
+  # Export Markdown file using legacy klaat-elements
+  klaat-snapshot export --legacy tutorial.md
 
   # Export Google Doc with custom output directory
   klaat-snapshot export 1ABC-YOUR-DOC-ID -o ./output
@@ -201,6 +205,12 @@ Examples:
   # Export to offline bundle format
   klaat-snapshot export -f offline tutorial.md
 ```
+
+#### Output Comparison
+
+| Modern Brand UI (Default) | Legacy Web Components (`--legacy`) |
+|:---:|:---:|
+| ![Modern Brand Studio Codelab](docs/images/export-modern-preview.png) | ![Legacy klaat-elements Codelab](docs/images/export-legacy-preview.png) |
 
 ### `serve`
 
