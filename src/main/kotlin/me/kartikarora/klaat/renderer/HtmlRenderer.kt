@@ -144,9 +144,11 @@ class HtmlRenderer {
                 }
             }
             is Node.CodeBlock -> renderCodeBlock(node, legacy)
-            is Node.CommandBlock -> {
-                val cliClass = if (legacy) "devsite-terminal" else "devsite-terminal tokyo-cli-pill"
-                """<pre class="$cliClass"><code>${escape(node.commands)}</code></pre>"""
+            is Node.CommandBlock -> if (legacy) {
+                """<pre class="devsite-terminal"><code>${escape(node.commands)}</code></pre>"""
+            } else {
+                val highlighted = SyntaxHighlighter.highlight(node.commands, "bash")
+                """<pre class="devsite-terminal tokyo-cli-pill highlight" data-copy-ready="true"><code class="language-bash" data-highlighted="true">$highlighted</code></pre>"""
             }
             is Node.InfoBox -> renderInfoBox(node)
             is Node.BulletList -> "<ul>\n${node.items.joinToString("\n") { "<li>${renderNodes(it, legacy)}</li>" }}\n</ul>"
@@ -196,12 +198,24 @@ class HtmlRenderer {
             }
         } else ""
 
-        val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
-        val displayLang = if (node.language.isNotBlank()) node.language.substringBefore(":").trim() else ""
-        val langBadge = if (!legacy && displayLang.isNotEmpty()) """<span class="code-lang">${escape(displayLang)}</span>""" else ""
-        val codeContent = escape(node.code)
+        if (legacy) {
+            val lang = if (node.language.isNotEmpty()) " language-${node.language}" else ""
+            val codeContent = escape(node.code)
+            return """$header<div class="code-container"><pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
+        }
 
-        return """$header<div class="code-container">$langBadge<pre><code class="$lang">$codeContent</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
+        val normalizedLang = SyntaxHighlighter.normalizeLanguage(node.language)
+        val displayLang = SyntaxHighlighter.displayLanguage(node.language)
+        val langClass = if (normalizedLang.isNotEmpty()) {
+            "language-$normalizedLang"
+        } else if (displayLang.isNotEmpty()) {
+            "language-${escape(displayLang)}"
+        } else ""
+        val codeAttrs = if (langClass.isNotEmpty()) """ class="$langClass" data-highlighted="true"""" else """ data-highlighted="true""""
+        val langBadge = if (displayLang.isNotEmpty()) """<span class="code-lang">${escape(displayLang)}</span>""" else ""
+        val highlightedCode = SyntaxHighlighter.highlight(node.code, node.language)
+
+        return """$header<div class="code-container">$langBadge<div class="highlight"><pre data-copy-ready="true"><code$codeAttrs>$highlightedCode</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>"""
     }
 
     private fun renderInfoBox(node: Node.InfoBox): String {

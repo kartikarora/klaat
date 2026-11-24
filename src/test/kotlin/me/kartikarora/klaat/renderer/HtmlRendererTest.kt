@@ -184,10 +184,11 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<pre>"))
+        assertTrue(content.contains("<pre data-copy-ready=\"true\">"))
         assertTrue(content.contains("<code"))
         assertTrue(content.contains("language-kotlin"))
-        assertTrue(content.contains("fun main()"))
+        assertTrue(content.contains("data-highlighted=\"true\""))
+        assertTrue(content.contains("""<span class="k">fun</span> <span class="nf">main</span>()"""))
     }
 
     @Test
@@ -228,7 +229,9 @@ class HtmlRendererTest {
 
         val content = File(tempDir, "test/index.html").readText()
         assertTrue(content.contains("devsite-terminal"))
-        assertTrue(content.contains("npm install"))
+        assertTrue(content.contains("data-highlighted=\"true\""))
+        assertTrue(content.contains("npm"))
+        assertTrue(content.contains("install"))
     }
 
     @Test
@@ -673,7 +676,7 @@ class HtmlRendererTest {
         renderer.render(codelab, tempDir)
 
         val content = File(tempDir, "test/index.html").readText()
-        assertTrue(content.contains("<code class=\" language-kotlin\">// ❌ User hears &quot;button&quot;, they don&#39;t know what it does\nfun test() {}</code>"))
+        assertTrue(content.contains("""<code class="language-kotlin" data-highlighted="true"><span class="c">// ❌ User hears &quot;button&quot;, they don&#39;t know what it does</span>""" + "\n" + """<span class="k">fun</span> <span class="nf">test</span>() {}</code>"""))
     }
 
     @Test

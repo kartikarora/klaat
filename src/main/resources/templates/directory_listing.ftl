@@ -23,6 +23,10 @@
     <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
 
     <style>
+        :root {
+            --border-strong: var(--color-rule-strong);
+        }
+
         html, body {
             overflow-x: clip;
         }
@@ -55,22 +59,28 @@
             gap: 4px;
             padding: 4px 10px;
             border-radius: var(--radius-sm);
-            border: 1px solid var(--color-rule);
+            border: 2px solid var(--color-rule-strong);
             background: var(--color-card);
             color: var(--color-ink);
             text-decoration: none;
             font-weight: 700;
-            transition: border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+            box-shadow: 2px 2px 0 var(--color-rule-strong);
+            transition: transform var(--dur-micro, 120ms) var(--ease-standard), box-shadow var(--dur-micro, 120ms) var(--ease-standard), border-color var(--dur-micro, 120ms) var(--ease-standard), color var(--dur-micro, 120ms) var(--ease-standard);
         }
 
         .breadcrumb a:hover {
             border-color: var(--color-signal);
             color: var(--color-signal);
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 var(--color-signal-secondary);
         }
 
         .listing-card {
             padding: 0 !important;
             overflow: hidden;
+            border: 2px solid var(--color-rule-strong);
+            border-radius: var(--radius-sm);
+            box-shadow: 4px 4px 0 var(--color-rule-strong);
         }
 
         .listing-card.tokyo-card:hover {
@@ -145,9 +155,23 @@
             font-variant-numeric: tabular-nums;
         }
 
+        .breadcrumb a:focus-visible,
+        .name-col a:focus-visible {
+            outline: 2px solid var(--color-focus);
+            outline-offset: 2px;
+            transition: none;
+        }
+
         @media (max-width: 768px) {
             .listing-card th, .listing-card td { padding: var(--space-sm) var(--space-md); }
             .date-col { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -157,7 +181,7 @@
         <div class="studio-container">
             <div class="studio-nav-inner">
                 <a href="/" class="studio-wordmark">Klaat</a>
-                <div class="studio-nav-center">Local Preview Server &middot; Tokyo v2.0</div>
+                <div class="studio-nav-center">Local Preview Server</div>
                 <nav class="studio-nav-links">
                     <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener noreferrer" class="studio-link">Docs</a>
                     <a href="https://kartikarora.me" target="_blank" rel="noopener noreferrer" class="studio-link">kartikarora.me</a>
@@ -171,7 +195,7 @@
             <!-- Studio Hero (matching kartikarora.me/brand-demo) -->
             <header class="studio-hero hero" style="margin-bottom: var(--space-xl);">
                 <div class="studio-pill-row">
-                    <span class="badge badge-secondary">v2.0.0</span>
+                    <span class="badge badge-secondary">Local Preview</span>
                     <span class="studio-location">Local Development Server</span>
                 </div>
                 <h1 class="studio-headline">

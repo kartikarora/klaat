@@ -1,20 +1,20 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta charset="UTF-8">
   <title>Klaat Format Guide &amp; Feature Showcase</title>
 
-  <!-- Brand Identity CSS (provides all CSS tokens + light/dark mode) -->
+  <!-- Brand Identity CSS (v2.0.0 — provides all tokens, typography, buttons, cards, syntax, light/dark mode) -->
   <link rel="stylesheet" href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css">
 
-  <!-- Brand Fonts -->
+  <!-- Brand Fonts: Chivo (Display & Body) + JetBrains Mono (Code & UI Chrome) + Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-  <!-- Brand Interaction JS -->
-  <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js"></script>
+  <!-- Brand Interaction & Syntax Highlighting JS (v2.0.0) -->
+  <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
@@ -22,63 +22,999 @@
   <link rel="apple-touch-icon" sizes="180x180" href="https://kartikarora.me/img/icon180.png">
   <link rel="apple-touch-icon" sizes="192x192" href="https://kartikarora.me/img/icon192.png">
 
-  <!-- Klaat element styles (layout + component tokens, built on brand CSS vars) -->
-  <link rel="stylesheet" href="https://distribute.kartikarora.me/css/klaat-elements.css">
+
+  <!-- Codelab Shell Layout (100% built on kartikarora.2.0.0.css tokens & classes) -->
+  <style>
+    :root {
+      --border-strong: var(--color-rule-strong);
+    }
+
+    html, body {
+      overflow-x: clip;
+    }
+
+    body.studio-body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* --- Sticky Studio Header Bar ----------------------------------------- */
+    .codelab-nav-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-width: 0;
+    }
+
+    .codelab-nav-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-shrink: 0;
+    }
+
+    .codelab-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      text-decoration: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 var(--color-rule-strong);
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-icon-btn:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+      text-decoration: none;
+    }
+
+    .codelab-icon-btn .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    #menu {
+      display: none;
+    }
+
+    .codelab-title-text {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+
+    .codelab-time-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-paper-alt);
+      color: var(--color-ink);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .codelab-time-pill .material-symbols-outlined {
+      font-size: 15px;
+      color: var(--color-signal);
+    }
+
+    /* --- Codelab Two-Column Shell ----------------------------------------- */
+    .codelab-shell {
+      flex: 1 0 auto;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+      display: grid;
+      grid-template-columns: 296px minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    /* --- Left Step Navigation Sidebar ------------------------------------- */
+    .codelab-drawer {
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 112px);
+      display: flex;
+      flex-direction: column;
+      background: var(--color-paper-alt);
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+      overflow: hidden;
+    }
+
+    .codelab-drawer-header {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-rule);
+      background: var(--color-card);
+    }
+
+    .codelab-drawer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--color-ink-muted);
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .codelab-progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--color-paper-sunken);
+      border: 1px solid var(--color-rule-strong);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .codelab-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--color-signal);
+      transition: width 0.2s var(--ease-standard);
+    }
+
+    .codelab-steps-scroll {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: var(--space-sm);
+    }
+
+    .codelab-steps-nav {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .codelab-step-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-card);
+      color: var(--color-ink-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.35;
+      transition: transform 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-step-link:hover {
+      border-color: var(--color-signal);
+      color: var(--color-ink);
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 0 var(--color-signal);
+      text-decoration: none;
+    }
+
+    .codelab-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 5px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-paper-alt);
+      color: var(--color-ink-muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .codelab-step-item[data-completed="true"] .codelab-step-num {
+      background: var(--color-signal);
+      border-color: var(--color-rule-strong);
+      color: var(--color-signal-ink);
+    }
+
+    .codelab-step-item[data-selected="true"] .codelab-step-link {
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      font-weight: 700;
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-step-item[data-selected="true"] .codelab-step-num {
+      background: var(--color-signal-secondary);
+      border-color: var(--color-rule-strong);
+      color: var(--color-signal-secondary-ink);
+    }
+
+    .codelab-drawer-footer {
+      padding: var(--space-sm) var(--space-md);
+      border-top: 1px solid var(--color-rule);
+      background: var(--color-card);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+    }
+
+    .codelab-feedback-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-signal);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .codelab-feedback-link:hover {
+      color: var(--color-signal-hover);
+      text-decoration: underline;
+    }
+
+    .codelab-feedback-link .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    /* --- Main Step Content Stage ------------------------------------------ */
+    .codelab-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .codelab-step {
+      display: none;
+    }
+
+    .codelab-step[data-selected="true"] {
+      display: flex;
+      animation: codelabStepIn 0.2s var(--ease-standard);
+    }
+
+    /* Keep reading card rock-solid without jumping on hover */
+    .codelab-step.tokyo-card:hover {
+      transform: none;
+      border-color: var(--color-rule-strong);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    @keyframes codelabStepIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .codelab-step-header {
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-lg);
+      border-bottom: 2px solid var(--color-rule);
+    }
+
+    .codelab-step-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-sm);
+    }
+
+    .codelab-step-duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-ink-muted);
+      font-weight: 600;
+    }
+
+    .codelab-step-duration .material-symbols-outlined {
+      font-size: 15px;
+    }
+
+    .codelab-step-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--color-ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    /* --- Editorial Prose inside Step Card --------------------------------- */
+    .codelab-step-body {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-ink);
+    }
+
+    .codelab-step-body > *:first-child {
+      margin-top: 0;
+    }
+
+    .codelab-step-body > *:last-child {
+      margin-bottom: 0;
+    }
+
+    .codelab-step-body h2,
+    .codelab-step-body h3,
+    .codelab-step-body h4 {
+      color: var(--color-ink);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      margin: var(--space-lg) 0 var(--space-xs);
+    }
+
+    .codelab-step-body h2 { font-size: 1.45rem; }
+    .codelab-step-body h3 { font-size: 1.18rem; }
+    .codelab-step-body h4 { font-size: 1.02rem; }
+
+    .codelab-step-body p {
+      margin: 0 0 var(--space-md);
+      text-wrap: pretty;
+    }
+
+    .codelab-step-body ul,
+    .codelab-step-body ol {
+      margin: 0 0 var(--space-md);
+      padding-left: 1.4rem;
+    }
+
+    .codelab-step-body li {
+      margin-bottom: 6px;
+    }
+
+    .codelab-step-body a:not(.btn) {
+      color: var(--color-signal);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .codelab-step-body a:not(.btn):hover {
+      color: var(--color-signal-hover);
+    }
+
+    .codelab-step-body img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: var(--space-md) 0;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    .codelab-step-body figure {
+      margin: var(--space-md) 0;
+    }
+
+    .codelab-step-body figcaption {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-ink-muted);
+      margin-top: 8px;
+    }
+
+    .codelab-step-body code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--color-paper-alt);
+      border: 1px solid var(--color-rule);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--color-ink);
+    }
+
+    /* --- Code Blocks (Paired with kartikarora.2.0.0.js highlighter) ------- */
+    .codelab-step-body .code-container {
+      position: relative;
+      margin: var(--space-md) 0;
+      border: 2px solid var(--color-rule-strong);
+      border-left: 4px solid var(--color-signal);
+      border-radius: var(--radius-sm);
+      background: var(--color-paper-alt);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+      overflow: hidden;
+    }
+
+    .codelab-step-body .code-container .highlight {
+      margin: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .codelab-step-body .highlight .gi {
+      color: var(--color-success);
+    }
+
+    .codelab-step-body .highlight .gd {
+      color: var(--color-danger);
+    }
+
+    .codelab-step-body .code-container pre {
+      margin: 0;
+      padding: 46px var(--space-md) var(--space-md);
+      overflow-x: auto;
+      background: transparent;
+      border: none;
+      line-height: 1.55;
+    }
+
+    .codelab-step-body .code-container pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: 0.86rem;
+    }
+
+    .codelab-step-body .code-lang {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-paper-sunken);
+      color: var(--color-ink-muted);
+      line-height: 1.2;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .codelab-step-body .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-rule-strong);
+      background: var(--color-card);
+      color: var(--color-ink);
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--color-rule-strong);
+      transition: transform 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard), color 0.2s var(--ease-standard);
+    }
+
+    .codelab-step-body .copy-button:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-step-body .copy-button .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    .codelab-step-body pre.devsite-terminal {
+      display: block;
+      width: 100%;
+      margin: var(--space-md) 0;
+      padding: var(--space-sm) var(--space-md);
+      overflow-x: auto;
+      border: 2px solid var(--color-rule-strong);
+      border-left: 4px solid var(--color-signal);
+      background: var(--color-paper-sunken);
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+    }
+
+    .codelab-step-body pre.devsite-terminal code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      white-space: pre;
+    }
+
+    /* --- Callout Asides ------------------------------------------------- */
+    .codelab-step-body aside {
+      margin: var(--space-md) 0;
+      padding: var(--space-sm) var(--space-md);
+      border: 2px solid var(--color-rule-strong);
+      border-left-width: 6px;
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+      color: var(--color-ink);
+    }
+
+    .codelab-step-body aside > *:first-child { margin-top: 0; }
+    .codelab-step-body aside > *:last-child { margin-bottom: 0; }
+
+    .codelab-step-body aside.special {
+      border-left-color: var(--color-signal);
+      background: color-mix(in srgb, var(--color-signal) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.positive {
+      border-left-color: var(--color-success);
+      background: color-mix(in srgb, var(--color-success) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.warning {
+      border-left-color: var(--color-signal-secondary);
+      background: color-mix(in srgb, var(--color-signal-secondary) 14%, var(--color-card));
+    }
+
+    .codelab-step-body aside.critical {
+      border-left-color: var(--color-danger);
+      background: color-mix(in srgb, var(--color-danger) 10%, var(--color-card));
+    }
+
+    .codelab-step-body aside.default {
+      border-left-color: var(--color-ink-muted);
+      background: var(--color-paper-alt);
+    }
+
+    /* --- Buttons inside Step Content (use brand .btn directly) ------------ */
+    .codelab-step-body .klaat-button {
+      margin: var(--space-xs) var(--space-xs) var(--space-xs) 0;
+    }
+
+    .codelab-step-body .klaat-button .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    /* --- Tables ----------------------------------------------------------- */
+    .codelab-step-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-md) 0;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--color-card);
+    }
+
+    .codelab-step-body th,
+    .codelab-step-body td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-rule);
+      text-align: left;
+    }
+
+    .codelab-step-body th {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--color-paper-alt);
+      color: var(--color-ink);
+      border-bottom: 2px solid var(--color-rule-strong);
+    }
+
+    .codelab-step-body tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- Interactive Survey ----------------------------------------------- */
+    .klaat-survey {
+      margin: var(--space-md) 0;
+      padding: var(--space-md);
+      background: var(--color-paper-alt);
+      border: 2px solid var(--color-rule-strong);
+      border-left: 6px solid var(--color-signal-secondary);
+      border-radius: var(--radius-sm);
+      box-shadow: 3px 3px 0 var(--color-rule-strong);
+    }
+
+    .klaat-survey h4 {
+      margin: 0 0 var(--space-sm) !important;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--color-ink);
+    }
+
+    .klaat-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .klaat-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-rule);
+      background: var(--color-card);
+      cursor: pointer;
+      font-size: 0.94rem;
+      color: var(--color-ink);
+      transition: border-color 0.2s var(--ease-standard);
+    }
+
+    .klaat-radio-label:hover {
+      border-color: var(--color-signal);
+    }
+
+    .klaat-radio-label input[type="radio"] {
+      accent-color: var(--color-signal);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* --- Embedded Media --------------------------------------------------- */
+    .codelab-step-body iframe.youtube-video,
+    .codelab-step-body iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      margin: var(--space-md) 0;
+    }
+
+    /* --- Step Navigation Controls (uses brand .btn classes) --------------- */
+    .codelab-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-xs);
+    }
+
+    .codelab-controls [hidden] {
+      display: none !important;
+    }
+
+    .codelab-controls #previous-step[data-disappear="true"] {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .codelab-controls .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    .codelab-controls .btn {
+      width: auto;
+      border: 2px solid var(--color-rule-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform var(--dur-micro, 120ms) var(--ease-standard), box-shadow var(--dur-micro, 120ms) var(--ease-standard), background-color var(--dur-micro, 120ms) var(--ease-standard), border-color var(--dur-micro, 120ms) var(--ease-standard), color var(--dur-micro, 120ms) var(--ease-standard);
+    }
+
+    .codelab-controls #previous-step {
+      background: var(--color-card);
+      color: var(--color-ink);
+      box-shadow: 4px 4px 0 var(--color-rule-strong);
+    }
+
+    .codelab-controls #previous-step:hover {
+      border-color: var(--color-signal);
+      color: var(--color-signal);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal);
+    }
+
+    .codelab-controls #previous-step:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal);
+    }
+
+    .codelab-controls #next-step {
+      background: var(--color-signal);
+      color: var(--color-signal-ink);
+      box-shadow: 4px 4px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #next-step:hover {
+      background: var(--color-signal-hover);
+      color: var(--color-signal-ink);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #next-step:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal-secondary);
+    }
+
+    .codelab-controls #done {
+      background: var(--color-signal-secondary);
+      color: var(--color-signal-secondary-ink);
+      box-shadow: 4px 4px 0 var(--color-signal);
+    }
+
+    .codelab-controls #done:hover {
+      background: var(--color-signal-secondary-hover);
+      color: var(--color-signal-secondary-ink);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--color-signal);
+    }
+
+    .codelab-controls #done:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--color-signal);
+    }
+
+    /* --- Mobile Drawer Backdrop ------------------------------------------- */
+    .codelab-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 10, 16, 0.55);
+      z-index: 1050;
+    }
+
+    body.drawer-open .codelab-backdrop {
+      display: block;
+    }
+
+    /* --- Focus Visible & Reduced Motion ----------------------------------- */
+    .codelab-icon-btn:focus-visible,
+    .codelab-step-link:focus-visible,
+    .copy-button:focus-visible,
+    .codelab-feedback-link:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+      transition: none;
+    }
+
+    @media (max-width: 900px) {
+      #menu {
+        display: inline-flex;
+      }
+
+      .codelab-shell {
+        grid-template-columns: 1fr;
+        padding: var(--space-md) var(--space-sm) var(--space-xl);
+      }
+
+      .codelab-drawer {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        bottom: 0;
+        width: min(300px, 85vw);
+        max-height: calc(100vh - 64px);
+        z-index: 1100;
+        border-radius: 0;
+        border-left: none;
+        transform: translateX(-105%);
+        transition: transform 0.2s var(--ease-standard);
+      }
+
+      body.drawer-open .codelab-drawer {
+        transform: translateX(0);
+      }
+
+      .codelab-step.tokyo-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
-
-<body>
-  <script>
-    function copyToClipboard(button) {
-      const container = button.parentElement;
-      const code = container.querySelector('code').innerText;
+<body class="studio-body"
+      id="codelab-app"
+      data-codelab-id="klaat-feature-showcase"
+      data-codelab-title="Klaat Format Guide &amp; Feature Showcase"
+      data-environment="web"
+      data-feedback-link="mailto:dev&amp;#64;kartikarora&amp;#46;me"
       
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(code).then(() => {
-          updateButtonText(button);
-        }).catch(err => {
-          console.error('Failed to copy: ', err);
-          fallbackCopy(code, button);
-        });
-      } else {
-        fallbackCopy(code, button);
-      }
-    }
+      >
 
-    function fallbackCopy(text, button) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed";
-      textArea.style.left = "-9999px";
-      textArea.style.top = "0";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        updateButtonText(button);
-      } catch (err) {
-        console.error('Fallback copy failed: ', err);
-      }
-      document.body.removeChild(textArea);
-    }
+  <!-- Sticky Studio Top Bar (matching kartikarora.me/brand-demo) -->
+  <header class="studio-nav">
+    <div class="studio-container" style="max-width: 1280px;">
+      <div class="studio-nav-inner">
+        <div class="codelab-nav-left">
+          <a id="arrow-back" href="../" class="codelab-icon-btn" title="Back" aria-label="Back">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </a>
+          <button type="button" id="menu" class="codelab-icon-btn" title="Toggle steps" aria-label="Toggle steps" aria-expanded="false">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <h1 class="codelab-title-text">Klaat Format Guide &amp; Feature Showcase</h1>
+        </div>
+        <div class="codelab-nav-right">
+          <span id="time-remaining" class="codelab-time-pill">
+            <span class="material-symbols-outlined">schedule</span>
+            <span id="time-remaining-label">30 min remaining</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    function updateButtonText(button) {
-      const textSpan = button.querySelector('span:last-child');
-      const originalText = textSpan.textContent;
-      textSpan.textContent = 'Copied!';
-      setTimeout(() => {
-        textSpan.textContent = originalText;
-      }, 2000);
-    }
-  </script>
+  <div class="codelab-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
 
-  <klaat-kodelab 
-                  id="klaat-feature-showcase"
-                  title="Klaat Format Guide &amp; Feature Showcase"
-                  environment="web"
-                  feedback-link="mailto:dev&#64;kartikarora&#46;me">
-    <klaat-kodelab-step label="Overview &amp; Codelab Architecture" duration="2">
-      <p>Welcome to the <strong>Klaat Format Guide &amp; Feature Showcase</strong>! This interactive tutorial serves as both an exhaustive technical reference manual and a living, hands-on demonstration of every visual element, metadata property, and interactive component supported by Klaat.</p>
+  <!-- Two-Column Studio Workspace -->
+  <div class="codelab-shell">
+    <!-- Left Step Drawer -->
+    <aside id="drawer" class="codelab-drawer" aria-label="Codelab steps">
+      <div class="codelab-drawer-header">
+        <div class="codelab-drawer-meta">
+          <span id="step-progress-label">STEP 1 / 15</span>
+          <span id="total-time">30 min total</span>
+        </div>
+        <div class="codelab-progress-track" aria-hidden="true">
+          <div class="codelab-progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="codelab-steps-scroll">
+        <ol class="codelab-steps-nav" id="steps-nav">
+          <li class="codelab-step-item" data-step-index="0" data-selected="true" data-completed="true">
+            <a href="#0" class="codelab-step-link" aria-current="step">
+              <span class="codelab-step-num">01</span>
+              <span>Overview &amp; Codelab Architecture</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="1">
+            <a href="#1" class="codelab-step-link">
+              <span class="codelab-step-num">02</span>
+              <span>Metadata &amp; Frontmatter Schema</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="2">
+            <a href="#2" class="codelab-step-link">
+              <span class="codelab-step-num">03</span>
+              <span>Document Formats (Markdown &amp; GDocs)</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="3">
+            <a href="#3" class="codelab-step-link">
+              <span class="codelab-step-num">04</span>
+              <span>Text &amp; Typography Formatting</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="4">
+            <a href="#4" class="codelab-step-link">
+              <span class="codelab-step-num">05</span>
+              <span>Semantic Infoboxes (Alert Callouts)</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="5">
+            <a href="#5" class="codelab-step-link">
+              <span class="codelab-step-num">06</span>
+              <span>Code Blocks &amp; Syntax Highlighting</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="6">
+            <a href="#6" class="codelab-step-link">
+              <span class="codelab-step-num">07</span>
+              <span>Action Buttons &amp; Interactive Links</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="7">
+            <a href="#7" class="codelab-step-link">
+              <span class="codelab-step-num">08</span>
+              <span>Tables &amp; Structured Data</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="8">
+            <a href="#8" class="codelab-step-link">
+              <span class="codelab-step-num">09</span>
+              <span>Lists &amp; Nested Task Hierarchies</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="9">
+            <a href="#9" class="codelab-step-link">
+              <span class="codelab-step-num">10</span>
+              <span>Interactive Knowledge Checks (Surveys)</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="10">
+            <a href="#10" class="codelab-step-link">
+              <span class="codelab-step-num">11</span>
+              <span>Images &amp; Visual Assets</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="11">
+            <a href="#11" class="codelab-step-link">
+              <span class="codelab-step-num">12</span>
+              <span>Video Embedding (YouTube)</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="12">
+            <a href="#12" class="codelab-step-link">
+              <span class="codelab-step-num">13</span>
+              <span>Web Components &amp; CDN Architecture</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="13">
+            <a href="#13" class="codelab-step-link">
+              <span class="codelab-step-num">14</span>
+              <span>Complete Source Markdown</span>
+            </a>
+          </li>
+          <li class="codelab-step-item" data-step-index="14">
+            <a href="#14" class="codelab-step-link">
+              <span class="codelab-step-num">15</span>
+              <span>Summary &amp; Next Steps</span>
+            </a>
+          </li>
+        </ol>
+      </div>
+
+      <div class="codelab-drawer-footer">
+        <a id="feedback-link" class="codelab-feedback-link" href="mailto:dev&amp;#64;kartikarora&amp;#46;me" target="_blank" rel="noopener noreferrer">
+          <span class="material-symbols-outlined">bug_report</span>
+          <span>Report a mistake</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Step Content + Stepper Controls -->
+    <main id="main" class="codelab-main">
+      <div id="steps">
+        <section class="codelab-step tokyo-card"
+                 data-step-index="0"
+                 data-label="Overview &amp; Codelab Architecture"
+                 data-duration="2"
+                 
+                 data-selected="true">
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 01 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">1. Overview &amp; Codelab Architecture</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Welcome to the <strong>Klaat Format Guide &amp; Feature Showcase</strong>! This interactive tutorial serves as both an exhaustive technical reference manual and a living, hands-on demonstration of every visual element, metadata property, and interactive component supported by Klaat.</p>
 <h3>Codelab Architecture</h3>
 <p>Klaat translates structured documents (Markdown or Google Docs) into interactive web tutorials centered around <strong>Steps</strong>:</p>
 <ul>
@@ -89,19 +1025,36 @@
 </ul>
 <aside class="positive"><p><strong>Tip</strong>: Notice the left-hand drawer. As you read through each step, the timer and progress bar update automatically in real-time!</p></aside>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown"># Klaat Format Guide &amp; Feature Showcase
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k"># Klaat Format Guide &amp; Feature Showcase</span>
 
-## Overview &amp; Codelab Architecture
-Duration: 0:02:00
+<span class="k">## Overview &amp; Codelab Architecture</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-Welcome to the **Klaat Format Guide &amp; Feature Showcase**!
+Welcome to the <span class="nv">**Klaat Format Guide &amp; Feature Showcase**</span>!
 
-&gt; **Tip**: Progress updates automatically in real-time! {.positive}
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="c">&gt; **Tip**: Progress updates automatically in real-time! {.positive}</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Metadata &amp; Frontmatter Schema" duration="2">
-      <p>Every codelab begins with a metadata block that configures runtime settings, categorization, author attribution, and search indexing.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="1"
+                 data-label="Metadata &amp; Frontmatter Schema"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 02 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">2. Metadata &amp; Frontmatter Schema</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Every codelab begins with a metadata block that configures runtime settings, categorization, author attribution, and search indexing.</p>
 <h3>Configuration Fields Reference</h3>
 <table>
 <thead>
@@ -146,21 +1099,38 @@ Welcome to the **Klaat Format Guide &amp; Feature Showcase**!
 </tbody>
 </table>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">---
-id: my-codelab
-summary: Learn Kotlin development with Klaat
-authors: Kartik Arora
-categories: kotlin, tutorial
-environments: web
-status: published
-feedback_link: mailto:dev@kartikarora.me
-duration: 20
----
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="cp">---</span>
+<span class="na">id</span>: <span class="s">my-codelab</span>
+<span class="na">summary</span>: <span class="s">Learn Kotlin development with Klaat</span>
+<span class="na">authors</span>: <span class="s">Kartik Arora</span>
+<span class="na">categories</span>: <span class="s">kotlin, tutorial</span>
+<span class="na">environments</span>: <span class="s">web</span>
+<span class="na">status</span>: <span class="s">published</span>
+<span class="na">feedback_link</span>: <span class="s">mailto:dev@kartikarora.me</span>
+<span class="na">duration</span>: <span class="m">20</span>
+<span class="cp">---</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Document Formats (Markdown &amp; GDocs)" duration="2">
-      <p>Klaat supports both <strong>Markdown</strong> files and <strong>Google Docs</strong> documents as first-class authoring formats.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="2"
+                 data-label="Document Formats (Markdown &amp; GDocs)"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 03 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">3. Document Formats (Markdown &amp; GDocs)</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Klaat supports both <strong>Markdown</strong> files and <strong>Google Docs</strong> documents as first-class authoring formats.</p>
 <h3>Markdown Structure Rules</h3>
 <ol>
 <li><p><strong>Frontmatter Block</strong>: Enclosed in triple dashes (<code>---</code>) at the top of the file.</p></li>
@@ -202,20 +1172,37 @@ duration: 20
 </tbody>
 </table>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">## Step Title
-Duration: 0:01:30
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">## Step Title</span>
+<span class="na">Duration</span>: <span class="m">0:01:30</span>
 
 Step body content goes here...
 
-## Conclusion
-Duration: 0:00:00 (ignore)
+<span class="k">## Conclusion</span>
+<span class="na">Duration</span>: <span class="m">0:00:00</span> (ignore)
 
 Final wrap-up excluded from countdown.
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Text &amp; Typography Formatting" duration="2">
-      <p>Klaat provides typography tokens built on Google Fonts <strong>Space Grotesk</strong> and <strong>JetBrains Mono</strong>.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="3"
+                 data-label="Text &amp; Typography Formatting"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 04 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">4. Text &amp; Typography Formatting</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Klaat provides typography tokens built on Google Fonts <strong>Space Grotesk</strong> and <strong>JetBrains Mono</strong>.</p>
 <h3>Heading Hierarchy</h3>
 <h3>Subsection Heading (H3)</h3>
 <p>Used for primary sub-topics and conceptual divisions.</p>
@@ -233,90 +1220,141 @@ Final wrap-up excluded from countdown.
 <p>Blockquotes feature accent borders and subtle background tinting:</p>
 <aside class="default"><p>&quot;Simplicity is prerequisite for reliability.&quot; - Edsger W. Dijkstra</p></aside>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">## Text &amp; Typography Formatting
-Duration: 0:02:00
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">## Text &amp; Typography Formatting</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-### Subsection Heading (H3)
-#### Minor Heading (H4)
+<span class="k">### Subsection Heading (H3)</span>
+<span class="k">#### Minor Heading (H4)</span>
 
-- **Bold Text**: `**text**`
-- *Italic Text*: `*text*`
-- `Inline Code`: backticks
-&gt; &quot;High impact pull quote&quot;
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+- <span class="nv">**Bold Text**</span>: <span class="s">`**text**`</span>
+- *Italic Text*: <span class="s">`*text*`</span>
+- <span class="s">`Inline Code`</span>: backticks
+<span class="c">&gt; &quot;High impact pull quote&quot;</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Semantic Infoboxes (Alert Callouts)" duration="2">
-      <p>Infoboxes (asides) highlight critical guidelines, warnings, tips, and achievements. Created using blockquotes with a trailing class tag:</p>
-<h3>Positive (Success) - `{.positive}`</h3>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="4"
+                 data-label="Semantic Infoboxes (Alert Callouts)"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 05 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">5. Semantic Infoboxes (Alert Callouts)</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Infoboxes (asides) highlight critical guidelines, warnings, tips, and achievements. Created using blockquotes with a trailing class tag:</p>
+<h3>Positive (Success) - <code>{.positive}</code></h3>
 <aside class="positive"><p><strong>Success</strong>: Use positive infoboxes for milestones, successful build completions, or best practice recommendations.</p></aside>
-<h3>Special (Info / Tip) - `{.special}`</h3>
+<h3>Special (Info / Tip) - <code>{.special}</code></h3>
 <aside class="special"><p><strong>Information</strong>: Use special infoboxes for non-critical contextual notes, architecture details, or background reading.</p></aside>
-<h3>Warning (Caution) - `{.warning}`</h3>
+<h3>Warning (Caution) - <code>{.warning}</code></h3>
 <aside class="warning"><p><strong>Caution</strong>: Use warning infoboxes for breaking changes, required prerequisites, or common pitfalls.</p></aside>
-<h3>Critical (Error / Security) - `{.critical}`</h3>
+<h3>Critical (Error / Security) - <code>{.critical}</code></h3>
 <aside class="critical"><p><strong>Critical</strong>: Use critical infoboxes for security vulnerabilities, destructive operations, or data loss warnings.</p></aside>
 <h3>Default (Neutral Aside)</h3>
 <aside class="default"><p>Standard aside blockquote without a specific type tag renders with a neutral gray accent border.</p></aside>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">&gt; **Success**: Milestone completed! {.positive}
-&gt; **Info**: Contextual background details. {.special}
-&gt; **Caution**: Mind the prerequisites. {.warning}
-&gt; **Critical**: Never expose private API keys! {.critical}
-&gt; Neutral aside blockquote.
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="c">&gt; **Success**: Milestone completed! {.positive}</span>
+<span class="c">&gt; **Info**: Contextual background details. {.special}</span>
+<span class="c">&gt; **Caution**: Mind the prerequisites. {.warning}</span>
+<span class="c">&gt; **Critical**: Never expose private API keys! {.critical}</span>
+<span class="c">&gt; Neutral aside blockquote.</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Code Blocks &amp; Syntax Highlighting" duration="2">
-      <p>Code blocks support multi-language syntax highlighting, one-click clipboard copying, and optional filename headers.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="5"
+                 data-label="Code Blocks &amp; Syntax Highlighting"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 06 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">6. Code Blocks &amp; Syntax Highlighting</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Code blocks support multi-language syntax highlighting, one-click clipboard copying, and optional filename headers.</p>
 <h3>Standard Kotlin Code Block</h3>
-<div class="code-container"><pre><code class=" language-kotlin">package me.kartikarora.klaat.core
+<div class="code-container"><span class="code-lang">kotlin</span><div class="highlight"><pre data-copy-ready="true"><code class="language-kotlin" data-highlighted="true"><span class="k">package</span> me.kartikarora.klaat.core
 
-data class Step(
-    val title: String,
-    val duration: Duration,
-    val nodes: List&lt;Node&gt;,
-    val excludeDuration: Boolean = false
+<span class="k">data</span> <span class="k">class</span> <span class="nc">Step</span>(
+    <span class="k">val</span> <span class="nv">title</span>: <span class="nc">String</span>,
+    <span class="k">val</span> <span class="nv">duration</span>: <span class="nc">Duration</span>,
+    <span class="k">val</span> <span class="nv">nodes</span>: <span class="nc">List</span>&lt;<span class="nc">Node</span>&gt;,
+    <span class="k">val</span> <span class="nv">excludeDuration</span>: <span class="nc">Boolean</span> = <span class="k">false</span>
 )
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 <h3>Code Block with Filename Pill</h3>
 <p>Specify a bold title line immediately before the code block:</p>
 <p><strong>Exporter.kt</strong></p>
-<div class="code-container"><pre><code class=" language-kotlin">package me.kartikarora.klaat.core
+<div class="code-container"><span class="code-lang">kotlin</span><div class="highlight"><pre data-copy-ready="true"><code class="language-kotlin" data-highlighted="true"><span class="k">package</span> me.kartikarora.klaat.core
 
-class Exporter(private val targetDir: File) {
-    fun export(codelab: Codelab, format: OutputFormat) {
-        // Orchestrates parser-renderer pipeline
+<span class="k">class</span> <span class="nc">Exporter</span>(<span class="k">private</span> <span class="k">val</span> <span class="nv">targetDir</span>: <span class="nc">File</span>) {
+    <span class="k">fun</span> <span class="nf">export</span>(codelab: <span class="nc">Codelab</span>, format: <span class="nc">OutputFormat</span>) {
+        <span class="c">// Orchestrates parser-renderer pipeline</span>
     }
 }
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 <h3>Shell / Terminal Commands</h3>
-<div class="code-container"><pre><code class=" language-bash"># Export codelab to HTML with local asset prefix
-klaat export -f html -o output examples/feature-showcase.md
+<div class="code-container"><span class="code-lang">bash</span><div class="highlight"><pre data-copy-ready="true"><code class="language-bash" data-highlighted="true"><span class="c"># Export codelab to HTML with local asset prefix</span>
+<span class="nb">klaat</span> <span class="k">export</span> <span class="na">-f</span> html <span class="na">-o</span> output examples/feature-showcase.md
 
-# Launch local preview server on port 9090
-klaat serve -d output -p 9090
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="c"># Launch local preview server on port 9090</span>
+<span class="nb">klaat</span> serve <span class="na">-d</span> output <span class="na">-p</span> <span class="m">9090</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">**Exporter.kt**
-\```kotlin
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="nv">**Exporter.kt**</span>
+<span class="cp">\```kotlin</span>
 package me.kartikarora.klaat.core
 class Exporter(private val targetDir: File)
-\```
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="cp">\```</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Action Buttons &amp; Interactive Links" duration="2">
-      <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add <code>{.buttonPrimary}</code> (or <code>{.button}</code>) for solid buttons, <code>{.buttonSecondary}</code> for outlined buttons, and <code>icon=&lt;name&gt;</code> for custom Material Symbol icons.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="6"
+                 data-label="Action Buttons &amp; Interactive Links"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 07 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">7. Action Buttons &amp; Interactive Links</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Action buttons and call-to-actions are styled as rounded pill buttons with hover states. Add <code>{.buttonPrimary}</code> (or <code>{.button}</code>) for solid buttons, <code>{.buttonSecondary}</code> for outlined buttons, and <code>icon=&lt;name&gt;</code> for custom Material Symbol icons.</p>
 <h3>Primary Action Button with Custom Icon</h3>
 <p>Explore the official Klaat documentation:</p>
-<a class="klaat-button klaat-button--primary klaat-button--colored" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">menu_book</span>Read Documentation</a>
+<a class="btn klaat-button btn-primary klaat-button--primary klaat-button--colored" href="https://klaat.kartikarora.me/docs/index.html" target="_blank"><span class="material-symbols-outlined">menu_book</span>Read Documentation</a>
 <h3>Automatic Download Detection (Safe Demo)</h3>
 <p>Links with <code>&quot;download&quot;</code> in their text or targeting archive files automatically display the download symbol without requiring a custom icon tag:</p>
-<a class="klaat-button klaat-button--primary klaat-button--colored" href="#" target="_blank"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
+<a class="btn klaat-button btn-primary klaat-button--primary klaat-button--colored" href="#" target="_blank"><span class="material-symbols-outlined">download</span>Download Sample Asset</a>
 <h3>Secondary Action Button with Custom Icon</h3>
 <p>Send feedback or reach out with suggestions:</p>
-<a class="klaat-button klaat-button--secondary" href="mailto:dev&amp;#64;kartikarora&amp;#46;me" target="_blank"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
+<a class="btn klaat-button btn-outline klaat-button--secondary" href="mailto:dev&amp;#64;kartikarora&amp;#46;me" target="_blank"><span class="material-symbols-outlined">mail</span>Send Feedback</a>
 <h3>External Navigation Links</h3>
 <p>Links without button attributes remain clean inline navigation links:</p>
 <ul>
@@ -324,25 +1362,42 @@ class Exporter(private val targetDir: File)
 <li><p>Explore the <a href="https://klaat.kartikarora.me/docs/index.html" target="_blank">CLI Man Pages</a>.</p></li>
 </ul>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">## Action Buttons &amp; Interactive Links
-Duration: 0:02:00
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">## Action Buttons &amp; Interactive Links</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-# Primary solid button with custom icon:
-[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
+<span class="k"># Primary solid button with custom icon:</span>
+[<span class="nf">Read Documentation</span>](<span class="s">https://klaat.kartikarora.me/docs/index.html</span>){.buttonPrimary icon=menu_book}
 
-# Automatic download detection (no custom icon needed):
-[Download Sample Asset](#){.buttonPrimary}
+<span class="k"># Automatic download detection (no custom icon needed):</span>
+[<span class="nf">Download Sample Asset</span>](<span class="s">#</span>){.buttonPrimary}
 
-# Secondary outlined button with email icon:
-[Send Feedback](mailto:dev&amp;#64;kartikarora&amp;#46;me){.buttonSecondary icon=mail}
+<span class="k"># Secondary outlined button with email icon:</span>
+[<span class="nf">Send Feedback</span>](<span class="s">mailto:dev&amp;#64;kartikarora&amp;#46;me</span>){.buttonSecondary icon=mail}
 
-# Standard inline links (no tag):
-Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index.html).
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="k"># Standard inline links (no tag):</span>
+Visit the official [<span class="nf">Klaat Documentation</span>](<span class="s">https://klaat.kartikarora.me/docs/index.html</span>).
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Tables &amp; Structured Data" duration="2">
-      <p>Tables format structured tabular data with alignment support:</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="7"
+                 data-label="Tables &amp; Structured Data"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 08 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">8. Tables &amp; Structured Data</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Tables format structured tabular data with alignment support:</p>
 <table>
 <thead>
 <tr>
@@ -368,15 +1423,32 @@ Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index
 </tbody>
 </table>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">| Command | Arguments | Format |
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true">| Command | Arguments | Format |
 | :--- | :--- | :---: |
-| `export` | `[-f format] [-o dir]` | `html` |
-| `serve` | `[-d dir] [-p port]` | Server |
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+| <span class="s">`export`</span> | <span class="s">`[-f format] [-o dir]`</span> | <span class="s">`html`</span> |
+| <span class="s">`serve`</span> | <span class="s">`[-d dir] [-p port]`</span> | Server |
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Lists &amp; Nested Task Hierarchies" duration="2">
-      <p>Klaat renders bulleted lists, numbered lists, nested sub-items, and task checklists cleanly:</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="8"
+                 data-label="Lists &amp; Nested Task Hierarchies"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 09 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">9. Lists &amp; Nested Task Hierarchies</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Klaat renders bulleted lists, numbered lists, nested sub-items, and task checklists cleanly:</p>
 <h3>Feature Checklist</h3>
 <ul>
 <li><p>Native Compilation Architecture</p><ul>
@@ -397,17 +1469,34 @@ Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index
 <li><p>Deploy static output to Cloudflare Pages, Firebase Hosting, or GitHub Pages.</p></li>
 </ol>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">* Feature Item 1
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true">* Feature Item 1
   * Sub Item 1.1
 1. Step One
 2. Step Two
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Interactive Knowledge Checks (Surveys)" duration="2">
-      <p>Embed interactive quizzes and knowledge checks inside any step. Options persist across reloads using <code>localStorage</code>.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="9"
+                 data-label="Interactive Knowledge Checks (Surveys)"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 10 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">10. Interactive Knowledge Checks (Surveys)</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Embed interactive quizzes and knowledge checks inside any step. Options persist across reloads using <code>localStorage</code>.</p>
 <h3>Quick Knowledge Check</h3>
-<klaat-kodelab-survey survey-id="survey-106962363">
+<div class="klaat-survey" data-survey-id="survey-106962363">
 <h4>Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?</h4>
 <div class="klaat-radio-group">
 <label class="klaat-radio-label"><input type="radio" name="survey-106962363"> <code>klaat export --preview</code></label>
@@ -415,36 +1504,70 @@ Visit the official [Klaat Documentation](https://klaat.kartikarora.me/docs/index
 <label class="klaat-radio-label"><input type="radio" name="survey-106962363"> <code>klaat serve -d output</code></label>
 <label class="klaat-radio-label"><input type="radio" name="survey-106962363"> <code>klaat preview tutorial.md</code></label>
 </div>
-</klaat-kodelab-survey>
+</div>
 <aside class="positive"><p><strong>Correct!</strong> <code>klaat demo</code>extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically.</p></aside>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">### Quick Knowledge Check
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">### Quick Knowledge Check</span>
 
 Which command extracts the bundled demo showcase, exports it, and opens the live browser preview in a single step?
 
-- [ ] `klaat export --preview`
-- [x] `klaat demo`
-- [ ] `klaat serve -d output`
-- [ ] `klaat preview tutorial.md`
+- [ ] <span class="s">`klaat export --preview`</span>
+- [x] <span class="s">`klaat demo`</span>
+- [ ] <span class="s">`klaat serve -d output`</span>
+- [ ] <span class="s">`klaat preview tutorial.md`</span>
 
-&gt; **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="c">&gt; **Correct!** `klaat demo` extracts the bundled demo files to your current directory, exports them to HTML, and starts the local preview server automatically. {.positive}</span>
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Images &amp; Visual Assets" duration="2">
-      <p>Images in Klaat are centered by default, responsive across mobile and desktop, and styled with rounded corners.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="10"
+                 data-label="Images &amp; Visual Assets"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 11 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">11. Images &amp; Visual Assets</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Images in Klaat are centered by default, responsive across mobile and desktop, and styled with rounded corners.</p>
 <h3>Responsive Image with Caption</h3>
 <p><img alt="Klaat Architecture &amp; Native Engine" src="images/klaat.png"></p>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">## Images &amp; Visual Assets
-Duration: 0:01:30
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">## Images &amp; Visual Assets</span>
+<span class="na">Duration</span>: <span class="m">0:01:30</span>
 
-![Klaat Architecture &amp; Native Engine](images/klaat.png)
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+![<span class="nf">Klaat Architecture &amp; Native Engine</span>](<span class="s">images/klaat.png</span>)
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Video Embedding (YouTube)" duration="2">
-      <p>Klaat makes embedding video tutorials effortless. Embed YouTube videos using standard Markdown image link syntax or standalone URLs:</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="11"
+                 data-label="Video Embedding (YouTube)"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 12 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">12. Video Embedding (YouTube)</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Klaat makes embedding video tutorials effortless. Embed YouTube videos using standard Markdown image link syntax or standalone URLs:</p>
 <h3>Responsive 16:9 Video Player</h3>
 <iframe class="youtube-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <h3>Supported Video Formats &amp; Syntax</h3>
@@ -455,15 +1578,32 @@ Duration: 0:01:30
 </ul>
 <p>Klaat automatically converts YouTube references into a responsive video player (<code>&lt;iframe class=&quot;youtube-video&quot;&gt;</code>) that adapts fluidly with a native 16:9 aspect ratio.</p>
 <h3>Source Markdown for this Step</h3>
-<div class="code-container"><pre><code class=" language-markdown">## Video Embedding (YouTube)
-Duration: 0:01:30
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="k">## Video Embedding (YouTube)</span>
+<span class="na">Duration</span>: <span class="m">0:01:30</span>
 
-[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+[<span class="nf">![Watch the Video</span>](<span class="s">https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg</span>)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Web Components &amp; CDN Architecture" duration="2">
-      <p>Klaat HTML exports are powered by dependency-free Web Components. Both <code>&lt;kodelab-*&gt;</code> and <code>&lt;klaat-kodelab*&gt;</code> tags are registered in the runtime.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="12"
+                 data-label="Web Components &amp; CDN Architecture"
+                 data-duration="2"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 13 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                2 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">13. Web Components &amp; CDN Architecture</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Klaat HTML exports are powered by dependency-free Web Components. Both <code>&lt;kodelab-*&gt;</code> and <code>&lt;klaat-kodelab*&gt;</code> tags are registered in the runtime.</p>
 <h3>Custom Element Tags</h3>
 <table>
 <thead>
@@ -488,111 +1628,145 @@ Duration: 0:01:30
 </table>
 <h3>CDN Integration Boilerplate</h3>
 <p>To use the custom elements in standalone web pages, include the CDN assets:</p>
-<div class="code-container"><pre><code class=" language-html">&lt;!-- CDN Stylesheets --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://distribute.kartikarora.me/css/kartikarora.2.0.0.css&quot;&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://distribute.kartikarora.me/css/klaat-elements.css&quot;&gt;
-&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
-&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
-&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&quot; rel=&quot;stylesheet&quot;&gt;
+<div class="code-container"><span class="code-lang">html</span><div class="highlight"><pre data-copy-ready="true"><code class="language-html" data-highlighted="true"><span class="c">&lt;!-- CDN Stylesheets --&gt;</span>
+&lt;<span class="nt">link</span> <span class="na">rel</span>=<span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span>=<span class="s">&quot;https://distribute.kartikarora.me/css/kartikarora.1.7.0.css&quot;</span>&gt;
+&lt;<span class="nt">link</span> <span class="na">rel</span>=<span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span>=<span class="s">&quot;https://distribute.kartikarora.me/css/klaat-elements.css&quot;</span>&gt;
+&lt;<span class="nt">link</span> <span class="na">rel</span>=<span class="s">&quot;preconnect&quot;</span> <span class="na">href</span>=<span class="s">&quot;https://fonts.googleapis.com&quot;</span>&gt;
+&lt;<span class="nt">link</span> <span class="na">rel</span>=<span class="s">&quot;preconnect&quot;</span> <span class="na">href</span>=<span class="s">&quot;https://fonts.gstatic.com&quot;</span> <span class="na">crossorigin</span>&gt;
+&lt;<span class="nt">link</span> <span class="na">href</span>=<span class="s">&quot;https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&quot;</span> <span class="na">rel</span>=<span class="s">&quot;stylesheet&quot;</span>&gt;
 
-&lt;!-- CDN Scripts --&gt;
-&lt;script src=&quot;https://distribute.kartikarora.me/js/kartikarora.2.0.0.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://distribute.kartikarora.me/js/klaat-elements.js&quot;&gt;&lt;/script&gt;
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+<span class="c">&lt;!-- CDN Scripts --&gt;</span>
+&lt;<span class="nt">script</span> <span class="na">src</span>=<span class="s">&quot;https://distribute.kartikarora.me/js/kartikarora.1.7.0.js&quot;</span>&gt;&lt;/<span class="nt">script</span>&gt;
+&lt;<span class="nt">script</span> <span class="na">src</span>=<span class="s">&quot;https://distribute.kartikarora.me/js/klaat-elements.js&quot;</span>&gt;&lt;/<span class="nt">script</span>&gt;
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Complete Source Markdown" duration="3">
-      <p>Below is the complete, raw Markdown source used to produce this interactive codelab. You can use the copy button in the top right corner to copy the full template for your own projects:</p>
-<div class="code-container"><pre><code class=" language-markdown:examples/feature-showcase.md">---
-id: klaat-feature-showcase
-summary: A comprehensive, living guide and interactive showcase demonstrating all metadata schemas, document formats, typography, code blocks, semantic infoboxes, action buttons, surveys, tables, media, and Web Components supported by Klaat.
-authors: Kartik Arora
-categories: guide, showcase, markdown, kotlin, tutorial
-environments: web
-status: published
-feedback_link: mailto:dev@kartikarora.me
-tags: format-guide, showcase, components, markdown, gdocs, buttons, infoboxes, video
-duration: 25
----
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="13"
+                 data-label="Complete Source Markdown"
+                 data-duration="3"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 14 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                3 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">14. Complete Source Markdown</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Below is the complete, raw Markdown source used to produce this interactive codelab. You can use the copy button in the top right corner to copy the full template for your own projects:</p>
+<div class="code-container"><span class="code-lang">markdown</span><div class="highlight"><pre data-copy-ready="true"><code class="language-markdown" data-highlighted="true"><span class="cp">---</span>
+<span class="na">id</span>: <span class="s">klaat-feature-showcase</span>
+<span class="na">summary</span>: <span class="s">A comprehensive, living guide and interactive showcase demonstrating all metadata schemas, document formats, typography, code blocks, semantic infoboxes, action buttons, surveys, tables, media, and Web Components supported by Klaat.</span>
+<span class="na">authors</span>: <span class="s">Kartik Arora</span>
+<span class="na">categories</span>: <span class="s">guide, showcase, markdown, kotlin, tutorial</span>
+<span class="na">environments</span>: <span class="s">web</span>
+<span class="na">status</span>: <span class="s">published</span>
+<span class="na">feedback_link</span>: <span class="s">mailto:dev@kartikarora.me</span>
+<span class="na">tags</span>: <span class="s">format-guide, showcase, components, markdown, gdocs, buttons, infoboxes, video</span>
+<span class="na">duration</span>: <span class="m">25</span>
+<span class="cp">---</span>
 
-# Klaat Format Guide &amp; Feature Showcase
+<span class="k"># Klaat Format Guide &amp; Feature Showcase</span>
 
-## Overview &amp; Codelab Architecture
-Duration: 0:02:00
+<span class="k">## Overview &amp; Codelab Architecture</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-Welcome to the **Klaat Format Guide &amp; Feature Showcase**!
+Welcome to the <span class="nv">**Klaat Format Guide &amp; Feature Showcase**</span>!
 
-&gt; **Tip**: Look at the drawer on the left for dynamic progress tracking! {.positive}
+<span class="c">&gt; **Tip**: Look at the drawer on the left for dynamic progress tracking! {.positive}</span>
 
-## Metadata &amp; Frontmatter Schema
-Duration: 0:02:00
+<span class="k">## Metadata &amp; Frontmatter Schema</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
 | YAML Field | Required | Data Type | Description |
 | :--- | :---: | :--- | :--- |
-| `id` | Optional | String | URL-safe identifier. |
-| `summary` | **Required** | String | Short description. |
+| <span class="s">`id`</span> | Optional | String | URL-safe identifier. |
+| <span class="s">`summary`</span> | <span class="nv">**Required**</span> | String | Short description. |
 
-## Typography &amp; Formatting
-Duration: 0:02:00
+<span class="k">## Typography &amp; Formatting</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-- **Bold Text**: `**text**`
-- *Italic Text*: `*text*`
-- `Inline Code`: backticks
-&gt; &quot;High impact pull quote&quot;
+- <span class="nv">**Bold Text**</span>: <span class="s">`**text**`</span>
+- *Italic Text*: <span class="s">`*text*`</span>
+- <span class="s">`Inline Code`</span>: backticks
+<span class="c">&gt; &quot;High impact pull quote&quot;</span>
 
-## Semantic Infoboxes (Alerts)
-Duration: 0:02:00
+<span class="k">## Semantic Infoboxes (Alerts)</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-&gt; **Positive**: Milestones completed. {.positive}
-&gt; **Special**: Useful tips. {.special}
-&gt; **Warning**: Cautionary notes. {.warning}
-&gt; **Critical**: Security warnings. {.critical}
+<span class="c">&gt; **Positive**: Milestones completed. {.positive}</span>
+<span class="c">&gt; **Special**: Useful tips. {.special}</span>
+<span class="c">&gt; **Warning**: Cautionary notes. {.warning}</span>
+<span class="c">&gt; **Critical**: Security warnings. {.critical}</span>
 
-## Code Blocks &amp; Highlighting
-Duration: 0:02:00
+<span class="k">## Code Blocks &amp; Highlighting</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-\```kotlin:CodelabExporter.kt
+<span class="cp">\```kotlin:CodelabExporter.kt</span>
 package me.kartikarora.klaat.core
 class CodelabExporter(private val targetDir: File)
-\```
+<span class="cp">\```</span>
 
-## Action Buttons &amp; Interactive Links
-Duration: 0:02:00
+<span class="k">## Action Buttons &amp; Interactive Links</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-[Read Documentation](https://klaat.kartikarora.me/docs/index.html){.buttonPrimary icon=menu_book}
-[Download Sample Asset](#){.buttonPrimary}
-[Send Feedback](mailto:dev@kartikarora.me){.buttonSecondary icon=mail}
+[<span class="nf">Read Documentation</span>](<span class="s">https://klaat.kartikarora.me/docs/index.html</span>){.buttonPrimary icon=menu_book}
+[<span class="nf">Download Sample Asset</span>](<span class="s">#</span>){.buttonPrimary}
+[<span class="nf">Send Feedback</span>](<span class="s">mailto:dev@kartikarora.me</span>){.buttonSecondary icon=mail}
 
-## Tables &amp; Structured Data
-Duration: 0:02:00
+<span class="k">## Tables &amp; Structured Data</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
 | Command | Arguments | Format |
 | :--- | :--- | :--- |
-| `export` | `-f html -o output` | HTML |
-| `demo` | `-o output` | HTML / Server |
+| <span class="s">`export`</span> | <span class="s">`-f html -o output`</span> | HTML |
+| <span class="s">`demo`</span> | <span class="s">`-o output`</span> | HTML / Server |
 
-## Interactive Knowledge Checks (Surveys)
-Duration: 0:02:00
+<span class="k">## Interactive Knowledge Checks (Surveys)</span>
+<span class="na">Duration</span>: <span class="m">0:02:00</span>
 
-### Quick Knowledge Check
+<span class="k">### Quick Knowledge Check</span>
 Which command starts demo?
-- [ ] `klaat export --preview`
-- [x] `klaat demo`
+- [ ] <span class="s">`klaat export --preview`</span>
+- [x] <span class="s">`klaat demo`</span>
 
-## Images &amp; Visual Assets
-Duration: 0:01:30
+<span class="k">## Images &amp; Visual Assets</span>
+<span class="na">Duration</span>: <span class="m">0:01:30</span>
 
-![Klaat Architecture Diagram](images/klaat.png)
+![<span class="nf">Klaat Architecture Diagram</span>](<span class="s">images/klaat.png</span>)
 
-## Video Embedding (YouTube)
-Duration: 0:01:30
+<span class="k">## Video Embedding (YouTube)</span>
+<span class="na">Duration</span>: <span class="m">0:01:30</span>
 
-[![Watch the Video](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-</code></pre><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
+[<span class="nf">![Watch the Video</span>](<span class="s">https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg</span>)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+</code></pre></div><button type="button" class="copy-button" onclick="copyToClipboard(this)"><span class="material-symbols-outlined">content_copy</span><span>Copy</span></button></div>
 
-    </klaat-kodelab-step>
-    <klaat-kodelab-step label="Summary &amp; Next Steps" duration="1">
-      <p>Congratulations! You have completed the <strong>Klaat Format Guide &amp; Feature Showcase</strong>.</p>
+          </div>
+        </section>
+        <section class="codelab-step tokyo-card"
+                 data-step-index="14"
+                 data-label="Summary &amp; Next Steps"
+                 data-duration="1"
+                 
+                 >
+          <header class="codelab-step-header">
+            <div class="codelab-step-meta">
+              <span class="badge badge-secondary">STEP 15 / 15</span>
+              <span class="codelab-step-duration">
+                <span class="material-symbols-outlined">schedule</span>
+                1 min
+              </span>
+            </div>
+            <h2 class="codelab-step-title">15. Summary &amp; Next Steps</h2>
+          </header>
+          <div class="codelab-step-body">
+            <p>Congratulations! You have completed the <strong>Klaat Format Guide &amp; Feature Showcase</strong>.</p>
 <h3>What You Explored</h3>
 <ul>
 <li><p>✅ Frontmatter metadata schema and dynamic drawer duration calculation</p></li>
@@ -616,12 +1790,340 @@ Duration: 0:01:30
 <li><p>💬 Reach out with feedback, thoughts, or suggestions: <code>dev [at] kartikarora [dot] me</code> (send email)</p></li>
 </ul>
 
-    </klaat-kodelab-step>
-    <div slot="footer" class="kodelab-footer">Codelab generated using <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a> - A tool made by <a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a></div>
-  </klaat-kodelab>
+          </div>
+        </section>
+      </div>
 
-  <!-- Klaat custom elements (replaces google's codelab-elements.js) -->
-  <script src="https://distribute.kartikarora.me/js/klaat-elements.js"></script>
+      <nav class="codelab-controls" id="controls" aria-label="Step navigation">
+        <a id="previous-step" href="#" class="btn btn-outline" data-disappear="true">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span>Back</span>
+        </a>
+        <div>
+          <a id="next-step" href="#" class="btn btn-primary">
+            <span>Next</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+          <a id="done" href="#" class="btn btn-secondary" hidden>
+            <span class="material-symbols-outlined">check_circle</span>
+            <span>Done</span>
+          </a>
+        </div>
+      </nav>
+    </main>
+  </div>
 
+  <!-- Studio Footer (matching kartikarora.me/brand-demo) -->
+  <footer class="studio-footer">
+    <div class="studio-container" style="max-width: 1280px;">
+      <div class="studio-footer-inner">
+        <div class="kodelab-footer">Codelab generated using <a href="https://klaat.kartikarora.me" target="_blank" rel="noopener">Klaat</a> - A tool made by <a href="https://kartikarora.me" target="_blank" rel="noopener">Kartik Arora</a></div>
+        <span>&copy; 2026 Kartik Arora</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Self-Contained Codelab Runtime (zero custom elements, zero external CDN dependencies) -->
+  <script>
+    function copyToClipboard(button) {
+      const container = button.closest('.code-container') || button.parentElement;
+      const code = container.querySelector('code').innerText;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code).then(() => {
+          updateButtonText(button);
+        }).catch(() => {
+          fallbackCopy(code, button);
+        });
+      } else {
+        fallbackCopy(code, button);
+      }
+    }
+
+    function fallbackCopy(text, button) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        updateButtonText(button);
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function updateButtonText(button) {
+      const textSpan = button.querySelector('span:last-child');
+      if (!textSpan) return;
+      const originalText = textSpan.textContent;
+      textSpan.textContent = 'Copied!';
+      setTimeout(() => {
+        textSpan.textContent = originalText;
+      }, 2000);
+    }
+
+    (function () {
+      'use strict';
+
+      // Prevent kartikarora.2.0.0.js from injecting a duplicate copy button inside .code-container
+      document.querySelectorAll('.code-container pre').forEach((pre) => {
+        pre.setAttribute('data-copy-ready', 'true');
+      });
+
+      const app = document.getElementById('codelab-app') || document.body;
+      const storage = (() => {
+        try { return window.localStorage; } catch (_) { return null; }
+      })();
+
+      function createCodelabController(stepEls) {
+        const controller = {
+          _steps: Array.from(stepEls || []),
+          _currentStep: 0,
+
+          get steps() { return this._steps; },
+          get totalSteps() { return this._steps.length; },
+          getTotalSteps() { return this.totalSteps; },
+
+          get totalDuration() {
+            return this._steps.reduce((sum, step) => {
+              if (step.getAttribute('data-exclude-duration') === 'true') return sum;
+              const d = parseInt(step.getAttribute('data-duration'), 10);
+              return sum + (isNaN(d) ? 0 : d);
+            }, 0);
+          },
+          getTotalDuration() { return this.totalDuration; },
+
+          get currentStep() { return this._currentStep >= 0 ? this._currentStep : 0; },
+          getCurrentStep() { return this.currentStep; },
+
+          get progressPercent() {
+            if (this._steps.length === 0) return 0;
+            return (this.currentStep / this._steps.length) * 100;
+          },
+          getProgressPercent() { return this.progressPercent; },
+
+          get remainingTime() {
+            if (this._steps.length === 0) return 0;
+            let mins = 0;
+            const start = Math.max(0, this.currentStep);
+            for (let i = start; i < this._steps.length; i++) {
+              const step = this._steps[i];
+              if (step.getAttribute('data-exclude-duration') === 'true') continue;
+              const d = parseInt(step.getAttribute('data-duration'), 10);
+              mins += isNaN(d) ? 0 : d;
+            }
+            return mins;
+          },
+          getRemainingTime() { return this.remainingTime; },
+
+          selectStep(index, isInit) {
+            if (this._steps.length === 0) return;
+            index = Math.max(0, Math.min(index, this._steps.length - 1));
+            if (isNaN(index)) index = 0;
+
+            const prev = this._currentStep;
+            this._currentStep = index;
+
+            this._steps.forEach((step, i) => {
+              if (i === index) {
+                step.setAttribute('data-selected', 'true');
+              } else {
+                step.removeAttribute('data-selected');
+              }
+            });
+
+            const navItems = document.querySelectorAll('#steps-nav .codelab-step-item');
+            navItems.forEach((li, i) => {
+              const link = li.querySelector('a');
+              if (i <= index) li.setAttribute('data-completed', 'true'); else li.removeAttribute('data-completed');
+              if (i === index) {
+                li.setAttribute('data-selected', 'true');
+                if (link) link.setAttribute('aria-current', 'step');
+              } else {
+                li.removeAttribute('data-selected');
+                if (link) link.removeAttribute('aria-current');
+              }
+            });
+
+            // Progress label & bar
+            const progressLabel = document.getElementById('step-progress-label');
+            if (progressLabel) {
+              progressLabel.textContent = 'STEP ' + (index + 1) + ' / ' + this._steps.length;
+            }
+            const progressFill = document.getElementById('progress-fill');
+            if (progressFill) {
+              const pct = this._steps.length > 0 ? ((index + 1) / this._steps.length) * 100 : 0;
+              progressFill.style.width = pct + '%';
+            }
+
+            // Remaining time
+            const rem = this.remainingTime;
+            const timePill = document.getElementById('time-remaining');
+            const timeLabel = document.getElementById('time-remaining-label');
+            if (timePill) {
+              if (rem > 0) {
+                timePill.style.display = 'inline-flex';
+                if (timeLabel) timeLabel.textContent = rem + ' min remaining';
+              } else {
+                timePill.style.display = 'none';
+              }
+            }
+
+            // Stepper buttons
+            const prevBtn = document.getElementById('previous-step');
+            const nextBtn = document.getElementById('next-step');
+            const doneBtn = document.getElementById('done');
+            if (prevBtn) {
+              if (index === 0) prevBtn.setAttribute('data-disappear', 'true');
+              else prevBtn.removeAttribute('data-disappear');
+            }
+            if (index === this._steps.length - 1) {
+              if (nextBtn) nextBtn.setAttribute('hidden', '');
+              if (doneBtn) doneBtn.removeAttribute('hidden');
+            } else {
+              if (nextBtn) nextBtn.removeAttribute('hidden');
+              if (doneBtn) doneBtn.setAttribute('hidden', '');
+            }
+
+            // Close mobile drawer & scroll to top smoothly on step change
+            document.body.classList.remove('drawer-open');
+            const menuBtn = document.getElementById('menu');
+            if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+            if (!isInit && typeof window.scrollTo === 'function') {
+              window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+
+            // Sync URL hash & localStorage progress
+            if (location.hash !== '#' + index) {
+              history.replaceState(null, '', '#' + index);
+            }
+            const id = app.getAttribute('data-codelab-id') || '';
+            if (storage && id) {
+              storage.setItem('progress_' + id, String(index));
+            }
+
+            // Optional analytics
+            const stepLabel = this._steps[index]?.getAttribute('data-label') || '';
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'page_view', { page_title: stepLabel, page_location: location.pathname + '#' + index });
+              if (!isInit && prev !== index) {
+                window.gtag('event', 'navigate', { event_category: 'codelab', event_label: stepLabel, value: index });
+              }
+            }
+          }
+        };
+        return controller;
+      }
+
+      const steps = document.querySelectorAll('#steps .codelab-step');
+      const controller = createCodelabController(steps);
+      window.klaatCodelab = controller;
+      window.createKlaatCodelabController = createCodelabController;
+
+      // Bind sidebar step clicks
+      document.querySelectorAll('#steps-nav .codelab-step-link').forEach((link, idx) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          controller.selectStep(idx);
+        });
+      });
+
+      // Bind navigation buttons
+      document.getElementById('previous-step')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        controller.selectStep(controller.currentStep - 1);
+      });
+
+      document.getElementById('next-step')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        controller.selectStep(controller.currentStep + 1);
+      });
+
+      document.getElementById('done')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'complete', { event_category: 'codelab', event_label: app.getAttribute('data-codelab-title') || '' });
+        }
+        const backHref = document.getElementById('arrow-back')?.getAttribute('href');
+        if (backHref) window.location.href = backHref;
+      });
+
+      // Back arrow smart history
+      document.getElementById('arrow-back')?.addEventListener('click', (e) => {
+        if (window.history.length > 1 && document.referrer) {
+          try {
+            const refUrl = new URL(document.referrer);
+            if (refUrl.origin === location.origin && refUrl.pathname !== location.pathname) {
+              e.preventDefault();
+              window.history.back();
+            }
+          } catch (_) {}
+        }
+      });
+
+      // Mobile drawer toggle
+      const menuBtn = document.getElementById('menu');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const toggleDrawer = (open) => {
+        const next = typeof open === 'boolean' ? open : !document.body.classList.contains('drawer-open');
+        document.body.classList.toggle('drawer-open', next);
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', String(next));
+      };
+      menuBtn?.addEventListener('click', () => toggleDrawer());
+      backdrop?.addEventListener('click', () => toggleDrawer(false));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) {
+          toggleDrawer(false);
+        }
+      });
+
+      // Hash navigation
+      window.addEventListener('hashchange', () => {
+        const hash = parseInt(location.hash.substring(1), 10);
+        if (!isNaN(hash)) controller.selectStep(hash);
+      });
+
+      // Survey radio persistence
+      document.querySelectorAll('.klaat-survey[data-survey-id]').forEach((surveyEl) => {
+        const surveyId = surveyEl.getAttribute('data-survey-id') || '';
+        const loadSaved = () => {
+          if (!storage || !surveyId) return {};
+          try { return JSON.parse(storage.getItem(surveyId) || '{}'); } catch (_) { return {}; }
+        };
+        const saved = loadSaved();
+        surveyEl.querySelectorAll('input[type="radio"]').forEach((input) => {
+          const name = input.getAttribute('name') || '';
+          const labelText = (input.closest('label')?.textContent || '').trim();
+          if (saved[name] && labelText.includes(saved[name])) {
+            input.checked = true;
+          }
+          input.addEventListener('change', () => {
+            if (!storage || !surveyId) return;
+            const data = loadSaved();
+            data[name] = labelText;
+            storage.setItem(surveyId, JSON.stringify(data));
+          });
+        });
+      });
+
+      // Initial step from URL hash or localStorage
+      const id = app.getAttribute('data-codelab-id') || '';
+      const savedStep = storage && id ? storage.getItem('progress_' + id) : null;
+      const hashStep = location.hash ? parseInt(location.hash.substring(1), 10) : NaN;
+      let startStep = 0;
+      if (!isNaN(hashStep) && hashStep >= 0) {
+        startStep = hashStep;
+      } else if (savedStep && savedStep !== '0') {
+        startStep = parseInt(savedStep, 10) || 0;
+      }
+      controller.selectStep(startStep, true);
+    })();
+  </script>
 </body>
 </html>

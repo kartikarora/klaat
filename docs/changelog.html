@@ -19,7 +19,7 @@
     <!-- Required Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
     <!-- Docs & Site CSS -->
     <link href="style.css" rel="stylesheet">
@@ -59,15 +59,18 @@
 
         .entry-card {
             background: var(--color-card);
-            border: 1px solid var(--color-rule);
-            border-radius: var(--radius-md);
+            border: 2px solid var(--color-rule-strong);
+            border-radius: var(--radius-sm);
+            box-shadow: 4px 4px 0 var(--color-rule-strong);
             padding: var(--space-lg);
             margin-bottom: var(--space-lg);
-            transition: border-color var(--transition);
+            transition: border-color var(--dur-micro, 120ms) var(--ease-standard), transform var(--dur-micro, 120ms) var(--ease-standard), box-shadow var(--dur-micro, 120ms) var(--ease-standard);
         }
 
         .entry-card:hover {
             border-color: var(--color-signal);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--color-signal);
         }
 
         .entry-header {

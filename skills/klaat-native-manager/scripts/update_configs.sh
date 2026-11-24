@@ -47,6 +47,11 @@ echo "📝 Running export (Markdown to Offline)..."
 ./gradlew -Pagent run --args="export examples/infobox-example.md -o build/agent-test-output -f offline"
 ./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output -f offline"
 
+echo "📝 Running export (--legacy and -extra/-pass_metadata)..."
+./gradlew -Pagent run --args="export --legacy examples/feature-showcase.md -o build/agent-test-output/legacy-html -f html"
+./gradlew -Pagent run --args="export --legacy examples/feature-showcase.md -o build/agent-test-output/legacy-offline -f offline"
+./gradlew -Pagent run --args="export examples/feature-showcase.md -o build/agent-test-output/extra -f html -extra {\"env\":\"test\"} -pass_metadata tags"
+
 # 4. Google Docs Exports (from examples/README.md)
 # Document IDs:
 # - Comprehensive Example: 1h8Z_JEruw6MrlXoBjdVNH37GOb7u3Fn0A2sct-tnzYM
@@ -71,8 +76,10 @@ echo "🌐 Running serve command (briefly)..."
 # Use a custom port to avoid conflicts
 ./gradlew -Pagent run --args="serve -d examples -addr localhost:9876 --no-browser" &
 SERVE_PID=$!
-sleep 10
-kill $SERVE_PID || true
+sleep 6
+curl -sf http://localhost:9876/ > /dev/null || true
+kill -15 $SERVE_PID || true
+wait $SERVE_PID 2>/dev/null || true
 echo "✅ Serve command stopped."
 
 # 4. Tracing invalid inputs, error paths, and specific flags to maximize reflection coverage
@@ -100,9 +107,9 @@ echo "📝 Running update (no arguments)..."
 echo "📝 Running update (non-existent folder)..."
 ./gradlew -Pagent run --args="update non_existent_folder" || true
 
-# 5. Trace Google Docs authentication lifecycles (no token, expired token refresh, deleted/corrupted token)
-echo "🔑 Running Google Docs authentication tests under agent to capture OAuth & Token reflection..."
-./gradlew -Pagent test --tests me.kartikarora.klaat.core.GoogleDocsClientAuthTest
+# 5. Trace full test suite (including Google Docs OAuth/Token lifecycle, renderers, and serve tests)
+echo "🔑 Running full test suite under agent to capture reflection & resource metadata..."
+./gradlew -Pagent test
 
 # 6. Copy metadata to resources
 echo "📂 Copying agent metadata to resources..."

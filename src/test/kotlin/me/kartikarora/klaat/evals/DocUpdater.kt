@@ -87,7 +87,7 @@ object DocUpdater {
     <!-- Required Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
     <!-- Docs Specific CSS -->
     <link href="style.css" rel="stylesheet">
@@ -150,25 +150,25 @@ object DocUpdater {
 
                 <!-- Metric Summary Cards -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin: var(--space-lg) 0;">
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); font-weight: 700; letter-spacing: 0.05em;">Autonomous Trigger</div>
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Autonomous Trigger</div>
                         <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">${"%.0f".format(m.triggerRecallPct)}%</div>
-                        <div style="font-size: 0.8rem; color: var(--secondary);">Sensitivity on codelab tasks</div>
+                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">Sensitivity on codelab tasks</div>
                     </div>
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); font-weight: 700; letter-spacing: 0.05em;">False Trigger Resistance</div>
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">False Trigger Resistance</div>
                         <div style="font-size: 2.2rem; font-weight: 800; color: #2196f3; margin: var(--space-xs) 0;">${"%.0f".format(100.0 - m.falsePositiveRatePct)}%</div>
-                        <div style="font-size: 0.8rem; color: var(--secondary);">Specificity on distractor prompts</div>
+                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">Specificity on distractor prompts</div>
                     </div>
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); font-weight: 700; letter-spacing: 0.05em;">Klaat Export Pass Rate</div>
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Klaat Export Pass Rate</div>
                         <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">${"%.0f".format(m.agentCompileRatePct)}%</div>
-                        <div style="font-size: 0.8rem; color: var(--secondary);">vs. ${"%.0f".format(m.baselineCompileRatePct)}% without skill</div>
+                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. ${"%.0f".format(m.baselineCompileRatePct)}% without skill</div>
                     </div>
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); font-weight: 700; letter-spacing: 0.05em;">Duration Tag Adherence</div>
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Duration Tag Adherence</div>
                         <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">${"%.0f".format(m.agentDurationCompliancePct)}%</div>
-                        <div style="font-size: 0.8rem; color: var(--secondary);">vs. ${"%.0f".format(m.baselineDurationCompliancePct)}% without skill</div>
+                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. ${"%.0f".format(m.baselineDurationCompliancePct)}% without skill</div>
                     </div>
                 </div>
             </section>
@@ -253,29 +253,29 @@ $rows
                 <p>Our eval suite uses a two-stage approach combining autonomous agent simulation and compiler-backed deterministic validation:</p>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-lg);">
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-lg);">
                         <h3 style="display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm);">
-                            <span class="material-symbols-outlined" style="color: var(--accent);">psychology</span>
+                            <span class="material-symbols-outlined" style="color: var(--color-signal);">psychology</span>
                             1. Autonomous Invocation Test
                         </h3>
-                        <p style="font-size: 0.95rem; color: var(--secondary);">
+                        <p style="font-size: 0.95rem; color: var(--color-ink-muted);">
                             We do not hardcode <code>SKILL.md</code> into the prompt. Instead, we present the agent with a catalog of skill descriptions and a <code>read_skill</code> tool. We check whether the model independently chooses to invoke <code>read_skill("klaat-markdown-author")</code> when handed a codelab prompt, and whether it correctly leaves the tool untouched for general markdown requests.
                         </p>
                     </div>
 
-                    <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: var(--space-lg);">
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-lg);">
                         <h3 style="display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm);">
                             <span class="material-symbols-outlined" style="color: #4caf50;">fact_check</span>
                             2. Deterministic Compiler Verification
                         </h3>
-                        <p style="font-size: 0.95rem; color: var(--secondary);">
+                        <p style="font-size: 0.95rem; color: var(--color-ink-muted);">
                             Rather than relying only on subjective LLM judges, we feed the agent's raw output directly into Klaat's official <code>MarkdownParser</code>. A test only passes if the output extracts valid YAML metadata (id, summary, categories), valid per-step durations (<code>Duration: &gt; 0</code>), and produces compilable HTML with zero parser errors.
                         </p>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top: var(--space-lg); padding: var(--space-md); border: 1px solid var(--border); border-radius: var(--border-radius); background: var(--bg-alt);">
-                    <div style="font-size: 0.85rem; color: var(--secondary);">
+                <div class="card" style="margin-top: var(--space-lg); padding: var(--space-md); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); background: var(--color-paper-alt);">
+                    <div style="font-size: 0.85rem; color: var(--color-ink-muted);">
                         <strong>Run this eval locally:</strong>
                         <pre style="margin-top: 8px;"><code class="language-bash">./gradlew evalSkills -PupdateDocs=true</code></pre>
                     </div>
