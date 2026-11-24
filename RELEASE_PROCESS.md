@@ -12,7 +12,6 @@ Snapshot releases happen automatically on every push to `develop`:
 
 1. GitHub Actions builds **native binaries** for all platforms using GraalVM:
    - `klaat-snapshot-macos-arm64-{hash}`
-   - `klaat-snapshot-macos-x64-{hash}` (Note: not built on CircleCI)
    - `klaat-snapshot-linux-arm64-{hash}`
    - `klaat-snapshot-linux-x64-{hash}`
 

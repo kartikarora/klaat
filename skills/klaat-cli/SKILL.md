@@ -37,11 +37,11 @@ When authoring content to be used with `klaat`, always refer to the specific for
 Klaat is a spiritual successor to the original `claat` tool and supports all standard commands.
 For detailed instructions, flags, and examples for each command, please read the corresponding reference file:
 
-- [Help Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/help-command.md): `skills/klaat-cli/references/help-command.md`
-- [Version Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/version-command.md): `skills/klaat-cli/references/version-command.md`
-- [Install Skills Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/install-skills-command.md): `skills/klaat-cli/references/install-skills-command.md`
-- [Export Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/export-command.md): `skills/klaat-cli/references/export-command.md`
-- [Serve Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/serve-command.md): `skills/klaat-cli/references/serve-command.md`
-- [Update Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/update-command.md): `skills/klaat-cli/references/update-command.md`
-- [Demo Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/demo-command.md): `skills/klaat-cli/references/demo-command.md`
-- [Completion Command](file:///Users/kartikarora/Workspace/Personal/klaat/skills/klaat-cli/references/completion-command.md): `skills/klaat-cli/references/completion-command.md`
+- [Help Command](references/help-command.md): `skills/klaat-cli/references/help-command.md`
+- [Version Command](references/version-command.md): `skills/klaat-cli/references/version-command.md`
+- [Install Skills Command](references/install-skills-command.md): `skills/klaat-cli/references/install-skills-command.md`
+- [Export Command](references/export-command.md): `skills/klaat-cli/references/export-command.md`
+- [Serve Command](references/serve-command.md): `skills/klaat-cli/references/serve-command.md`
+- [Update Command](references/update-command.md): `skills/klaat-cli/references/update-command.md`
+- [Demo Command](references/demo-command.md): `skills/klaat-cli/references/demo-command.md`
+- [Completion Command](references/completion-command.md): `skills/klaat-cli/references/completion-command.md`

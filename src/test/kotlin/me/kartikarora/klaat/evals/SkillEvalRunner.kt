@@ -11,43 +11,63 @@ fun main() {
     println("=================================================================")
 
     val evalsPropsFile = File("evals.properties")
-    if (!evalsPropsFile.exists()) {
-        System.err.println("""
-            Error: 'evals.properties' file not found in project root.
-            The Gemini API key can only be provided via 'evals.properties'.
-            Please create an 'evals.properties' file with:
-              geminiKey=your_gemini_api_key
-              model=gemini-3.8-flash
-              updateDocs=true
-        """.trimIndent())
-        System.exit(1)
-        return
+    val evalsProps = java.util.Properties()
+    if (evalsPropsFile.exists()) {
+        evalsPropsFile.inputStream().use { evalsProps.load(it) }
     }
 
-    val evalsProps = java.util.Properties().apply {
-        evalsPropsFile.inputStream().use { load(it) }
-    }
+    val apiKey = evalsProps.getProperty("geminiKey")?.trim()?.ifBlank { null }
+        ?: System.getenv("GEMINI_API_KEY")?.trim()?.ifBlank { null }
 
-    val apiKey = evalsProps.getProperty("geminiKey")?.trim()
     if (apiKey.isNullOrBlank()) {
-        System.err.println("""
-            Error: 'geminiKey' property is missing or blank in 'evals.properties'.
-            Please specify in 'evals.properties':
+        System.err.println(
+            """
+            Error: Gemini API key not found.
+            Provide it either via 'evals.properties' (copy evals.properties.template) or GEMINI_API_KEY env var:
               geminiKey=your_gemini_api_key
-        """.trimIndent())
+              model=gemini-2.5-flash
+              updateDocs=true
+            """.trimIndent()
+        )
         System.exit(1)
         return
     }
 
-    val model = evalsProps.getProperty("model")?.trim()?.ifBlank { null } ?: "gemini-3.8-flash"
-    val updateDocs = evalsProps.getProperty("updateDocs")?.trim() == "true"
-    val docsPath = System.getProperty("klaat.eval.docs.path") ?: "docs/docs/skills.html"
+    val model = evalsProps.getProperty("model")?.trim()?.ifBlank { null }
+        ?: System.getenv("GEMINI_MODEL")?.trim()?.ifBlank { null }
+        ?: "gemini-4-hydrogen"
+
+    val modelThinkingLevel = evalsProps.getProperty("modelThinkingLevel")?.trim()?.ifBlank { null }
+        ?: System.getenv("GEMINI_MODEL_THINKING_LEVEL")?.trim()?.ifBlank { null }
+        ?: "low"
+
+    val judgeModel = evalsProps.getProperty("judgeModel")?.trim()?.ifBlank { null }
+        ?: System.getenv("GEMINI_JUDGE_MODEL")?.trim()?.ifBlank { null }
+        ?: LlmJudge.DEFAULT_JUDGE_MODEL
+
+    val judgeThinkingLevel = evalsProps.getProperty("judgeThinkingLevel")?.trim()?.ifBlank { null }
+        ?: System.getenv("GEMINI_JUDGE_THINKING_LEVEL")?.trim()?.ifBlank { null }
+        ?: LlmJudge.DEFAULT_THINKING_LEVEL
+
+    val enableLlmJudge = evalsProps.getProperty("enableLlmJudge")?.trim()?.toBooleanStrictOrNull()
+        ?: System.getenv("ENABLE_LLM_JUDGE")?.trim()?.toBooleanStrictOrNull()
+        ?: true
+
+    val updateDocs = System.getProperty("klaat.eval.updateDocs")?.trim()?.toBooleanStrictOrNull()
+        ?: evalsProps.getProperty("updateDocs")?.trim()?.toBooleanStrictOrNull()
+        ?: (System.getenv("UPDATE_DOCS")?.trim()?.toBooleanStrictOrNull() ?: false)
+
+    val docsJsonPath = System.getProperty("klaat.eval.docs.json.path") ?: "docs/docs/eval-report.json"
     val reportPath = System.getProperty("klaat.eval.report.path") ?: "build/reports/evals/eval-report.json"
+    val summaryPath = System.getProperty("klaat.eval.summary.path") ?: "build/reports/evals/eval-summary.md"
     val datasetPath = System.getProperty("klaat.eval.dataset.path") ?: "evals/dataset.json"
 
     val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
 
-    println("Model: $model (Live Evaluation via Ktor CIO)")
+    println("Model: $model (thinkingLevel=$modelThinkingLevel, Live Evaluation via Ktor CIO)")
+    if (enableLlmJudge) {
+        println("Judge: $judgeModel (thinkingLevel=$judgeThinkingLevel)")
+    }
 
     val datasetFile = File(datasetPath)
     if (!datasetFile.exists()) {
@@ -61,115 +81,125 @@ fun main() {
 
     val results = mutableListOf<PromptEvalResult>()
 
-    LlmClient(apiKey = apiKey, model = model).use { client ->
-        for ((index, promptCase) in dataset.withIndex()) {
-            print("[${index + 1}/${dataset.size}] Testing prompt: '${promptCase.id}' (${promptCase.tier} / ${promptCase.category})... ")
+    LlmClient(apiKey = apiKey, model = model, thinkingLevel = modelThinkingLevel).use { client ->
+        val judge = if (enableLlmJudge) LlmJudge(apiKey = apiKey, model = judgeModel, thinkingLevel = judgeThinkingLevel) else null
+        try {
+            for ((index, promptCase) in dataset.withIndex()) {
+                print("[${index + 1}/${dataset.size}] Testing prompt: '${promptCase.id}' (${promptCase.tier} / ${promptCase.category})... ")
 
-            // 1. Baseline Run (no skill)
-            val baselineOutput = client.runBaseline(promptCase.prompt)
-            val baselineGrades = DeterministicGrader.grade(baselineOutput)
-            val baselineResult = ConditionResult(
-                invokedSkill = false,
-                invokedSkillName = null,
-                checklist = baselineGrades,
-                rawOutputSnippet = baselineOutput.take(150).replace("\n", " ")
-            )
+                // 1. Baseline Run (no skill)
+                val baselineExec = client.runBaseline(promptCase.prompt)
+                val baselineGrades = DeterministicGrader.grade(
+                    rawResponse = baselineExec.output,
+                    expectedSkill = promptCase.expectedSkill,
+                    expectedPatterns = promptCase.expectedPatterns
+                )
+                val baselineJudge = if (judge != null && promptCase.isPositive) {
+                    runCatching { judge.judge(promptCase, baselineExec.output, baselineGrades) }
+                        .onFailure { System.err.println("\n⚠️ Judge skipped (baseline): ${it.message}") }
+                        .getOrNull()
+                } else null
+                val baselineResult = ConditionResult(
+                    invokedSkill = false,
+                    invokedSkillName = null,
+                    checklist = baselineGrades,
+                    rawOutputSnippet = baselineExec.output.take(150).replace("\n", " "),
+                    latencyMs = baselineExec.latencyMs,
+                    tokenUsage = baselineExec.tokenUsage,
+                    llmJudge = baselineJudge
+                )
 
-            // 2. Agent Run (skills available in catalog, tool calling enabled)
-            val agentExec = client.runWithAgent(promptCase.prompt)
-            val agentGrades = DeterministicGrader.grade(agentExec.output)
-            val agentResult = ConditionResult(
-                invokedSkill = agentExec.invokedSkill,
-                invokedSkillName = agentExec.invokedSkillName,
-                checklist = agentGrades,
-                rawOutputSnippet = agentExec.output.take(150).replace("\n", " ")
-            )
+                // 2. Agent Run (skills available in catalog, tool calling enabled)
+                val agentExec = client.runWithAgent(promptCase.prompt)
+                val agentGrades = DeterministicGrader.grade(
+                    rawResponse = agentExec.output,
+                    expectedSkill = promptCase.expectedSkill,
+                    expectedPatterns = promptCase.expectedPatterns
+                )
+                val agentJudge = if (judge != null && promptCase.isPositive) {
+                    runCatching { judge.judge(promptCase, agentExec.output, agentGrades) }
+                        .onFailure { System.err.println("\n⚠️ Judge skipped (agent): ${it.message}") }
+                        .getOrNull()
+                } else null
+                val agentResult = ConditionResult(
+                    invokedSkill = agentExec.invokedSkill,
+                    invokedSkillName = agentExec.invokedSkillName,
+                    checklist = agentGrades,
+                    rawOutputSnippet = agentExec.output.take(150).replace("\n", " "),
+                    latencyMs = agentExec.latencyMs,
+                    tokenUsage = agentExec.tokenUsage,
+                    llmJudge = agentJudge
+                )
 
-            // 3. Trigger Success Evaluation
-            val triggerSuccess = if (promptCase.isPositive) {
-                agentExec.invokedSkill && agentExec.invokedSkillName == promptCase.expectedSkill
-            } else {
-                !agentExec.invokedSkill
+                // 3. Trigger Success Evaluation
+                val triggerSuccess = if (promptCase.isPositive) {
+                    agentExec.invokedSkill && agentExec.invokedSkillName == promptCase.expectedSkill
+                } else {
+                    !agentExec.invokedSkill
+                }
+
+                results.add(
+                    PromptEvalResult(
+                        id = promptCase.id,
+                        category = promptCase.category,
+                        tier = promptCase.tier,
+                        isPositive = promptCase.isPositive,
+                        expectedSkill = promptCase.expectedSkill,
+                        prompt = promptCase.prompt,
+                        baseline = baselineResult,
+                        withAgent = agentResult,
+                        triggerSuccess = triggerSuccess
+                    )
+                )
+
+                val triggerStatus = if (triggerSuccess) "PASS" else "FAIL"
+                val gradeStatus = if (agentGrades.passed) "PASSED" else "FAIL"
+                val invokedDesc = if (agentExec.invokedSkill) "Triggered (${agentExec.invokedSkillName})" else "Skipped"
+                val judgeDesc = agentJudge?.let { " | Judge: ${it.score}/5" }.orEmpty()
+                println("Done. [$triggerStatus] $invokedDesc | Agent: $gradeStatus$judgeDesc (${agentExec.latencyMs}ms)")
+                if (index < dataset.lastIndex) {
+                    Thread.sleep(2000)
+                }
             }
-
-            val promptResult = PromptEvalResult(
-                id = promptCase.id,
-                category = promptCase.category,
-                tier = promptCase.tier,
-                isPositive = promptCase.isPositive,
-                prompt = promptCase.prompt,
-                baseline = baselineResult,
-                withAgent = agentResult,
-                triggerSuccess = triggerSuccess
-            )
-            results.add(promptResult)
-
-            val triggerStatus = if (triggerSuccess) "PASS" else "FAIL"
-            val compileStatus = if (agentGrades.compiles) "COMPILED" else "FAIL"
-            val invokedDesc = if (agentExec.invokedSkill) "Triggered (${agentExec.invokedSkillName})" else "Skipped"
-            println("Done. [$triggerStatus] $invokedDesc | Agent: $compileStatus")
+        } finally {
+            judge?.close()
         }
     }
 
-    // Compute Aggregate Metrics
-    val positiveCases = results.filter { it.isPositive }
-    val negativeCases = results.filter { !it.isPositive }
-
-    val positiveCount = positiveCases.size.coerceAtLeast(1)
-    val negativeCount = negativeCases.size.coerceAtLeast(1)
-
-    val triggerRecall = (positiveCases.count { it.withAgent.invokedSkill }.toDouble() / positiveCount) * 100.0
-    val falsePositiveRate = (negativeCases.count { it.withAgent.invokedSkill }.toDouble() / negativeCount) * 100.0
-
-    val baselineCompileRate = (positiveCases.count { it.baseline.checklist.compiles }.toDouble() / positiveCount) * 100.0
-    val agentCompileRate = (positiveCases.count { it.withAgent.checklist.compiles }.toDouble() / positiveCount) * 100.0
-
-    val baselineDurationRate = (positiveCases.count { it.baseline.checklist.hasValidDurations }.toDouble() / positiveCount) * 100.0
-    val agentDurationRate = (positiveCases.count { it.withAgent.checklist.hasValidDurations }.toDouble() / positiveCount) * 100.0
-
-    val baselineCalloutRate = (positiveCases.count { it.baseline.checklist.hasCallouts }.toDouble() / positiveCount) * 100.0
-    val agentCalloutRate = (positiveCases.count { it.withAgent.checklist.hasCallouts }.toDouble() / positiveCount) * 100.0
-
-    val metrics = AggregateMetrics(
-        totalPrompts = results.size,
-        positivePrompts = positiveCases.size,
-        negativePrompts = negativeCases.size,
-        triggerRecallPct = triggerRecall,
-        falsePositiveRatePct = falsePositiveRate,
-        baselineCompileRatePct = baselineCompileRate,
-        agentCompileRatePct = agentCompileRate,
-        baselineDurationCompliancePct = baselineDurationRate,
-        agentDurationCompliancePct = agentDurationRate,
-        baselineCalloutCompliancePct = baselineCalloutRate,
-        agentCalloutCompliancePct = agentCalloutRate
-    )
-
+    val metrics = EvalMetrics.compute(results)
     val report = EvalReport(
         timestamp = Instant.now().toString(),
         model = model,
         mode = "Live API Evaluation",
+        judgeModel = if (enableLlmJudge) judgeModel else null,
+        judgeThinkingLevel = if (enableLlmJudge) judgeThinkingLevel else null,
         metrics = metrics,
         results = results
     )
 
-    // Write Report JSON
+    // Write Build Report JSON & Markdown Summary
     val reportFile = File(reportPath)
     reportFile.parentFile?.mkdirs()
-    reportFile.writeText(json.encodeToString(report))
+    reportFile.writeText(json.encodeToString(report) + "\n")
     println("\nSaved detailed JSON evaluation report to: ${reportFile.absolutePath}")
+
+    DocUpdater.writeMarkdownSummary(report, File(summaryPath))
 
     // Print summary to console
     println("\n======================= BENCHMARK SUMMARY =======================")
     println("Autonomous Trigger Recall:      ${"%.1f".format(metrics.triggerRecallPct)}%")
+    println("Trigger Precision / F1:         ${"%.1f".format(metrics.triggerPrecisionPct)}% / ${"%.1f".format(metrics.triggerF1Pct)}%")
     println("False Trigger Resistance:       ${"%.1f".format(100.0 - metrics.falsePositiveRatePct)}%")
-    println("Klaat Compilation Pass Rate:    ${"%.1f".format(metrics.agentCompileRatePct)}% (vs. ${"%.1f".format(metrics.baselineCompileRatePct)}% baseline)")
+    println("Overall Agent Pass Rate:        ${"%.1f".format(metrics.agentPassRatePct)}% (vs. ${"%.1f".format(metrics.baselinePassRatePct)}% baseline)")
+    println("Markdown Compilation Pass Rate: ${"%.1f".format(metrics.agentCompileRatePct)}% (vs. ${"%.1f".format(metrics.baselineCompileRatePct)}% baseline)")
     println("Duration Tag Adherence:         ${"%.1f".format(metrics.agentDurationCompliancePct)}% (vs. ${"%.1f".format(metrics.baselineDurationCompliancePct)}% baseline)")
     println("Callout Marker Adherence:       ${"%.1f".format(metrics.agentCalloutCompliancePct)}% (vs. ${"%.1f".format(metrics.baselineCalloutCompliancePct)}% baseline)")
+    if (metrics.avgAgentJudgeScore != null && metrics.avgBaselineJudgeScore != null) {
+        println("LLM Judge Score ($judgeModel): ${"%.2f".format(metrics.avgAgentJudgeScore)}/5 (vs. ${"%.2f".format(metrics.avgBaselineJudgeScore)}/5 baseline)")
+    }
     println("=================================================================\n")
 
-    // Update Docs if requested
     if (updateDocs) {
-        val docsFile = File(docsPath)
-        DocUpdater.updateDocs(report, docsFile)
+        DocUpdater.writeJsonReport(report, File(docsJsonPath))
     }
 }

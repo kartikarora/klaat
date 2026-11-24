@@ -6,10 +6,10 @@
     <title>Klaat AI Skills Benchmark &amp; Evals</title>
     <meta name="description" content="Automated evaluation benchmarks measuring autonomous skill discovery, false-positive resistance, and compiler pass rates for Klaat AI skills.">
     <meta name="author" content="Kartik Arora">
-    
+
     <!-- Brand Identity CSS -->
     <link href="https://distribute.kartikarora.me/css/kartikarora.2.0.0.css" rel="stylesheet">
-    
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://kartikarora.me/img/icon32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://kartikarora.me/img/icon16.png">
@@ -20,12 +20,43 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,300..900;1,400&family=JetBrains+Mono:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-    
+
     <!-- Docs Specific CSS -->
     <link href="style.css" rel="stylesheet">
-    
+
     <!-- Brand CDN JS -->
     <script src="https://distribute.kartikarora.me/js/kartikarora.2.0.0.js" defer></script>
+    <style>
+        .eval-filter-bar { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-md); }
+        .eval-filter-btn {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border: 2px solid var(--color-rule-strong);
+            background: var(--color-card);
+            color: var(--color-ink);
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--color-rule-strong);
+        }
+        .eval-filter-btn.active {
+            background: var(--color-signal);
+            color: #fff;
+        }
+        .check-pill {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            margin: 1px 2px;
+            border: 1px solid var(--color-rule-strong);
+            border-radius: 3px;
+        }
+        .check-pill.ok { background: rgba(76, 175, 80, 0.15); color: #2e7d32; }
+        .check-pill.fail { background: rgba(244, 67, 54, 0.12); color: #c62828; }
+        details.eval-diag summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-ink-muted); }
+        details.eval-diag pre { margin-top: 6px; padding: 8px; font-size: 0.75rem; white-space: pre-wrap; background: var(--color-paper-alt); border: 1px solid var(--color-rule); }
+    </style>
 </head>
 <body>
     <nav class="nav">
@@ -48,21 +79,20 @@
     </nav>
 
     <div class="docs-wrapper">
-        <!-- Sidebar Navigation -->
         <aside class="docs-sidebar" id="docs-sidebar">
             <div class="docs-sidebar-nav">
-                <!-- Group 1: Benchmark Sections -->
                 <div class="docs-sidebar-group">
                     <div class="docs-sidebar-title">Skills Evaluation</div>
                     <ul class="docs-sidebar-links">
                         <li><a href="#overview" class="docs-sidebar-link active">Overview</a></li>
                         <li><a href="#scorecard" class="docs-sidebar-link">Scorecard</a></li>
+                        <li><a href="#per-skill" class="docs-sidebar-link">Per-Skill Breakdown</a></li>
                         <li><a href="#test-suite" class="docs-sidebar-link">Test Breakdown</a></li>
+                        <li><a href="#history" class="docs-sidebar-link">Run History</a></li>
                         <li><a href="#methodology" class="docs-sidebar-link">Methodology</a></li>
                     </ul>
                 </div>
 
-                <!-- Group 2: Quick Links -->
                 <div class="docs-sidebar-group">
                     <div class="docs-sidebar-title">Documentation</div>
                     <ul class="docs-sidebar-links">
@@ -74,48 +104,44 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="docs-content">
-            <!-- Section 1: Overview -->
             <section id="overview" class="docs-section">
                 <h1>AI Agent Skills Benchmark</h1>
-                <p>Klaat bundles official AI formatting skills (such as <code>klaat-markdown-author</code>, <code>klaat-cli</code>, and <code>klaat-gdocs-author</code>) that install into 55+ coding agent environments via <code>klaat install-skills</code>. To ensure these guidelines genuinely improve agent output and prevent hallucination, we evaluate them against both live LLM agents and deterministic compiler validation.</p>
+                <p>Klaat bundles official AI formatting and CLI skills (<code>klaat-markdown-author</code>, <code>klaat-cli</code>, and <code>klaat-gdocs-author</code>) that install into 55+ coding agent environments via <code>klaat install-skills</code>. We evaluate them against live LLM agents and deterministic compiler/CLI/GDocs graders.</p>
 
-                <!-- Metric Summary Cards -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin: var(--space-lg) 0;">
+                <div id="kpi-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); margin: var(--space-lg) 0;">
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Autonomous Trigger</div>
-                        <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">100%</div>
-                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">Sensitivity on codelab tasks</div>
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Trigger Recall</div>
+                        <div id="kpi-recall" style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">--</div>
+                        <div id="kpi-f1" style="font-size: 0.8rem; color: var(--color-ink-muted);">Precision / F1</div>
                     </div>
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
                         <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">False Trigger Resistance</div>
-                        <div style="font-size: 2.2rem; font-weight: 800; color: #2196f3; margin: var(--space-xs) 0;">75%</div>
-                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">Specificity on distractor prompts</div>
+                        <div id="kpi-resistance" style="font-size: 2.2rem; font-weight: 800; color: #2196f3; margin: var(--space-xs) 0;">--</div>
+                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">Specificity on distractors</div>
                     </div>
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
-                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Klaat Export Pass Rate</div>
-                        <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">50%</div>
-                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. 0% without skill</div>
+                        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Overall Pass Rate</div>
+                        <div id="kpi-pass" style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">--</div>
+                        <div id="kpi-pass-baseline" style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. baseline</div>
                     </div>
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-md); text-align: center;">
                         <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--color-ink-muted); font-weight: 700; letter-spacing: 0.05em;">Duration Tag Adherence</div>
-                        <div style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">50%</div>
-                        <div style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. 17% without skill</div>
+                        <div id="kpi-duration" style="font-size: 2.2rem; font-weight: 800; color: #4caf50; margin: var(--space-xs) 0;">--</div>
+                        <div id="kpi-duration-baseline" style="font-size: 0.8rem; color: var(--color-ink-muted);">vs. baseline</div>
                     </div>
                 </div>
             </section>
 
-            <!-- Section 2: Scorecard -->
             <section id="scorecard" class="docs-section">
                 <h2>A/B Benchmark Scorecard</h2>
-                <p>We compare an agent with only standard programming knowledge (<strong>Baseline</strong>) against an agent with access to Klaat's skills catalog (<strong>With Klaat Skill</strong>).</p>
+                <p>Comparing an agent with standard programming knowledge (<strong>Baseline</strong>) against an agent with Klaat's bundled skills catalog (<strong>With Klaat Skill</strong>).</p>
 
                 <div class="man-page">
                     <div class="man-section">
                         <div class="man-section-title">EVALUATION SUMMARY</div>
                         <div class="man-content">
-                            <p style="margin-bottom: var(--space-sm);">Evaluation Model: <strong>gemini-3.5-flash-lite</strong> &bull; Run Mode: <strong>Live API Evaluation</strong> &bull; Last Evaluated: <strong>Oct 22, 2026 05:58 UTC</strong></p>
+                            <p id="eval-meta" style="margin-bottom: var(--space-sm);">Loading evaluation report...</p>
                             <table class="options-table">
                                 <thead>
                                     <tr>
@@ -125,36 +151,51 @@
                                         <th>Net Improvement</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>Klaat Codelab Compilation</code></td>
-                                        <td>0%</td>
-                                        <td><strong>50%</strong></td>
-                                        <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">+50%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Duration Tag Presence</code></td>
-                                        <td>17%</td>
-                                        <td><strong>50%</strong></td>
-                                        <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">+33%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Klaat Callout Markers</code></td>
-                                        <td>0%</td>
-                                        <td><strong>50%</strong></td>
-                                        <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">+50%</span></td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="scorecard-body"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Section 3: Test Breakdown -->
+            <section id="per-skill" class="docs-section">
+                <h2>Per-Skill Breakdown</h2>
+                <p>Trigger accuracy, pass rates, latency, and token cost broken down by each bundled skill.</p>
+
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">BUNDLED SKILLS SCORECARD</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Cases</th>
+                                        <th>Trigger Recall</th>
+                                        <th>Baseline Pass</th>
+                                        <th>Agent Pass</th>
+                                        <th>Avg Latency</th>
+                                        <th>Avg Tokens</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="per-skill-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="test-suite" class="docs-section">
                 <h2>Test Suite Prompt Breakdown</h2>
-                <p>The prompt suite includes target codelab authoring requests as well as distractor prompts (general documentation, standard READMEs, blog posts) to verify that skills do not hijack non-codelab markdown tasks.</p>
+                <p>Filter by skill or inspect diagnostic checks, baseline vs. agent outcomes, and parser errors per prompt.</p>
+
+                <div class="eval-filter-bar" id="eval-filter-bar">
+                    <button class="eval-filter-btn active" data-filter="all">All</button>
+                    <button class="eval-filter-btn" data-filter="klaat-markdown-author">klaat-markdown-author</button>
+                    <button class="eval-filter-btn" data-filter="klaat-cli">klaat-cli</button>
+                    <button class="eval-filter-btn" data-filter="klaat-gdocs-author">klaat-gdocs-author</button>
+                    <button class="eval-filter-btn" data-filter="distractor">Distractors</button>
+                </div>
 
                 <div class="man-page">
                     <div class="man-section">
@@ -164,132 +205,122 @@
                                 <thead>
                                     <tr>
                                         <th>Prompt ID</th>
-                                        <th>Difficulty</th>
-                                        <th>Category</th>
-                                        <th>Autonomous Trigger</th>
-                                        <th>Klaat Compiler Result</th>
-                                        <th>Prompt Preview</th>
+                                        <th>Skill / Tier</th>
+                                        <th>Trigger</th>
+                                        <th>Grader Result</th>
+                                        <th>Checks &amp; Diagnostics</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-<tr>
-    <td><code>explicit-coroutine-workshop</code></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">Easy</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">explicit-tutorial</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Compiled OK</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Create a 3-step Klaat codelab on Kotlin Coroutines for our team workshop. I...</td>
-</tr>
-<tr>
-    <td><code>explicit-git-conversion</code></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">Easy</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">explicit-conversion</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Compiled OK</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Format this technical guide on Git branching strategies into a Klaat codela...</td>
-</tr>
-<tr>
-    <td><code>implicit-ktor-tutorial</code></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3;">Medium</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">implicit-tutorial</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge required">Compile Error</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Help me write a step-by-step hands-on tutorial for building a REST API in K...</td>
-</tr>
-<tr>
-    <td><code>implicit-compose-state</code></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3;">Medium</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">implicit-tutorial</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Compiled OK</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">I need an interactive multi-step coding guide on Jetpack Compose state hois...</td>
-</tr>
-<tr>
-    <td><code>multi-step-duration-consistency</code></td>
-    <td><span class="status-badge" style="background: rgba(255, 152, 0, 0.15); color: #ff9800;">Hard</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">edge-case-adherence</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge required">Compile Error</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Write a 5-step interactive workshop tutorial on SQL migrations with Flyway....</td>
-</tr>
-<tr>
-    <td><code>rich-elements-survey</code></td>
-    <td><span class="status-badge" style="background: rgba(255, 152, 0, 0.15); color: #ff9800;">Hard</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">edge-case-adherence</span></td>
-    <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50; border-color: rgba(76, 175, 80, 0.3);">Triggered</span></td>
-    <td><span class="status-badge required">Compile Error</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Create a Klaat codelab on unit testing with MockK. Include code blocks with...</td>
-</tr>
-<tr>
-    <td><code>distractor-contributing-guide</code></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3;">Medium</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">hard-distractor</span></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3; border-color: rgba(33, 150, 243, 0.3);">Ignored (Correct)</span></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">-</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Write a step-by-step guide in a CONTRIBUTING.md file on how to contribute t...</td>
-</tr>
-<tr>
-    <td><code>distractor-blog-post</code></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3;">Medium</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">hard-distractor</span></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3; border-color: rgba(33, 150, 243, 0.3);">Ignored (Correct)</span></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">-</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Write a technical blog post walking through how garbage collection works in...</td>
-</tr>
-<tr>
-    <td><code>distractor-deployment-runbook</code></td>
-    <td><span class="status-badge" style="background: rgba(255, 152, 0, 0.15); color: #ff9800;">Hard</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">hard-distractor</span></td>
-    <td><span class="status-badge required">False Trigger</span></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">-</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Create a step-by-step production deployment checklist and runbook in markdo...</td>
-</tr>
-<tr>
-    <td><code>distractor-readme</code></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">Easy</span></td>
-    <td><span style="font-size: 0.85rem; color: var(--color-ink-muted);">easy-distractor</span></td>
-    <td><span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3; border-color: rgba(33, 150, 243, 0.3);">Ignored (Correct)</span></td>
-    <td><span class="status-badge" style="color: var(--color-ink-muted);">-</span></td>
-    <td style="font-size: 0.85rem; color: var(--color-ink-muted);">Write a standard README.md file for a Kotlin Multiplatform networking libra...</td>
-</tr>
-                                </tbody>
+                                <tbody id="results-body"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Section 4: Methodology -->
+            <section id="history" class="docs-section">
+                <h2>Run History</h2>
+                <div class="man-page">
+                    <div class="man-section">
+                        <div class="man-section-title">RECENT BENCHMARK RUNS</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date (UTC)</th>
+                                        <th>Model</th>
+                                        <th>Trigger Recall</th>
+                                        <th>False Positive Rate</th>
+                                        <th>Agent Pass</th>
+                                        <th>Baseline Pass</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="methodology" class="docs-section">
                 <h2>Evaluation Methodology</h2>
-                <p>Our eval suite uses a two-stage approach combining autonomous agent simulation and compiler-backed deterministic validation:</p>
+                <p>Our eval suite combines autonomous agent tool-calling simulation (<code>gemini-4-hydrogen</code>, <code>thinkingLevel: "low"</code>) with deterministic skill-specific graders and an LLM-as-a-Judge rubric (<code>gemini-4-neon</code>, <code>thinkingLevel: "low"</code>):</p>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); margin-top: var(--space-md);">
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-lg);">
                         <h3 style="display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm);">
                             <span class="material-symbols-outlined" style="color: var(--color-signal);">psychology</span>
                             1. Autonomous Invocation Test
                         </h3>
                         <p style="font-size: 0.95rem; color: var(--color-ink-muted);">
-                            We do not hardcode <code>SKILL.md</code> into the prompt. Instead, we present the agent with a catalog of skill descriptions and a <code>read_skill</code> tool. We check whether the model independently chooses to invoke <code>read_skill("klaat-markdown-author")</code> when handed a codelab prompt, and whether it correctly leaves the tool untouched for general markdown requests.
+                            We never pre-inject <code>SKILL.md</code> into the prompt. Instead, the agent only sees the skill catalog descriptions and a <code>read_skill</code> tool, verifying both sensitivity (calling the right skill) and specificity (leaving the tool untouched on distractor prompts).
                         </p>
                     </div>
 
                     <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-lg);">
                         <h3 style="display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm);">
                             <span class="material-symbols-outlined" style="color: #4caf50;">fact_check</span>
-                            2. Deterministic Compiler Verification
+                            2. Deterministic Graders
                         </h3>
                         <p style="font-size: 0.95rem; color: var(--color-ink-muted);">
-                            Rather than relying only on subjective LLM judges, we feed the agent's raw output directly into Klaat's official <code>MarkdownParser</code>. A test only passes if the output extracts valid YAML metadata (id, summary, categories), valid per-step durations (<code>Duration: &gt; 0</code>), and produces compilable HTML with zero parser errors.
+                            <code>klaat-markdown-author</code> outputs are compiled with Klaat's official <code>MarkdownParser</code>; <code>klaat-cli</code> outputs are checked for valid flags and zero hallucinated options; <code>klaat-gdocs-author</code> outputs are checked for metadata tables, headings, and <code>Duration:</code> syntax.
                         </p>
+                    </div>
+
+                    <div style="background: var(--color-card); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); padding: var(--space-lg);">
+                        <h3 style="display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-sm);">
+                            <span class="material-symbols-outlined" style="color: #2196f3;">gavel</span>
+                            3. LLM-as-a-Judge Rubric
+                        </h3>
+                        <p style="font-size: 0.95rem; color: var(--color-ink-muted);">
+                            <code>gemini-4-neon</code> (<code>thinkingLevel: "low"</code>) scores both Baseline and Agent outputs on a 1–5 structured JSON rubric (<code>adherenceScore</code>, <code>clarityScore</code>, <code>score</code>, <code>passed</code>, and <code>reasoning</code>) alongside deterministic checks.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="man-page" style="margin-top: var(--space-lg);">
+                    <div class="man-section">
+                        <div class="man-section-title">EVALUATION SPECIFICATION &amp; AUDIT TRAIL</div>
+                        <div class="man-content">
+                            <table class="options-table">
+                                <tbody>
+                                    <tr>
+                                        <td><code>Dataset Composition</code></td>
+                                        <td>16 prompts across <code>easy</code>, <code>medium</code>, and <code>hard</code> tiers: 6 <code>klaat-markdown-author</code>, 3 <code>klaat-cli</code>, 3 <code>klaat-gdocs-author</code>, and 4 non-codelab distractors (<code>CONTRIBUTING.md</code>, blog post, deployment runbook, <code>README.md</code>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>A/B Protocol</code></td>
+                                        <td>Every prompt runs twice under identical conditions: <strong>Baseline</strong> (standard assistant prompt, no skills, no tools) vs. <strong>With Klaat Skill</strong> (catalog descriptions + <code>read_skill</code> tool).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Default Models</code></td>
+                                        <td>Agent: <code>gemini-4-hydrogen</code> (<code>thinkingLevel: "low"</code>) &bull; Judge: <code>gemini-4-neon</code> (<code>thinkingLevel: "low"</code>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Deterministic Checks</code></td>
+                                        <td>Markdown: <code>MarkdownParser</code> compilation + metadata/duration/callout AST checks. CLI: valid subcommands/flags and zero hallucinated flags (<code>--watch</code>, <code>--port</code>, <code>--output-dir</code>, <code>--theme</code>). Google Docs: metadata table, Heading 1/2 hierarchy, and <code>Duration:</code> syntax.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Open Source &amp; Reproducible</code></td>
+                                        <td>
+                                            <a href="https://github.com/kartikarora/klaat/blob/develop/evals/dataset.json" target="_blank">evals/dataset.json</a> &bull;
+                                            <a href="https://github.com/kartikarora/klaat/blob/develop/src/test/kotlin/me/kartikarora/klaat/evals/SkillEvalRunner.kt" target="_blank">SkillEvalRunner.kt</a> &bull;
+                                            <a href="https://github.com/kartikarora/klaat/blob/develop/src/test/kotlin/me/kartikarora/klaat/evals/DeterministicGrader.kt" target="_blank">DeterministicGrader.kt</a> &bull;
+                                            <a href="https://github.com/kartikarora/klaat/blob/develop/src/test/kotlin/me/kartikarora/klaat/evals/LlmJudge.kt" target="_blank">LlmJudge.kt</a> &bull;
+                                            <a href="eval-report.json" target="_blank">Raw eval-report.json</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card" style="margin-top: var(--space-lg); padding: var(--space-md); border: 2px solid var(--color-rule-strong); border-radius: var(--radius-sm); box-shadow: 4px 4px 0 var(--color-rule-strong); background: var(--color-paper-alt);">
                     <div style="font-size: 0.85rem; color: var(--color-ink-muted);">
-                        <strong>Run this eval locally:</strong>
-                        <pre style="margin-top: 8px;"><code class="language-bash">./gradlew evalSkills -PupdateDocs=true</code></pre>
+                        <strong>Run this eval locally:</strong> (copy <code>evals.properties.template</code> to <code>evals.properties</code> or set <code>GEMINI_API_KEY</code>)
+                        <pre style="margin-top: 8px;"><code class="language-bash">cp evals.properties.template evals.properties
+./gradlew evalSkills -PupdateDocs=true</code></pre>
                     </div>
                 </div>
             </section>
@@ -297,49 +328,139 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sidebarLinks = document.querySelectorAll('.docs-sidebar-link');
-            const sections = document.querySelectorAll('.docs-section');
+        function esc(s) {
+            return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        function fmtPct(v) { return `${Math.round(v ?? 0)}%`; }
+        function fmtDelta(a, b) {
+            const d = Math.round((a ?? 0) - (b ?? 0));
+            return `${d >= 0 ? '+' : ''}${d}%`;
+        }
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '-100px 0px -70%',
-                threshold: 0
-            };
+        let allResults = [];
+        let activeFilter = 'all';
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const activeId = entry.target.getAttribute('id');
-                        sidebarLinks.forEach(link => {
-                            if (link.getAttribute('href') === '#' + activeId) {
-                                link.classList.add('active');
-                            } else {
-                                link.classList.remove('active');
-                            }
-                        });
-                    }
+        function renderResults() {
+            const tbody = document.getElementById('results-body');
+            const filtered = allResults.filter(r => {
+                if (activeFilter === 'all') return true;
+                if (activeFilter === 'distractor') return !r.isPositive;
+                return r.expectedSkill === activeFilter;
+            });
+
+            tbody.innerHTML = filtered.map(r => {
+                const triggerBadge = !r.isPositive
+                    ? (!r.withAgent.invokedSkill
+                        ? `<span class="status-badge" style="background: rgba(33, 150, 243, 0.15); color: #2196f3;">Ignored (Correct)</span>`
+                        : `<span class="status-badge required">False Trigger (${esc(r.withAgent.invokedSkillName)})</span>`)
+                    : (r.triggerSuccess
+                        ? `<span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">Triggered</span>`
+                        : `<span class="status-badge required">${r.withAgent.invokedSkill ? 'Wrong: ' + esc(r.withAgent.invokedSkillName) : 'Missed'}</span>`);
+
+                const passed = r.withAgent.checklist?.passed ?? r.withAgent.checklist?.compiles;
+                const gradeBadge = !r.isPositive
+                    ? `<span class="status-badge" style="color: var(--color-ink-muted);">-</span>`
+                    : (passed
+                        ? `<span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">Passed</span>`
+                        : `<span class="status-badge required">Failed</span>`);
+
+                const checks = r.withAgent.checklist?.checks || {};
+                const checkPills = Object.entries(checks)
+                    .map(([k, ok]) => `<span class="check-pill ${ok ? 'ok' : 'fail'}">${esc(k)}</span>`)
+                    .join('');
+
+                const errLine = r.withAgent.checklist?.error ? `\nError: ${r.withAgent.checklist.error}` : '';
+                const judgeLine = r.withAgent.llmJudge ? `\nLLM Judge (${r.withAgent.llmJudge.judgeModel}, ${r.withAgent.llmJudge.thinkingLevel}): ${r.withAgent.llmJudge.score}/5 — ${r.withAgent.llmJudge.reasoning}` : '';
+                const tokens = r.withAgent.tokenUsage?.totalTokens ? ` | Tokens: ${r.withAgent.tokenUsage.totalTokens}` : '';
+                const latency = r.withAgent.latencyMs ? ` | Latency: ${r.withAgent.latencyMs}ms` : '';
+
+                return `<tr>
+                    <td><code>${esc(r.id)}</code></td>
+                    <td><div style="font-size: 0.8rem;"><code>${esc(r.expectedSkill || 'distractor')}</code></div><div style="font-size: 0.75rem; color: var(--color-ink-muted);">${esc(r.tier)} · ${esc(r.category)}</div></td>
+                    <td>${triggerBadge}</td>
+                    <td>${gradeBadge}</td>
+                    <td>
+                        ${checkPills}
+                        <details class="eval-diag">
+                            <summary>Details${latency}${tokens}</summary>
+                            <pre>Prompt: ${esc(r.prompt)}\nBaseline Passed: ${Boolean(r.baseline?.checklist?.passed ?? r.baseline?.checklist?.compiles)}${esc(judgeLine)}${esc(errLine)}</pre>
+                        </details>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.querySelectorAll('.eval-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.eval-filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.dataset.filter;
+                    renderResults();
                 });
-            }, observerOptions);
+            });
 
-            sections.forEach(section => observer.observe(section));
+            try {
+                const res = await fetch('eval-report.json');
+                const report = await res.json();
+                const m = report.metrics;
+                allResults = report.results || [];
+
+                document.getElementById('kpi-recall').textContent = fmtPct(m.triggerRecallPct);
+                document.getElementById('kpi-f1').textContent = `Precision ${fmtPct(m.triggerPrecisionPct)} · F1 ${fmtPct(m.triggerF1Pct)}`;
+                document.getElementById('kpi-resistance').textContent = fmtPct(100 - (m.falsePositiveRatePct ?? 0));
+                document.getElementById('kpi-pass').textContent = fmtPct(m.agentPassRatePct ?? m.agentCompileRatePct);
+                document.getElementById('kpi-pass-baseline').textContent = `vs. ${fmtPct(m.baselinePassRatePct ?? m.baselineCompileRatePct)} without skill`;
+                document.getElementById('kpi-duration').textContent = fmtPct(m.agentDurationCompliancePct);
+                document.getElementById('kpi-duration-baseline').textContent = `vs. ${fmtPct(m.baselineDurationCompliancePct)} without skill`;
+
+                const dateStr = new Date(report.timestamp).toUTCString();
+                const judgeMeta = report.judgeModel ? ` &bull; Judge: <strong>${esc(report.judgeModel)}</strong> (<code>${esc(report.judgeThinkingLevel || 'low')}</code>)` : '';
+                document.getElementById('eval-meta').innerHTML = `Evaluation Model: <strong>${esc(report.model)}</strong>${judgeMeta} &bull; Run Mode: <strong>${esc(report.mode)}</strong> &bull; Prompts: <strong>${m.totalPrompts}</strong> &bull; Last Evaluated: <strong>${esc(dateStr)}</strong> &bull; <a href="eval-report.json" target="_blank">Raw JSON</a>`;
+
+                const rows = [
+                    ['Overall Grader Pass Rate', m.baselinePassRatePct ?? m.baselineCompileRatePct, m.agentPassRatePct ?? m.agentCompileRatePct],
+                    ['Klaat Markdown Compilation', m.baselineCompileRatePct, m.agentCompileRatePct],
+                    ['Duration Tag Presence', m.baselineDurationCompliancePct, m.agentDurationCompliancePct],
+                    ['Klaat Callout Markers', m.baselineCalloutCompliancePct, m.agentCalloutCompliancePct]
+                ];
+                document.getElementById('scorecard-body').innerHTML = rows.map(([label, base, agent]) => `
+                    <tr>
+                        <td><code>${esc(label)}</code></td>
+                        <td>${fmtPct(base)}</td>
+                        <td><strong>${fmtPct(agent)}</strong></td>
+                        <td><span class="status-badge" style="background: rgba(76, 175, 80, 0.15); color: #4caf50;">${fmtDelta(agent, base)}</span></td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('per-skill-body').innerHTML = (m.perSkill || []).map(s => `
+                    <tr>
+                        <td><code>${esc(s.skillName)}</code></td>
+                        <td>${s.totalCases}</td>
+                        <td>${fmtPct(s.triggerRecallPct)}</td>
+                        <td>${fmtPct(s.baselinePassRatePct)}</td>
+                        <td><strong>${fmtPct(s.agentPassRatePct)}</strong></td>
+                        <td>${s.avgAgentLatencyMs || '-'} ms</td>
+                        <td>${s.avgAgentTotalTokens || '-'}</td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('history-body').innerHTML = (report.history || []).map(h => `
+                    <tr>
+                        <td>${esc(h.timestamp)}</td>
+                        <td><code>${esc(h.model)}</code></td>
+                        <td>${fmtPct(h.triggerRecallPct)}</td>
+                        <td>${fmtPct(h.falsePositiveRatePct)}</td>
+                        <td><strong>${fmtPct(h.agentPassRatePct)}</strong></td>
+                        <td>${fmtPct(h.baselinePassRatePct)}</td>
+                    </tr>
+                `).join('');
+
+                renderResults();
+            } catch (e) {
+                document.getElementById('eval-meta').textContent = 'Failed to load eval-report.json: ' + e.message;
+            }
         });
     </script>
-    <footer class="footer">
-        <div class="container">
-            <p>
-                Get in touch for help, suggestions, or to <a href="https://www.buymeacoffee.com/kartikarora" target="_blank" rel="noopener noreferrer">buy me a coffee <span class="material-symbols-outlined" style="vertical-align: middle; font-size: 1.2em;">local_cafe</span></a>
-            </p>
-            <p class="text-muted" style="font-size: 0.875rem; margin-top: var(--space-md);">
-                <a href="/" style="color: inherit; text-decoration: underline;">Home</a> | 
-                <a href="/docs/" style="color: inherit; text-decoration: underline;">Documentation</a> | 
-                <a href="/changelog.html" style="color: inherit; text-decoration: underline;">Changelog</a> | 
-                <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy Policy</a> | 
-                <a href="/terms" style="color: inherit; text-decoration: underline;">Terms of Service</a><br>
-                Made with Kotlin and GraalVM | Hosted on Cloudflare Pages<br>
-                &copy; 2026 Kartik Arora
-            </p>
-        </div>
-    </footer>
 </body>
 </html>

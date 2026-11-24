@@ -1,0 +1,8 @@
+# Copy to evals.properties (gitignored) to run ./gradlew evalSkills locally
+geminiKey=YOUR_GEMINI_API_KEY
+model=gemini-4-hydrogen
+modelThinkingLevel=low
+judgeModel=gemini-4-neon
+judgeThinkingLevel=low
+enableLlmJudge=true
+updateDocs=true

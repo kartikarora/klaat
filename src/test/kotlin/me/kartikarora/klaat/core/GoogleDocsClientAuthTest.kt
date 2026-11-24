@@ -154,4 +154,21 @@ class GoogleDocsClientAuthTest {
         val healedFlow = client.buildFlow(transport)
         assertEquals(null, healedFlow.loadCredential("user"))
     }
+
+    @Test
+    fun `loadClientSecrets rejects fake credentials with clear error`() {
+        val fakeCreds = File("gcp_credentials.fake.json")
+        assertTrue(fakeCreds.exists(), "gcp_credentials.fake.json should exist at repo root")
+
+        val client = GoogleDocsClient(
+            tokensDirectoryPath = tokensDir.absolutePath,
+            credentialsFilePath = fakeCreds.absolutePath
+        )
+
+        val ex = kotlin.test.assertFailsWith<IllegalStateException> {
+            client.loadClientSecrets()
+        }
+        assertTrue(ex.message!!.contains("fake", ignoreCase = true))
+        assertTrue(ex.message!!.contains("GCP_CREDENTIALS.md"))
+    }
 }

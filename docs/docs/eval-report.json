@@ -1,0 +1,1115 @@
+{
+    "timestamp": "2026-11-24T12:21:57.999189Z",
+    "model": "gemini-4-hydrogen",
+    "mode": "Live API Evaluation",
+    "judgeModel": "gemini-4-neon",
+    "judgeThinkingLevel": "low",
+    "metrics": {
+        "totalPrompts": 16,
+        "positivePrompts": 12,
+        "negativePrompts": 4,
+        "triggerRecallPct": 100.0,
+        "triggerPrecisionPct": 92.3076923076923,
+        "triggerF1Pct": 95.99999999999999,
+        "falsePositiveRatePct": 25.0,
+        "baselinePassRatePct": 8.333333333333332,
+        "agentPassRatePct": 33.33333333333333,
+        "baselineCompileRatePct": 0.0,
+        "agentCompileRatePct": 16.666666666666664,
+        "baselineDurationCompliancePct": 50.0,
+        "agentDurationCompliancePct": 83.33333333333334,
+        "baselineCalloutCompliancePct": 0.0,
+        "agentCalloutCompliancePct": 83.33333333333334,
+        "avgBaselineJudgeScore": 2.25,
+        "avgAgentJudgeScore": 3.6666666666666665,
+        "perSkill": [
+            {
+                "skillName": "klaat-cli",
+                "totalCases": 3,
+                "triggerRecallPct": 100.0,
+                "baselinePassRatePct": 0.0,
+                "agentPassRatePct": 100.0,
+                "avgBaselineLatencyMs": 4420,
+                "avgAgentLatencyMs": 5852,
+                "avgAgentTotalTokens": 3255,
+                "avgBaselineJudgeScore": 1.3333333333333333,
+                "avgAgentJudgeScore": 5.0
+            },
+            {
+                "skillName": "klaat-gdocs-author",
+                "totalCases": 3,
+                "triggerRecallPct": 100.0,
+                "baselinePassRatePct": 33.33333333333333,
+                "agentPassRatePct": 0.0,
+                "avgBaselineLatencyMs": 6388,
+                "avgAgentLatencyMs": 5551,
+                "avgAgentTotalTokens": 4527,
+                "avgBaselineJudgeScore": 2.3333333333333335,
+                "avgAgentJudgeScore": 3.0
+            },
+            {
+                "skillName": "klaat-markdown-author",
+                "totalCases": 6,
+                "triggerRecallPct": 100.0,
+                "baselinePassRatePct": 0.0,
+                "agentPassRatePct": 16.666666666666664,
+                "avgBaselineLatencyMs": 10326,
+                "avgAgentLatencyMs": 10501,
+                "avgAgentTotalTokens": 5418,
+                "avgBaselineJudgeScore": 2.6666666666666665,
+                "avgAgentJudgeScore": 3.3333333333333335
+            }
+        ]
+    },
+    "results": [
+        {
+            "id": "explicit-coroutine-workshop",
+            "category": "explicit-tutorial",
+            "tier": "easy",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "Create a 3-step Klaat codelab on Kotlin Coroutines for our team workshop. Include an introduction, a step on structured concurrency with code, and a best practices step with tips and warnings.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": false,
+                    "stepCount": 2,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete 3-step Klaat (Codelabs) Markdown file for your Kotlin Coroutines workshop.  ```markdown summary: A hands-on introduction to Kotlin ",
+                "latencyMs": 9045,
+                "tokenUsage": {
+                    "promptTokens": 94,
+                    "candidateTokens": 1163,
+                    "totalTokens": 1506
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The Kotlin Coroutines content is technically accurate, clear, and well-structured into the requested 3 steps with durations. However, it failed Klaat conventions by omitting required metadata (such as author) and using raw HTML <aside> tags instead of Klaat callout syntax."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 1,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "Here is a 3-step Klaat-compatible Markdown codelab on Kotlin Coroutines, formatted according to the Klaat authoring guide:  ```markdown --- id: kotlin",
+                "latencyMs": 9320,
+                "tokenUsage": {
+                    "promptTokens": 4010,
+                    "candidateTokens": 803,
+                    "totalTokens": 5046
+                },
+                "llmJudge": {
+                    "score": 4,
+                    "passed": true,
+                    "adherenceScore": 3,
+                    "clarityScore": 5,
+                    "reasoning": "The codelab covers all requested topics with accurate Kotlin code, clear structure, durations, and callouts. However, it failed the deterministic metadata check by wrapping the header in YAML frontmatter delimiters (`---`) instead of standard Klaat metadata formatting."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "explicit-git-conversion",
+            "category": "explicit-conversion",
+            "tier": "easy",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "Format this technical guide on Git branching strategies into a Klaat codelab document so I can export it to HTML. Ensure all steps have estimated durations and include a positive tip on clean commit history.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": false,
+                    "stepCount": 4,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete **claat** (`claat` / Google Codelabs) Markdown document on Git branching strategies. Every step includes an estimated `Duration`, a",
+                "latencyMs": 10384,
+                "tokenUsage": {
+                    "promptTokens": 92,
+                    "candidateTokens": 942,
+                    "totalTokens": 1581
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "clarityScore": 4,
+                    "reasoning": "The guide is well-structured with clear Git content and durations on every step, but it fails Klaat-specific conventions by referencing `claat` instead of `klaat`, omitting required metadata fields (such as authors), and failing the callout format check."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 0,
+                    "checks": {
+                        "metadata": false,
+                        "steps": false,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete Klaat-compatible Markdown codelab on Git branching strategies, ready to be exported to HTML using `klaat export`.  ```markdown --- ",
+                "latencyMs": 11984,
+                "tokenUsage": {
+                    "promptTokens": 4018,
+                    "candidateTokens": 892,
+                    "totalTokens": 5156
+                },
+                "llmJudge": {
+                    "score": 2,
+                    "passed": false,
+                    "clarityScore": 4,
+                    "reasoning": "While the Git branching content is clear, accurate, and well-structured, the response failed all Klaat-specific formatting conventions (metadata, steps, durations, and callouts), making it incompatible with Klaat export."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "implicit-ktor-tutorial",
+            "category": "implicit-tutorial",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "Help me write a step-by-step hands-on tutorial for building a REST API in Ktor. I need estimated reading times for each step, and clear callout alerts for security tips and pitfalls.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 6,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# Building a REST API in Ktor: A Step-by-Step Hands-On Tutorial  In this tutorial, you will build a lightweight, asynchronous REST API for managing a ",
+                "latencyMs": 11101,
+                "tokenUsage": {
+                    "promptTokens": 95,
+                    "candidateTokens": 1904,
+                    "totalTokens": 2409
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "adherenceScore": 2,
+                    "clarityScore": 5,
+                    "reasoning": "The tutorial is technically accurate, well-structured, and clearly written, fulfilling the user's general request. However, it completely omits Klaat-specific markdown conventions, failing the metadata, duration, and callout syntax checks."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 4,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete, Klaat-compatible Markdown tutorial for building a REST API in Ktor. It includes YAML frontmatter, step-by-step `Duration:` estimat",
+                "latencyMs": 12492,
+                "tokenUsage": {
+                    "promptTokens": 4046,
+                    "candidateTokens": 1840,
+                    "totalTokens": 6249
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The tutorial is technically accurate, well-structured, and includes all requested steps, durations, and security/pitfall callouts. However, it failed the Klaat metadata check by using YAML frontmatter fences (---) instead of Klaat's expected header metadata format."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "implicit-compose-state",
+            "category": "implicit-tutorial",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "I need an interactive multi-step coding guide on Jetpack Compose state hoisting. It should have step titles, time estimates per step, and highlight common state anti-patterns in warning boxes.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 6,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# Interactive Coding Guide: Jetpack Compose State Hoisting  **Total Estimated Time:** ~25 minutes   **Level:** Beginner to Intermediate   **Prerequisi",
+                "latencyMs": 9058,
+                "tokenUsage": {
+                    "promptTokens": 90,
+                    "candidateTokens": 1592,
+                    "totalTokens": 1912
+                },
+                "llmJudge": {
+                    "score": 2,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The technical content on Jetpack Compose state hoisting is accurate, clear, and well-structured, but the response completely fails to use Klaat Markdown conventions, missing required frontmatter metadata, Klaat duration syntax, and Klaat-formatted warning callouts."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 2,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "Here is a Klaat-compatible Markdown codelab on **Jetpack Compose State Hoisting**, complete with step titles, time estimates, and warning boxes for co",
+                "latencyMs": 9996,
+                "tokenUsage": {
+                    "promptTokens": 4046,
+                    "candidateTokens": 936,
+                    "totalTokens": 5226
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The technical content on Jetpack Compose state hoisting is accurate, well-structured, and includes steps, durations, and warning callouts. However, it wrapped the metadata header in YAML frontmatter delimiters (---), which violates Klaat's metadata format and caused the metadata check to fail."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "multi-step-duration-consistency",
+            "category": "edge-case-adherence",
+            "tier": "hard",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "Write a 5-step interactive workshop tutorial on SQL migrations with Flyway. Make sure every single step has a realistic duration estimate, and include a critical alert box about data loss on step 3.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 0,
+                    "checks": {
+                        "metadata": false,
+                        "steps": false,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# Interactive Workshop: Mastering SQL Migrations with Flyway  Welcome to this hands-on workshop on database schema management using **Flyway**. By the",
+                "latencyMs": 10856,
+                "tokenUsage": {
+                    "promptTokens": 94,
+                    "candidateTokens": 1477,
+                    "totalTokens": 2192
+                },
+                "llmJudge": {
+                    "score": 2,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The tutorial is technically accurate, well-structured, and covers all user-requested topics, including realistic durations and a step 3 data-loss warning. However, it completely fails to follow Klaat markdown conventions—missing frontmatter metadata, proper step headings, `Duration:` syntax, and Klaat-style callout boxes."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 5,
+                    "extractedId": "sql-migrations-with-flyway",
+                    "extractedSummary": "Learn how to version, automate, and safely manage database schema changes using Flyway SQL migrations.",
+                    "checks": {
+                        "metadata": true,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "```markdown --- id: sql-migrations-with-flyway summary: Learn how to version, automate, and safely manage database schema changes using Flyway SQL mig",
+                "latencyMs": 10239,
+                "tokenUsage": {
+                    "promptTokens": 4048,
+                    "candidateTokens": 1211,
+                    "totalTokens": 5512
+                },
+                "llmJudge": {
+                    "score": 5,
+                    "passed": true,
+                    "reasoning": "The tutorial adheres to all prompt requirements and Klaat conventions, featuring five well-structured steps with realistic durations, interactive checklists, and a properly formatted critical data-loss alert box on Step 3. Technical content is accurate and clear, with only a minor text slip in Step 3 mentioning a legacy column removal that is not in the SQL snippet."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "rich-elements-survey",
+            "category": "edge-case-adherence",
+            "tier": "hard",
+            "isPositive": true,
+            "expectedSkill": "klaat-markdown-author",
+            "prompt": "Create a Klaat codelab on unit testing with MockK. Include code blocks with file names, a positive tip, and a multiple-choice survey question at the end to quiz the reader.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": false,
+                    "stepCount": 4,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete Claat (Codelabs) markdown document for a codelab on unit testing with MockK.  ```markdown summary: Learn how to write clean, effect",
+                "latencyMs": 11513,
+                "tokenUsage": {
+                    "promptTokens": 92,
+                    "candidateTokens": 1317,
+                    "totalTokens": 2079
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "clarityScore": 5,
+                    "reasoning": "The MockK tutorial is technically accurate, well-structured, and easy to follow, but it fails Klaat formatting conventions for metadata and callouts (using Claat-style syntax instead) and uses plain bold text for code block filenames."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 3,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "Here is a complete Klaat-compatible Markdown codelab on unit testing with MockK, including code blocks with file names, a positive tip, and a multiple",
+                "latencyMs": 8975,
+                "tokenUsage": {
+                    "promptTokens": 4033,
+                    "candidateTokens": 993,
+                    "totalTokens": 5321
+                },
+                "llmJudge": {
+                    "score": 3,
+                    "passed": false,
+                    "adherenceScore": 2,
+                    "clarityScore": 4,
+                    "reasoning": "The Kotlin and MockK examples are clear and technically accurate, but the output fails key Klaat conventions by using YAML frontmatter delimiters (failing the metadata check) and plain Markdown checkboxes instead of Klaat survey syntax."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "cli-export-legacy",
+            "category": "cli-usage",
+            "tier": "easy",
+            "isPositive": true,
+            "expectedSkill": "klaat-cli",
+            "prompt": "How do I install Klaat via Homebrew and export a Markdown codelab to HTML using the legacy template into a custom output directory?",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": true,
+                    "stepCount": 3,
+                    "error": "Missing valid klaat CLI command or Homebrew tap install",
+                    "checks": {
+                        "validCommand": false,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": false
+                    }
+                },
+                "rawOutputSnippet": "Assuming you mean **`claat`** (the Google Codelabs CLI tool, often pronounced \"klaat\"), here is how to install it via Homebrew and export a Markdown c",
+                "latencyMs": 5566,
+                "tokenUsage": {
+                    "promptTokens": 79,
+                    "candidateTokens": 261,
+                    "totalTokens": 858
+                },
+                "llmJudge": {
+                    "score": 1,
+                    "passed": false,
+                    "clarityScore": 3,
+                    "reasoning": "The assistant incorrectly assumed the user meant Google's `claat` instead of `klaat`, failing to provide the valid `klaat` Homebrew tap installation and CLI export commands."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-cli",
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 3,
+                    "checks": {
+                        "validCommand": true,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "### 1. Install Klaat via Homebrew  Run the following command to install the latest release:  ```bash brew install kartikarora/tap/klaat ```  *(Optiona",
+                "latencyMs": 6378,
+                "tokenUsage": {
+                    "promptTokens": 2888,
+                    "candidateTokens": 256,
+                    "totalTokens": 3351
+                },
+                "llmJudge": {
+                    "score": 5,
+                    "passed": true,
+                    "reasoning": "The response accurately and concisely provides the exact Homebrew installation command and the `klaat export` command with the required flags (`-f html`, `-o`, `--legacy`). It is well-structured and clearly explains each flag."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "cli-serve-custom-addr",
+            "category": "cli-usage",
+            "isPositive": true,
+            "expectedSkill": "klaat-cli",
+            "prompt": "What Klaat CLI command starts a local preview server for my exported codelabs on localhost:9090 without opening a browser window?",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": true,
+                    "stepCount": 3,
+                    "error": "Missing valid klaat CLI command or Homebrew tap install",
+                    "checks": {
+                        "validCommand": false,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": false
+                    }
+                },
+                "rawOutputSnippet": "To start a local preview server on `localhost:9090` without opening a browser window using the **claat** CLI, run:  ```bash claat serve -no-browser ``",
+                "latencyMs": 4075,
+                "tokenUsage": {
+                    "promptTokens": 82,
+                    "candidateTokens": 93,
+                    "totalTokens": 631
+                },
+                "llmJudge": {
+                    "score": 2,
+                    "passed": false,
+                    "adherenceScore": 1,
+                    "clarityScore": 3,
+                    "reasoning": "The response uses the legacy 'claat' binary instead of 'klaat', failing to follow Klaat conventions and deterministic command checks. While the explanation is concise and clear, providing the wrong CLI name makes the command inaccurate for Klaat users."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-cli",
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 3,
+                    "checks": {
+                        "validCommand": true,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "To start a local preview server on `localhost:9090` without automatically opening a browser window, run:  ```bash klaat serve --no-browser ```  - `ser",
+                "latencyMs": 4303,
+                "tokenUsage": {
+                    "promptTokens": 2908,
+                    "candidateTokens": 152,
+                    "totalTokens": 3247
+                },
+                "llmJudge": {
+                    "score": 5,
+                    "passed": true,
+                    "reasoning": "The response accurately provides the exact Klaat CLI command (`klaat serve --no-browser`) and clearly explains the default `localhost:9090` binding, the explicit `-addr` flag, and the optional directory flag."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "cli-install-skills-completion",
+            "category": "cli-usage",
+            "isPositive": true,
+            "expectedSkill": "klaat-cli",
+            "prompt": "How do I install Klaat's bundled AI agent skills and generate zsh shell completions using the klaat CLI?",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": true,
+                    "stepCount": 2,
+                    "error": "Missing valid klaat CLI command or Homebrew tap install",
+                    "checks": {
+                        "validCommand": false,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": false
+                    }
+                },
+                "rawOutputSnippet": "I don't have access to the `klaat` CLI, its source repository, or its documentation in this environment, so I can't verify the exact subcommands and f",
+                "latencyMs": 3621,
+                "tokenUsage": {
+                    "promptTokens": 76,
+                    "candidateTokens": 112,
+                    "totalTokens": 486
+                },
+                "llmJudge": {
+                    "score": 1,
+                    "passed": false,
+                    "clarityScore": 3,
+                    "reasoning": "The assistant failed to provide the required Klaat CLI commands for installing bundled skills and generating zsh completions, instead deferring to `klaat --help`. While it avoided hallucinating flags, it did not fulfill the user's request."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-cli",
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 2,
+                    "checks": {
+                        "validCommand": true,
+                        "noHallucinatedFlags": true,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "### 1. Installing Bundled AI Agent Skills  Use the `install-skills` command to install Klaat's AI formatting skills into your active agent workspace: ",
+                "latencyMs": 6875,
+                "tokenUsage": {
+                    "promptTokens": 2878,
+                    "candidateTokens": 188,
+                    "totalTokens": 3169
+                },
+                "llmJudge": {
+                    "score": 5,
+                    "passed": true,
+                    "reasoning": "The response accurately and concisely covers both installing bundled AI agent skills (local and global) and generating/enabling zsh completions using valid Klaat CLI commands."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "gdocs-metadata-structure",
+            "category": "gdocs-authoring",
+            "tier": "easy",
+            "isPositive": true,
+            "expectedSkill": "klaat-gdocs-author",
+            "prompt": "How should I structure a Google Doc so Klaat can parse it into a codelab? Explain the metadata table, step headings, and how to set step durations.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 2,
+                    "checks": {
+                        "metadataTable": true,
+                        "headingHierarchy": true,
+                        "durationSyntax": true,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "To structure a Google Doc for **claat** (the Google Codelabs CLI tool, assuming \"Klaat\" is a typo for `claat`), follow these conventions:  ---  ### 1.",
+                "latencyMs": 7638,
+                "tokenUsage": {
+                    "promptTokens": 86,
+                    "candidateTokens": 597,
+                    "totalTokens": 1257
+                },
+                "llmJudge": {
+                    "score": 4,
+                    "passed": true,
+                    "clarityScore": 5,
+                    "reasoning": "The response accurately and clearly explains the Google Docs metadata table, H1 step heading hierarchy, and Duration syntax. However, it mistakenly assumes 'Klaat' is a typo for 'claat', slightly detracting from Klaat-specific adherence."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-gdocs-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": false,
+                    "stepCount": 2,
+                    "error": "Missing Google Docs elements: Heading 1/Heading 2 hierarchy",
+                    "checks": {
+                        "metadataTable": true,
+                        "headingHierarchy": false,
+                        "durationSyntax": true,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "To structure a Google Doc so Klaat can parse it into a codelab, follow these formatting rules:  ### 1. Metadata Table Place a **two-column table** at ",
+                "latencyMs": 7438,
+                "tokenUsage": {
+                    "promptTokens": 4064,
+                    "candidateTokens": 571,
+                    "totalTokens": 4872
+                },
+                "llmJudge": {
+                    "score": 4,
+                    "passed": true,
+                    "clarityScore": 5,
+                    "reasoning": "The response clearly and accurately explains the metadata table, Heading 1 step headers, and duration syntax for Google Docs codelabs. It only omits mentioning Heading 2 (and lower) for subheadings within steps."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "gdocs-callout-code-tables",
+            "category": "gdocs-authoring",
+            "isPositive": true,
+            "expectedSkill": "klaat-gdocs-author",
+            "prompt": "In Google Docs for Klaat, how do I format a warning callout box and a syntax-highlighted code snippet?",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 2,
+                    "error": "Missing Google Docs elements: metadata table, Heading 1/Heading 2 hierarchy, Duration: syntax, pattern 'Duration:'",
+                    "checks": {
+                        "metadataTable": false,
+                        "headingHierarchy": false,
+                        "durationSyntax": false,
+                        "expectedPatterns": false
+                    }
+                },
+                "rawOutputSnippet": "I don't have access to documentation or style guidelines for **Klaat**, so I can't confirm the exact formatting rules or custom add-on conventions it ",
+                "latencyMs": 4559,
+                "tokenUsage": {
+                    "promptTokens": 77,
+                    "candidateTokens": 260,
+                    "totalTokens": 635
+                },
+                "llmJudge": {
+                    "score": 1,
+                    "passed": false,
+                    "clarityScore": 3,
+                    "reasoning": "The assistant admitted it lacks knowledge of Klaat and provided only generic Google Docs building-block instructions, completely missing Klaat's specific conventions for formatting warning callout boxes and code snippets."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-gdocs-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 2,
+                    "error": "Missing Google Docs elements: metadata table, Heading 1/Heading 2 hierarchy, Duration: syntax, pattern 'Duration:'",
+                    "checks": {
+                        "metadataTable": false,
+                        "headingHierarchy": false,
+                        "durationSyntax": false,
+                        "expectedPatterns": false
+                    }
+                },
+                "rawOutputSnippet": "In Google Docs for Klaat, both warning callout boxes and code snippets are formatted using **single-cell tables** with specific styling:  ### 1. Warni",
+                "latencyMs": 4367,
+                "tokenUsage": {
+                    "promptTokens": 4021,
+                    "candidateTokens": 237,
+                    "totalTokens": 4353
+                },
+                "llmJudge": {
+                    "score": 4,
+                    "passed": true,
+                    "clarityScore": 5,
+                    "reasoning": "The response accurately and clearly explains the Klaat Google Docs conventions for formatting warning callouts and code blocks using 1x1 tables, appropriate colors, and Courier New font. It only slightly misses explicitly addressing how syntax highlighting is handled during export."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "gdocs-oauth-workflow",
+            "category": "gdocs-authoring",
+            "tier": "hard",
+            "isPositive": true,
+            "expectedSkill": "klaat-gdocs-author",
+            "prompt": "Explain how to prepare a Google Docs tutorial for Klaat and export it by Document ID, including what happens on first-time Google OAuth authentication.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": true,
+                    "stepCount": 2,
+                    "error": "Missing Google Docs elements: metadata table, Duration: syntax",
+                    "checks": {
+                        "metadataTable": false,
+                        "headingHierarchy": true,
+                        "durationSyntax": false,
+                        "expectedPatterns": true
+                    }
+                },
+                "rawOutputSnippet": "To prepare a Google Docs tutorial for Klaat and export it using its Document ID, follow these steps:  ---  ### 1. Prepare the Google Doc 1. **Structur",
+                "latencyMs": 6967,
+                "tokenUsage": {
+                    "promptTokens": 83,
+                    "candidateTokens": 624,
+                    "totalTokens": 1031
+                },
+                "llmJudge": {
+                    "score": 2,
+                    "passed": false,
+                    "clarityScore": 4,
+                    "reasoning": "The response is clearly structured and accurately describes the OAuth 2.0 flow and Document ID extraction, but it relies on generic advice and omits essential Klaat Google Docs conventions such as the metadata table and Duration: syntax."
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-gdocs-author",
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 0,
+                    "error": "Response was blank or empty"
+                },
+                "rawOutputSnippet": "",
+                "latencyMs": 4849,
+                "tokenUsage": {
+                    "promptTokens": 4139,
+                    "candidateTokens": 76,
+                    "totalTokens": 4358
+                },
+                "llmJudge": {
+                    "score": 1,
+                    "passed": false,
+                    "reasoning": "The assistant produced an empty response and failed to address any part of the user's prompt."
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "distractor-contributing-guide",
+            "category": "hard-distractor",
+            "isPositive": false,
+            "prompt": "Write a step-by-step guide in a CONTRIBUTING.md file on how to contribute to our open-source repo (cloning, branch naming, running tests, and PR conventions).",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 5,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a ready-to-use `CONTRIBUTING.md` template. You can replace the placeholders (like `<repository-url>` and `<test-command>`) with your project's",
+                "latencyMs": 6276,
+                "tokenUsage": {
+                    "promptTokens": 92,
+                    "candidateTokens": 813,
+                    "totalTokens": 1028
+                }
+            },
+            "withAgent": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 5,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a clean, ready-to-use `CONTRIBUTING.md` template. You can customize the placeholder commands (like `npm test`) to match your project's tech st",
+                "latencyMs": 6345,
+                "tokenUsage": {
+                    "promptTokens": 433,
+                    "candidateTokens": 812,
+                    "totalTokens": 1347
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "distractor-blog-post",
+            "category": "hard-distractor",
+            "isPositive": false,
+            "prompt": "Write a technical blog post walking through how garbage collection works in the JVM step-by-step. Use standard Markdown formatting with headings and code blocks.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 5,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# How Garbage Collection Works in the JVM: A Step-by-Step Guide  One of Java’s biggest selling points is automatic memory management. Unlike languages",
+                "latencyMs": 13576,
+                "tokenUsage": {
+                    "promptTokens": 83,
+                    "candidateTokens": 1620,
+                    "totalTokens": 2286
+                }
+            },
+            "withAgent": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 9,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# How Garbage Collection Works in the JVM: A Step-by-Step Guide  One of Java’s defining features is automatic memory management. Unlike languages such",
+                "latencyMs": 11569,
+                "tokenUsage": {
+                    "promptTokens": 424,
+                    "candidateTokens": 1702,
+                    "totalTokens": 2231
+                }
+            },
+            "triggerSuccess": true
+        },
+        {
+            "id": "distractor-deployment-runbook",
+            "category": "hard-distractor",
+            "tier": "hard",
+            "isPositive": false,
+            "prompt": "Create a step-by-step production deployment checklist and runbook in markdown with estimated duration per phase and warnings before running database migrations.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 5,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "# Production Deployment Checklist & Runbook  **Target Environment:** Production   **Total Estimated Duration:** ~45–60 minutes   **Deployment Lead:** ",
+                "latencyMs": 8274,
+                "tokenUsage": {
+                    "promptTokens": 80,
+                    "candidateTokens": 1044,
+                    "totalTokens": 1204
+                }
+            },
+            "withAgent": {
+                "invokedSkill": true,
+                "invokedSkillName": "klaat-markdown-author",
+                "checklist": {
+                    "passed": true,
+                    "compiles": true,
+                    "hasValidMetadata": true,
+                    "hasValidDurations": true,
+                    "hasCallouts": true,
+                    "stepCount": 5,
+                    "extractedId": "production-deployment-runbook",
+                    "extractedSummary": "Step-by-step production deployment checklist and runbook with phase durations and database migration warnings.",
+                    "checks": {
+                        "metadata": true,
+                        "steps": true,
+                        "durations": true,
+                        "callouts": true
+                    }
+                },
+                "rawOutputSnippet": "```markdown --- id: production-deployment-runbook summary: Step-by-step production deployment checklist and runbook with phase durations and database ",
+                "latencyMs": 12021,
+                "tokenUsage": {
+                    "promptTokens": 4091,
+                    "candidateTokens": 879,
+                    "totalTokens": 5369
+                }
+            },
+            "triggerSuccess": false
+        },
+        {
+            "id": "distractor-readme",
+            "category": "easy-distractor",
+            "tier": "easy",
+            "isPositive": false,
+            "prompt": "Write a standard README.md file for a Kotlin Multiplatform networking library explaining installation, Gradle coordinates, and a quick snippet.",
+            "baseline": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 2,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a standard `README.md` template for a Kotlin Multiplatform networking library. You can replace the placeholder names (`KmpNet`, `io.github.exa",
+                "latencyMs": 7038,
+                "tokenUsage": {
+                    "promptTokens": 78,
+                    "candidateTokens": 754,
+                    "totalTokens": 1200
+                }
+            },
+            "withAgent": {
+                "invokedSkill": false,
+                "checklist": {
+                    "compiles": false,
+                    "hasValidMetadata": false,
+                    "hasValidDurations": false,
+                    "hasCallouts": false,
+                    "stepCount": 3,
+                    "checks": {
+                        "metadata": false,
+                        "steps": true,
+                        "durations": false,
+                        "callouts": false
+                    }
+                },
+                "rawOutputSnippet": "Here is a standard `README.md` template for a Kotlin Multiplatform networking library:  ```markdown # KmpNet  A lightweight, coroutine-first Kotlin Mu",
+                "latencyMs": 6414,
+                "tokenUsage": {
+                    "promptTokens": 419,
+                    "candidateTokens": 815,
+                    "totalTokens": 1389
+                }
+            },
+            "triggerSuccess": true
+        }
+    ],
+    "history": [
+        {
+            "timestamp": "2026-11-24T12:21:57.999189Z",
+            "model": "gemini-4-hydrogen",
+            "triggerRecallPct": 100.0,
+            "falsePositiveRatePct": 25.0,
+            "agentPassRatePct": 33.33333333333333,
+            "baselinePassRatePct": 8.333333333333332
+        },
+        {
+            "timestamp": "2026-10-22T05:58:00Z",
+            "model": "gemini-3.5-flash-lite",
+            "triggerRecallPct": 100.0,
+            "falsePositiveRatePct": 25.0,
+            "agentPassRatePct": 50.0,
+            "baselinePassRatePct": 0.0
+        }
+    ]
+}

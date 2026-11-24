@@ -10,15 +10,24 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.*
 import java.io.File
 
+data class BaselineExecutionResult(
+    val output: String,
+    val latencyMs: Long = 0,
+    val tokenUsage: TokenUsage = TokenUsage()
+)
+
 data class AgentExecutionResult(
     val invokedSkill: Boolean,
     val invokedSkillName: String?,
-    val output: String
+    val output: String,
+    val latencyMs: Long = 0,
+    val tokenUsage: TokenUsage = TokenUsage()
 )
 
 class LlmClient(
     private val apiKey: String,
-    private val model: String = "gemini-3.5-flash-lite",
+    private val model: String = "gemini-4-hydrogen",
+    private val thinkingLevel: String? = "low",
     private val skillsDir: File = File("skills")
 ) : AutoCloseable {
     private val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
@@ -35,7 +44,8 @@ class LlmClient(
     /**
      * Executes the baseline run (standard coding prompt, no skills provided, no tools).
      */
-    fun runBaseline(prompt: String): String {
+    fun runBaseline(prompt: String): BaselineExecutionResult {
+        val startMs = System.currentTimeMillis()
         val systemInstruction = "You are a helpful AI coding assistant. Help the user author technical tutorials and documents."
         val requestBody = buildJsonObject {
             put("system_instruction", buildJsonObject {
@@ -51,16 +61,28 @@ class LlmClient(
                     })
                 })
             })
+            if (!thinkingLevel.isNullOrBlank()) {
+                put("generationConfig", buildJsonObject {
+                    put("thinkingConfig", buildJsonObject {
+                        put("thinkingLevel", thinkingLevel)
+                    })
+                })
+            }
         }
 
         val responseJson = postGemini(requestBody)
-        return extractTextFromResponse(responseJson)
+        return BaselineExecutionResult(
+            output = extractTextFromResponse(responseJson),
+            latencyMs = System.currentTimeMillis() - startMs,
+            tokenUsage = extractTokenUsage(responseJson)
+        )
     }
 
     /**
      * Executes the agent simulation (skills available in catalog, agent can autonomously invoke read_skill tool).
      */
     fun runWithAgent(prompt: String): AgentExecutionResult {
+        val startMs = System.currentTimeMillis()
         val availableSkillsDescription = buildSkillCatalog()
         val systemInstruction = """
             You are an expert AI software engineering agent.
@@ -109,6 +131,13 @@ class LlmClient(
             })
             put("tools", toolsDeclaration)
             put("contents", JsonArray(conversation))
+            if (!thinkingLevel.isNullOrBlank()) {
+                put("generationConfig", buildJsonObject {
+                    put("thinkingConfig", buildJsonObject {
+                        put("thinkingLevel", thinkingLevel)
+                    })
+                })
+            }
         }
 
         val turn1Response = postGemini(initialRequestBody)
@@ -145,21 +174,38 @@ class LlmClient(
                     })
                 })
                 put("contents", JsonArray(conversation))
+                if (!thinkingLevel.isNullOrBlank()) {
+                    put("generationConfig", buildJsonObject {
+                        put("thinkingConfig", buildJsonObject {
+                            put("thinkingLevel", thinkingLevel)
+                        })
+                    })
+                }
             }
 
             val turn2Response = postGemini(followUpRequestBody)
             val finalText = extractTextFromResponse(turn2Response)
+            val usage1 = extractTokenUsage(turn1Response)
+            val usage2 = extractTokenUsage(turn2Response)
             return AgentExecutionResult(
                 invokedSkill = true,
                 invokedSkillName = skillName,
-                output = finalText
+                output = finalText,
+                latencyMs = System.currentTimeMillis() - startMs,
+                tokenUsage = TokenUsage(
+                    promptTokens = usage1.promptTokens + usage2.promptTokens,
+                    candidateTokens = usage1.candidateTokens + usage2.candidateTokens,
+                    totalTokens = usage1.totalTokens + usage2.totalTokens
+                )
             )
         } else {
             val directText = extractTextFromResponse(turn1Response)
             return AgentExecutionResult(
                 invokedSkill = false,
                 invokedSkillName = null,
-                output = directText
+                output = directText,
+                latencyMs = System.currentTimeMillis() - startMs,
+                tokenUsage = extractTokenUsage(turn1Response)
             )
         }
     }
@@ -227,6 +273,14 @@ class LlmClient(
         }
         @Suppress("UNREACHABLE_CODE")
         error("Unreachable")
+    }
+
+    private fun extractTokenUsage(res: JsonObject): TokenUsage {
+        val meta = res["usageMetadata"]?.jsonObject ?: return TokenUsage()
+        val prompt = meta["promptTokenCount"]?.jsonPrimitive?.intOrNull ?: 0
+        val candidates = meta["candidatesTokenCount"]?.jsonPrimitive?.intOrNull ?: 0
+        val total = meta["totalTokenCount"]?.jsonPrimitive?.intOrNull ?: (prompt + candidates)
+        return TokenUsage(promptTokens = prompt, candidateTokens = candidates, totalTokens = total)
     }
 
     private fun extractTextFromResponse(res: JsonObject): String {

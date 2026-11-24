@@ -48,6 +48,60 @@
     "isPositive": true
   },
   {
+    "id": "cli-export-legacy",
+    "category": "cli-usage",
+    "tier": "easy",
+    "prompt": "How do I install Klaat via Homebrew and export a Markdown codelab to HTML using the legacy template into a custom output directory?",
+    "expectedSkill": "klaat-cli",
+    "isPositive": true,
+    "expectedPatterns": ["klaat export", "--legacy", "-o"]
+  },
+  {
+    "id": "cli-serve-custom-addr",
+    "category": "cli-usage",
+    "tier": "medium",
+    "prompt": "What Klaat CLI command starts a local preview server for my exported codelabs on localhost:9090 without opening a browser window?",
+    "expectedSkill": "klaat-cli",
+    "isPositive": true,
+    "expectedPatterns": ["klaat serve", "-addr", "--no-browser"]
+  },
+  {
+    "id": "cli-install-skills-completion",
+    "category": "cli-usage",
+    "tier": "medium",
+    "prompt": "How do I install Klaat's bundled AI agent skills and generate zsh shell completions using the klaat CLI?",
+    "expectedSkill": "klaat-cli",
+    "isPositive": true,
+    "expectedPatterns": ["klaat install-skills", "klaat completion"]
+  },
+  {
+    "id": "gdocs-metadata-structure",
+    "category": "gdocs-authoring",
+    "tier": "easy",
+    "prompt": "How should I structure a Google Doc so Klaat can parse it into a codelab? Explain the metadata table, step headings, and how to set step durations.",
+    "expectedSkill": "klaat-gdocs-author",
+    "isPositive": true,
+    "expectedPatterns": ["Summary", "Duration:"]
+  },
+  {
+    "id": "gdocs-callout-code-tables",
+    "category": "gdocs-authoring",
+    "tier": "medium",
+    "prompt": "In Google Docs for Klaat, how do I format a warning callout box and a syntax-highlighted code snippet?",
+    "expectedSkill": "klaat-gdocs-author",
+    "isPositive": true,
+    "expectedPatterns": ["table", "Duration:"]
+  },
+  {
+    "id": "gdocs-oauth-workflow",
+    "category": "gdocs-authoring",
+    "tier": "hard",
+    "prompt": "Explain how to prepare a Google Docs tutorial for Klaat and export it by Document ID, including what happens on first-time Google OAuth authentication.",
+    "expectedSkill": "klaat-gdocs-author",
+    "isPositive": true,
+    "expectedPatterns": ["klaat export", "OAuth"]
+  },
+  {
     "id": "distractor-contributing-guide",
     "category": "hard-distractor",
     "tier": "medium",

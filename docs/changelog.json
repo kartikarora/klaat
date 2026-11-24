@@ -97,6 +97,20 @@
   ],
   "snapshots": [
     {
+      "tag": "2.2.0.52-0dbda3ac",
+      "date": "2026-11-24",
+      "sha": "0dbda3ac",
+      "msg": "feat: add build-time syntax highlighting, --legacy export flag, neo-brutalist docs/server UI, and native-image hardening",
+      "body": "Added --legacy CLI flag and template for legacy klaat-elements exports, build-time syntax highlighting with top-left language badges, Neo-Brutalist stepper buttons, Neo-Brutalist Electric docs and preview server directory listing, and hardened GraalVM Native Image resource/reflection configs."
+    },
+    {
+      "tag": "2.2.0.51-5acffc3d",
+      "date": "2026-11-19",
+      "sha": "5acffc3d",
+      "msg": "feat(ui): migrate to @kartikarora Brand Design System v2.0.0 and restore legacy CDN assets",
+      "body": "Upgraded the modern codelab export UI to @kartikarora Brand Design System v2.0.0 (Neo-Brutalist Electric) with Chivo and JetBrains Mono typography, and restored legacy klaat-elements CSS/JS assets for CDN backwards compatibility."
+    },
+    {
       "tag": "2.2.0.49-ebcf5fe5",
       "date": "2026-11-18",
       "sha": "ebcf5fe5",

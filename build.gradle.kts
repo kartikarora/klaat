@@ -85,6 +85,16 @@ tasks.named<ProcessResources>("processResources") {
         into("demo")
         include("feature-showcase.md", "images/klaat.png")
     }
+    // Fall back to fake credentials when no real gcp_credentials.json is present
+    // so contributors can build without setting up a Google Cloud project.
+    val hasResourceCreds = layout.projectDirectory.file("src/main/resources/credentials/gcp_credentials.json").asFile.exists()
+    val hasRootCreds = layout.projectDirectory.file("gcp_credentials.json").asFile.exists()
+    if (!hasResourceCreds && !hasRootCreds) {
+        from(layout.projectDirectory.file("gcp_credentials.fake.json")) {
+            into("credentials")
+            rename { "gcp_credentials.json" }
+        }
+    }
 }
 
 application {
@@ -264,9 +274,11 @@ tasks.register<JavaExec>("evalSkills") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("me.kartikarora.klaat.evals.SkillEvalRunnerKt")
 
-    systemProperty("klaat.eval.docs.path", layout.projectDirectory.file("docs/docs/skills.html").asFile.absolutePath)
+    systemProperty("klaat.eval.docs.json.path", layout.projectDirectory.file("docs/docs/eval-report.json").asFile.absolutePath)
     systemProperty("klaat.eval.dataset.path", layout.projectDirectory.file("evals/dataset.json").asFile.absolutePath)
     systemProperty("klaat.eval.report.path", layout.buildDirectory.file("reports/evals/eval-report.json").get().asFile.absolutePath)
+    systemProperty("klaat.eval.summary.path", layout.buildDirectory.file("reports/evals/eval-summary.md").get().asFile.absolutePath)
+    project.findProperty("updateDocs")?.toString()?.let { systemProperty("klaat.eval.updateDocs", it) }
 
     javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(25))

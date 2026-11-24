@@ -5,13 +5,13 @@
 - **GraalVM JDK 25** (for native builds)
   ```bash
   # Install via SDKMAN
-  sdk install java 25.0.2-graalce
-  sdk use java 25.0.2-graalce
+  sdk install java 25.2.4-graalce
+  sdk use java 25.2.4-graalce
   ```
 
   Or download from: https://www.graalvm.org/downloads/
 
-- **Google OAuth Credentials** in `gcp_credentials.json` (root) or `src/main/resources/credentials/gcp_credentials.json`:
+- **Google OAuth Credentials** *(optional, for Google Docs exports)* in `gcp_credentials.json` (root) or `src/main/resources/credentials/gcp_credentials.json` — see [GCP_CREDENTIALS.md](GCP_CREDENTIALS.md). If omitted, Gradle falls back to `gcp_credentials.fake.json` (a fake placeholder credential that lets you build without a GCP project, but **cannot read any Google Doc**):
   ```json
   {
     "installed": {
@@ -117,6 +117,14 @@ GraalVM native-image needs lots of memory. If you get OOM errors:
 ```bash
 export GRADLE_OPTS="-Xmx8g"
 ./gradlew nativeCompile
+```
+
+## Secret Scanning (Gitleaks)
+
+Run [Gitleaks](https://github.com/gitleaks/gitleaks) before pushing to ensure no credentials or tokens are leaked:
+
+```bash
+gitleaks detect --no-banner --redact
 ```
 
 ## Recommended Workflow

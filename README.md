@@ -388,6 +388,10 @@ Key elements:
 
 ## Google Docs Setup
 
+> For a complete walkthrough (including OAuth consent screen, test users, token storage, and troubleshooting), see [GCP_CREDENTIALS.md](GCP_CREDENTIALS.md).
+>
+> **Building without a GCP project?** If no `gcp_credentials.json` is present, Gradle automatically uses [`gcp_credentials.fake.json`](gcp_credentials.fake.json) so builds succeed out of the box — note that this is a **fake placeholder credential** and **cannot authenticate or read any Google Doc**.
+
 ### 1. Configure OAuth Credentials
 
 Create a `gcp_credentials.json` file in the project root or in `src/main/resources/credentials/`:
@@ -605,7 +609,7 @@ All standard claat workflows using built-in formats are fully supported. If you 
 
 ## License
 
-Apache License 2.0 - See LICENSE file for details.
+Apache License 2.0 - See [LICENSE](LICENSE) for details.
 
 ## Credits
 
@@ -613,8 +617,8 @@ This project is inspired by and based on the archived [Google Codelabs Tools](ht
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md), our [Code of Conduct](CODE_OF_CONDUCT.md), and our [Security Policy](SECURITY.md) before submitting a Pull Request.
 
 ## Support
 
-For issues and questions, please use the [GitHub Issues](https://github.com/yourusername/klaat/issues) page.
+For issues and questions, please use the [GitHub Issues](https://github.com/kartikarora/klaat/issues) page.

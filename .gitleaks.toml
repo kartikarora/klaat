@@ -1,0 +1,19 @@
+title = "Klaat Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "google-oauth-client-secret"
+description = "Google OAuth 2.0 Desktop Client Secret"
+regex = '''GOCSPX-[A-Za-z0-9_-]{28}'''
+keywords = ["gocspx"]
+
+[allowlist]
+description = "Ignore templates, unit test fixtures, and archived claat-original submodule"
+paths = [
+  '''gcp_credentials\.json\.template$''',
+  '''gcp_credentials\.fake\.json$''',
+  '''src/test/kotlin/me/kartikarora/klaat/core/GoogleDocsClientAuthTest\.kt$''',
+  '''claat-original/.*''',
+]

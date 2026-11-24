@@ -28,6 +28,16 @@ All notable changes to Klaat will be documented in this file and rendered on the
 
 ## Snapshots (Development & Pre-release)
 
+### [2.2.0.52-0dbda3ac] - 2026-11-24
+- **feat(export)**: Add `--legacy` flag to export codelabs using the legacy `klaat-elements` template alongside the modern Neo-Brutalist UI.
+- **feat(ui)**: Add build-time syntax highlighting (`SyntaxHighlighter`) for fenced code and command blocks with top-left language badges and Neo-Brutalist stepper buttons.
+- **feat(docs,server)**: Upgrade documentation site and local preview server directory listing to the Neo-Brutalist Electric design system, and add `--legacy` comparison screenshots.
+- **fix(native)**: Harden GraalVM Native Image resource and reflection configs (`assets/.*`, `templates/kodelab_legacy.html`) and expand tracing agent coverage.
+
+### [2.2.0.51-5acffc3d] - 2026-11-19
+- **feat(ui)**: Migrate modern codelab export UI to `@kartikarora` Brand Design System v2.0.0 (Neo-Brutalist Electric) with `Chivo` and `JetBrains Mono` typography.
+- **chore(assets)**: Restore legacy `klaat-elements` CSS/JS assets for CDN backwards compatibility.
+
 ### [2.2.0.49-ebcf5fe5] - 2026-11-18
 - **feat**: Bump base version to 2.2.0.
 - **feat**: Support backticks and inline code formatting (`<code>`) inside headings across Markdown parser, HTML renderer, and Markdown renderer.

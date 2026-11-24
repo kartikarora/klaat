@@ -70,7 +70,7 @@ This document lists all the secrets that need to be configured in the GitHub rep
   3. Name: `Klaat Tap Token`
   4. Select scope: `repo`
   5. Generate and copy the token
-- **Example**: `ghp_abc123def456ghi789jkl012mno345pqr678stu`
+- **Example**: `<your-github-personal-access-token>`
 - **Note**: This token needs write access to `kartikarora/homebrew-tap`
 
 #### `HOMEBREW_GITHUB_TOKEN`
@@ -84,7 +84,7 @@ This document lists all the secrets that need to be configured in the GitHub rep
   3. Name: `Klaat Homebrew Core Token`
   4. Select scopes: `repo` and `workflow`
   5. Generate and copy the token
-- **Example**: `ghp_xyz789abc456def123ghi890jkl567mno234pqr`
+- **Example**: `<your-github-personal-access-token>`
 - **Note**: This token will be used to fork `homebrew-core` and create PRs
 
 ---
@@ -110,13 +110,18 @@ This document lists all the secrets that need to be configured in the GitHub rep
       "auth_uri": "https://accounts.google.com/o/oauth2/auth",
       "token_uri": "https://oauth2.googleapis.com/token",
       "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      "client_secret": "GOCSPX-abcdefghijklmnopqrstuvwxyz123",
+      "client_secret": "YOUR_CLIENT_SECRET",
       "redirect_uris": ["http://localhost"]
     }
   }
   ```
 - **Note**: This entire JSON is embedded as a resource in the native binary at build time
 - **Security**: Since this is a public desktop app, these credentials identify your app but don't grant access without user consent. Each user must authenticate with their own Google account.
+
+#### `GEMINI_API_KEY` *(Optional, for stable-release AI skills benchmark)*
+- **Description**: Gemini Developer API key used by the `eval-skills` job in `native-stable-release.yml` to run live AI skills evaluations and update `docs/docs/eval-report.json`.
+- **How to get**: Create a key in [Google AI Studio](https://aistudio.google.com/apikey) on a billing-enabled project.
+- **Note**: If omitted, the stable release workflow safely skips the `eval-skills` step.
 
 ---
 

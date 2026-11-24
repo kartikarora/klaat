@@ -26,39 +26,59 @@ class GoogleDocsClient(
     private val jsonFactory = GsonFactory.getDefaultInstance()
     private val scopes = listOf(DocsScopes.DOCUMENTS_READONLY)
 
+    companion object {
+        internal const val FAKE_CLIENT_ID_PREFIX = "FAKE_"
+    }
+
     internal fun loadClientSecrets(): GoogleClientSecrets {
-        return try {
+        val secrets = try {
             // If explicit credentials file path provided, try that first
             if (credentialsFilePath != null) {
                 val explicitFile = File(credentialsFilePath)
                 if (explicitFile.exists() && explicitFile.isFile) {
-                    return FileReader(explicitFile).use { reader ->
+                    FileReader(explicitFile).use { reader ->
                         GoogleClientSecrets.load(jsonFactory, reader)
                     }
-                }
-            }
-
-            // Try to load from bundled resource in classpath
-            val resourceStream = GoogleDocsClient::class.java.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
-            if (resourceStream != null) {
-                resourceStream.reader().use { reader ->
-                    GoogleClientSecrets.load(jsonFactory, reader)
+                } else {
+                    loadFromClasspathOrProjectRoot()
                 }
             } else {
-                // Fall back to file in project root (for development)
-                val projectRoot = System.getProperty("user.dir")
-                val credentialsFile = File(projectRoot, "gcp_credentials.json")
-
-                if (!credentialsFile.exists() || !credentialsFile.isFile) {
-                    throw Exception("Unable to start authentication service. Please try again later.")
-                }
-
-                FileReader(credentialsFile).use { reader ->
-                    GoogleClientSecrets.load(jsonFactory, reader)
-                }
+                loadFromClasspathOrProjectRoot()
             }
         } catch (e: Exception) {
             throw Exception("Unable to start authentication service. Please try again later.", e)
+        }
+
+        if (secrets.details?.clientId.orEmpty().startsWith(FAKE_CLIENT_ID_PREFIX)) {
+            throw IllegalStateException(
+                "Klaat was built with fake placeholder credentials (gcp_credentials.fake.json) " +
+                    "and cannot authenticate with Google or read any Google Doc. " +
+                    "See GCP_CREDENTIALS.md to configure real OAuth credentials."
+            )
+        }
+
+        return secrets
+    }
+
+    private fun loadFromClasspathOrProjectRoot(): GoogleClientSecrets {
+        // Try to load from bundled resource in classpath
+        val resourceStream = GoogleDocsClient::class.java.classLoader.getResourceAsStream("credentials/gcp_credentials.json")
+        return if (resourceStream != null) {
+            resourceStream.reader().use { reader ->
+                GoogleClientSecrets.load(jsonFactory, reader)
+            }
+        } else {
+            // Fall back to file in project root (for development)
+            val projectRoot = System.getProperty("user.dir")
+            val credentialsFile = File(projectRoot, "gcp_credentials.json")
+
+            if (!credentialsFile.exists() || !credentialsFile.isFile) {
+                throw Exception("Unable to start authentication service. Please try again later.")
+            }
+
+            FileReader(credentialsFile).use { reader ->
+                GoogleClientSecrets.load(jsonFactory, reader)
+            }
         }
     }
 
